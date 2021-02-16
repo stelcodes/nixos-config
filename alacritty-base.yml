@@ -1,0 +1,21 @@
+font:
+  size: 13
+  normal:
+    family: "NotoMono Nerd Font"
+    style: "Regular"
+window:
+  padding:
+    x: 2
+    y: 2
+  startup_mode: Fullscreen
+key_bindings:
+  - { key: J, mods: Alt, chars: "\x1bj" }
+  - { key: K, mods: Alt, chars: "\x1bk" }
+  - { key: H, mods: Alt, chars: "\x1bh" }
+  - { key: L, mods: Alt, chars: "\x1bl" }
+  - { key: A, mods: Alt, chars: "\x1ba" }
+  - { key: X, mods: Alt, chars: "\x1bx" }
+  - { key: S, mods: Alt, chars: "\x1bs" }
+  - { key: C, mods: Alt, chars: "\x1bc" }
+  - { key: D, mods: Alt, chars: "\x1bd" }
+  - { key: F, mods: Alt, chars: "\x1bf" }
