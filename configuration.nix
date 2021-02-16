@@ -561,7 +561,6 @@
         (builtins.readFile ./alacritty-nord.yml)
       ];
 
-      xdg.configFile."xmobar/xmobarrc".source = ./xmobarrc;
     };
   };
 }
