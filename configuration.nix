@@ -97,7 +97,7 @@
     #       ];
     #       config = ''
     #         import XMonad
-  
+
     #         main = launch defaultConfig
     #             { modMask = mod4Mask -- Use Super instead of Alt
     #             , terminal = "alacritty"
@@ -133,8 +133,12 @@
         hashedPassword =
           "$6$xHvNROyNWizt5$CAewy9Y8Z3syC7BzvbkrLgu1VKe0laL4xVozcgFuB1Wh13KjVSnobZiCV/4It7BA926l22tO5x1dwukg0q6/H0";
         isNormalUser = true;
-        extraGroups =
-          [ "wheel" "networkmanager" "audio" "video" ]; # Enable ‘sudo’ for the user.
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+          "audio"
+          "video"
+        ]; # Enable ‘sudo’ for the user.
       };
     };
   };
@@ -176,14 +180,28 @@
       wayland.windowManager.sway = {
         enable = true;
         config = {
-          terminal = "alacritty";
+          terminal = "alacritty -e tmux attach";
           modifier = "Mod4";
+          bars = [];
+          colors = {
+            focused = {
+              background = "#285577";
+              border = "#4c7899";
+              childBorder = "#285577";
+              indicator = "#2e9ef4";
+              text = "#ffffff";
+            };
+          };
         };
         extraConfig = ''
           input "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
             xkb_layout us
             xkb_variant mac
             xkb_options caps:escape
+          }
+
+          bar {
+            swaybar_command waybar
           }
         '';
       };
@@ -202,12 +220,12 @@
         # changes in each release.
         stateVersion = "21.03";
 
-
         packages = [
           # process monitor
           pkgs.htop
-          # nerd font (doesn't work on mac?)
+          # fonts
           (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+          pkgs.font-awesome
           # cross platform trash bin
           pkgs.trash-cli
           # alternative find, also used for fzf
@@ -246,6 +264,10 @@
           # proton vpn
           pkgs.protonvpn-cli
           pkgs.calibre
+          pkgs.spotify
+
+          #art
+          pkgs.aseprite-unfree
 
           #sway
           pkgs.swaylock
@@ -279,6 +301,25 @@
         # Just doesn't work. Getting permission denied error when it tries to read .config/gh
         # gh.enable = true;
 
+        waybar = {
+          enable = true;
+          settings = [{
+            layer = "top";
+            position = "bottom";
+            height = 16;
+            output = [ "eDP-1" ];
+            modules-left = [ "sway/workspaces" "sway/mode" ];
+            modules-center = [ ];
+            modules-right = [ ];
+            modules = {
+              "sway/workspaces" = {
+                disable-scroll = true;
+                all-outputs = true;
+              };
+            };
+          }];
+        };
+
         go = {
           enable = true;
 
@@ -301,7 +342,6 @@
           enableAutosuggestions = true;
           dirHashes = { desktop = "$HOME/Desktop"; };
           initExtraFirst = ''
-            . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
             source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
           '';
           initExtra = ''
@@ -322,7 +362,8 @@
             "nix-search" = "nix repl '<nixpkgs>'";
             "source-zsh" = "source $HOME/.config/zsh/.zshrc";
             "source-tmux" = "tmux source-file ~/.tmux.conf";
-            "switch" = "sudo nixos-rebuild switch && source $HOME/.config/zsh/.zshrc";
+            "switch" =
+              "sudo nixos-rebuild switch && source $HOME/.config/zsh/.zshrc";
             "hg" = "history | grep";
             "ls" = "${pkgs.lsd}/bin/lsd --color always -A";
             "lsl" = "${pkgs.lsd}/bin/lsd --color always -lA";

@@ -5,9 +5,8 @@ font:
     style: "Regular"
 window:
   padding:
-    x: 2
-    y: 2
-  startup_mode: Fullscreen
+    x: 3
+    y: 0
 key_bindings:
   - { key: J, mods: Alt, chars: "\x1bj" }
   - { key: K, mods: Alt, chars: "\x1bk" }
