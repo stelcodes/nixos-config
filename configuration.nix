@@ -187,7 +187,7 @@
             focused = {
               background = "#285577";
               border = "#4c7899";
-              childBorder = "#285577";
+              childBorder = "#a3be8c";
               indicator = "#2e9ef4";
               text = "#ffffff";
             };
@@ -267,12 +267,15 @@
           pkgs.spotify
 
           #art
-          pkgs.aseprite-unfree
+          pkgs.gimp
 
           #sway
           pkgs.swaylock
           pkgs.swayidle
           pkgs.dmenu
+
+          #math
+          pkgs.rink
         ];
 
         # I'm putting all manually installed executables into ~/.local/bin 
@@ -310,12 +313,15 @@
             output = [ "eDP-1" ];
             modules-left = [ "sway/workspaces" "sway/mode" ];
             modules-center = [ ];
-            modules-right = [ ];
+            modules-right = [ "clock" ];
             modules = {
               "sway/workspaces" = {
                 disable-scroll = true;
                 all-outputs = true;
               };
+              "clock" = {
+                  format-alt = "{:%a, %d. %b  %H:%M}";
+                };
             };
           }];
         };
