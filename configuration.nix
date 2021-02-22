@@ -29,6 +29,7 @@
     };
     kernelModules = [ "wl" ];
     extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    # resumeDevice = "/dev/sda2";
   };
 
   networking = {
@@ -200,9 +201,25 @@
             xkb_options caps:escape
           }
 
+          input type:touchpad {
+            natural_scroll enabled
+          }
+
           bar {
             swaybar_command waybar
           }
+
+          bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+          bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+          bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+          bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+          bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+          bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+          bindsym XF86AudioPlay exec playerctl play-pause
+          bindsym XF86AudioNext exec playerctl next
+          bindsym XF86AudioPrev exec playerctl previous
+          bindsym XF86KbdBrightnessUp exec brightnessctl --device='smc::kbd_backlight' set +10%
+          bindsym XF86KbdBrightnessDown exec brightnessctl --device='smc::kbd_backlight' set 10%-
         '';
       };
 
@@ -273,9 +290,23 @@
           pkgs.swaylock
           pkgs.swayidle
           pkgs.dmenu
+          pkgs.brightnessctl
+          pkgs.playerctl
+          pkgs.libinput
+          pkgs.xorg.xev
 
           #math
           pkgs.rink
+
+          #printing
+          pkgs.hplip
+          pkgs.evince # pdf viewer
+
+          # video
+          pkgs.youtube-dl
+
+          pkgs.upower
+          pkgs.dbus
         ];
 
         # I'm putting all manually installed executables into ~/.local/bin 
@@ -313,7 +344,7 @@
             output = [ "eDP-1" ];
             modules-left = [ "sway/workspaces" "sway/mode" ];
             modules-center = [ ];
-            modules-right = [ "clock" ];
+            modules-right = [ "battery" "clock" ];
             modules = {
               "sway/workspaces" = {
                 disable-scroll = true;
@@ -377,6 +408,7 @@
             "volume-max" = "pactl -- set-sink-volume 0 100%";
             "volume-half" = "pactl -- set-sink-volume 0 50%";
             "volume-mute" = "pactl -- set-sink-volume 0 0%";
+            "keycode-listen" = "sudo libinput debug-events --show-keycodes";
           };
           plugins = let
             tmux-zsh-environment = {
@@ -607,6 +639,13 @@
         (builtins.readFile ./alacritty-base.yml)
         (builtins.readFile ./alacritty-nord.yml)
       ];
+
+      xdg.configFile."clojure/deps.edn".text = ''
+          {:aliases
+            {:new
+              {:extra-deps {seancorfield/clj-new {:mvn/version "1.1.243"}}
+               :exec-fn clj-new/create
+               :exec-args {:template "app"}}}}'';
 
     };
   };
