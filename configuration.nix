@@ -183,7 +183,8 @@
         config = {
           terminal = "alacritty -e tmux attach";
           modifier = "Mod4";
-          bars = [];
+          fonts = ["NotoMono Nerd Font 8"];
+          bars = [ ];
           colors = {
             focused = {
               background = "#285577";
@@ -226,6 +227,8 @@
       home = {
         username = "stel";
         homeDirectory = "/home/stel";
+
+        file = { ".clojure/deps.edn".source = ./deps.edn; };
 
         # This value determines the Home Manager release that your
         # configuration is compatible with. This helps avoid breakage
@@ -305,7 +308,7 @@
           # video
           pkgs.youtube-dl
 
-          pkgs.upower
+          # pkgs.upower
           pkgs.dbus
         ];
 
@@ -350,9 +353,10 @@
                 disable-scroll = true;
                 all-outputs = true;
               };
-              "clock" = {
-                  format-alt = "{:%a, %d. %b  %H:%M}";
-                };
+              "clock" = { format-alt = "{:%a, %d. %b  %H:%M}"; };
+              "battery" = {
+                format = "{capacity}";
+              };
             };
           }];
         };
@@ -639,13 +643,6 @@
         (builtins.readFile ./alacritty-base.yml)
         (builtins.readFile ./alacritty-nord.yml)
       ];
-
-      xdg.configFile."clojure/deps.edn".text = ''
-          {:aliases
-            {:new
-              {:extra-deps {seancorfield/clj-new {:mvn/version "1.1.243"}}
-               :exec-fn clj-new/create
-               :exec-args {:template "app"}}}}'';
 
     };
   };
