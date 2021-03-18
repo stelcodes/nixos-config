@@ -173,7 +173,7 @@
   system.stateVersion = "20.09"; # Did you read the comment?
 
   home-manager = {
-    users.stel = { pkgs, ... }: {
+    users.stel = { pkgs, config, ... }: {
       # Home Manager needs a bit of information about you and the
       # paths it should manage.
       nixpkgs.config.allowUnfree = true;
@@ -181,9 +181,14 @@
       wayland.windowManager.sway = {
         enable = true;
         config = {
-          terminal = "alacritty -e tmux attach";
+          assigns = {
+            "1:www" = [{ class = "^Firefox$"; }];
+            "2:term" = [{ title = "^Alacritty$"; }];
+          };
+          # terminal = "alacritty -e tmux attach";
+          terminal = "alacritty";
           modifier = "Mod4";
-          fonts = ["NotoMono Nerd Font 8"];
+          fonts = [ "Noto Nerd Font 8" ];
           bars = [ ];
           colors = {
             focused = {
@@ -194,6 +199,12 @@
               text = "#ffffff";
             };
           };
+          keybindings =
+            let modifier = config.wayland.windowManager.sway.config.modifier;
+            in pkgs.lib.mkOptionDefault {
+              "${modifier}+tab" = "workspace next";
+              "${modifier}+shift+tab" = "workspace prev";
+            };
         };
         extraConfig = ''
           input "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
@@ -260,7 +271,9 @@
           pkgs.wget
           pkgs.ripgrep
           pkgs.tealdeer
-          pkgs.python3
+          # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools]))
+          pkgs.python39
+          pkgs.python39Packages.pip
           pkgs.postgresql
 
           # Other package managers
@@ -272,9 +285,10 @@
           pkgs.clojure
           pkgs.nodejs
           pkgs.postgresql
+          
           pkgs.nixfmt
-
           pkgs.nix-index
+          pkgs.nix-prefetch-github
 
           # Not supported for mac:
           pkgs.babashka
@@ -297,6 +311,8 @@
           pkgs.playerctl
           pkgs.libinput
           pkgs.xorg.xev
+          #dependency for swaytools (installed via pip install --user swaytools)
+          pkgs.slurp
 
           #math
           pkgs.rink
@@ -310,6 +326,7 @@
 
           # pkgs.upower
           pkgs.dbus
+
         ];
 
         # I'm putting all manually installed executables into ~/.local/bin 
@@ -340,22 +357,35 @@
 
         waybar = {
           enable = true;
+          style = builtins.readFile ./waybar.css;
           settings = [{
             layer = "top";
             position = "bottom";
             height = 16;
             output = [ "eDP-1" ];
-            modules-left = [ "sway/workspaces" "sway/mode" ];
+            modules-left = [ "sway/workspaces" "sway/mode" "cpu" ];
             modules-center = [ ];
-            modules-right = [ "battery" "clock" ];
+            modules-right = [ "backlight" "battery" "clock" ];
             modules = {
               "sway/workspaces" = {
                 disable-scroll = true;
                 all-outputs = true;
+                format = "{name}  {icon} ";
+                format-icons = {
+                  "1:web" = "";
+                  "2:term" = "";
+                };
               };
               "clock" = { format-alt = "{:%a, %d. %b  %H:%M}"; };
               "battery" = {
-                format = "{capacity}";
+                format = "{capacity} {icon}";
+                format-icons = [ "" "" "" "" "" ];
+                max-length = 25;
+              };
+              "backlight" = {
+                interval = 5;
+                "format" = "{percent} {icon}";
+                "format-icons" = [ "" "" ];
               };
             };
           }];
@@ -398,13 +428,15 @@
             bindkey -M menuselect 'k' vi-up-line-or-history
             bindkey -M menuselect 'l' vi-forward-char
             bindkey -M menuselect 'j' vi-down-line-or-history
+            
+            if [ "$TMUX" = "" ]; then tmux attach; fi
           '';
           shellAliases = {
             "nix-search" = "nix repl '<nixpkgs>'";
             "source-zsh" = "source $HOME/.config/zsh/.zshrc";
             "source-tmux" = "tmux source-file ~/.tmux.conf";
             "switch" =
-              "sudo nixos-rebuild switch && source $HOME/.config/zsh/.zshrc";
+              "sudo nixos-rebuild switch";
             "hg" = "history | grep";
             "ls" = "${pkgs.lsd}/bin/lsd --color always -A";
             "lsl" = "${pkgs.lsd}/bin/lsd --color always -lA";
