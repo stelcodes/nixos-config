@@ -73,7 +73,10 @@
   sound.enable = true;
 
   hardware = {
-    pulseaudio.enable = true;
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+    };
     facetimehd.enable = true;
     bluetooth.enable = true;
     opengl.enable = true;
@@ -123,6 +126,8 @@
 
     # Enable the OpenSSH daemon.
     # openssh.enable = true;
+
+    blueman.enable = true;
   };
 
   users = {
@@ -184,6 +189,9 @@
           assigns = {
             "1:www" = [{ class = "^Firefox$"; }];
             "2:term" = [{ title = "^Alacritty$"; }];
+            "3:gimp" = [{ class = "^Gimp$"; }];
+            "4:bops" = [{ class = "^Spotify$"; }];
+            "5:film" = [{ title = "Shotcut$"; }];
           };
           # terminal = "alacritty -e tmux attach";
           terminal = "alacritty";
@@ -271,9 +279,13 @@
           pkgs.wget
           pkgs.ripgrep
           pkgs.tealdeer
-          # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools]))
+          pkgs.unzip
+
+          # Programming Languages
+          # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
           pkgs.python39
           pkgs.python39Packages.pip
+          # pip packages: swaytools
           pkgs.postgresql
 
           # Other package managers
@@ -285,7 +297,7 @@
           pkgs.clojure
           pkgs.nodejs
           pkgs.postgresql
-          
+
           pkgs.nixfmt
           pkgs.nix-index
           pkgs.nix-prefetch-github
@@ -323,9 +335,14 @@
 
           # video
           pkgs.youtube-dl
+          pkgs.shotcut
 
           # pkgs.upower
           pkgs.dbus
+
+          # music
+          # this is a wrapper around spotify so sway can recognize container attributes properly
+          pkgs.spotifywm
 
         ];
 
@@ -370,10 +387,21 @@
               "sway/workspaces" = {
                 disable-scroll = true;
                 all-outputs = true;
-                format = "{name}  {icon} ";
+                format = "{name}{icon}";
                 format-icons = {
-                  "1:web" = "";
-                  "2:term" = "";
+                  "1:www" = "   ";
+                  "2:term" = "   ";
+                  "3:gimp" = "  ";
+                  "4:bops" = "  ﱘ";
+                  "5:film" = "  ﳜ";
+                  default = "";
+                };
+                persistent_workspaces = {
+                  "1:www" = [ ];
+                  "2:term" = [ ];
+                  "3:gimp" = [ ];
+                  "4:bops" = [ ];
+                  "5:film" = [ ];
                 };
               };
               "clock" = { format-alt = "{:%a, %d. %b  %H:%M}"; };
@@ -428,15 +456,14 @@
             bindkey -M menuselect 'k' vi-up-line-or-history
             bindkey -M menuselect 'l' vi-forward-char
             bindkey -M menuselect 'j' vi-down-line-or-history
-            
+
             if [ "$TMUX" = "" ]; then tmux attach; fi
           '';
           shellAliases = {
             "nix-search" = "nix repl '<nixpkgs>'";
             "source-zsh" = "source $HOME/.config/zsh/.zshrc";
             "source-tmux" = "tmux source-file ~/.tmux.conf";
-            "switch" =
-              "sudo nixos-rebuild switch";
+            "switch" = "sudo nixos-rebuild switch";
             "hg" = "history | grep";
             "ls" = "${pkgs.lsd}/bin/lsd --color always -A";
             "lsl" = "${pkgs.lsd}/bin/lsd --color always -lA";
