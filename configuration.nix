@@ -136,7 +136,7 @@
     # openssh.enable = true;
 
     blueman.enable = true;
-    # gnome3.gnome-keyring.enable = true;
+    gnome3.gnome-keyring.enable = true;
   };
 
   users = {
@@ -204,6 +204,7 @@
             "2:www" = [{ class = "^Firefox$"; }];
             "3:term" = [{ title = "^Alacritty$"; }];
             "4:art" = [{ class = "^Gimp$"; } { title = "Shotcut$"; }];
+            "5:mail" = [{ class = "^Thunderbird$"; }];
           };
           # terminal = "alacritty -e tmux attach";
           terminal = "alacritty";
@@ -231,13 +232,17 @@
           startup = [
             { command = "exec alacritty"; }
             { command = "exec firefox"; }
+            { command = "exec shotcut"; }
             { command = "exec gimp"; }
             { command = "exec spotifywm"; }
-            { command = "exec shotcut"; }
+            { command = "exec protonmail-bridge"; }
+            { command = "exec thunderbird"; }
             {
               command = "systemctl --user restart waybar";
               always = true;
             }
+            { command = "swaymsg workspace 4"; }
+            { command = "swaymsg workspace 1"; }
           ];
         };
         extraConfig = ''
@@ -313,6 +318,7 @@
           pkgs.tealdeer
           pkgs.unzip
           pkgs.restic
+          pkgs.procs
 
           # Programming Languages
           # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
@@ -361,6 +367,7 @@
           pkgs.gnome3.nautilus
           pkgs.keepassxc
           pkgs.font-manager
+          pkgs.gnome3.seahorse
 
           #math
           pkgs.rink
@@ -382,6 +389,10 @@
 
           # office
           pkgs.libreoffice
+
+          #email
+          pkgs.thunderbird
+          pkgs.protonmail-bridge
         ];
 
         # I'm putting all manually installed executables into ~/.local/bin 
@@ -433,6 +444,7 @@
                   "2:www" = [ ];
                   "3:term" = [ ];
                   "4:art" = [ ];
+                  "5:mail" = [];
                 };
               };
               cpu = {
@@ -445,13 +457,18 @@
               };
               disk = {
                 interval = 30;
-                format = "{percentage_used} ";
+                format = "{percentage_used} ";
+              };
+              network = {
+                # format = "{bandwidthDownBits}";
+                max-length = 50;
+                format-wifi = "{essid} {signalStrength} ";
               };
               clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
               battery = {
                 format = "{capacity} {icon}";
-                format-icons = [ "" "" "" "" "" ];
-                max-length = 25;
+                format-icons = [ "" "" "" "" "" ];
+                max-length = 40;
               };
               backlight = {
                 interval = 5;

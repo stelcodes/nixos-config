@@ -114,20 +114,17 @@ window#waybar.solo {
 /* } */
 
 #battery.charging {
-    color: #ffffff;
-    background-color: #a3be8c;
+    background-color: #809575;
 }
 
 @keyframes blink {
     to {
         background-color: #ffffff;
-        color: #000000;
     }
 }
 
 #battery.critical:not(.charging) {
     background-color: #bf616a;
-    color: #ffffff;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
