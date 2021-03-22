@@ -174,8 +174,8 @@ let g:lightline = {
       \ 'component_function': {
       \   'gitbranch': 'LightlineFugitive',
       \ },
-      \ 'separator':    { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' },
+      \ 'separator':    { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
       \ 'tabline': {
       \   'left': [['tabs']],
       \   'right': [['obsession']]

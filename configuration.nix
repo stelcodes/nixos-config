@@ -128,6 +128,7 @@
     # openssh.enable = true;
 
     blueman.enable = true;
+    # gnome3.gnome-keyring.enable = true;
   };
 
   users = {
@@ -149,7 +150,14 @@
     };
   };
 
-  fonts.fontconfig = { enable = true; };
+  fonts = {
+    fontconfig = { enable = true; };
+    fonts = [
+      (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+      pkgs.font-awesome
+    ];
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -196,15 +204,15 @@
           # terminal = "alacritty -e tmux attach";
           terminal = "alacritty";
           modifier = "Mod4";
-          fonts = [ "Noto Nerd Font 8" ];
+          fonts = [ "NotoMono Nerd Font 10" ];
           bars = [ ];
           colors = {
             focused = {
-              background = "#285577";
-              border = "#4c7899";
-              childBorder = "#a3be8c";
+              background = "#2e3440";
+              border = "#2e3440";
+              childBorder = "#8c738c";
               indicator = "#2e9ef4";
-              text = "#ffffff";
+              text = "#eceff4";
             };
           };
           keybindings =
@@ -213,6 +221,11 @@
               "${modifier}+tab" = "workspace next";
               "${modifier}+shift+tab" = "workspace prev";
             };
+          output = {
+            "*" = {
+              bg = "~/Pictures/wallpapers/pretty-nord.jpg fill";
+            };
+          };
         };
         extraConfig = ''
           input "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
@@ -240,6 +253,18 @@
           bindsym XF86AudioPrev exec playerctl previous
           bindsym XF86KbdBrightnessUp exec brightnessctl --device='smc::kbd_backlight' set +10%
           bindsym XF86KbdBrightnessDown exec brightnessctl --device='smc::kbd_backlight' set 10%-
+
+          # output * bg /home/stel/Pictures/wallpapers/pretty-nord.jpg fill
+
+          exec swayidle -w \
+                   timeout 300 'swaylock -f -c 000000' \
+                   timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+                   before-sleep 'swaylock -f -c 000000'
+          
+          # This will lock your screen after 300 seconds of inactivity, then turn off
+          # your displays after another 300 seconds, and turn your screens back on when
+          # resumed. It will also lock your screen before your computer goes to sleep.
+
         '';
       };
 
@@ -263,8 +288,6 @@
           # process monitor
           pkgs.htop
           # fonts
-          (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
-          pkgs.font-awesome
           # cross platform trash bin
           pkgs.trash-cli
           # alternative find, also used for fzf
@@ -280,6 +303,7 @@
           pkgs.ripgrep
           pkgs.tealdeer
           pkgs.unzip
+          pkgs.restic
 
           # Programming Languages
           # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
@@ -325,6 +349,9 @@
           pkgs.xorg.xev
           #dependency for swaytools (installed via pip install --user swaytools)
           pkgs.slurp
+          pkgs.gnome3.nautilus
+          pkgs.keepassxc
+          pkgs.font-manager
 
           #math
           pkgs.rink
@@ -378,22 +405,22 @@
           settings = [{
             layer = "top";
             position = "bottom";
-            height = 16;
+            height = 20;
             output = [ "eDP-1" ];
-            modules-left = [ "sway/workspaces" "sway/mode" "cpu" ];
+            modules-left = [ "sway/workspaces" "sway/mode" ];
             modules-center = [ ];
-            modules-right = [ "backlight" "battery" "clock" ];
+            modules-right = [ "cpu" "memory" "disk" "network" "backlight" "battery" "clock" ];
             modules = {
               "sway/workspaces" = {
                 disable-scroll = true;
                 all-outputs = true;
-                format = "{name}{icon}";
+                format = "{name}";
                 format-icons = {
-                  "1:www" = "   ";
-                  "2:term" = "   ";
-                  "3:gimp" = "  ";
-                  "4:bops" = "  ﱘ";
-                  "5:film" = "  ﳜ";
+                  "1:www" = "";
+                  "2:term" = "";
+                  "3:gimp" = "";
+                  "4:bops" = "ﱘ";
+                  "5:film" = "ﳜ";
                   default = "";
                 };
                 persistent_workspaces = {
@@ -404,16 +431,28 @@
                   "5:film" = [ ];
                 };
               };
-              "clock" = { format-alt = "{:%a, %d. %b  %H:%M}"; };
-              "battery" = {
+              cpu = {
+                interval = 10;
+                format = "{} ";
+              };
+              memory = {
+                interval = 30;
+                format = "{} ";
+              };
+              disk = {
+                interval = 30;
+                format = "{percentage_used} ";
+              };
+              clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
+              battery = {
                 format = "{capacity} {icon}";
                 format-icons = [ "" "" "" "" "" ];
                 max-length = 25;
               };
-              "backlight" = {
+              backlight = {
                 interval = 5;
-                "format" = "{percent} {icon}";
-                "format-icons" = [ "" "" ];
+                format = "{percent} {icon}";
+                format-icons = [ "" "" ];
               };
             };
           }];
@@ -613,31 +652,27 @@
             # https://is.gd/8VKFEY
             set -g focus-events on
 
-            # Switch windows
+            # Custom Keybindings
             bind -n M-h  previous-window
             bind -n M-l next-window
-            bind M-a next-window
-
-            # Kill active pane
             bind -n M-x kill-pane
-
-            # Detach from session
             bind -n M-d detach
-
-            # New window
             bind -n M-f new-window
-
-            # See all windows in all sessions
             bind -n M-s choose-tree -s
 
             # Fixes tmux escape input lag, see https://git.io/JtIsn
             set -sg escape-time 10
 
             # Update environment
-            set-option -g update-environment "PATH"
+            set -g update-environment "PATH"
+
+            set -g status-style fg=white,bg=default
+            set -g status-justify left
+            set -g status-left ""
+            set -g status-right "[#S]"
           '';
           plugins = [
-            pkgs.tmuxPlugins.nord
+            # pkgs.tmuxPlugins.nord
             {
               plugin = pkgs.tmuxPlugins.resurrect;
               extraConfig = "set -g @resurrect-strategy-nvim 'session'";
