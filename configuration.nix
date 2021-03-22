@@ -32,6 +32,14 @@
     # resumeDevice = "/dev/sda2";
   };
 
+  security = {
+    pam.services.swaylock = {
+      text = ''
+        auth include login
+      '';
+    };
+  };
+
   networking = {
     hostName = "azul"; # Define your hostname.
     networkmanager.enable = true;
@@ -152,10 +160,8 @@
 
   fonts = {
     fontconfig = { enable = true; };
-    fonts = [
-      (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
-      pkgs.font-awesome
-    ];
+    fonts =
+      [ (pkgs.nerdfonts.override { fonts = [ "Noto" ]; }) pkgs.font-awesome ];
   };
 
   # List packages installed in system profile. To search, run:
@@ -164,7 +170,6 @@
     neovim
     firefox
     mkpasswd
-    gnome3.dconf-editor
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -195,11 +200,10 @@
         enable = true;
         config = {
           assigns = {
-            "1:www" = [{ class = "^Firefox$"; }];
-            "2:term" = [{ title = "^Alacritty$"; }];
-            "3:gimp" = [{ class = "^Gimp$"; }];
-            "4:bops" = [{ class = "^Spotify$"; }];
-            "5:film" = [{ title = "Shotcut$"; }];
+            "1:vibes" = [{ class = "^Spotify$"; }];
+            "2:www" = [{ class = "^Firefox$"; }];
+            "3:term" = [{ title = "^Alacritty$"; }];
+            "4:art" = [{ class = "^Gimp$"; } { title = "Shotcut$"; }];
           };
           # terminal = "alacritty -e tmux attach";
           terminal = "alacritty";
@@ -222,10 +226,19 @@
               "${modifier}+shift+tab" = "workspace prev";
             };
           output = {
-            "*" = {
-              bg = "~/Pictures/wallpapers/pretty-nord.jpg fill";
-            };
+            "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
           };
+          startup = [
+            { command = "exec alacritty"; }
+            { command = "exec firefox"; }
+            { command = "exec gimp"; }
+            { command = "exec spotifywm"; }
+            { command = "exec shotcut"; }
+            {
+              command = "systemctl --user restart waybar";
+              always = true;
+            }
+          ];
         };
         extraConfig = ''
           input "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
@@ -236,10 +249,6 @@
 
           input type:touchpad {
             natural_scroll enabled
-          }
-
-          bar {
-            swaybar_command waybar
           }
 
           bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
@@ -260,7 +269,7 @@
                    timeout 300 'swaylock -f -c 000000' \
                    timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
                    before-sleep 'swaylock -f -c 000000'
-          
+
           # This will lock your screen after 300 seconds of inactivity, then turn off
           # your displays after another 300 seconds, and turn your screens back on when
           # resumed. It will also lock your screen before your computer goes to sleep.
@@ -371,6 +380,8 @@
           # this is a wrapper around spotify so sway can recognize container attributes properly
           pkgs.spotifywm
 
+          # office
+          pkgs.libreoffice
         ];
 
         # I'm putting all manually installed executables into ~/.local/bin 
@@ -402,6 +413,7 @@
         waybar = {
           enable = true;
           style = builtins.readFile ./waybar.css;
+          systemd.enable = true;
           settings = [{
             layer = "top";
             position = "bottom";
@@ -409,26 +421,18 @@
             output = [ "eDP-1" ];
             modules-left = [ "sway/workspaces" "sway/mode" ];
             modules-center = [ ];
-            modules-right = [ "cpu" "memory" "disk" "network" "backlight" "battery" "clock" ];
+            modules-right =
+              [ "cpu" "memory" "disk" "network" "backlight" "battery" "clock" ];
             modules = {
               "sway/workspaces" = {
                 disable-scroll = true;
                 all-outputs = true;
                 format = "{name}";
-                format-icons = {
-                  "1:www" = "";
-                  "2:term" = "";
-                  "3:gimp" = "";
-                  "4:bops" = "ﱘ";
-                  "5:film" = "ﳜ";
-                  default = "";
-                };
                 persistent_workspaces = {
-                  "1:www" = [ ];
-                  "2:term" = [ ];
-                  "3:gimp" = [ ];
-                  "4:bops" = [ ];
-                  "5:film" = [ ];
+                  "1:vibes" = [ ];
+                  "2:www" = [ ];
+                  "3:term" = [ ];
+                  "4:art" = [ ];
                 };
               };
               cpu = {
