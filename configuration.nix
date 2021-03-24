@@ -140,13 +140,11 @@
   };
 
   users = {
-    mutableUsers = false;
+    mutableUsers = true;
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users = {
       stel = {
         home = "/home/stel";
-        hashedPassword =
-          "$6$xHvNROyNWizt5$CAewy9Y8Z3syC7BzvbkrLgu1VKe0laL4xVozcgFuB1Wh13KjVSnobZiCV/4It7BA926l22tO5x1dwukg0q6/H0";
         isNormalUser = true;
         extraGroups = [
           "wheel"
@@ -166,11 +164,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim
-    firefox
-    mkpasswd
-  ];
+  environment.systemPackages = with pkgs; [ neovim firefox mkpasswd ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -203,10 +197,9 @@
             "1:vibes" = [{ class = "^Spotify$"; }];
             "2:www" = [{ class = "^Firefox$"; }];
             "3:term" = [{ title = "^Alacritty$"; }];
-            "4:art" = [{ class = "^Gimp$"; } { title = "Shotcut$"; }];
+            "4:art" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
             "5:mail" = [{ class = "^Thunderbird$"; }];
           };
-          # terminal = "alacritty -e tmux attach";
           terminal = "alacritty";
           modifier = "Mod4";
           fonts = [ "NotoMono Nerd Font 10" ];
@@ -226,6 +219,31 @@
               "${modifier}+tab" = "workspace next";
               "${modifier}+shift+tab" = "workspace prev";
             };
+          keycodebindings = {
+            # Use xev to get keycodes, libinput gives wrong codes for some reason
+            "232" = "exec brightnessctl set 5%-"; # f1
+            "233" = "exec brightnessctl set +5%"; # f2
+            "128" = "layout tabbed"; # f3
+            "212" = "layout stacked"; # f4
+            "237" =
+              "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
+            "238" =
+              "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
+            "173" = "exec playerctl previous"; # f7
+            "172" = "exec playerctl play-pause"; # f8
+            "171" = "exec playerctl next"; # f9
+            "121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
+            "122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
+            "123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
+          };
+          input = {
+            "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
+              xkb_layout = "us";
+              xkb_variant = "mac";
+              xkb_options = "caps:escape";
+            };
+            "type:touchpad" = { natural_scroll = "enabled"; };
+          };
           output = {
             "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
           };
@@ -236,50 +254,26 @@
             { command = "exec gimp"; }
             { command = "exec spotifywm"; }
             { command = "exec protonmail-bridge"; }
-            { command = "exec thunderbird"; }
+            {
+              command = "exec thunderbird";
+            }
+            # This will lock your screen after 300 seconds of inactivity, then turn off
+            # your displays after another 300 seconds, and turn your screens back on when
+            # resumed. It will also lock your screen before your computer goes to sleep.
+            {
+              command = ''
+                exec swayidle -w \
+                timeout 300 'swaylock -f -c 000000' \
+                timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+                before-sleep 'swaylock -f -c 000000'
+              '';
+            }
             {
               command = "systemctl --user restart waybar";
               always = true;
             }
-            { command = "swaymsg workspace 4"; }
-            { command = "swaymsg workspace 1"; }
           ];
         };
-        extraConfig = ''
-          input "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
-            xkb_layout us
-            xkb_variant mac
-            xkb_options caps:escape
-          }
-
-          input type:touchpad {
-            natural_scroll enabled
-          }
-
-          bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-          bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-          bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-          bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-          bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-          bindsym XF86MonBrightnessUp exec brightnessctl set +5%
-          bindsym XF86AudioPlay exec playerctl play-pause
-          bindsym XF86AudioNext exec playerctl next
-          bindsym XF86AudioPrev exec playerctl previous
-          bindsym XF86KbdBrightnessUp exec brightnessctl --device='smc::kbd_backlight' set +10%
-          bindsym XF86KbdBrightnessDown exec brightnessctl --device='smc::kbd_backlight' set 10%-
-
-          # output * bg /home/stel/Pictures/wallpapers/pretty-nord.jpg fill
-
-          exec swayidle -w \
-                   timeout 300 'swaylock -f -c 000000' \
-                   timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-                   before-sleep 'swaylock -f -c 000000'
-
-          # This will lock your screen after 300 seconds of inactivity, then turn off
-          # your displays after another 300 seconds, and turn your screens back on when
-          # resumed. It will also lock your screen before your computer goes to sleep.
-
-        '';
       };
 
       home = {
@@ -319,6 +313,7 @@
           pkgs.unzip
           pkgs.restic
           pkgs.procs
+          pkgs.exa
 
           # Programming Languages
           # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
@@ -353,6 +348,7 @@
 
           #art
           pkgs.gimp
+          pkgs.ardour
 
           #sway
           pkgs.swaylock
@@ -433,7 +429,7 @@
             modules-left = [ "sway/workspaces" "sway/mode" ];
             modules-center = [ ];
             modules-right =
-              [ "cpu" "memory" "disk" "network" "backlight" "battery" "clock" ];
+              [ "cpu" "memory" "disk" "network" "backlight" "pulseaudio" "battery" "clock" ];
             modules = {
               "sway/workspaces" = {
                 disable-scroll = true;
@@ -444,7 +440,7 @@
                   "2:www" = [ ];
                   "3:term" = [ ];
                   "4:art" = [ ];
-                  "5:mail" = [];
+                  "5:mail" = [ ];
                 };
               };
               cpu = {
@@ -463,6 +459,15 @@
                 # format = "{bandwidthDownBits}";
                 max-length = 50;
                 format-wifi = "{essid} {signalStrength} ";
+              };
+              pulseaudio = {
+                format = "{volume} {icon}";
+                format-bluetooth = "{volume} {icon}";
+                format-muted = "{volume} ";
+                format-icons = {
+                  default = ["" ""];
+                };
+                on-click = "pavucontrol";
               };
               clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
               battery = {
@@ -483,8 +488,6 @@
           enable = true;
 
         };
-
-        lsd = { enable = true; };
 
         direnv = {
           enable = true;
@@ -525,9 +528,6 @@
             "source-tmux" = "tmux source-file ~/.tmux.conf";
             "switch" = "sudo nixos-rebuild switch";
             "hg" = "history | grep";
-            "ls" = "${pkgs.lsd}/bin/lsd --color always -A";
-            "lsl" = "${pkgs.lsd}/bin/lsd --color always -lA";
-            "lst" = ''${pkgs.lsd}/bin/lsd --color always --tree -A -I ".git"'';
             "volume-max" = "pactl -- set-sink-volume 0 100%";
             "volume-half" = "pactl -- set-sink-volume 0 50%";
             "volume-mute" = "pactl -- set-sink-volume 0 0%";
