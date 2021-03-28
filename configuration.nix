@@ -27,7 +27,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    kernelModules = [ "wl" ];
+    kernelModules = [ "wl" "snd-seq" "snd-rawmidi" ];
     extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
     # resumeDevice = "/dev/sda2";
   };
@@ -38,6 +38,16 @@
         auth include login
       '';
     };
+    doas = {
+      enable = true;
+      extraRules = [{
+        users = [ "stel" ];
+        keepEnv = true;
+        noPass = true;
+        # persist = true;
+      }];
+    };
+    sudo.enable = false;
   };
 
   networking = {
@@ -83,7 +93,7 @@
   hardware = {
     pulseaudio = {
       enable = true;
-      package = pkgs.pulseaudioFull;
+      package = pkgs.pulseaudioFull.override { jackaudioSupport = true; };
     };
     facetimehd.enable = true;
     bluetooth.enable = true;
@@ -91,52 +101,34 @@
   };
 
   services = {
-    # xserver = {
-    #   enable = true;
-    #   displayManager.defaultSession = "none+xmonad";
-    #   windowManager = {
-    #     xmonad = {
-    #       enable = true;
-    #       enableContribAndExtras = true;
-    #       extraPackages = haskellPackages: [
-    #         haskellPackages.xmonad-contrib
-    #         haskellPackages.xmonad-extras
-    #         haskellPackages.xmonad-wallpaper
-    #         haskellPackages.xmonad
-    #         haskellPackages.ghc
-    #         haskellPackages.xmobar
-    #         haskellPackages.xmonad
-    #       ];
-    #       config = ''
-    #         import XMonad
-
-    #         main = launch defaultConfig
-    #             { modMask = mod4Mask -- Use Super instead of Alt
-    #             , terminal = "alacritty"
-    #             }
-    #       '';
-    #     };
-    #   };
-    #   # From stackoverflow 
-    #   xkbOptions = "caps:escape";
-    #   xkbVariant = "mac";
-    #   exportConfiguration = true;
-    #   # Configure keymap in X11
-    #   layout = "us";
-    #   # Enable touchpad support (enabled default in most desktopManager).
-    #   libinput.enable = true;
-    # };
-
-    # logind = { killUserProcesses = true; };
-
     # Enable CUPS to print documents.
     printing.enable = true;
 
-    # Enable the OpenSSH daemon.
-    # openssh.enable = true;
-
     blueman.enable = true;
     gnome3.gnome-keyring.enable = true;
+
+    # jack = {
+    #   jackd = {
+    #     enable = true;
+    #     # from Arch Wiki https://is.gd/RXY6lR
+    #     # session = ''
+    #     #   jack_control start
+    #     #   jack_control ds alsa
+    #     #   jack_control dps device hw:HDA
+    #     #   jack_control dps rate 48000
+    #     #   jack_control dps nperiods 2
+    #     #   jack_control dps period 64
+    #     #   sleep 10
+    #     #   a2j_control --ehw
+    #     #   a2j_control --start
+    #     #   sleep 10
+    #     #   qjackctl &
+    #     # '';
+    #     session = "";
+    #   };
+    #   alsa.enable = false;
+    #   loopback.enable = true;
+    # };
   };
 
   users = {
@@ -146,12 +138,7 @@
       stel = {
         home = "/home/stel";
         isNormalUser = true;
-        extraGroups = [
-          "wheel"
-          "networkmanager"
-          "audio"
-          "video"
-        ]; # Enable ‘sudo’ for the user.
+        extraGroups = [ "wheel" "networkmanager" "jackaudio" "audio" ];
       };
     };
   };
@@ -330,7 +317,7 @@
 
           pkgs.clojure
           pkgs.nodejs
-          pkgs.postgresql
+          pkgs.just
 
           pkgs.nixfmt
           pkgs.nix-index
@@ -372,9 +359,13 @@
           pkgs.hplip
           pkgs.evince # pdf viewer
 
-          # video
+          # media
           pkgs.youtube-dl
           pkgs.shotcut
+          pkgs.mpv-unwrapped
+          # pkgs.qjackctl
+          # pkgs.a2jmidid
+          # pkgs.cadence
 
           # pkgs.upower
           pkgs.dbus
@@ -396,19 +387,6 @@
         sessionVariables = { };
       };
 
-      # dconf.settings = {
-      #   "${gnomeKeys}" = {
-      #     custom-keybindings = [
-      #       "${gnomeKeys}/custom-keybindings/custom0"
-      #     ];
-      #   };
-      #   "${gnomeKeys}/custom-keybindings/custom0" = {
-      #     binding = "<Super>t";
-      #     command = "alacritty";
-      #     name = "open terminal";
-      #   };
-      # };
-
       programs = {
 
         # Let Home Manager install and manage itself.
@@ -428,8 +406,16 @@
             output = [ "eDP-1" ];
             modules-left = [ "sway/workspaces" "sway/mode" ];
             modules-center = [ ];
-            modules-right =
-              [ "cpu" "memory" "disk" "network" "backlight" "pulseaudio" "battery" "clock" ];
+            modules-right = [
+              "cpu"
+              "memory"
+              "disk"
+              "network"
+              "backlight"
+              "pulseaudio"
+              "battery"
+              "clock"
+            ];
             modules = {
               "sway/workspaces" = {
                 disable-scroll = true;
@@ -464,9 +450,7 @@
                 format = "{volume} {icon}";
                 format-bluetooth = "{volume} {icon}";
                 format-muted = "{volume} ";
-                format-icons = {
-                  default = ["" ""];
-                };
+                format-icons = { default = [ "" "" ]; };
                 on-click = "pavucontrol";
               };
               clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
@@ -746,18 +730,20 @@
           # See https://git.io/JtIuV
         };
 
-        # Not supported for Mac:
-        # firefox
-
       };
 
-      xdg.configFile."alacritty/alacritty.yml".text = pkgs.lib.mkMerge [
-        ''
-          shell:
-            program: ${pkgs.zsh}/bin/zsh''
-        (builtins.readFile ./alacritty-base.yml)
-        (builtins.readFile ./alacritty-nord.yml)
-      ];
+      xdg.configFile = {
+        "alacritty/alacritty.yml".text = pkgs.lib.mkMerge [
+          ''
+            shell:
+              program: ${pkgs.zsh}/bin/zsh''
+          (builtins.readFile ./alacritty-base.yml)
+          (builtins.readFile ./alacritty-nord.yml)
+        ];
+
+        "pulse/client.conf".text =
+          "daemon-binary=/var/run/current-system/sw/bin/pulseaudio";
+      };
 
     };
   };

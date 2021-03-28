@@ -196,6 +196,15 @@ endfunction
 autocmd FocusGained,BufEnter * :checktime
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s "change comment style for commentary.vim
 autocmd FileType markdown setlocal wrap
+
+augroup filetypedetect
+  au BufNewFile,BufRead justfile setf make
+augroup
+
+
+augroup filetypedetect
+  au BufNewFile,BufRead Justfile setf make
+augroup
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Terminal
 tnoremap <Esc> <C-\><C-n>
