@@ -107,6 +107,19 @@
     blueman.enable = true;
     gnome3.gnome-keyring.enable = true;
 
+    postgresql = {
+      enable = true;
+      package = pkgs.postgresql_13;
+      port = 5432;
+      dataDir = "/data/postgres";
+      ensureDatabases = [ "cuternews" ];
+      ensureUsers = [{
+        name = "stel";
+        ensurePermissions = { "DATABASE cuternews" = "ALL PRIVILEGES"; };
+      }];
+      extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
+    };
+
     # jack = {
     #   jackd = {
     #     enable = true;
@@ -303,11 +316,11 @@
           pkgs.exa
 
           # Programming Languages
+
           # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
           pkgs.python39
           pkgs.python39Packages.pip
           # pip packages: swaytools
-          pkgs.postgresql
 
           # Other package managers
           pkgs.rustup
@@ -510,12 +523,11 @@
             "nix-search" = "nix repl '<nixpkgs>'";
             "source-zsh" = "source $HOME/.config/zsh/.zshrc";
             "source-tmux" = "tmux source-file ~/.tmux.conf";
-            "switch" = "sudo nixos-rebuild switch";
+            "switch" = "doas nixos-rebuild switch";
             "hg" = "history | grep";
             "volume-max" = "pactl -- set-sink-volume 0 100%";
             "volume-half" = "pactl -- set-sink-volume 0 50%";
             "volume-mute" = "pactl -- set-sink-volume 0 0%";
-            "keycode-listen" = "sudo libinput debug-events --show-keycodes";
           };
           plugins = let
             tmux-zsh-environment = {
@@ -633,8 +645,14 @@
           enable = true;
           userName = "Stel Abrego";
           userEmail = "stel@stel.codes";
-          ignores =
-            [ "*Session.vim" "*.DS_Store" "*.swp" "*.direnv" "/direnv" ];
+          ignores = [
+            "*Session.vim"
+            "*.DS_Store"
+            "*.swp"
+            "*.direnv"
+            "/direnv"
+            "/local"
+          ];
           extraConfig = { init = { defaultBranch = "main"; }; };
         };
 
@@ -743,6 +761,8 @@
 
         "pulse/client.conf".text =
           "daemon-binary=/var/run/current-system/sw/bin/pulseaudio";
+
+        "nvim/filetype.vim".source = ./filetype.vim;
       };
 
     };
