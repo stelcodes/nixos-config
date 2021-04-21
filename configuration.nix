@@ -27,7 +27,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    kernelModules = [ "wl" "snd-seq" "snd-rawmidi" ];
+    kernelModules = [ "wl" ];
     extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
     # resumeDevice = "/dev/sda2";
   };
@@ -110,6 +110,7 @@
     postgresql = {
       enable = true;
       package = pkgs.postgresql_13;
+      enableTCPIP = true;
       port = 5432;
       dataDir = "/data/postgres";
       ensureDatabases = [ "cuternews" ];
@@ -119,6 +120,9 @@
       }];
       extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
     };
+
+    # don’t shutdown when power button is short-pressed
+    logind.extraConfig = "HandlePowerKey=ignore";
 
     # jack = {
     #   jackd = {
@@ -164,7 +168,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ neovim firefox mkpasswd ];
+  environment.systemPackages = with pkgs; [ neovim firefox ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -250,7 +254,6 @@
           startup = [
             { command = "exec alacritty"; }
             { command = "exec firefox"; }
-            { command = "exec shotcut"; }
             { command = "exec gimp"; }
             { command = "exec spotifywm"; }
             { command = "exec protonmail-bridge"; }
@@ -269,7 +272,7 @@
               '';
             }
             {
-              command = "systemctl --user restart waybar";
+              command = "sleep 7 && systemctl --user restart waybar";
               always = true;
             }
           ];
@@ -280,7 +283,10 @@
         username = "stel";
         homeDirectory = "/home/stel";
 
-        file = { ".clojure/deps.edn".source = ./deps.edn; };
+        file = {
+          ".clojure/deps.edn".source = ./deps.edn;
+          ".npmrc".text = "prefix = \${HOME}/.npm-packages";
+        };
 
         # This value determines the Home Manager release that your
         # configuration is compatible with. This helps avoid breakage
@@ -331,6 +337,7 @@
           pkgs.clojure
           pkgs.nodejs
           pkgs.just
+          pkgs.sqlite
 
           pkgs.nixfmt
           pkgs.nix-index
@@ -364,6 +371,7 @@
           pkgs.keepassxc
           pkgs.font-manager
           pkgs.gnome3.seahorse
+          pkgs.wl-clipboard
 
           #math
           pkgs.rink
@@ -379,6 +387,8 @@
           # pkgs.qjackctl
           # pkgs.a2jmidid
           # pkgs.cadence
+
+          pkgs.qbittorrent
 
           # pkgs.upower
           pkgs.dbus
@@ -396,7 +406,7 @@
         ];
 
         # I'm putting all manually installed executables into ~/.local/bin 
-        sessionPath = [ "$HOME/.cargo/bin" "$HOME/go/bin" "$HOME/.local/bin" ];
+        sessionPath = [ "$HOME/.cargo/bin" "$HOME/go/bin" "$HOME/.local/bin" "$HOME/.npm-packages/bin" ];
         sessionVariables = { };
       };
 
@@ -539,7 +549,8 @@
                 sha256 = "0k2b9hw1zjndrzs8xl10nyagzvhn2fkrcc89zzmcw4g7fdyw9w9q";
               };
             };
-          in [ tmux-zsh-environment ];
+            # in [ tmux-zsh-environment ];
+          in [ ];
           oh-my-zsh = {
             enable = true;
             plugins = [
@@ -602,10 +613,10 @@
             pkgs.vimPlugins.vim-css-color
             pkgs.vimPlugins.tabular
             pkgs.vimPlugins.vim-gitgutter
-            {
-              plugin = suda-vim;
-              config = "command! W SudaWrite";
-            }
+            # {
+            #   plugin = suda-vim;
+            #   config = "command! W SudaWrite";
+            # }
             {
               plugin = pkgs.vimPlugins.vim-auto-save;
               config = "let g:auto_save = 1";
@@ -682,6 +693,7 @@
             bind -n M-d detach
             bind -n M-f new-window
             bind -n M-s choose-tree -s
+            bind -n M-c copy-mode
 
             # Fixes tmux escape input lag, see https://git.io/JtIsn
             set -sg escape-time 10
@@ -704,12 +716,15 @@
               plugin = pkgs.tmuxPlugins.continuum;
               extraConfig = ''
                 set -g @continuum-restore 'on'
-                set -g @continuum-save-interval '5' # minutes
+                set -g @continuum-save-interval '1' # minutes
               '';
             }
             {
               plugin = pkgs.tmuxPlugins.fzf-tmux-url;
               extraConfig = "set -g @fzf-url-bind 'u'";
+            }
+            {
+              plugin = pkgs.tmuxPlugins.yank;
             }
             # {
             # 	plugin = tmuxPlugins.dracula;
@@ -763,6 +778,11 @@
           "daemon-binary=/var/run/current-system/sw/bin/pulseaudio";
 
         "nvim/filetype.vim".source = ./filetype.vim;
+
+        # I'm having a weird bug where clj -X:new gives an error about :exec-fn not being set even though it's set...
+        # So I'm trying to put the deps.edn in the .config directory as well as the .clojure directory
+        # I don't think this helped I had to use clj -X:new:clj-new/create
+        "clojure/deps.edn".source = ./deps.edn;
       };
 
     };
