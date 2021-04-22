@@ -113,12 +113,17 @@
       enableTCPIP = true;
       port = 5432;
       dataDir = "/data/postgres";
-      ensureDatabases = [ "cuternews" ];
+      # authentication = pkgs.lib.mkOverride 10 ''
+      #   local all all trust
+      #   host all all ::1/128 trust
+      # '';
+      authentication = "";
+      ensureDatabases = [ "cuternews" "wtpof" ];
       ensureUsers = [{
         name = "stel";
-        ensurePermissions = { "DATABASE cuternews" = "ALL PRIVILEGES"; };
+        ensurePermissions = { "DATABASE cuternews" = "ALL PRIVILEGES"; "DATABASE wtpof" = "ALL PRIVILEGES";};
       }];
-      extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
+      # extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
     };
 
     # don’t shutdown when power button is short-pressed
@@ -156,6 +161,14 @@
         home = "/home/stel";
         isNormalUser = true;
         extraGroups = [ "wheel" "networkmanager" "jackaudio" "audio" ];
+      };
+      wtpof = {
+        description = "We The People Opportunity Farm";
+        isSystemUser = true;
+        home = "/home/wtpof";
+        createHome = true;
+        packages = [pkgs.nodejs pkgs.sqlite];
+        shell = pkgs.bashInteractive;
       };
     };
   };
@@ -709,6 +722,13 @@
           plugins = [
             # pkgs.tmuxPlugins.nord
             {
+              plugin = pkgs.tmuxPlugins.fzf-tmux-url;
+              extraConfig = "set -g @fzf-url-bind 'u'";
+            }
+            {
+              plugin = pkgs.tmuxPlugins.yank;
+            }
+            {
               plugin = pkgs.tmuxPlugins.resurrect;
               extraConfig = "set -g @resurrect-strategy-nvim 'session'";
             }
@@ -718,13 +738,6 @@
                 set -g @continuum-restore 'on'
                 set -g @continuum-save-interval '1' # minutes
               '';
-            }
-            {
-              plugin = pkgs.tmuxPlugins.fzf-tmux-url;
-              extraConfig = "set -g @fzf-url-bind 'u'";
-            }
-            {
-              plugin = pkgs.tmuxPlugins.yank;
             }
             # {
             # 	plugin = tmuxPlugins.dracula;
