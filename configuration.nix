@@ -17,10 +17,6 @@
       }/nixos")
   ];
 
-  systemd.extraConfig = ''
-    DefaultTimoutStopSec=10s
-  '';
-
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader = {
@@ -299,7 +295,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ neovim ];
+  environment.systemPackages = with pkgs; [ zsh neovim ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -504,7 +500,7 @@
               };
               pulseaudio = {
                 format = "{volume} {icon}";
-                format-bluetooth = "{volume} {icon}";
+                format-bluetooth = "{volume} {icon} ";
                 format-muted = "{volume} ";
                 format-icons = { default = [ "" "" ]; };
                 on-click = "pavucontrol";
@@ -748,13 +744,6 @@
                 set -g @continuum-save-interval '1' # minutes
               '';
             }
-            # {
-            # 	plugin = tmuxPlugins.dracula;
-            # 	extraConfig = ''
-            # 		set -g @dracula-show-battery false
-            # 		set -g @dracula-show-powerline true
-            # 		set -g @dracula-refresh-rate 10 '';
-            # }
           ];
         };
 
@@ -784,7 +773,6 @@
           # They only get updated by restarting terminal, this is by design from the nix devs
           # See https://git.io/JtIuV
         };
-
       };
 
       xdg.configFile = {
