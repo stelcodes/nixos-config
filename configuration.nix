@@ -119,10 +119,21 @@
       # '';
       authentication = "";
       ensureDatabases = [ "cuternews" "wtpof" ];
-      ensureUsers = [{
-        name = "stel";
-        ensurePermissions = { "DATABASE cuternews" = "ALL PRIVILEGES"; "DATABASE wtpof" = "ALL PRIVILEGES";};
-      }];
+      ensureUsers = [
+        {
+          name = "stel";
+          ensurePermissions = {
+            "DATABASE cuternews" = "ALL PRIVILEGES";
+            "DATABASE wtpof" = "ALL PRIVILEGES";
+          };
+        }
+        {
+          name = "wtpof";
+          ensurePermissions = {
+            "DATABASE wtpof" = "ALL PRIVILEGES";
+          };
+        }
+      ];
       # extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
     };
 
@@ -161,156 +172,6 @@
         home = "/home/stel";
         isNormalUser = true;
         extraGroups = [ "wheel" "networkmanager" "jackaudio" "audio" ];
-      };
-      wtpof = {
-        description = "We The People Opportunity Farm";
-        isSystemUser = true;
-        home = "/home/wtpof";
-        createHome = true;
-        packages = [pkgs.nodejs pkgs.sqlite];
-        shell = pkgs.bashInteractive;
-      };
-    };
-  };
-
-  fonts = {
-    fontconfig = { enable = true; };
-    fonts =
-      [ (pkgs.nerdfonts.override { fonts = [ "Noto" ]; }) pkgs.font-awesome ];
-  };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [ neovim firefox ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
-
-  home-manager = {
-    users.stel = { pkgs, config, ... }: {
-      # Home Manager needs a bit of information about you and the
-      # paths it should manage.
-      nixpkgs.config.allowUnfree = true;
-
-      wayland.windowManager.sway = {
-        enable = true;
-        config = {
-          assigns = {
-            "1:vibes" = [{ class = "^Spotify$"; }];
-            "2:www" = [{ class = "^Firefox$"; }];
-            "3:term" = [{ title = "^Alacritty$"; }];
-            "4:art" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
-            "5:mail" = [{ class = "^Thunderbird$"; }];
-          };
-          terminal = "alacritty";
-          modifier = "Mod4";
-          fonts = [ "NotoMono Nerd Font 10" ];
-          bars = [ ];
-          colors = {
-            focused = {
-              background = "#2e3440";
-              border = "#2e3440";
-              childBorder = "#8c738c";
-              indicator = "#2e9ef4";
-              text = "#eceff4";
-            };
-          };
-          keybindings =
-            let modifier = config.wayland.windowManager.sway.config.modifier;
-            in pkgs.lib.mkOptionDefault {
-              "${modifier}+tab" = "workspace next";
-              "${modifier}+shift+tab" = "workspace prev";
-            };
-          keycodebindings = {
-            # Use xev to get keycodes, libinput gives wrong codes for some reason
-            "232" = "exec brightnessctl set 5%-"; # f1
-            "233" = "exec brightnessctl set +5%"; # f2
-            "128" = "layout tabbed"; # f3
-            "212" = "layout stacked"; # f4
-            "237" =
-              "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
-            "238" =
-              "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
-            "173" = "exec playerctl previous"; # f7
-            "172" = "exec playerctl play-pause"; # f8
-            "171" = "exec playerctl next"; # f9
-            "121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
-            "122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
-            "123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
-          };
-          input = {
-            "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
-              xkb_layout = "us";
-              xkb_variant = "mac";
-              xkb_options = "caps:escape";
-            };
-            "type:touchpad" = { natural_scroll = "enabled"; };
-          };
-          output = {
-            "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
-          };
-          startup = [
-            { command = "exec alacritty"; }
-            { command = "exec firefox"; }
-            { command = "exec gimp"; }
-            { command = "exec spotifywm"; }
-            { command = "exec protonmail-bridge"; }
-            {
-              command = "exec thunderbird";
-            }
-            # This will lock your screen after 300 seconds of inactivity, then turn off
-            # your displays after another 300 seconds, and turn your screens back on when
-            # resumed. It will also lock your screen before your computer goes to sleep.
-            {
-              command = ''
-                exec swayidle -w \
-                timeout 300 'swaylock -f -c 000000' \
-                timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-                before-sleep 'swaylock -f -c 000000'
-              '';
-            }
-            {
-              command = "sleep 7 && systemctl --user restart waybar";
-              always = true;
-            }
-          ];
-        };
-      };
-
-      home = {
-        username = "stel";
-        homeDirectory = "/home/stel";
-
-        file = {
-          ".clojure/deps.edn".source = ./deps.edn;
-          ".npmrc".text = "prefix = \${HOME}/.npm-packages";
-        };
-
-        # This value determines the Home Manager release that your
-        # configuration is compatible with. This helps avoid breakage
-        # when a new Home Manager release introduces backwards
-        # incompatible changes.
-        #
-        # You can update Home Manager without changing this value. See
-        # the Home Manager release notes for a list of state version
-        # changes in each release.
-        stateVersion = "21.03";
-
         packages = [
           # process monitor
           pkgs.htop
@@ -402,6 +263,7 @@
           # pkgs.cadence
 
           pkgs.qbittorrent
+          pkgs.firefox
 
           # pkgs.upower
           pkgs.dbus
@@ -417,9 +279,167 @@
           pkgs.thunderbird
           pkgs.protonmail-bridge
         ];
+      };
+      wtpof = {
+        description = "We The People Opportunity Farm";
+        isSystemUser = true;
+        home = "/home/wtpof";
+        createHome = true;
+        packages = [ pkgs.nodejs pkgs.sqlite ];
+        shell = pkgs.bashInteractive;
+      };
+    };
+  };
+
+  fonts = {
+    fontconfig = { enable = true; };
+    fonts =
+      [ (pkgs.nerdfonts.override { fonts = [ "Noto" ]; }) pkgs.font-awesome ];
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [ neovim ];
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+  # List services that you want to enable:
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "20.09"; # Did you read the comment?
+
+  home-manager = {
+    users.stel = { pkgs, config, ... }: {
+      # Home Manager needs a bit of information about you and the
+      # paths it should manage.
+      nixpkgs.config.allowUnfree = true;
+
+      wayland.windowManager.sway = {
+        enable = true;
+        config = {
+          assigns = {
+            "1:vibes" = [{ class = "^Spotify$"; }];
+            "2:www" = [{ class = "^Firefox$"; }];
+            "3:term" = [{ title = "^Alacritty$"; }];
+            "4:art" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
+            "5:mail" = [{ class = "^Thunderbird$"; }];
+          };
+          terminal = "alacritty";
+          modifier = "Mod4";
+          fonts = [ "NotoMono Nerd Font 8" ];
+          bars = [ ];
+          colors = {
+            focused = {
+              background = "#2e3440";
+              border = "#2e3440";
+              childBorder = "#8c738c";
+              indicator = "#2e9ef4";
+              text = "#eceff4";
+            };
+          };
+          window = {
+            hideEdgeBorders = "smart";
+          };
+          keybindings =
+            let modifier = config.wayland.windowManager.sway.config.modifier;
+            in pkgs.lib.mkOptionDefault {
+              "${modifier}+tab" = "workspace next";
+              "${modifier}+shift+tab" = "workspace prev";
+            };
+          keycodebindings = {
+            # Use xev to get keycodes, libinput gives wrong codes for some reason
+            "232" = "exec brightnessctl set 5%-"; # f1
+            "233" = "exec brightnessctl set +5%"; # f2
+            "128" = "layout tabbed"; # f3
+            "212" = "layout stacked"; # f4
+            "237" =
+              "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
+            "238" =
+              "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
+            "173" = "exec playerctl previous"; # f7
+            "172" = "exec playerctl play-pause"; # f8
+            "171" = "exec playerctl next"; # f9
+            "121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
+            "122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
+            "123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
+          };
+          input = {
+            "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
+              xkb_layout = "us";
+              xkb_variant = "mac";
+              xkb_options = "caps:escape";
+            };
+            "type:touchpad" = { natural_scroll = "enabled"; };
+          };
+          output = {
+            "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
+          };
+          startup = [
+            { command = "exec alacritty"; }
+            { command = "exec firefox"; }
+            { command = "exec gimp"; }
+            { command = "exec spotifywm"; }
+            { command = "exec protonmail-bridge"; }
+            {
+              command = "exec thunderbird";
+            }
+            # This will lock your screen after 300 seconds of inactivity, then turn off
+            # your displays after another 300 seconds, and turn your screens back on when
+            # resumed. It will also lock your screen before your computer goes to sleep.
+            {
+              command = ''
+                exec swayidle -w \
+                timeout 300 'swaylock -f -c 000000' \
+                timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+                before-sleep 'swaylock -f -c 000000'
+              '';
+            }
+            {
+              command = "sleep 7 && systemctl --user restart waybar";
+              always = true;
+            }
+          ];
+        };
+      };
+
+      home = {
+        username = "stel";
+        homeDirectory = "/home/stel";
+
+        file = {
+          ".clojure/deps.edn".source = ./deps.edn;
+          ".npmrc".text = "prefix = \${HOME}/.npm-packages";
+        };
+
+        # This value determines the Home Manager release that your
+        # configuration is compatible with. This helps avoid breakage
+        # when a new Home Manager release introduces backwards
+        # incompatible changes.
+        #
+        # You can update Home Manager without changing this value. See
+        # the Home Manager release notes for a list of state version
+        # changes in each release.
+        stateVersion = "21.03";
+
 
         # I'm putting all manually installed executables into ~/.local/bin 
-        sessionPath = [ "$HOME/.cargo/bin" "$HOME/go/bin" "$HOME/.local/bin" "$HOME/.npm-packages/bin" ];
+        sessionPath = [
+          "$HOME/.cargo/bin"
+          "$HOME/go/bin"
+          "$HOME/.local/bin"
+          "$HOME/.npm-packages/bin"
+        ];
         sessionVariables = { };
       };
 
@@ -552,18 +572,6 @@
             "volume-half" = "pactl -- set-sink-volume 0 50%";
             "volume-mute" = "pactl -- set-sink-volume 0 0%";
           };
-          plugins = let
-            tmux-zsh-environment = {
-              name = "tmux-zsh-environment";
-              src = pkgs.fetchFromGitHub {
-                owner = "stelcodes";
-                repo = "tmux-zsh-environment";
-                rev = "780eff5ac781cc4a1cc9f1bd21bac92f57e34e48";
-                sha256 = "0k2b9hw1zjndrzs8xl10nyagzvhn2fkrcc89zzmcw4g7fdyw9w9q";
-              };
-            };
-            # in [ tmux-zsh-environment ];
-          in [ ];
           oh-my-zsh = {
             enable = true;
             plugins = [
@@ -692,7 +700,9 @@
           prefix = "M-a";
           # Set to "tmux-256color" normally, but theres this macOS bug https://git.io/JtLls
           terminal = "screen-256color";
-          extraConfig = ''
+          extraConfig = let
+            continuumSaveScript = "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
+          in ''
             set -ga terminal-overrides ',alacritty:Tc'
             # set -as terminal-overrides ',xterm*:sitm=\E[3m'
 
@@ -717,7 +727,8 @@
             set -g status-style fg=white,bg=default
             set -g status-justify left
             set -g status-left ""
-            set -g status-right "[#S]"
+            # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
+            set -g status-right "[#S]#(${continuumSaveScript})"
           '';
           plugins = [
             # pkgs.tmuxPlugins.nord
@@ -725,9 +736,7 @@
               plugin = pkgs.tmuxPlugins.fzf-tmux-url;
               extraConfig = "set -g @fzf-url-bind 'u'";
             }
-            {
-              plugin = pkgs.tmuxPlugins.yank;
-            }
+            { plugin = pkgs.tmuxPlugins.yank; }
             {
               plugin = pkgs.tmuxPlugins.resurrect;
               extraConfig = "set -g @resurrect-strategy-nvim 'session'";
