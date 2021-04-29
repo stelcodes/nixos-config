@@ -1,5 +1,5 @@
-{ pkgs, ... }: {
-  config.home.tmux = {
+pkgs: {
+  home.programs.tmux = {
     enable = true;
     baseIndex = 1;
     clock24 = true;

@@ -125,9 +125,7 @@
         }
         {
           name = "wtpof";
-          ensurePermissions = {
-            "DATABASE wtpof" = "ALL PRIVILEGES";
-          };
+          ensurePermissions = { "DATABASE wtpof" = "ALL PRIVILEGES"; };
         }
       ];
       # extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
@@ -317,9 +315,14 @@
   system.stateVersion = "20.09"; # Did you read the comment?
 
   home-manager = {
-    users.stel = { pkgs, config, ... }: {
+    users.stel = { pkgs, config, ... }: pkgs.lib.mkMerge [
+      (import ../../home-manager/tmux pkgs)
+      (import ../../home-manager/zsh pkgs)
+      (import ../../home-manager/neovim pkgs)
+      {
       # Home Manager needs a bit of information about you and the
       # paths it should manage.
+
       nixpkgs.config.allowUnfree = true;
 
       wayland.windowManager.sway = {
@@ -345,9 +348,7 @@
               text = "#eceff4";
             };
           };
-          window = {
-            hideEdgeBorders = "smart";
-          };
+          window = { hideEdgeBorders = "smart"; };
           keybindings =
             let modifier = config.wayland.windowManager.sway.config.modifier;
             in pkgs.lib.mkOptionDefault {
@@ -377,7 +378,7 @@
               xkb_variant = "mac";
               xkb_options = "caps:escape";
             };
-            "type:touchpad" = { 
+            "type:touchpad" = {
               natural_scroll = "enabled";
               dwt = "enabled";
               tap = "enabled";
@@ -433,7 +434,6 @@
         # the Home Manager release notes for a list of state version
         # changes in each release.
         stateVersion = "21.03";
-
 
         # I'm putting all manually installed executables into ~/.local/bin 
         sessionPath = [
@@ -526,9 +526,7 @@
           }];
         };
 
-        go = {
-          enable = true;
-        };
+        go = { enable = true; };
 
         direnv = {
           enable = true;
@@ -537,8 +535,6 @@
           # it errors with any alias using the :extra-paths.
           # enableNixDirenvIntegration = true;
         };
-
-
 
         bat = {
           enable = true;
@@ -607,7 +603,7 @@
         "clojure/deps.edn".source = ./deps.edn;
       };
 
-    };
+    }];
   };
 }
 
