@@ -528,7 +528,6 @@
 
         go = {
           enable = true;
-
         };
 
         direnv = {
@@ -539,137 +538,7 @@
           # enableNixDirenvIntegration = true;
         };
 
-        zsh = {
-          enable = true;
-          autocd = true;
-          dotDir = ".config/zsh";
-          enableAutosuggestions = true;
-          dirHashes = { desktop = "$HOME/Desktop"; };
-          initExtraFirst = ''
-            source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
-          '';
-          initExtra = ''
-            # Initialize starship prompt
-            eval "$(starship init zsh)"
 
-            # From https://is.gd/M2fmiv
-            zstyle ':completion:*' menu select
-            zmodload zsh/complist
-
-            # use the vi navigation keys in menu completion
-            bindkey -M menuselect 'h' vi-backward-char
-            bindkey -M menuselect 'k' vi-up-line-or-history
-            bindkey -M menuselect 'l' vi-forward-char
-            bindkey -M menuselect 'j' vi-down-line-or-history
-
-            # if [ "$TMUX" = "" ]; then tmux attach; fi
-          '';
-          shellAliases = {
-            "nix-search" = "nix repl '<nixpkgs>'";
-            "source-zsh" = "source $HOME/.config/zsh/.zshrc";
-            "source-tmux" = "tmux source-file ~/.tmux.conf";
-            "switch" = "doas nixos-rebuild switch";
-            "hg" = "history | grep";
-            "wifi" = "nmtui";
-            "vpn" = "doas protonvpn connect -f";
-            "attach" = "tmux attach -t '$1'";
-            "volume-max" = "pactl -- set-sink-volume 0 100%";
-            "volume-half" = "pactl -- set-sink-volume 0 50%";
-            "volume-mute" = "pactl -- set-sink-volume 0 0%";
-          };
-          oh-my-zsh = {
-            enable = true;
-            plugins = [
-              # docker completion
-              "docker"
-              # self explanatory
-              "colored-man-pages"
-              # completion + https command
-              "httpie"
-              # pp_json command
-              "jsontools"
-            ];
-            # I like minimal, mortalscumbag, refined, steeef
-            #theme = "mortalscumbag";
-            extraConfig = ''
-              bindkey '^[c' autosuggest-accept
-            '';
-          };
-        };
-
-        neovim = {
-          enable = true;
-          vimAlias = true;
-          plugins = let
-
-            stel-paredit = pkgs.vimUtils.buildVimPlugin {
-              pname = "stel-paredit";
-              version = "1.0";
-              src = pkgs.fetchFromGitHub {
-                owner = "stelcodes";
-                repo = "paredit";
-                rev = "27d2ea61ac6117e9ba827bfccfbd14296c889c37";
-                sha256 = "1bj5m1b4n2nnzvwbz0dhzg1alha2chbbdhfhl6rcngiprbdv0xi6";
-              };
-            };
-
-            suda-vim = pkgs.vimUtils.buildVimPlugin {
-              pname = "suda.vim";
-              version = "0.2.0";
-              src = pkgs.fetchFromGitHub {
-                owner = "lambdalisue";
-                repo = "suda.vim";
-                rev = "45f88d4f0699c054af775b82c87b93b439da0a22";
-                sha256 = "0apf28b569qz4vik23jl0swka37qwmbxxiybfrksy7i1yaq6d38g";
-              };
-            };
-          in [
-            pkgs.vimPlugins.nerdtree
-            pkgs.vimPlugins.vim-obsession
-            pkgs.vimPlugins.vim-commentary
-            pkgs.vimPlugins.vim-dispatch
-            pkgs.vimPlugins.vim-projectionist
-            pkgs.vimPlugins.vim-eunuch
-            pkgs.vimPlugins.vim-fugitive
-            pkgs.vimPlugins.vim-sensible
-            pkgs.vimPlugins.vim-nix
-            pkgs.vimPlugins.lightline-vim
-            pkgs.vimPlugins.conjure
-            pkgs.vimPlugins.vim-fish
-            pkgs.vimPlugins.vim-css-color
-            pkgs.vimPlugins.tabular
-            pkgs.vimPlugins.vim-gitgutter
-            # {
-            #   plugin = suda-vim;
-            #   config = "command! W SudaWrite";
-            # }
-            {
-              plugin = pkgs.vimPlugins.vim-auto-save;
-              config = "let g:auto_save = 1";
-            }
-            {
-              plugin = pkgs.vimPlugins.ale;
-              config = "let g:ale_linters = {'clojure': ['clj-kondo']}";
-            }
-            {
-              plugin = pkgs.vimPlugins.nord-vim;
-              config = "colorscheme nord";
-            }
-            {
-              plugin = stel-paredit;
-              config = "let g:paredit_smartjump=1";
-            }
-            # Waiting on markdown plugin to get added to nixpkgs
-            # {
-            #   plugin = markdown-preview;
-            #   config = ''
-            #     '';
-            # }
-          ];
-          extraConfig = (builtins.readFile ./extra-config.vim) + ''
-
-            set shell=${pkgs.zsh}/bin/zsh'';
-        };
 
         bat = {
           enable = true;
@@ -694,67 +563,6 @@
         };
 
         rtorrent = { enable = true; };
-
-        tmux = {
-          enable = true;
-          baseIndex = 1;
-          clock24 = true;
-          keyMode = "vi";
-          newSession = true;
-          shell = "${pkgs.zsh}/bin/zsh";
-          prefix = "M-a";
-          # Set to "tmux-256color" normally, but theres this macOS bug https://git.io/JtLls
-          terminal = "screen-256color";
-          extraConfig = let
-            continuumSaveScript = "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
-          in ''
-            set -ga terminal-overrides ',alacritty:Tc'
-            # set -as terminal-overrides ',xterm*:sitm=\E[3m'
-
-            # https://is.gd/8VKFEY
-            set -g focus-events on
-
-            # Custom Keybindings
-            bind -n M-h  previous-window
-            bind -n M-l next-window
-            bind -n M-x kill-pane
-            bind -n M-d detach
-            bind -n M-f new-window
-            bind -n M-s choose-tree -s
-            bind -n M-c copy-mode
-
-            # Fixes tmux escape input lag, see https://git.io/JtIsn
-            set -sg escape-time 10
-
-            # Update environment
-            set -g update-environment "PATH"
-
-            set -g status-style fg=white,bg=default
-            set -g status-justify left
-            set -g status-left ""
-            # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
-            set -g status-right "[#S]#(${continuumSaveScript})"
-          '';
-          plugins = [
-            # pkgs.tmuxPlugins.nord
-            {
-              plugin = pkgs.tmuxPlugins.fzf-tmux-url;
-              extraConfig = "set -g @fzf-url-bind 'u'";
-            }
-            { plugin = pkgs.tmuxPlugins.yank; }
-            {
-              plugin = pkgs.tmuxPlugins.resurrect;
-              extraConfig = "set -g @resurrect-strategy-nvim 'session'";
-            }
-            {
-              plugin = pkgs.tmuxPlugins.continuum;
-              extraConfig = ''
-                set -g @continuum-restore 'on'
-                set -g @continuum-save-interval '1' # minutes
-              '';
-            }
-          ];
-        };
 
         fzf = let
           fzfExcludes = [
@@ -792,11 +600,6 @@
           (builtins.readFile ./alacritty-base.yml)
           (builtins.readFile ./alacritty-nord.yml)
         ];
-
-        "pulse/client.conf".text =
-          "daemon-binary=/var/run/current-system/sw/bin/pulseaudio";
-
-        "nvim/filetype.vim".source = ./filetype.vim;
 
         # I'm having a weird bug where clj -X:new gives an error about :exec-fn not being set even though it's set...
         # So I'm trying to put the deps.edn in the .config directory as well as the .clojure directory
