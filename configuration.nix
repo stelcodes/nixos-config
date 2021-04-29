@@ -249,6 +249,7 @@
           #printing
           pkgs.hplip
           pkgs.evince # pdf viewer
+          pkgs.pdfarranger
 
           # media
           pkgs.youtube-dl
@@ -376,7 +377,12 @@
               xkb_variant = "mac";
               xkb_options = "caps:escape";
             };
-            "type:touchpad" = { natural_scroll = "enabled"; };
+            "type:touchpad" = { 
+              natural_scroll = "enabled";
+              dwt = "enabled";
+              tap = "enabled";
+              tap_button_map = "lrm";
+            };
           };
           output = {
             "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
@@ -556,7 +562,7 @@
             bindkey -M menuselect 'l' vi-forward-char
             bindkey -M menuselect 'j' vi-down-line-or-history
 
-            if [ "$TMUX" = "" ]; then tmux attach; fi
+            # if [ "$TMUX" = "" ]; then tmux attach; fi
           '';
           shellAliases = {
             "nix-search" = "nix repl '<nixpkgs>'";
@@ -564,6 +570,9 @@
             "source-tmux" = "tmux source-file ~/.tmux.conf";
             "switch" = "doas nixos-rebuild switch";
             "hg" = "history | grep";
+            "wifi" = "nmtui";
+            "vpn" = "doas protonvpn connect -f";
+            "attach" = "tmux attach -t '$1'";
             "volume-max" = "pactl -- set-sink-volume 0 100%";
             "volume-half" = "pactl -- set-sink-volume 0 50%";
             "volume-mute" = "pactl -- set-sink-volume 0 0%";
