@@ -124,6 +124,18 @@ tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-h> <C-\><C-n>:call MoveLeft()<CR>
 tnoremap <C-l> <C-\><C-n>:call MoveRight()<CR>
 
+" Move to tab by index
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
 " tab moves cursor 10 lines down, shift-tab 10 lines up
 nnoremap <silent> <TAB> 10j
 nnoremap <silent> <S-TAB> 10k
