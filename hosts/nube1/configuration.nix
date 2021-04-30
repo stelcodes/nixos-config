@@ -27,7 +27,8 @@
   };
 
   home-manager = {
-    users.stel = { pkgs, config, ... }:
+    useGlobalPkgs = true;
+    users.stel = { config, ... }:
       pkgs.lib.mkMerge [
         (import /home/stel/config/home-manager pkgs)
         # (import /home/stel/config/home-manager/python pkgs)
