@@ -166,114 +166,6 @@
         home = "/home/stel";
         isNormalUser = true;
         extraGroups = [ "wheel" "networkmanager" "jackaudio" "audio" ];
-        packages = [
-          # process monitor
-          pkgs.htop
-          # fonts
-          # cross platform trash bin
-          pkgs.trash-cli
-          # alternative find, also used for fzf
-          pkgs.fd
-          # system info
-          pkgs.neofetch
-          # zsh prompt
-          pkgs.starship
-          # http client
-          pkgs.httpie
-          # download stuff from the web
-          pkgs.wget
-          pkgs.ripgrep
-          pkgs.tealdeer
-          pkgs.unzip
-          pkgs.restic
-          pkgs.procs
-          pkgs.exa
-
-          # Programming Languages
-
-          # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
-          pkgs.python39
-          pkgs.python39Packages.pip
-          # pip packages: swaytools
-
-          # Other package managers
-          pkgs.rustup
-          # Run this:
-          # rustup toolchain install stable
-          # cargo install <package>
-
-          pkgs.clojure
-          pkgs.nodejs
-          pkgs.just
-          pkgs.sqlite
-
-          pkgs.nixfmt
-          pkgs.nix-index
-          pkgs.nix-prefetch-github
-
-          # Not supported for mac:
-          pkgs.babashka
-          pkgs.clj-kondo
-          pkgs.tor-browser-bundle-bin
-          pkgs.discord
-          # proton vpn
-          pkgs.protonvpn-cli
-          pkgs.calibre
-          pkgs.spotify
-
-          #art
-          pkgs.gimp
-          pkgs.ardour
-
-          #sway
-          pkgs.swaylock
-          pkgs.swayidle
-          pkgs.dmenu
-          pkgs.brightnessctl
-          pkgs.playerctl
-          pkgs.libinput
-          pkgs.xorg.xev
-          #dependency for swaytools (installed via pip install --user swaytools)
-          pkgs.slurp
-          pkgs.gnome3.nautilus
-          pkgs.keepassxc
-          pkgs.font-manager
-          pkgs.gnome3.seahorse
-          pkgs.wl-clipboard
-
-          #math
-          pkgs.rink
-
-          #printing
-          pkgs.hplip
-          pkgs.evince # pdf viewer
-          pkgs.pdfarranger
-
-          # media
-          pkgs.youtube-dl
-          pkgs.shotcut
-          pkgs.mpv-unwrapped
-          # pkgs.qjackctl
-          # pkgs.a2jmidid
-          # pkgs.cadence
-
-          pkgs.qbittorrent
-          pkgs.firefox
-
-          # pkgs.upower
-          pkgs.dbus
-
-          # music
-          # this is a wrapper around spotify so sway can recognize container attributes properly
-          pkgs.spotifywm
-
-          # office
-          pkgs.libreoffice
-
-          #email
-          pkgs.thunderbird
-          pkgs.protonmail-bridge
-        ];
       };
       wtpof = {
         description = "We The People Opportunity Farm";
@@ -318,49 +210,82 @@
     useGlobalPkgs = true;
     users.stel = { config, ... }:
       pkgs.lib.mkMerge [
+        (import /home/stel/config/home-manager pkgs)
         (import /home/stel/config/home-manager/tmux pkgs)
         (import /home/stel/config/home-manager/zsh pkgs)
         (import /home/stel/config/home-manager/neovim pkgs)
         (import /home/stel/config/home-manager/sway pkgs config)
+        (import /home/stel/config/home-manager/git pkgs)
         {
           # Home Manager needs a bit of information about you and the
           # paths it should manage.
 
           # nixpkgs.config.allowUnfree = true;
 
-          home = {
-            username = "stel";
-            homeDirectory = "/home/stel";
+          home.packages = [
 
-            file = {
-              ".clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
-              ".npmrc".text = "prefix = \${HOME}/.npm-packages";
-            };
+            # Programming Languages
 
-            # This value determines the Home Manager release that your
-            # configuration is compatible with. This helps avoid breakage
-            # when a new Home Manager release introduces backwards
-            # incompatible changes.
-            #
-            # You can update Home Manager without changing this value. See
-            # the Home Manager release notes for a list of state version
-            # changes in each release.
-            stateVersion = "21.03";
+            # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
+            pkgs.python39
+            pkgs.python39Packages.pip
+            # pip packages: swaytools
 
-            # I'm putting all manually installed executables into ~/.local/bin 
-            sessionPath = [
-              "$HOME/.cargo/bin"
-              "$HOME/go/bin"
-              "$HOME/.local/bin"
-              "$HOME/.npm-packages/bin"
-            ];
-            sessionVariables = { };
-          };
+            # Other package managers
+            pkgs.rustup
+            # Run this:
+            # rustup toolchain install stable
+            # cargo install <package>
 
+            pkgs.clojure
+            pkgs.nodejs
+            pkgs.just
+            pkgs.sqlite
+
+            pkgs.babashka
+            pkgs.clj-kondo
+            pkgs.tor-browser-bundle-bin
+            pkgs.discord
+            # proton vpn
+            pkgs.protonvpn-cli
+            pkgs.calibre
+            pkgs.spotify
+
+            #art
+            pkgs.gimp
+            pkgs.ardour
+
+            #printing
+            pkgs.hplip
+            pkgs.evince # pdf viewer
+            pkgs.pdfarranger
+
+            # media
+            pkgs.youtube-dl
+            pkgs.shotcut
+            pkgs.mpv-unwrapped
+            # pkgs.qjackctl
+            # pkgs.a2jmidid
+            # pkgs.cadence
+
+            pkgs.qbittorrent
+            pkgs.firefox
+
+            # pkgs.upower
+            pkgs.dbus
+
+            # music
+            # this is a wrapper around spotify so sway can recognize container attributes properly
+            pkgs.spotifywm
+
+            # office
+            pkgs.libreoffice
+
+            #email
+            pkgs.thunderbird
+            pkgs.protonmail-bridge
+          ];
           programs = {
-
-            # Let Home Manager install and manage itself.
-            home-manager.enable = true;
 
             # Just doesn't work. Getting permission denied error when it tries to read .config/gh
             # gh.enable = true;
@@ -375,27 +300,7 @@
               # enableNixDirenvIntegration = true;
             };
 
-            bat = {
-              enable = true;
-              config = { theme = "base16"; };
-            };
-
             alacritty = { enable = true; };
-
-            git = {
-              enable = true;
-              userName = "Stel Abrego";
-              userEmail = "stel@stel.codes";
-              ignores = [
-                "*Session.vim"
-                "*.DS_Store"
-                "*.swp"
-                "*.direnv"
-                "/direnv"
-                "/local"
-              ];
-              extraConfig = { init = { defaultBranch = "main"; }; };
-            };
 
             rtorrent = { enable = true; };
 

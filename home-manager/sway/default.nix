@@ -1,5 +1,21 @@
 pkgs: config: {
 
+  home.packages = [
+    pkgs.swaylock
+    pkgs.swayidle
+    pkgs.dmenu
+    pkgs.brightnessctl
+    pkgs.playerctl
+    pkgs.libinput
+    pkgs.xorg.xev
+    pkgs.slurp # dependency for swaytools (installed via pip install --user swaytools)
+    pkgs.gnome3.nautilus
+    pkgs.keepassxc
+    pkgs.font-manager
+    pkgs.gnome3.seahorse
+    pkgs.wl-clipboard
+  ];
+
   wayland.windowManager.sway = {
     enable = true;
     config = {

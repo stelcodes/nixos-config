@@ -1,4 +1,8 @@
 pkgs: {
+  home.packages = [
+    # zsh prompt
+    pkgs.starship
+  ];
   programs.zsh = {
     enable = true;
     autocd = true;
