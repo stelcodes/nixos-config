@@ -316,295 +316,135 @@
 
   home-manager = {
     useGlobalPkgs = true;
-    users.stel = {config, ... }: pkgs.lib.mkMerge [
-      (import /home/stel/config/home-manager/tmux pkgs)
-      (import /home/stel/config/home-manager/zsh pkgs)
-      (import /home/stel/config/home-manager/neovim pkgs)
-      {
-      # Home Manager needs a bit of information about you and the
-      # paths it should manage.
+    users.stel = { config, ... }:
+      pkgs.lib.mkMerge [
+        (import /home/stel/config/home-manager/tmux pkgs)
+        (import /home/stel/config/home-manager/zsh pkgs)
+        (import /home/stel/config/home-manager/neovim pkgs)
+        (import /home/stel/config/home-manager/sway pkgs config)
+        {
+          # Home Manager needs a bit of information about you and the
+          # paths it should manage.
 
-      # nixpkgs.config.allowUnfree = true;
+          # nixpkgs.config.allowUnfree = true;
 
-      wayland.windowManager.sway = {
-        enable = true;
-        config = {
-          assigns = {
-            "1:vibes" = [{ class = "^Spotify$"; }];
-            "2:www" = [{ class = "^Firefox$"; }];
-            "3:term" = [{ title = "^Alacritty$"; }];
-            "4:art" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
-            "5:mail" = [{ class = "^Thunderbird$"; }];
-          };
-          terminal = "alacritty";
-          modifier = "Mod4";
-          fonts = [ "NotoMono Nerd Font 8" ];
-          bars = [ ];
-          colors = {
-            focused = {
-              background = "#2e3440";
-              border = "#2e3440";
-              childBorder = "#8c738c";
-              indicator = "#2e9ef4";
-              text = "#eceff4";
+          home = {
+            username = "stel";
+            homeDirectory = "/home/stel";
+
+            file = {
+              ".clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
+              ".npmrc".text = "prefix = \${HOME}/.npm-packages";
             };
-          };
-          window = { hideEdgeBorders = "smart"; };
-          keybindings =
-            let modifier = config.wayland.windowManager.sway.config.modifier;
-            in pkgs.lib.mkOptionDefault {
-              "${modifier}+tab" = "workspace next";
-              "${modifier}+shift+tab" = "workspace prev";
-            };
-          keycodebindings = {
-            # Use xev to get keycodes, libinput gives wrong codes for some reason
-            "232" = "exec brightnessctl set 5%-"; # f1
-            "233" = "exec brightnessctl set +5%"; # f2
-            "128" = "layout tabbed"; # f3
-            "212" = "layout stacked"; # f4
-            "237" =
-              "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
-            "238" =
-              "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
-            "173" = "exec playerctl previous"; # f7
-            "172" = "exec playerctl play-pause"; # f8
-            "171" = "exec playerctl next"; # f9
-            "121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
-            "122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
-            "123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
-          };
-          input = {
-            "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
-              xkb_layout = "us";
-              xkb_variant = "mac";
-              xkb_options = "caps:escape";
-            };
-            "type:touchpad" = {
-              natural_scroll = "enabled";
-              dwt = "enabled";
-              tap = "enabled";
-              tap_button_map = "lrm";
-            };
-          };
-          output = {
-            "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
-          };
-          startup = [
-            { command = "exec alacritty"; }
-            { command = "exec firefox"; }
-            { command = "exec gimp"; }
-            { command = "exec spotifywm"; }
-            { command = "exec protonmail-bridge"; }
-            {
-              command = "exec thunderbird";
-            }
-            # This will lock your screen after 300 seconds of inactivity, then turn off
-            # your displays after another 300 seconds, and turn your screens back on when
-            # resumed. It will also lock your screen before your computer goes to sleep.
-            {
-              command = ''
-                exec swayidle -w \
-                timeout 300 'swaylock -f -c 000000' \
-                timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-                before-sleep 'swaylock -f -c 000000'
-              '';
-            }
-            {
-              command = "sleep 7 && systemctl --user restart waybar";
-              always = true;
-            }
-          ];
-        };
-      };
 
-      home = {
-        username = "stel";
-        homeDirectory = "/home/stel";
+            # This value determines the Home Manager release that your
+            # configuration is compatible with. This helps avoid breakage
+            # when a new Home Manager release introduces backwards
+            # incompatible changes.
+            #
+            # You can update Home Manager without changing this value. See
+            # the Home Manager release notes for a list of state version
+            # changes in each release.
+            stateVersion = "21.03";
 
-        file = {
-          ".clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
-          ".npmrc".text = "prefix = \${HOME}/.npm-packages";
-        };
-
-        # This value determines the Home Manager release that your
-        # configuration is compatible with. This helps avoid breakage
-        # when a new Home Manager release introduces backwards
-        # incompatible changes.
-        #
-        # You can update Home Manager without changing this value. See
-        # the Home Manager release notes for a list of state version
-        # changes in each release.
-        stateVersion = "21.03";
-
-        # I'm putting all manually installed executables into ~/.local/bin 
-        sessionPath = [
-          "$HOME/.cargo/bin"
-          "$HOME/go/bin"
-          "$HOME/.local/bin"
-          "$HOME/.npm-packages/bin"
-        ];
-        sessionVariables = { };
-      };
-
-      programs = {
-
-        # Let Home Manager install and manage itself.
-        home-manager.enable = true;
-
-        # Just doesn't work. Getting permission denied error when it tries to read .config/gh
-        # gh.enable = true;
-
-        waybar = {
-          enable = true;
-          style = builtins.readFile /home/stel/config/misc/waybar.css;
-          systemd.enable = true;
-          settings = [{
-            layer = "top";
-            position = "bottom";
-            height = 20;
-            output = [ "eDP-1" ];
-            modules-left = [ "sway/workspaces" "sway/mode" ];
-            modules-center = [ ];
-            modules-right = [
-              "cpu"
-              "memory"
-              "disk"
-              "network"
-              "backlight"
-              "pulseaudio"
-              "battery"
-              "clock"
+            # I'm putting all manually installed executables into ~/.local/bin 
+            sessionPath = [
+              "$HOME/.cargo/bin"
+              "$HOME/go/bin"
+              "$HOME/.local/bin"
+              "$HOME/.npm-packages/bin"
             ];
-            modules = {
-              "sway/workspaces" = {
-                disable-scroll = true;
-                all-outputs = true;
-                format = "{name}";
-                persistent_workspaces = {
-                  "1:vibes" = [ ];
-                  "2:www" = [ ];
-                  "3:term" = [ ];
-                  "4:art" = [ ];
-                  "5:mail" = [ ];
-                };
-              };
-              cpu = {
-                interval = 10;
-                format = "{} ";
-              };
-              memory = {
-                interval = 30;
-                format = "{} ";
-              };
-              disk = {
-                interval = 30;
-                format = "{percentage_used} ";
-              };
-              network = {
-                # format = "{bandwidthDownBits}";
-                max-length = 50;
-                format-wifi = "{essid} {signalStrength} ";
-              };
-              pulseaudio = {
-                format = "{volume} {icon}";
-                format-bluetooth = "{volume} {icon} ";
-                format-muted = "{volume} ";
-                format-icons = { default = [ "" "" ]; };
-                on-click = "pavucontrol";
-              };
-              clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
-              battery = {
-                format = "{capacity} {icon}";
-                format-icons = [ "" "" "" "" "" ];
-                max-length = 40;
-              };
-              backlight = {
-                interval = 5;
-                format = "{percent} {icon}";
-                format-icons = [ "" "" ];
-              };
+            sessionVariables = { };
+          };
+
+          programs = {
+
+            # Let Home Manager install and manage itself.
+            home-manager.enable = true;
+
+            # Just doesn't work. Getting permission denied error when it tries to read .config/gh
+            # gh.enable = true;
+
+            go = { enable = true; };
+
+            direnv = {
+              enable = true;
+              # I wish I could get nix-shell to work with clojure but it's just too buggy.
+              # The issue: when I include pkgs.clojure in nix.shell and try to run aliased commands out of my deps.edn,
+              # it errors with any alias using the :extra-paths.
+              # enableNixDirenvIntegration = true;
             };
-          }];
-        };
 
-        go = { enable = true; };
+            bat = {
+              enable = true;
+              config = { theme = "base16"; };
+            };
 
-        direnv = {
-          enable = true;
-          # I wish I could get nix-shell to work with clojure but it's just too buggy.
-          # The issue: when I include pkgs.clojure in nix.shell and try to run aliased commands out of my deps.edn,
-          # it errors with any alias using the :extra-paths.
-          # enableNixDirenvIntegration = true;
-        };
+            alacritty = { enable = true; };
 
-        bat = {
-          enable = true;
-          config = { theme = "base16"; };
-        };
+            git = {
+              enable = true;
+              userName = "Stel Abrego";
+              userEmail = "stel@stel.codes";
+              ignores = [
+                "*Session.vim"
+                "*.DS_Store"
+                "*.swp"
+                "*.direnv"
+                "/direnv"
+                "/local"
+              ];
+              extraConfig = { init = { defaultBranch = "main"; }; };
+            };
 
-        alacritty = { enable = true; };
+            rtorrent = { enable = true; };
 
-        git = {
-          enable = true;
-          userName = "Stel Abrego";
-          userEmail = "stel@stel.codes";
-          ignores = [
-            "*Session.vim"
-            "*.DS_Store"
-            "*.swp"
-            "*.direnv"
-            "/direnv"
-            "/local"
-          ];
-          extraConfig = { init = { defaultBranch = "main"; }; };
-        };
+            fzf = let
+              fzfExcludes = [
+                ".local"
+                ".cache"
+                "*photoslibrary"
+                ".git"
+                "node_modules"
+                "Library"
+                ".rustup"
+                ".cargo"
+                ".m2"
+                ".bash_history"
+              ];
+              # string lib found here https://git.io/JtIua
+              fzfExcludesString =
+                pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'")
+                fzfExcludes;
+            in {
+              enable = true;
+              defaultOptions = [ "--height 80%" "--reverse" ];
+              defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
+              changeDirWidgetCommand =
+                "fd --type d --hidden ${fzfExcludesString}";
+              # I got tripped up because home.sessionVariables do NOT get updated with zsh sourcing.
+              # They only get updated by restarting terminal, this is by design from the nix devs
+              # See https://git.io/JtIuV
+            };
+          };
 
-        rtorrent = { enable = true; };
+          xdg.configFile = {
+            "alacritty/alacritty.yml".text = pkgs.lib.mkMerge [
+              ''
+                shell:
+                  program: ${pkgs.zsh}/bin/zsh''
+              (builtins.readFile /home/stel/config/misc/alacritty-base.yml)
+              (builtins.readFile /home/stel/config/misc/alacritty-nord.yml)
+            ];
 
-        fzf = let
-          fzfExcludes = [
-            ".local"
-            ".cache"
-            "*photoslibrary"
-            ".git"
-            "node_modules"
-            "Library"
-            ".rustup"
-            ".cargo"
-            ".m2"
-            ".bash_history"
-          ];
-          # string lib found here https://git.io/JtIua
-          fzfExcludesString =
-            pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'")
-            fzfExcludes;
-        in {
-          enable = true;
-          defaultOptions = [ "--height 80%" "--reverse" ];
-          defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
-          changeDirWidgetCommand = "fd --type d --hidden ${fzfExcludesString}";
-          # I got tripped up because home.sessionVariables do NOT get updated with zsh sourcing.
-          # They only get updated by restarting terminal, this is by design from the nix devs
-          # See https://git.io/JtIuV
-        };
-      };
+            # I'm having a weird bug where clj -X:new gives an error about :exec-fn not being set even though it's set...
+            # So I'm trying to put the deps.edn in the .config directory as well as the .clojure directory
+            # I don't think this helped I had to use clj -X:new:clj-new/create
+            "clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
+          };
 
-      xdg.configFile = {
-        "alacritty/alacritty.yml".text = pkgs.lib.mkMerge [
-          ''
-            shell:
-              program: ${pkgs.zsh}/bin/zsh''
-          (builtins.readFile /home/stel/config/misc/alacritty-base.yml)
-          (builtins.readFile /home/stel/config/misc/alacritty-nord.yml)
-        ];
-
-        # I'm having a weird bug where clj -X:new gives an error about :exec-fn not being set even though it's set...
-        # So I'm trying to put the deps.edn in the .config directory as well as the .clojure directory
-        # I don't think this helped I had to use clj -X:new:clj-new/create
-        "clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
-      };
-
-    }];
+        }
+      ];
   };
 }
 
