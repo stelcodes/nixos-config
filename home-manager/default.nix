@@ -77,7 +77,10 @@ pkgs.lib.mkMerge [
         userEmail = "stel@stel.codes";
         ignores =
           [ "*Session.vim" "*.DS_Store" "*.swp" "*.direnv" "/direnv" "/local" ];
-        extraConfig = { init = { defaultBranch = "main"; }; };
+        extraConfig = {
+          init = { defaultBranch = "main"; };
+          merge = { ff = "only"; };
+        };
       };
 
       fzf = let
