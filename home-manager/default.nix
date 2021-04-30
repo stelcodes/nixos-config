@@ -56,7 +56,10 @@ pkgs.lib.mkMerge [
 
       # I'm putting all manually installed executables into ~/.local/bin 
       sessionPath = [ "$HOME/.local/bin" ];
-      sessionVariables = { };
+      sessionVariables = {
+        SHELL = "${pkgs.zsh}/bin/zsh";
+        EDITOR = "${pkgs.neovim}/bin/nvim";
+      };
     };
 
     programs = {
