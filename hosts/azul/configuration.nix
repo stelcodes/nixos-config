@@ -215,7 +215,6 @@
         (import /home/stel/config/home-manager/zsh pkgs)
         (import /home/stel/config/home-manager/neovim pkgs)
         (import /home/stel/config/home-manager/sway pkgs config)
-        (import /home/stel/config/home-manager/git pkgs)
         {
           # Home Manager needs a bit of information about you and the
           # paths it should manage.
