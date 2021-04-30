@@ -188,16 +188,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [ zsh neovim ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -211,38 +201,15 @@
     users.stel = { config, ... }:
       pkgs.lib.mkMerge [
         (import /home/stel/config/home-manager pkgs)
-        (import /home/stel/config/home-manager/tmux pkgs)
-        (import /home/stel/config/home-manager/zsh pkgs)
-        (import /home/stel/config/home-manager/neovim pkgs)
+        (import /home/stel/config/home-manager/alacritty pkgs)
         (import /home/stel/config/home-manager/sway pkgs config)
+        (import /home/stel/config/home-manager/python pkgs)
+        (import /home/stel/config/home-manager/rust pkgs)
+        (import /home/stel/config/home-manager/go pkgs)
+        (import /home/stel/config/home-manager/nodejs pkgs)
+        (import /home/stel/config/home-manager/clojure pkgs)
         {
-          # Home Manager needs a bit of information about you and the
-          # paths it should manage.
-
-          # nixpkgs.config.allowUnfree = true;
-
           home.packages = [
-
-            # Programming Languages
-
-            # (pkgs.python3.withPackages (py-pkgs: [py-pkgs.swaytools])) this would work but swaytools isn't in the nixos python modules
-            pkgs.python39
-            pkgs.python39Packages.pip
-            # pip packages: swaytools
-
-            # Other package managers
-            pkgs.rustup
-            # Run this:
-            # rustup toolchain install stable
-            # cargo install <package>
-
-            pkgs.clojure
-            pkgs.nodejs
-            pkgs.just
-            pkgs.sqlite
-
-            pkgs.babashka
-            pkgs.clj-kondo
             pkgs.tor-browser-bundle-bin
             pkgs.discord
             # proton vpn
@@ -284,68 +251,6 @@
             pkgs.thunderbird
             pkgs.protonmail-bridge
           ];
-          programs = {
-
-            # Just doesn't work. Getting permission denied error when it tries to read .config/gh
-            # gh.enable = true;
-
-            go = { enable = true; };
-
-            direnv = {
-              enable = true;
-              # I wish I could get nix-shell to work with clojure but it's just too buggy.
-              # The issue: when I include pkgs.clojure in nix.shell and try to run aliased commands out of my deps.edn,
-              # it errors with any alias using the :extra-paths.
-              # enableNixDirenvIntegration = true;
-            };
-
-            alacritty = { enable = true; };
-
-            rtorrent = { enable = true; };
-
-            fzf = let
-              fzfExcludes = [
-                ".local"
-                ".cache"
-                "*photoslibrary"
-                ".git"
-                "node_modules"
-                "Library"
-                ".rustup"
-                ".cargo"
-                ".m2"
-                ".bash_history"
-              ];
-              # string lib found here https://git.io/JtIua
-              fzfExcludesString =
-                pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'")
-                fzfExcludes;
-            in {
-              enable = true;
-              defaultOptions = [ "--height 80%" "--reverse" ];
-              defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
-              changeDirWidgetCommand =
-                "fd --type d --hidden ${fzfExcludesString}";
-              # I got tripped up because home.sessionVariables do NOT get updated with zsh sourcing.
-              # They only get updated by restarting terminal, this is by design from the nix devs
-              # See https://git.io/JtIuV
-            };
-          };
-
-          xdg.configFile = {
-            "alacritty/alacritty.yml".text = pkgs.lib.mkMerge [
-              ''
-                shell:
-                  program: ${pkgs.zsh}/bin/zsh''
-              (builtins.readFile /home/stel/config/misc/alacritty-base.yml)
-              (builtins.readFile /home/stel/config/misc/alacritty-nord.yml)
-            ];
-
-            # I'm having a weird bug where clj -X:new gives an error about :exec-fn not being set even though it's set...
-            # So I'm trying to put the deps.edn in the .config directory as well as the .clojure directory
-            # I don't think this helped I had to use clj -X:new:clj-new/create
-            "clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
-          };
 
         }
       ];
