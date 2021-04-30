@@ -1,8 +1,5 @@
 pkgs: {
-  home = {
-
-    xdg.configFile =
-      pkgs.lib.mkMerge [{ "nvim/filetype.vim".source = ./filetype.vim; }];
+    xdg.configFile = { "nvim/filetype.vim".source = ./filetype.vim; };
 
     programs.neovim = {
       enable = true;
@@ -77,5 +74,4 @@ pkgs: {
 
         set shell=${pkgs.zsh}/bin/zsh'';
     };
-  };
 }

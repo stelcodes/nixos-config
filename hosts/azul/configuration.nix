@@ -315,15 +315,16 @@
   system.stateVersion = "20.09"; # Did you read the comment?
 
   home-manager = {
-    users.stel = { pkgs, config, ... }: pkgs.lib.mkMerge [
-      (import ../../home-manager/tmux pkgs)
-      (import ../../home-manager/zsh pkgs)
-      (import ../../home-manager/neovim pkgs)
+    useGlobalPkgs = true;
+    users.stel = {config, ... }: pkgs.lib.mkMerge [
+      (import /home/stel/config/home-manager/tmux pkgs)
+      (import /home/stel/config/home-manager/zsh pkgs)
+      (import /home/stel/config/home-manager/neovim pkgs)
       {
       # Home Manager needs a bit of information about you and the
       # paths it should manage.
 
-      nixpkgs.config.allowUnfree = true;
+      # nixpkgs.config.allowUnfree = true;
 
       wayland.windowManager.sway = {
         enable = true;
@@ -421,7 +422,7 @@
         homeDirectory = "/home/stel";
 
         file = {
-          ".clojure/deps.edn".source = ./deps.edn;
+          ".clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
           ".npmrc".text = "prefix = \${HOME}/.npm-packages";
         };
 
@@ -455,7 +456,7 @@
 
         waybar = {
           enable = true;
-          style = builtins.readFile ./waybar.css;
+          style = builtins.readFile /home/stel/config/misc/waybar.css;
           systemd.enable = true;
           settings = [{
             layer = "top";
@@ -593,14 +594,14 @@
           ''
             shell:
               program: ${pkgs.zsh}/bin/zsh''
-          (builtins.readFile ./alacritty-base.yml)
-          (builtins.readFile ./alacritty-nord.yml)
+          (builtins.readFile /home/stel/config/misc/alacritty-base.yml)
+          (builtins.readFile /home/stel/config/misc/alacritty-nord.yml)
         ];
 
         # I'm having a weird bug where clj -X:new gives an error about :exec-fn not being set even though it's set...
         # So I'm trying to put the deps.edn in the .config directory as well as the .clojure directory
         # I don't think this helped I had to use clj -X:new:clj-new/create
-        "clojure/deps.edn".source = ./deps.edn;
+        "clojure/deps.edn".source = /home/stel/config/misc/deps.edn;
       };
 
     }];
