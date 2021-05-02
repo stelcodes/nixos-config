@@ -37,12 +37,6 @@ pkgs: {
       "wifi" = "nmtui";
       "vpn" = "doas protonvpn connect -f";
       "attach" = "tmux attach -t '$0'";
-      # I'm using exec here because the nixpkgs nvim wrapper fucks with tmux resurrect!
-      # "vim" = "exec vim";
-      # "nvim" = "exec nvim";
-      "volume-max" = "pactl -- set-sink-volume 0 100%";
-      "volume-half" = "pactl -- set-sink-volume 0 50%";
-      "volume-mute" = "pactl -- set-sink-volume 0 0%";
     };
     oh-my-zsh = {
       enable = true;
