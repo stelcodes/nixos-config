@@ -141,11 +141,11 @@
     users = {
       wtpof = {
         description = "We The People Opportunity Farm";
-        isSystemUser = true;
+        isNormalUser = true;
         home = "/home/wtpof";
         createHome = true;
         packages = [ pkgs.nodejs pkgs.sqlite ];
-        shell = pkgs.bashInteractive;
+        shell = pkgs.zsh;
       };
     };
   };

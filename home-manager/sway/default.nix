@@ -25,6 +25,7 @@ pkgs: config: {
         "3:term" = [{ title = "^Alacritty$"; }];
         "4:art" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
         "5:mail" = [{ class = "^Thunderbird$"; }];
+        "6:books" = [{ title = "^calibre"; }];
       };
       terminal = "alacritty";
       modifier = "Mod4";
@@ -85,8 +86,9 @@ pkgs: config: {
         { command = "exec gimp"; }
         { command = "exec spotifywm"; }
         { command = "exec protonmail-bridge"; }
+        { command = "exec thunderbird"; }
         {
-          command = "exec thunderbird";
+          command = "exec calibre";
         }
         # This will lock your screen after 300 seconds of inactivity, then turn off
         # your displays after another 300 seconds, and turn your screens back on when

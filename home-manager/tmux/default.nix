@@ -20,13 +20,14 @@ pkgs: {
       set -g focus-events on
 
       # Custom Keybindings
-      bind -n M-h  previous-window
+      bind -n M-h previous-window
       bind -n M-l next-window
       bind -n M-x kill-pane
       bind -n M-d detach
       bind -n M-f new-window
       bind -n M-s choose-tree -s
       bind -n M-c copy-mode
+      bind -n M-r command-prompt 'rename-session %%'
 
       # Fixes tmux escape input lag, see https://git.io/JtIsn
       set -sg escape-time 10
@@ -38,7 +39,7 @@ pkgs: {
       set -g status-justify left
       set -g status-left ""
       # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
-      set -g status-right "[#S]#(${continuumSaveScript})"
+      set -g status-right "#[fg=yellow,bg=default][#S] #[fg=default,bg=default]in #[fg=green,bg=default]#H#(${continuumSaveScript})"
     '';
     plugins = [
       # pkgs.tmuxPlugins.nord
@@ -49,7 +50,11 @@ pkgs: {
       { plugin = pkgs.tmuxPlugins.yank; }
       {
         plugin = pkgs.tmuxPlugins.resurrect;
-        extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+        extraConfig = ''
+          # set -g @resurrect-strategy-nvim 'session'
+          # set -g @resurrect-strategy-vim 'session'
+          set -g @resurrect-processes '"~bin/vim->vim -S"'
+        '';
       }
       {
         plugin = pkgs.tmuxPlugins.continuum;

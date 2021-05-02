@@ -1,5 +1,10 @@
 { pkgs, config, ... }: {
   config = {
+    # hosts
+    networking.extraHosts = ''
+      104.236.219.156 nube1
+    '';
+
     # Set your time zone.
     time.timeZone = "America/Detroit";
 
