@@ -24,7 +24,7 @@ pkgs: {
       bind -n M-l next-window
       bind -n M-x kill-pane
       bind -n M-d detach
-      bind -n M-f new-window
+      bind -n M-f new-window -c "#{pane_current_path}"
       bind -n M-s choose-tree -s
       bind -n M-c copy-mode
       bind -n M-r command-prompt 'rename-session %%'

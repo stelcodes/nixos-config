@@ -179,12 +179,17 @@ let g:lightline = {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
+      \ 'inactive': {
+      \   'left': [ [ ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"":""}',
       \   'obsession': '%{ObsessionStatus(" ")}'
       \ },
       \ 'component_function': {
       \   'gitbranch': 'LightlineFugitive',
+      \   'filename': 'MyFilename'
       \ },
       \ 'separator':    { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' },
@@ -193,9 +198,19 @@ let g:lightline = {
       \   'right': [['obsession']]
       \ },
       \ 'tab_component_function': {
-      \   'filename': 'MyTabFilename',
+      \   'filename': 'MyTabFilename'
       \ }
       \ }
+
+" https://git.io/J3uxJ
+function! MyFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
+endfunction
 
 " https://git.io/J3sfo
 function! MyTabFilename(n)
