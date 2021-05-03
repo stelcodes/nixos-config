@@ -110,7 +110,9 @@
       # authentication = "";
       ensureDatabases = [ "cuternews" "dev_blog" ];
       ensureUsers = [
-        { name = "stel"; }
+        {
+          name = "stel";
+        }
         # ALTER USER stel WITH SUPERUSER;
         # To change password:
         # ALTER USER <user> WITH PASSWORD '<password>';
@@ -118,7 +120,13 @@
           name = "dev_blog_directus";
           ensurePermissions = { "DATABASE dev_blog" = "ALL PRIVILEGES"; };
         }
-        { name = "static_site_builder"; ensurePermissions = { "ALL TABLES IN SCHEMA public" = "SELECT"; }; }
+        {
+          name = "static_site_builder";
+          ensurePermissions = { "ALL TABLES IN SCHEMA public" = "SELECT"; };
+          # GRANT SELECT ON ALL TABLES IN SCHEMA public TO static_site_builder;
+          # This allows the user to read all tables in the default public schema.
+          # Schema's are basically namespaces for tables in postgres
+        }
       ];
       # extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
     };
