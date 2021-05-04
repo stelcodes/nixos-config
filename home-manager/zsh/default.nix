@@ -36,7 +36,7 @@ pkgs: {
       "hg" = "history | grep";
       "wifi" = "nmtui";
       "vpn" = "doas protonvpn connect -f";
-      "attach" = "tmux attach -t '$0'";
+      "attach" = "tmux attach";
     };
     oh-my-zsh = {
       enable = true;

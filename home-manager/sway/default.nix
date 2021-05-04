@@ -29,7 +29,10 @@ pkgs: config: {
       };
       terminal = "alacritty";
       modifier = "Mod4";
-      fonts = [ "NotoMono Nerd Font 8" ];
+      fonts = {
+        names = [ "NotoMono Nerd Font" ];
+        size = 8.0;
+      };
       bars = [ ];
       colors = {
         focused = {

@@ -177,11 +177,11 @@ let g:lightline = {
       \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'gitbranch', 'readonly', 'absolutepath', 'modified' ] ]
       \ },
       \ 'inactive': {
       \   'left': [ [ ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'gitbranch', 'readonly', 'absolutepath', 'modified' ] ]
       \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"":""}',
@@ -202,6 +202,8 @@ let g:lightline = {
       \ }
       \ }
 
+" I'm not actually using this filename component function anymore because I
+" switched to absolutepath and it's much better for me!
 " https://git.io/J3uxJ
 function! MyFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
