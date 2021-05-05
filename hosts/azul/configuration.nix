@@ -124,8 +124,16 @@
           name = "static_site_builder";
           ensurePermissions = { "ALL TABLES IN SCHEMA public" = "SELECT"; };
           # GRANT SELECT ON ALL TABLES IN SCHEMA public TO static_site_builder;
-          # This allows the user to read all tables in the default public schema.
+          # This allows the user to read all tables in the default public schema. BUT not tables created after
+          # this command was run.
           # Schema's are basically namespaces for tables in postgres
+          # The above command works for old tables, but static_site_builder doesn't have permission for new tables
+          # We need to change the default privileges for objects created by dev_blog_directus.
+          # The way default privileges work in postgres is this: only a user can change their own default privileges
+          # on *their own* objects. So the dev_blog_directus user has to change their default privileges to allow
+          # static_site_builder to SELECT on new dev_blog_directus tables.
+          # As dev_blog_directus user:
+          # ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO static_site_builder;
         }
       ];
       # extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
