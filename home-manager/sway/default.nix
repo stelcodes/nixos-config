@@ -14,7 +14,15 @@ pkgs: config: {
     pkgs.font-manager
     pkgs.gnome3.seahorse
     pkgs.wl-clipboard
+    pkgs.wofi
   ];
+
+  xdg.configFile = {
+    "wofi/config".text = ''
+      allow_images=true
+    '';
+    "wofi/style.css".source = /home/stel/config/misc/wofi.css;
+  };
 
   wayland.windowManager.sway = {
     enable = true;
@@ -28,6 +36,7 @@ pkgs: config: {
         "6:books" = [{ title = "^calibre"; }];
       };
       terminal = "alacritty";
+      menu = "${pkgs.wofi}/bin/wofi --show run";
       modifier = "Mod4";
       fonts = {
         names = [ "NotoMono Nerd Font" ];
