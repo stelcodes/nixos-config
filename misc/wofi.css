@@ -6,6 +6,11 @@ background-color: #2e3440;
 margin: 5px;
 background-color: #2e3440;
 color: #d8dee9;
+border: 1px solid #b48ead;
+}
+
+#input:focus {
+border: 1px solid #b48ead;
 }
 
 #inner-box {

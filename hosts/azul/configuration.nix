@@ -182,7 +182,7 @@
   fonts = {
     fontconfig = { enable = true; };
     fonts =
-      [ (pkgs.nerdfonts.override { fonts = [ "Noto" ]; }) pkgs.font-awesome ];
+      [ pkgs.font-awesome (pkgs.nerdfonts.override { fonts = [ "Noto" ]; }) ];
   };
 
   # This value determines the NixOS release from which the default

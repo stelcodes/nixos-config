@@ -15,6 +15,7 @@ pkgs: config: {
     pkgs.gnome3.seahorse
     pkgs.wl-clipboard
     pkgs.wofi
+    pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
   ];
 
   xdg.configFile = {
