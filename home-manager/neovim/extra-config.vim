@@ -164,7 +164,7 @@ vnoremap < <gv
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " my personal ctrl prefixed commmands
 nnoremap <C-q> :q<CR>
-nnoremap <C-t> :tabnew<CR>
+nnoremap <C-t> <C-W>T
 nnoremap <C-s> :source ~/.config/nvim/init.vim<CR>
 nnoremap <C-d> :cd %:h<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>

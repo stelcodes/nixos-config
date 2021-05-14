@@ -27,6 +27,7 @@ pkgs: {
           sha256 = "0apf28b569qz4vik23jl0swka37qwmbxxiybfrksy7i1yaq6d38g";
         };
       };
+
     in [
       pkgs.vimPlugins.nerdtree
       pkgs.vimPlugins.vim-obsession

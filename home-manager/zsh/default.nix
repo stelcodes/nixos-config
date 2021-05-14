@@ -32,11 +32,13 @@ pkgs: {
       "nix-search" = "nix repl '<nixpkgs>'";
       "source-zsh" = "source $HOME/.config/zsh/.zshrc";
       "source-tmux" = "tmux source-file ~/.tmux.conf";
+      "update" = "doas nix-channel --update";
       "switch" = "doas nixos-rebuild switch";
       "hg" = "history | grep";
       "wifi" = "nmtui";
       "vpn" = "doas protonvpn connect -f";
       "attach" = "tmux attach";
+      "gui" = "exec sway";
     };
     oh-my-zsh = {
       enable = true;

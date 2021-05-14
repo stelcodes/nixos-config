@@ -16,6 +16,7 @@ pkgs: config: {
     pkgs.wl-clipboard
     pkgs.wofi
     pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
+    pkgs.wlsunset
   ];
 
   xdg.configFile = {
@@ -100,8 +101,9 @@ pkgs: config: {
         { command = "exec spotifywm"; }
         { command = "exec protonmail-bridge"; }
         { command = "exec thunderbird"; }
+        { command = "exec calibre"; }
         {
-          command = "exec calibre";
+          command = "exec  wlsunset -l 42 -L -83";
         }
         # This will lock your screen after 300 seconds of inactivity, then turn off
         # your displays after another 300 seconds, and turn your screens back on when
@@ -141,6 +143,7 @@ pkgs: config: {
         "backlight"
         "pulseaudio"
         "battery"
+        "idle_inhibitor"
         "clock"
       ];
       modules = {
@@ -185,6 +188,13 @@ pkgs: config: {
           format = "{capacity} {icon}";
           format-icons = [ "" "" "" "" "" ];
           max-length = 40;
+        };
+        idle_inhibitor = {
+          format = "{icon}";
+          format-icons = {
+            activated = " ";
+            deactivated = " ";
+          };
         };
         backlight = {
           interval = 5;

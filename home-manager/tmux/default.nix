@@ -39,7 +39,7 @@ pkgs: {
       set -g status-justify left
       set -g status-left ""
       # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
-      set -g status-right "#[fg=yellow,bg=default][#S] #[fg=default,bg=default]in #[fg=green,bg=default]#H#(${continuumSaveScript})"
+      set -g status-right "#[fg=yellow,bg=default][#S] #[fg=default,bg=default]in #[fg=green,bg=default]#h#(${continuumSaveScript})"
     '';
     plugins = [
       # pkgs.tmuxPlugins.nord

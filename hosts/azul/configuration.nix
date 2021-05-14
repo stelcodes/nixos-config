@@ -75,12 +75,17 @@
     opengl.enable = true;
   };
 
+  location = {
+    latitude = 42.2;
+    longitude = -83.6;
+  };
+
   services = {
     # Enable CUPS to print documents.
     printing.enable = true;
 
     blueman.enable = true;
-    gnome3.gnome-keyring.enable = true;
+    gnome.gnome-keyring.enable = true;
 
     postgresql = {
       enable = true;
@@ -216,7 +221,7 @@
 
             #art
             pkgs.gimp
-            pkgs.ardour
+            # pkgs.ardour
 
             #printing
             pkgs.hplip
@@ -242,7 +247,7 @@
             pkgs.spotifywm
 
             # office
-            pkgs.libreoffice
+            # pkgs.libreoffice
 
             #email
             pkgs.thunderbird
