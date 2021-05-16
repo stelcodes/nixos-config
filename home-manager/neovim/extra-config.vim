@@ -162,6 +162,10 @@ vnoremap > >gv
 vnoremap < <gv
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
+" Formatting
+autocmd FileType clojure nnoremap <buffer><leader>f :!zprint -w **/*.clj<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " my personal ctrl prefixed commmands
 nnoremap <C-q> :q<CR>
 nnoremap <C-t> <C-W>T
