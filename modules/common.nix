@@ -28,6 +28,10 @@
         }];
       };
       sudo.enable = false;
+      acme = {
+        email = "stel@stel.codes";
+        acceptTerms = true;
+      };
     };
 
     users = {

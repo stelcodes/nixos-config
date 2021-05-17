@@ -42,12 +42,13 @@
         "cms.stel.codes" = {
           enableACME = true;
           forceSSL = true;
-          proxyPass = "http://localhost:8055";
+          locations."/".proxyPass = "http://localhost:8055";
         };
         "stel.codes" = {
           enableACME = true;
           forceSSL = true;
-          root = "/www/dev-blog";
+          serverAliases = ["www.stel.codes"];
+          locations."/".root = "/www/dev-blog";
         };
       };
     };
@@ -77,7 +78,7 @@
         # The same using a host name (would typically cover both IPv4 and IPv6).
         host all all localhost trust
       '';
-      ensureDatabases = [ "dev_blog" ];
+      ensureDatabases = [ "test" "dev_blog" ];
       ensureUsers = [
         {
           name = "stel";
