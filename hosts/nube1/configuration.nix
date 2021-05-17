@@ -10,8 +10,13 @@
   ];
 
   boot.cleanTmpDir = true;
-  networking.hostName = "nube1";
-  networking.firewall.allowPing = true;
+  networking = {
+    hostName = "nube1";
+    firewall = {
+      allowPing = true;
+      allowedTCPPorts = [ 22 80 443 ];
+    };
+  };
 
   users = {
     users = {
@@ -21,9 +26,31 @@
     };
   };
 
-  services.openssh = {
-    enable = true;
-    passwordAuthentication = false;
+  services = {
+    openssh = {
+      enable = true;
+      passwordAuthentication = false;
+    };
+
+    nginx = {
+      enable = true;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      virtualHosts = {
+        "cms.stel.codes" = {
+          enableACME = true;
+          forceSSL = true;
+          proxyPass = "http://localhost:8055";
+        };
+        "stel.codes" = {
+          enableACME = true;
+          forceSSL = true;
+          root = "/www/dev-blog";
+        };
+      };
+    };
   };
 
   home-manager = {
