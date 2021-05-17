@@ -146,6 +146,25 @@
 
     # don’t shutdown when power button is short-pressed
     logind.extraConfig = "HandlePowerKey=ignore";
+
+    # doas chown -R stel:nginx /www
+    # Each time I add something to /www I should run this command because nginx needs group
+    # permission in order to serve files
+    nginx = {
+      enable = true;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      virtualHosts = {
+        localhost = {
+          locations."/" = {
+            # proxyPass = "http://localhost:3000";
+            root = "/www/dev-blog";
+          };
+        };
+      };
+    };
   };
 
   users = {
