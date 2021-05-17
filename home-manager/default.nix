@@ -75,8 +75,15 @@ pkgs.lib.mkMerge [
         enable = true;
         userName = "Stel Abrego";
         userEmail = "stel@stel.codes";
-        ignores =
-          [ "*Session.vim" "*.DS_Store" "*.swp" "*.direnv" "/direnv" "/local" "/node_modules" ];
+        ignores = [
+          "*Session.vim"
+          "*.DS_Store"
+          "*.swp"
+          "*.direnv"
+          "/direnv"
+          "/local"
+          "/node_modules"
+        ];
         extraConfig = {
           init = { defaultBranch = "main"; };
           merge = { ff = "only"; };

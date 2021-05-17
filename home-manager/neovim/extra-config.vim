@@ -192,8 +192,8 @@ let g:lightline = {
       \   'right': [ ]
       \ },
       \ 'component': {
-      \   'readonly': '%{&readonly?"":""}',
-      \   'obsession': '%{ObsessionStatus(" ")}'
+      \   'readonly': '%{&readonly?"🔒":""}',
+      \   'obsession': '%{ObsessionStatus("💾")}'
       \ },
       \ 'component_function': {
       \   'gitbranch': 'LightlineFugitive',
@@ -249,7 +249,7 @@ endfunction
 function! LightlineFugitive()
     if exists('*FugitiveHead')
 	let branch = FugitiveHead()
-	return branch !=# '' ? ' '.branch : ''
+	return branch !=# '' ? ' '.branch : ''
     endif
     return ''
 endfunction

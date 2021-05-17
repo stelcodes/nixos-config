@@ -1,8 +1,14 @@
 font:
   size: 14
   normal:
-    family: "NotoSansMono Nerd Font"
-    style: "Regular"
+    family: monospace
+    style: Regular
+  bold:
+    family: monospace
+    style: Bold
+  italic:
+    family: monospace
+    style: Italic
 window:
   padding:
     x: 0

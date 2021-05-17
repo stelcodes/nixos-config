@@ -30,18 +30,18 @@ pkgs: config: {
     enable = true;
     config = {
       assigns = {
-        "1:vibes" = [{ class = "^Spotify$"; }];
-        "2:www" = [{ class = "^Firefox$"; }];
-        "3:term" = [{ title = "^Alacritty$"; }];
-        "4:art" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
-        "5:mail" = [{ class = "^Thunderbird$"; }];
-        "6:books" = [{ title = "^calibre"; }];
+        "1" = [{ class = "^Spotify$"; }];
+        "2" = [{ class = "^Firefox$"; }];
+        "3" = [{ title = "^Alacritty$"; }];
+        "4" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
+        "5" = [{ class = "^Thunderbird$"; }];
+        "6" = [{ title = "^calibre"; }];
       };
       terminal = "alacritty";
       menu = "${pkgs.wofi}/bin/wofi --show run";
       modifier = "Mod4";
       fonts = {
-        names = [ "NotoMono Nerd Font" ];
+        names = [ "Noto Sans Mono" "Font Awesome 5 Free" "Noto Color Emoji" ];
         size = 8.0;
       };
       bars = [ ];
@@ -98,7 +98,7 @@ pkgs: config: {
         { command = "exec alacritty"; }
         { command = "exec firefox"; }
         { command = "exec gimp"; }
-        { command = "exec spotifywm"; }
+        { command = "exec spotify"; }
         { command = "exec protonmail-bridge"; }
         { command = "exec thunderbird"; }
         { command = "exec calibre"; }
@@ -150,13 +150,23 @@ pkgs: config: {
         "sway/workspaces" = {
           disable-scroll = true;
           all-outputs = true;
-          format = "{name}";
+          format = "{icon}";
+          format-icons = {
+            "1" = "vibes";
+            "2" = "www";
+            "3" = "term";
+            "4" = "art";
+            "5" = "mail";
+            "6" = "books";
+            default = "scratch";
+          };
           persistent_workspaces = {
-            "1:vibes" = [ ];
-            "2:www" = [ ];
-            "3:term" = [ ];
-            "4:art" = [ ];
-            "5:mail" = [ ];
+            "1" = [ ];
+            "2" = [ ];
+            "3" = [ ];
+            "4" = [ ];
+            "5" = [ ];
+            "6" = [ ];
           };
         };
         cpu = {

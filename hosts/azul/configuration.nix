@@ -80,6 +80,9 @@
     longitude = -83.6;
   };
 
+  # Need this for font-manager or any other gtk app to work I guess
+  programs.dconf.enable = true;
+
   services = {
     # Enable CUPS to print documents.
     printing.enable = true;
@@ -181,9 +184,24 @@
   };
 
   fonts = {
-    fontconfig = { enable = true; };
-    fonts =
-      [ pkgs.font-awesome (pkgs.nerdfonts.override { fonts = [ "Noto" ]; }) ];
+    fontconfig = {
+      enable = true;
+      # https://git.io/Js0vT
+      defaultFonts = {
+        emoji = [ "Noto Color Emoji" "Font Awesome 5 Free" ];
+        monospace =
+          [ "Noto Sans Mono" "Noto Color Emoji" "Font Awesome 5 Free" ];
+        serif = [ "Noto Serif" ];
+        sansSerif = [ "Noto Sans" ];
+      };
+    };
+    fonts = [
+      pkgs.font-awesome
+      pkgs.noto-fonts-emoji
+      pkgs.noto-fonts
+      pkgs.powerline-fonts
+      # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+    ];
   };
 
   # This value determines the NixOS release from which the default

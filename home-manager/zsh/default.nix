@@ -40,6 +40,8 @@ pkgs: {
       "attach" = "tmux attach";
       "gui" = "exec sway";
       "absolutepath" = "realpath -e";
+      "ls" = "exa";
+      "grep" = "rg";
     };
     oh-my-zsh = {
       enable = true;
