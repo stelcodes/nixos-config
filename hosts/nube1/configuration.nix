@@ -118,7 +118,7 @@
         # (import /home/stel/config/home-manager/rust pkgs)
         # (import /home/stel/config/home-manager/go pkgs)
         # (import /home/stel/config/home-manager/nodejs pkgs)
-        # (import /home/stel/config/home-manager/clojure pkgs)
+        (import /home/stel/config/home-manager/clojure pkgs)
       ];
   };
 }
