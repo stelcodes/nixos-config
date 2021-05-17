@@ -39,6 +39,7 @@ pkgs: {
       "vpn" = "doas protonvpn connect -f";
       "attach" = "tmux attach";
       "gui" = "exec sway";
+      "absolutepath" = "realpath -e";
     };
     oh-my-zsh = {
       enable = true;
