@@ -209,7 +209,7 @@ pkgs: config: {
         backlight = {
           interval = 5;
           format = "{percent} {icon}";
-          format-icons = [ "" "" ""];
+          format-icons = [ "" "" "" ];
         };
       };
     }];

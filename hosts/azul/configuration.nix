@@ -44,6 +44,12 @@
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
     nameservers = [ "8.8.8.8" "8.8.4.4" ];
     enableIPv6 = false;
+    extraHosts = ''
+      127.0.0.1 dev-blog-static
+      127.0.0.1 dev-blog-app
+      127.0.0.1 directus
+      127.0.0.1 grip
+    '';
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -160,12 +166,9 @@
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       virtualHosts = {
-        localhost = {
-          locations."/" = {
-            # proxyPass = "http://localhost:3000";
-            root = "/www/dev-blog";
-          };
-        };
+        dev-blog-static.locations."/".root = "/www/dev-blog";
+        dev-blog-app.locations."/".proxyPass = "http://localhost:3000";
+        grip.locations."/".proxyPass = "http://localhost:6419";
       };
     };
   };
@@ -266,6 +269,9 @@
             #email
             pkgs.thunderbird
             pkgs.protonmail-bridge
+
+            # web dev
+            pkgs.ungoogled-chromium
           ];
 
         }
