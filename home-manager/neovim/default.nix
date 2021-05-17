@@ -44,11 +44,6 @@ pkgs: {
       pkgs.vimPlugins.vim-css-color
       pkgs.vimPlugins.tabular
       pkgs.vimPlugins.vim-gitgutter
-      pkgs.vimPlugins.vim-markdown-composer
-      # {
-      #   plugin = suda-vim;
-      #   config = "command! W SudaWrite";
-      # }
       {
         plugin = pkgs.vimPlugins.vim-auto-save;
         config = "let g:auto_save = 1";

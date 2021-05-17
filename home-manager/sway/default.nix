@@ -196,7 +196,7 @@ pkgs: config: {
         clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
         battery = {
           format = "{capacity} {icon}";
-          format-icons = [ "" "" "" "" "" ];
+          format-icons = [ " " " " " " " " " " ];
           max-length = 40;
         };
         idle_inhibitor = {
@@ -209,7 +209,7 @@ pkgs: config: {
         backlight = {
           interval = 5;
           format = "{percent} {icon}";
-          format-icons = [ "" "" ];
+          format-icons = [ "" "" ""];
         };
       };
     }];
