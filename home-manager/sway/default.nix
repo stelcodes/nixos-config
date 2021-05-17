@@ -171,7 +171,7 @@ pkgs: config: {
         };
         cpu = {
           interval = 10;
-          format = "{} ";
+          format = "{usage} ";
         };
         memory = {
           interval = 30;
