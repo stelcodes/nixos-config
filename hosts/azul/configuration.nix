@@ -191,9 +191,15 @@
       enable = true;
       # https://git.io/Js0vT
       defaultFonts = {
-        emoji = [ "Noto Color Emoji" "Font Awesome 5 Free" ];
-        monospace =
-          [ "Noto Sans Mono" "Noto Color Emoji" "Font Awesome 5 Free" ];
+        emoji =
+          [ "Noto Color Emoji" "Font Awesome 5 Free" "Font Awesome 5 Brands" ];
+        # For Alacritty
+        monospace = [
+          "Noto Sans Mono"
+          "Noto Color Emoji"
+          "Font Awesome 5 Free"
+          "Font Awesome 5 Brands"
+        ];
         serif = [ "Noto Serif" ];
         sansSerif = [ "Noto Sans" ];
       };

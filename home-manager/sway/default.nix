@@ -31,7 +31,7 @@ pkgs: config: {
     config = {
       assigns = {
         "1" = [{ class = "^Spotify$"; }];
-        "2" = [{ class = "^Firefox$"; }];
+        # "2" = [{ class = "^Firefox$"; }];
         "3" = [{ title = "^Alacritty$"; }];
         "4" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
         "5" = [{ class = "^Thunderbird$"; }];
@@ -95,22 +95,22 @@ pkgs: config: {
         "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
       };
       startup = [
-        { command = "exec alacritty"; }
-        { command = "exec firefox"; }
-        { command = "exec gimp"; }
-        { command = "exec spotify"; }
-        { command = "exec protonmail-bridge"; }
-        { command = "exec thunderbird"; }
-        { command = "exec calibre"; }
+        { command = "swaymsg workspace 2 && exec alacritty"; }
+        { command = "firefox"; }
+        { command = "gimp"; }
+        { command = "spotify"; }
+        { command = "protonmail-bridge"; }
+        { command = "thunderbird"; }
+        { command = "calibre"; }
         {
-          command = "exec  wlsunset -l 42 -L -83";
+          command = "wlsunset -l 42 -L -83";
         }
         # This will lock your screen after 300 seconds of inactivity, then turn off
         # your displays after another 300 seconds, and turn your screens back on when
         # resumed. It will also lock your screen before your computer goes to sleep.
         {
           command = ''
-            exec swayidle -w \
+            swayidle -w \
             timeout 300 'swaylock -f -c 000000' \
             timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
             before-sleep 'swaylock -f -c 000000'
