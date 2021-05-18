@@ -277,6 +277,9 @@
 
             # web dev
             pkgs.ungoogled-chromium
+
+            # partitioning
+            pkgs.gnome.gnome-disk-utility
           ];
 
         }
