@@ -42,7 +42,6 @@
     networkmanager.enable = true;
     # networking.wireless.userControlled = true;
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
-    nameservers = [ "8.8.8.8" "8.8.4.4" ];
     enableIPv6 = false;
     extraHosts = ''
       127.0.0.1 dev-blog-static
