@@ -4,6 +4,19 @@ pkgs.lib.mkMerge [
   (import /home/stel/config/home-manager/tmux pkgs)
   (import /home/stel/config/home-manager/neovim pkgs)
   {
+    xdg = {
+      userDirs = {
+        enable = true;
+        desktop = "$HOME/desktop";
+        documents = "$HOME/documents";
+        download = "$HOME/downloads";
+        music = "$HOME/music";
+        pictures = "$HOME/pictures";
+        publicShare = "$HOME/public";
+        templates = "$HOME/template";
+        videos = "$HOME/videos";
+      };
+    };
     home = {
       username = "stel";
       homeDirectory = "/home/stel";
