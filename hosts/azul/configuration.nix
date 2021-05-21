@@ -12,10 +12,10 @@
     ./hardware-configuration.nix
     #<home-manager/nixos>
     /home/stel/config/modules/common.nix
-    (import "${
-        builtins.fetchTarball
-        "https://github.com/rycee/home-manager/archive/master.tar.gz"
-      }/nixos")
+    # using a channel for home-manager becuse that's what the docs say to do
+    # I could also use a flake but that would require a day to tinker with
+    # I do want to use flakes eventually. Home-manager README has a good flake example.
+    <home-manager/nixos>
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -42,29 +42,16 @@
     networkmanager.enable = true;
     # networking.wireless.userControlled = true;
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
+    nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
+    # this should definitely be off
     enableIPv6 = false;
-    extraHosts = ''
-      127.0.0.1 dev-blog-static
-      127.0.0.1 dev-blog-app
-      127.0.0.1 directus
-      127.0.0.1 grip
-    '';
-
-    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-    # Per-interface useDHCP will be mandatory in the future, so this generated config
-    # replicates the default behaviour.
+    hosts = {
+      "127.0.0.1" = ["dev-blog-static.local" "dev-blog-app.local" "directus.local" "grip.local"];
+    };
+    # this should definitely be off
     useDHCP = false;
-    interfaces.wlp3s0.useDHCP = false;
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    # Open ports in the firewall.
-    # firewall.allowedTCPPorts = [ ... ];
-    # firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    # firewall.enable = false;
+    # this should definitely be on
+    interfaces.wlp3s0.useDHCP = true;
   };
 
   # Enable sound.

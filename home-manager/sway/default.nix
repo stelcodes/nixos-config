@@ -32,7 +32,7 @@ pkgs: config: {
       assigns = {
         "1" = [{ class = "^Spotify$"; }];
         # "2" = [{ class = "^Firefox$"; }];
-        "3" = [{ title = "^Alacritty$"; }];
+        # "3" = [{ title = "^Alacritty$"; }];
         "4" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
         "5" = [{ class = "^Thunderbird$"; }];
         "6" = [{ title = "^calibre"; }];
@@ -92,16 +92,13 @@ pkgs: config: {
         };
       };
       output = {
-        "*" = { bg = "~/Pictures/wallpapers/pretty-nord.jpg fill"; };
+        "*" = { bg = "/home/stel/pictures/wallpapers/pretty-nord.jpg fill"; };
       };
       startup = [
-        { command = "swaymsg workspace 2 && exec alacritty"; }
+        { command = "alacritty"; }
         { command = "firefox"; }
-        { command = "gimp"; }
         { command = "spotify"; }
         { command = "protonmail-bridge"; }
-        { command = "thunderbird"; }
-        { command = "calibre"; }
         {
           command = "wlsunset -l 42 -L -83";
         }

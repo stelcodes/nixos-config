@@ -47,7 +47,7 @@
         "stel.codes" = {
           enableACME = true;
           forceSSL = true;
-          serverAliases = ["www.stel.codes"];
+          serverAliases = [ "www.stel.codes" ];
           locations."/".root = "/www/dev-blog";
         };
       };
