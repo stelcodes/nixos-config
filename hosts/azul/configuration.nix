@@ -50,8 +50,8 @@
     };
     # this should definitely be off
     useDHCP = false;
-    # this should definitely be on
-    interfaces.wlp3s0.useDHCP = true;
+    # this should definitely be on (actually idk)
+    interfaces.wlp3s0.useDHCP = false;
   };
 
   # Enable sound.

@@ -95,9 +95,6 @@ pkgs: config: {
         "*" = { bg = "/home/stel/pictures/wallpapers/pretty-nord.jpg fill"; };
       };
       startup = [
-        { command = "alacritty"; }
-        { command = "firefox"; }
-        { command = "spotify"; }
         { command = "protonmail-bridge"; }
         {
           command = "wlsunset -l 42 -L -83";
@@ -113,10 +110,10 @@ pkgs: config: {
             before-sleep 'swaylock -f -c 000000'
           '';
         }
-        {
-          command = "sleep 7 && systemctl --user restart waybar";
-          always = true;
-        }
+        # {
+        #   command = "sleep 7 && systemctl --user restart waybar";
+        #   always = true;
+        # }
       ];
     };
   };
