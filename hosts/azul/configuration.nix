@@ -50,7 +50,7 @@
     };
     # this should definitely be off
     useDHCP = false;
-    # this should definitely be on (actually idk)
+    # this should definitely be off (maybe) lol
     interfaces.wlp3s0.useDHCP = false;
   };
 
@@ -246,7 +246,14 @@
             # pkgs.cadence
 
             pkgs.qbittorrent
+
+            # browsers
+
+            # Firefox settings:
+            # allow dns over https
+            # no proxy
             pkgs.firefox
+            pkgs.ungoogled-chromium
 
             # pkgs.upower
             pkgs.dbus
@@ -256,17 +263,22 @@
             pkgs.spotifywm
 
             # office
+
+            # Takes way too long to build
             # pkgs.libreoffice
 
             #email
             pkgs.thunderbird
             pkgs.protonmail-bridge
 
-            # web dev
-            pkgs.ungoogled-chromium
-
             # partitioning
             pkgs.gnome.gnome-disk-utility
+
+            # recording/streaming
+            pkgs.obs-studio
+            pkgs.obs-wlrobs
+            pkgs.libsForQt5.qt5.qtwayland
+            pkgs.pavucontrol
           ];
 
         }
