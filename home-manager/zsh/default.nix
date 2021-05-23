@@ -51,6 +51,7 @@ pkgs: {
       "restic-mount-mapache" =
         "restic -r /run/media/stel/Mapache/restic-backups/ mount /home/stel/backups/Mapache-restic";
       "pdf" = "evince-previewer";
+      "play-latest-obs-recording" = "mpv $(ls /home/stel/videos/obs | sort --reverse | head -1)";
     };
     oh-my-zsh = {
       enable = true;

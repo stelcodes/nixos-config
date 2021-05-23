@@ -118,7 +118,7 @@ pkgs.lib.mkMerge [
         fzfExcludesString =
           pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'") fzfExcludes;
       in {
-        enable = true;
+        enable = false;
         defaultOptions = [ "--height 80%" "--reverse" ];
         defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
       };
