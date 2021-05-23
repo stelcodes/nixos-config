@@ -3,10 +3,7 @@
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
     /home/stel/config/modules/common.nix
-    (import "${
-        builtins.fetchTarball
-        "https://github.com/rycee/home-manager/archive/master.tar.gz"
-      }/nixos")
+    <home-manager/nixos>
   ];
 
   boot.cleanTmpDir = true;
