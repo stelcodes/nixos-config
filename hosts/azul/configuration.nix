@@ -45,9 +45,6 @@
     nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
     # this should definitely be off
     enableIPv6 = false;
-    hosts = {
-      "127.0.0.1" = ["dev-blog-static.local" "dev-blog-app.local" "directus.local" "grip.local"];
-    };
     # this should definitely be off
     useDHCP = false;
     # this should definitely be off (maybe) lol
@@ -141,6 +138,10 @@
 
     # don’t shutdown when power button is short-pressed
     logind.extraConfig = "HandlePowerKey=ignore";
+    dnsmasq = {
+      enable = true;
+      extraConfig = "address=/lh/127.0.0.1";
+    };
 
     # doas chown -R stel:nginx /www
     # Each time I add something to /www I should run this command because nginx needs group
@@ -152,22 +153,11 @@
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       virtualHosts = {
-        dev-blog-static.locations."/".root = "/www/dev-blog";
-        dev-blog-app.locations."/".proxyPass = "http://localhost:3000";
-        grip.locations."/".proxyPass = "http://localhost:6419";
-      };
-    };
-  };
-
-  users = {
-    users = {
-      wtpof = {
-        description = "We The People Opportunity Farm";
-        isNormalUser = true;
-        home = "/home/wtpof";
-        createHome = true;
-        packages = [ pkgs.nodejs pkgs.sqlite ];
-        shell = pkgs.zsh;
+        "dev-blog-published.lh".locations."/".root = "/www/dev-blog-published";
+        "dev-blog-preview.lh".locations."/".root = "/www/dev-blog-preview";
+        "dev-blog-development.lh".locations."/".proxyPass =
+          "http://localhost:3000";
+        "grip.lh".locations."/".proxyPass = "http://localhost:6419";
       };
     };
   };
@@ -226,7 +216,6 @@
             # proton vpn
             pkgs.protonvpn-cli
             pkgs.calibre
-            pkgs.spotify
 
             #art
             pkgs.gimp
@@ -259,8 +248,7 @@
             pkgs.dbus
 
             # music
-            # this is a wrapper around spotify so sway can recognize container attributes properly
-            pkgs.spotifywm
+            pkgs.spotify
 
             # office
 
