@@ -60,6 +60,8 @@ pkgs: config: {
         in pkgs.lib.mkOptionDefault {
           "${modifier}+tab" = "workspace next";
           "${modifier}+shift+tab" = "workspace prev";
+          # backtick ` is called grave
+          "${modifier}+grave" = "exec wofi-emoji";
         };
       keycodebindings = {
         # Use xev to get keycodes, libinput gives wrong codes for some reason
