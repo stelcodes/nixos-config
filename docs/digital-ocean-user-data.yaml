@@ -1,38 +1,30 @@
 #cloud-config
+runcmd:
+  - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-20.09 bash 2>&1 | tee /tmp/infect.log
 write_files:
 - path: /etc/nixos/host.nix
   permissions: '0644'
   content: |
     {pkgs, ...}:
     {
-      security = {
-        doas = {
-          enable = true;
-          extraRules = [{
-            users = [ "stel" ];
-            keepEnv = true;
-            noPass = true;
-          }];
-        };
-        sudo.enable = false;
+      security.doas = {
+        enable = true;
+        extraRules = [{
+          users = [ "stel" ];
+          keepEnv = true;
+          noPass = true;
+        }];
       };
+      security.sudo.enable = false;
 
-      users = {
-        mutableUsers = true;
-        # Define a user account. Don't forget to set a password with ‘passwd’.
-        users = {
-          stel = {
-            home = "/home/stel";
-            isNormalUser = true;
-            extraGroups = [ "wheel" "networkmanager" ];
-            shell = pkgs.zsh;
-            openssh.authorizedKeys.keys = [
-              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
-            ];
-          };
-        };
+      users.users.stel = {
+        home = "/home/stel";
+        isNormalUser = true;
+        extraGroups = [ "wheel" "networkmanager" ];
+        shell = pkgs.zsh;
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
+        ];
       };
       environment.systemPackages = with pkgs; [ zsh starship neovim git ];
     }
-runcmd:
-  - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-20.09 bash 2>&1 | tee /tmp/infect.log
