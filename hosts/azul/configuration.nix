@@ -267,6 +267,8 @@
             pkgs.obs-wlrobs
             pkgs.libsForQt5.qt5.qtwayland
             pkgs.pavucontrol
+            
+            pkgs.graalvm11-ce
           ];
 
         }
