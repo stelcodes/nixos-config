@@ -1,5 +1,4 @@
-{pkgs, ...}:
-{
+{ pkgs, ... }: {
   security.doas = {
     enable = true;
     extraRules = [{
