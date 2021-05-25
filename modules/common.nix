@@ -1,6 +1,8 @@
 { pkgs, config, ... }: {
   config = {
 
+    boot.cleanTmpDir = true;
+
     # hosts
     networking.hosts = {
       "104.236.219.156" = [ "nube1" ];
