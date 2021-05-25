@@ -48,7 +48,7 @@
 
     # List packages installed in system profile. To search, run:
     # $ nix search wget
-    environment.systemPackages = with pkgs; [ zsh starship neovim ];
+    environment.systemPackages = with pkgs; [ zsh starship neovim git];
 
   };
 }
