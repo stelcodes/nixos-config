@@ -96,6 +96,7 @@ pkgs.lib.mkMerge [
           "/direnv"
           "/local"
           "/node_modules"
+          "*.jar"
         ];
         extraConfig = {
           init = { defaultBranch = "main"; };
