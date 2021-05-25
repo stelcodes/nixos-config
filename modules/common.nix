@@ -2,7 +2,10 @@
   config = {
 
     # hosts
-    networking.hosts = { "104.236.219.156" = [ "nube1" ]; };
+    networking.hosts = {
+      "104.236.219.156" = [ "nube1" ];
+      "167.99.122.78" = [ "morado1" ];
+    };
 
     # Set your time zone.
     time.timeZone = "America/Detroit";
@@ -48,7 +51,7 @@
 
     # List packages installed in system profile. To search, run:
     # $ nix search wget
-    environment.systemPackages = with pkgs; [ zsh starship neovim git];
+    environment.systemPackages = with pkgs; [ zsh starship neovim git ];
 
   };
 }
