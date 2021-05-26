@@ -9,13 +9,36 @@
   ];
 
   networking.hostName = "morado1";
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.firewall.allowedTCPPorts = [ 22 80 443 ];
+
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+    virtualHosts = {
+      "git.stel.codes" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/".proxyPass = "http://localhost:3000";
+      };
+    };
+  };
 
   services.gitea = {
     enable = false;
     appName = "Stel's Gitea";
     stateDir = "/data/gitea";
     database = "postgres";
+    dump = {
+      enable = true;
+      interval = "5:00";
+    };
+    domain = "git.stel.codes";
+    rootUrl = "https://git.stel.codes";
+    httpPort = 3000;
+    cookieSecure = true;
   };
 
   home-manager = {
