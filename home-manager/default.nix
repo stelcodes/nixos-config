@@ -51,7 +51,6 @@ pkgs.lib.mkMerge [
         pkgs.rink
         # nix
         pkgs.nixfmt
-        pkgs.nix-index
         pkgs.nix-prefetch-github
         # timeless db
         pkgs.sqlite
