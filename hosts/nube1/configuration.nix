@@ -28,6 +28,12 @@
         serverAliases = [ "www.stel.codes" ];
         locations."/".root = "/www/dev-blog-published";
       };
+      "preview.stel.codes" = {
+        enableACME = true;
+        forceSSL = true;
+        basicAuth = { "stel" = "dontlookatmydrafts!!!"; };
+        locations."/".root = "/www/dev-blog-preview";
+      };
     };
   };
 
