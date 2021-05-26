@@ -1,3 +1,9 @@
+/* Adapted from https://github.com/wilfredwee/photon-australis/blob/0.10/userChrome-dark.css */
+/* Works for Firefox 88, not tested on 89 */
+/* Pair with the offical Nord color theme: https://addons.mozilla.org/en-US/firefox/addon/nord-theme */
+/* This file should be located at ~/.mozilla/firefox/<profile-dir>/chrome/userChrome.css */
+/* Simply restart Firefox and the css should load */
+
 :root {
   --tab-curve-width: 30px;
   --tabs-border: transparent !important;
