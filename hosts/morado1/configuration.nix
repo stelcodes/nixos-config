@@ -4,6 +4,7 @@
     ./networking.nix # generated at runtime by nixos-infect
     /home/stel/config/modules/common.nix
     /home/stel/config/modules/server.nix
+    /home/stel/config/postgresql-local.nix
     <home-manager/nixos>
   ];
 

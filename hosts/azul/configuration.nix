@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     #<home-manager/nixos>
     /home/stel/config/modules/common.nix
+    /home/stel/config/modules/postgresql-local.nix
     # using a channel for home-manager becuse that's what the docs say to do
     # I could also use a flake but that would require a day to tinker with
     # I do want to use flakes eventually. Home-manager README has a good flake example.
@@ -80,39 +81,8 @@
     gnome.gnome-keyring.enable = true;
 
     postgresql = {
-      enable = true;
-      package = pkgs.postgresql_13;
-      enableTCPIP = true;
-      port = 5432;
-      dataDir = "/data/postgres";
-      authentication = pkgs.lib.mkOverride 10 ''
-        # I'm setting up postgres such that any local connection to the server is trusted.
-        # As long as the server isn't exposed to the internet and my OS security is good, this
-        # is fine and recommended by the official postgres docs: https://is.gd/RsMMpx
-
-        # Allow any user on the local system to connect to any database with
-        # any database user name using Unix-domain sockets (the default for local
-        # connections).
-        local all all trust
-
-        # The same using local loopback TCP/IP connections.
-        host all all 127.0.0.1/32 trust
-
-        # The same over IPv6.
-        host all all ::1/128 trust
-
-        # The same using a host name (would typically cover both IPv4 and IPv6).
-        host all all localhost trust
-      '';
-      # authentication = "";
       ensureDatabases = [ "cuternews" "dev_blog" ];
       ensureUsers = [
-        {
-          name = "stel";
-        }
-        # ALTER USER stel WITH SUPERUSER;
-        # To change password:
-        # ALTER USER <user> WITH PASSWORD '<password>';
         {
           name = "dev_blog_directus";
           ensurePermissions = { "DATABASE dev_blog" = "ALL PRIVILEGES"; };
@@ -158,6 +128,7 @@
         "dev-blog-development.lh".locations."/".proxyPass =
           "http://localhost:3000";
         "grip.lh".locations."/".proxyPass = "http://localhost:6419";
+        "directus.lh".locations."/".proxyPass = "http://localhost:8055";
       };
     };
   };
