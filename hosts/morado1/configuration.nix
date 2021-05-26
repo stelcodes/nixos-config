@@ -4,7 +4,7 @@
     ./networking.nix # generated at runtime by nixos-infect
     /home/stel/config/modules/common.nix
     /home/stel/config/modules/server.nix
-    /home/stel/config/postgresql-local.nix
+    /home/stel/config/modules/postgresql-local.nix
     <home-manager/nixos>
   ];
 
@@ -12,7 +12,7 @@
   networking.firewall.allowedTCPPorts = [ 22 ];
 
   services.gitea = {
-    enable = true;
+    enable = false;
     appName = "Stel's Gitea";
     stateDir = "/data/gitea";
     database = "postgres";
