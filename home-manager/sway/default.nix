@@ -70,7 +70,8 @@ pkgs: config: {
         # Use xev to get keycodes, libinput gives wrong codes for some reason
         "232" = "exec brightnessctl set 5%-"; # f1
         "233" = "exec brightnessctl set +5%"; # f2
-        "128" = "exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png"; # f3
+        "128" =
+          "exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png"; # f3
         "212" = "layout stacked"; # f4
         "237" =
           "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
