@@ -75,8 +75,11 @@
 
   services = {
     # Enable CUPS to print documents.
-    usbmuxd.enable = true;
     printing.enable = true;
+
+    # Enable iOS devices to automatically connect
+    # Use idevice* commands like ideviceinfo
+    usbmuxd.enable = true;
 
     blueman.enable = true;
     gnome.gnome-keyring.enable = true;
