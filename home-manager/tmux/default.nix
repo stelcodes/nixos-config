@@ -28,6 +28,8 @@ pkgs: {
       bind -n M-s choose-tree -s
       bind -n M-c copy-mode
       bind -n M-r command-prompt 'rename-session %%'
+      bind -n M-n command-prompt 'new-session'
+      bind -n M-t source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
 
       # Fixes tmux escape input lag, see https://git.io/JtIsn
       set -sg escape-time 10
