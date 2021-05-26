@@ -75,6 +75,7 @@
 
   services = {
     # Enable CUPS to print documents.
+    usbmuxd.enable = true;
     printing.enable = true;
 
     blueman.enable = true;
@@ -240,6 +241,8 @@
             pkgs.pavucontrol
 
             pkgs.graalvm11-ce
+            # For iphone hotspot tethering
+            pkgs.libimobiledevice
           ];
 
         }

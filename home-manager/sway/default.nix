@@ -183,6 +183,9 @@ pkgs: config: {
         network = {
           # format = "{bandwidthDownBits}";
           max-length = 50;
+          format = "{ifname}";
+          format-ethernet = "{ifname} ";
+          format-disconnected = "";
           format-wifi = "{essid} {signalStrength} ";
         };
         pulseaudio = {
