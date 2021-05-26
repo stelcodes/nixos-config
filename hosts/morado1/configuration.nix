@@ -30,7 +30,7 @@
     enable = false;
     appName = "Stel's Gitea";
     stateDir = "/data/gitea";
-    database = "postgres";
+    database.type = "postgres";
     dump = {
       enable = true;
       interval = "5:00";
