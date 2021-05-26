@@ -17,6 +17,9 @@ pkgs: config: {
     pkgs.wofi
     pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
     pkgs.wlsunset
+    # Sway screenshots
+    pkgs.grim
+    pkgs.slurp
   ];
 
   xdg.configFile = {

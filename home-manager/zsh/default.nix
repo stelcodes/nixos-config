@@ -41,6 +41,7 @@ pkgs: {
       # Creating this alias because there's a weird bug with the clj command producing this error on nube1:
       # rlwrap: error: Cannot execute BINDIR/clojure: No such file or directory
       "clj" = "clojure";
+      "screenshot" = "slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png";
     };
     oh-my-zsh = {
       enable = true;
