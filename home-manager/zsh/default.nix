@@ -9,24 +9,9 @@ pkgs: {
     dotDir = ".config/zsh";
     enableAutosuggestions = true;
     dirHashes = { desktop = "$HOME/Desktop"; };
-    initExtraFirst = ''
-      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
-    '';
     initExtra = ''
       # Initialize starship prompt
       eval "$(starship init zsh)"
-
-      # From https://is.gd/M2fmiv
-      zstyle ':completion:*' menu select
-      zmodload zsh/complist
-
-      # use the vi navigation keys in menu completion
-      bindkey -M menuselect 'h' vi-backward-char
-      bindkey -M menuselect 'k' vi-up-line-or-history
-      bindkey -M menuselect 'l' vi-forward-char
-      bindkey -M menuselect 'j' vi-down-line-or-history
-
-      # if [ "$TMUX" = "" ]; then tmux attach; fi
     '';
     shellAliases = {
       "nix-search" = "nix repl '<nixpkgs>'";
@@ -53,6 +38,9 @@ pkgs: {
       "pdf" = "evince-previewer";
       "play-latest-obs-recording" =
         "mpv $(ls /home/stel/videos/obs | sort --reverse | head -1)";
+      # Creating this alias because there's a weird bug with the clj command producing this error on nube1:
+      # rlwrap: error: Cannot execute BINDIR/clojure: No such file or directory
+      "clj" = "clojure";
     };
     oh-my-zsh = {
       enable = true;
@@ -66,11 +54,6 @@ pkgs: {
         # pp_json command
         "jsontools"
       ];
-      # I like minimal, mortalscumbag, refined, steeef
-      #theme = "mortalscumbag";
-      extraConfig = ''
-        bindkey '^[c' autosuggest-accept
-      '';
     };
   };
 }
