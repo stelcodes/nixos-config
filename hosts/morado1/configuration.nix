@@ -11,6 +11,13 @@
   networking.hostName = "morado1";
   networking.firewall.allowedTCPPorts = [ 22 ];
 
+  services.gitea = {
+    enable = true;
+    appName = "Stel's Gitea";
+    stateDir = "/data/gitea";
+    database = "postgres";
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     users.stel = { config, ... }:
