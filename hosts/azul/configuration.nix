@@ -243,7 +243,7 @@
             pkgs.libsForQt5.qt5.qtwayland
             pkgs.pavucontrol
 
-            pkgs.graalvm11-ce
+            # pkgs.graalvm11-ce
             # For iphone hotspot tethering
             pkgs.libimobiledevice
           ];

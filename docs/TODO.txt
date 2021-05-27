@@ -1,0 +1,11 @@
+- Add fail2ban service to servers
+  - Service exists in nixpkgs, but I have to put filter files in place manually?
+  - Need to read about fail2ban
+
+- Make dev-blog-directus into systemd service
+  - Rename to dev-blog-cms?
+
+- Make dev-blog into systemd service
+  - Rename to dev-blog-generator?
+
+
