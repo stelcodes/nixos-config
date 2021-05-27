@@ -40,7 +40,10 @@
     httpPort = 3000;
     cookieSecure = true;
     settings = {
-      repository = { DISABLE_HTTP_GIT = true; };
+      repository = {
+        DISABLE_HTTP_GIT = true;
+        DEFAULT_BRANCH = "main";
+      };
       ui = { DEFAULT_THEME = "arc-green"; };
     };
     disableRegistration = true;
