@@ -43,6 +43,9 @@
       repository = {
         DISABLE_HTTP_GIT = true;
       };
+      ui = {
+        DEFAULT_THEME = "arc-green";
+      };
     };
     disableRegistration = true;
   };
