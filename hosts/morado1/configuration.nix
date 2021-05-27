@@ -27,7 +27,7 @@
   };
 
   services.gitea = {
-    enable = false;
+    enable = true;
     appName = "Stel's Gitea";
     stateDir = "/data/gitea";
     database.type = "postgres";
@@ -44,6 +44,7 @@
         DISABLE_HTTP_GIT = true;
       };
     };
+    disableRegistration = true;
   };
 
   home-manager = {
