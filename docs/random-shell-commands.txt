@@ -1,0 +1,2 @@
+# Fix nix-index database when getting errors
+scp /home/stel/.cache/nix-index/files morado1:/home/stel/.cache/nix-index
