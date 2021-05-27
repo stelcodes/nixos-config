@@ -39,6 +39,11 @@
     rootUrl = "https://git.stel.codes";
     httpPort = 3000;
     cookieSecure = true;
+    settings = {
+      repository = {
+        DISABLE_HTTP_GIT = true;
+      };
+    };
   };
 
   home-manager = {
