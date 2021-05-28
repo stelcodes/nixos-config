@@ -11,6 +11,14 @@
   networking.hostName = "nube1";
   networking.firewall.allowedTCPPorts = [ 22 80 443 ];
 
+  users.users.git = {
+    description = "For serving git repos";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
+    ];
+    createHome = true;
+  };
+
   services.nginx = {
     enable = true;
     recommendedGzipSettings = true;
