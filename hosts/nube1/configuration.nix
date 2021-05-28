@@ -16,8 +16,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
     ];
-    createHome = true;
-    isSystemUser = true;
+    isNormalUser = true;
   };
 
   services.nginx = {
