@@ -268,3 +268,9 @@ tnoremap <Esc> <C-\><C-n>
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Debugging neovim
 nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>r
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plug-in config
+let g:auto_save = 1
+let g:ale_linters = {'clojure': ['clj-kondo']}
+colorscheme nord
+let g:paredit_smartjump=1

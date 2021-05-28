@@ -70,6 +70,11 @@
     longitude = -83.6;
   };
 
+  users.users.test = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+  };
+
   # Need this for font-manager or any other gtk app to work I guess
   programs.dconf.enable = true;
 

@@ -1,8 +1,7 @@
 pkgs:
 pkgs.lib.mkMerge [
-  (import /home/stel/config/home-manager/zsh pkgs)
   (import /home/stel/config/home-manager/tmux pkgs)
-  (import /home/stel/config/home-manager/neovim pkgs)
+  # (import /home/stel/config/home-manager/neovim pkgs)
   {
     xdg = {
       userDirs = {
@@ -19,43 +18,6 @@ pkgs.lib.mkMerge [
     };
     home = {
       username = "stel";
-      homeDirectory = "/home/stel";
-
-      packages = [
-        # process monitoring
-        pkgs.htop
-        pkgs.procs
-        # cross platform trash bin
-        pkgs.trash-cli
-        # alternative find, also used for fzf
-        pkgs.fd
-        # system info
-        pkgs.neofetch
-        # http client
-        pkgs.httpie
-        # download stuff from the web
-        pkgs.wget
-        # searching text
-        pkgs.ripgrep
-        # documentaion
-        pkgs.tealdeer
-        # archiving
-        pkgs.unzip
-        # backups
-        pkgs.restic
-        # ls replacement
-        pkgs.exa
-        # make replacement
-        pkgs.just
-        # math
-        pkgs.rink
-        # nix
-        pkgs.nixfmt
-        pkgs.nix-prefetch-github
-        # timeless db
-        pkgs.sqlite
-      ];
-
       # This value determines the Home Manager release that your
       # configuration is compatible with. This helps avoid breakage
       # when a new Home Manager release introduces backwards
@@ -78,58 +40,58 @@ pkgs.lib.mkMerge [
       # Let Home Manager install and manage itself.
       home-manager.enable = true;
 
-      bat = {
-        enable = true;
-        config = { theme = "base16"; };
-      };
+      # bat = {
+      #   enable = true;
+      #   config = { theme = "base16"; };
+      # };
 
-      git = {
-        enable = true;
-        userName = "Stel Abrego";
-        userEmail = "stel@stel.codes";
-        ignores = [
-          "*Session.vim"
-          "*.DS_Store"
-          "*.swp"
-          "*.direnv"
-          "/direnv"
-          "/local"
-          "/node_modules"
-          "*.jar"
-        ];
-        extraConfig = {
-          init = { defaultBranch = "main"; };
-          merge = { ff = "only"; };
-        };
-      };
+      # git = {
+      #   enable = true;
+      #   userName = "Stel Abrego";
+      #   userEmail = "stel@stel.codes";
+      #   ignores = [
+      #     "*Session.vim"
+      #     "*.DS_Store"
+      #     "*.swp"
+      #     "*.direnv"
+      #     "/direnv"
+      #     "/local"
+      #     "/node_modules"
+      #     "*.jar"
+      #   ];
+      #   extraConfig = {
+      #     init = { defaultBranch = "main"; };
+      #     merge = { ff = "only"; };
+      #   };
+      # };
 
-      fzf = let
-        fzfExcludes = [
-          ".local"
-          ".cache"
-          ".git"
-          "node_modules"
-          ".rustup"
-          ".cargo"
-          ".m2"
-          ".bash_history"
-        ];
-        # string lib found here https://git.io/JtIua
-        fzfExcludesString =
-          pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'") fzfExcludes;
-      in {
-        enable = false;
-        defaultOptions = [ "--height 80%" "--reverse" ];
-        defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
-      };
+      # fzf = let
+      #   fzfExcludes = [
+      #     ".local"
+      #     ".cache"
+      #     ".git"
+      #     "node_modules"
+      #     ".rustup"
+      #     ".cargo"
+      #     ".m2"
+      #     ".bash_history"
+      #   ];
+      #   # string lib found here https://git.io/JtIua
+      #   fzfExcludesString =
+      #     pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'") fzfExcludes;
+      # in {
+      #   enable = false;
+      #   defaultOptions = [ "--height 80%" "--reverse" ];
+      #   defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
+      # };
 
-      direnv = {
-        enable = true;
-        # I wish I could get nix-shell to work with clojure but it's just too buggy.
-        # The issue: when I include pkgs.clojure in nix.shell and try to run aliased commands out of my deps.edn,
-        # it errors with any alias using the :extra-paths.
-        # enableNixDirenvIntegration = true;
-      };
+      # direnv = {
+      #   enable = true;
+      #   # I wish I could get nix-shell to work with clojure but it's just too buggy.
+      #   # The issue: when I include pkgs.clojure in nix.shell and try to run aliased commands out of my deps.edn,
+      #   # it errors with any alias using the :extra-paths.
+      #   # enableNixDirenvIntegration = true;
+      # };
 
       # Just doesn't work. Getting permission denied error when it tries to read .config/gh
       # gh.enable = true;
