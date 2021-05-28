@@ -2,10 +2,21 @@
   - Service exists in nixpkgs, but I have to put filter files in place manually?
   - Need to read about fail2ban
 
-- Make dev-blog-directus into systemd service
+- Make dev-blog-cms into systemd service
   - Rename to dev-blog-cms?
 
-- Make dev-blog into systemd service
+- Make dev-blog-generator into systemd service
   - Rename to dev-blog-generator?
+
+Using home-manager is annoying. It makes setting up a server much harder because I have to add the channel.
+- Switch away from home-manager to nixpkgs as soon possible for these things:
+  - zsh
+    - doable
+  - tmux
+    - no plugin support
+  - git
+    - no global config support
+  - neovim
+    - no plugin support
 
 
