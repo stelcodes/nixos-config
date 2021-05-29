@@ -169,6 +169,71 @@
     ];
   };
 
+  environment.systemPackages = with pkgs; [
+    etcher
+    gparted
+    tor-browser-bundle-bin
+    discord
+    # proton vpn
+    protonvpn-cli
+    calibre
+
+    #art
+    gimp
+    # ardour
+
+    #printing
+    hplip
+    evince # pdf viewer
+    pdfarranger
+
+    # media
+    youtube-dl
+    shotcut
+    mpv-unwrapped
+    # qjackctl
+    # a2jmidid
+    # cadence
+
+    qbittorrent
+
+    # browsers
+
+    # Firefox settings:
+    # allow dns over https
+    # no proxy
+    firefox
+    ungoogled-chromium
+
+    # upower
+    dbus
+
+    # music
+    spotify
+
+    # office
+
+    # Takes way too long to build
+    # libreoffice
+
+    #email
+    thunderbird
+    protonmail-bridge
+
+    # partitioning
+    gnome.gnome-disk-utility
+
+    # recording/streaming
+    obs-studio
+    obs-wlrobs
+    libsForQt5.qt5.qtwayland
+    pavucontrol
+
+    # graalvm11-ce
+    # For iphone hotspot tethering
+    libimobiledevice
+  ];
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -191,66 +256,6 @@
         (import /home/stel/config/home-manager/clojure pkgs)
         {
           home.packages = [
-            pkgs.tor-browser-bundle-bin
-            pkgs.discord
-            # proton vpn
-            pkgs.protonvpn-cli
-            pkgs.calibre
-
-            #art
-            pkgs.gimp
-            # pkgs.ardour
-
-            #printing
-            pkgs.hplip
-            pkgs.evince # pdf viewer
-            pkgs.pdfarranger
-
-            # media
-            pkgs.youtube-dl
-            pkgs.shotcut
-            pkgs.mpv-unwrapped
-            # pkgs.qjackctl
-            # pkgs.a2jmidid
-            # pkgs.cadence
-
-            pkgs.qbittorrent
-
-            # browsers
-
-            # Firefox settings:
-            # allow dns over https
-            # no proxy
-            pkgs.firefox
-            pkgs.ungoogled-chromium
-
-            # pkgs.upower
-            pkgs.dbus
-
-            # music
-            pkgs.spotify
-
-            # office
-
-            # Takes way too long to build
-            # pkgs.libreoffice
-
-            #email
-            pkgs.thunderbird
-            pkgs.protonmail-bridge
-
-            # partitioning
-            pkgs.gnome.gnome-disk-utility
-
-            # recording/streaming
-            pkgs.obs-studio
-            pkgs.obs-wlrobs
-            pkgs.libsForQt5.qt5.qtwayland
-            pkgs.pavucontrol
-
-            # pkgs.graalvm11-ce
-            # For iphone hotspot tethering
-            pkgs.libimobiledevice
           ];
 
         }

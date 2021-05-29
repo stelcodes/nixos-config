@@ -1,6 +1,6 @@
 pkgs:
 pkgs.lib.mkMerge [
-  (import /home/stel/config/home-manager/tmux pkgs)
+  # (import /home/stel/config/home-manager/tmux pkgs)
   # (import /home/stel/config/home-manager/neovim pkgs)
   {
     xdg = {
