@@ -1,0 +1,5 @@
+To get xcomposite capturing for alacritty:
+env -u WAYLAND_DISPLAY alacritty
+
+To get working obs:
+env QT_QPA_PLATFORM=xcb obs

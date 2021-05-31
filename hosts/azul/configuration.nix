@@ -255,9 +255,25 @@
         (import /home/stel/config/home-manager/nodejs pkgs)
         (import /home/stel/config/home-manager/clojure pkgs)
         {
-          home.packages = [
-          ];
 
+          xdg.userDirs = {
+            enable = true;
+            desktop = "$HOME/desktop";
+            documents = "$HOME/documents";
+            download = "$HOME/downloads";
+            music = "$HOME/music";
+            pictures = "$HOME/pictures";
+            publicShare = "$HOME/public";
+            templates = "$HOME/template";
+            videos = "$HOME/videos";
+          };
+          home = {
+            username = "stel";
+            stateVersion = "21.03";
+            # I'm putting all manually installed executables into ~/.local/bin 
+            sessionPath = [ "$HOME/.local/bin" ];
+          };
+          programs.home-manager.enable = true;
         }
       ];
   };

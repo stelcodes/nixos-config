@@ -1,3 +1,5 @@
+pkgs:
+{ }
 # pkgs: {
 #   # These packages are needed for tmux-yank to work on remote tmux instances (Xserver and wayland support)
 #   home.packages = [ pkgs.xsel pkgs.wl-clipboard ];
