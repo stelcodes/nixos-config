@@ -232,6 +232,8 @@
     # graalvm11-ce
     # For iphone hotspot tethering
     libimobiledevice
+
+    slack
   ];
 
   # This value determines the NixOS release from which the default
