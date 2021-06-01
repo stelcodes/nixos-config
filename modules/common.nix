@@ -4,10 +4,8 @@
     boot.cleanTmpDir = true;
 
     # hosts
-    networking.hosts = {
-      "104.236.219.156" = [ "nube1" ];
-      "167.99.122.78" = [ "morado1" ];
-    };
+    networking.hosts."104.236.219.156" = [ "nube1" ];
+    networking.hosts."167.99.122.78" = [ "morado1" ];
 
     # Set your time zone.
     time.timeZone = "America/Detroit";
@@ -15,49 +13,32 @@
     # Select internationalisation properties.
     i18n.defaultLocale = "en_US.UTF-8";
 
-    console = {
-      font = "Lat2-Terminus16";
-      # keyMap = "us";
-      useXkbConfig = true;
-    };
+    console.font = "Lat2-Terminus16";
+    console.useXkbConfig = true;
+    # console.keyMap = "us";
 
-    security = {
-      doas = {
-        enable = true;
-        extraRules = [{
-          users = [ "stel" ];
-          keepEnv = true;
-          noPass = true;
-          # persist = true;
-        }];
-      };
-      sudo.enable = false;
-      acme = {
-        email = "stel@stel.codes";
-        acceptTerms = true;
-      };
-    };
+    security.doas.enable = true;
+    security.doas.extraRules = [{
+      users = [ "stel" ];
+      keepEnv = true;
+      noPass = true;
+      # persist = true;
+    }];
+    security.sudo.enable = false;
+    security.acme.email = "stel@stel.codes";
+    security.acme.acceptTerms = true;
 
-    users = {
-      mutableUsers = true;
-      # Define a user account. Don't forget to set a password with ‘passwd’.
-      users = {
-        stel = {
-          isNormalUser = true;
-          extraGroups = [ "wheel" "networkmanager" "jackaudio" "audio" ];
-          shell = pkgs.zsh;
-        };
-      };
-    };
+    users.mutableUsers = true;
+    # Define a user account. Don't forget to set a password with ‘passwd’.
+    users.stel.isNormalUser = true;
+    users.stel.extraGroups = [ "wheel" "networkmanager" "jackaudio" "audio" ];
+    users.stel.openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
+    ];
+    users.stel.shell = pkgs.zsh;
 
-    # List packages installed in system profile. To search, run:
-    # $ nix search wget
-
-    environment.variables = {
-      BROWSER = "firefox";
-      EDITOR = "nvim";
-    };
-
+    environment.variables.BROWSER = "firefox";
+    environment.variables.EDITOR = "nvim";
     environment.systemPackages = with pkgs; [
       zsh
       starship
@@ -100,174 +81,161 @@
       urlview
     ];
 
-    programs.zsh = {
-      enable = true;
-      shellAliases = {
-        "nix-search" = "nix repl '<nixpkgs>'";
-        "source-zsh" = "source $HOME/.config/zsh/.zshrc";
-        "source-tmux" = "tmux source-file ~/.tmux.conf";
-        "update" = "doas nix-channel --update";
-        "switch" = "doas nixos-rebuild switch";
-        "hg" = "history | grep";
-        "wifi" = "nmtui";
-        "vpn" = "doas protonvpn connect -f";
-        "attach" = "tmux attach";
-        "gui" = "exec sway";
-        "absolutepath" = "realpath -e";
-        "ls" = "exa";
-        "grep" = "rg";
-        "restic-backup-napi" =
-          "restic -r /run/media/stel/Napi/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
-        "restic-mount-napi" =
-          "restic -r /run/media/stel/Napi/restic-backups/ mount /home/stel/backups/Napi-restic";
-        "restic-backup-mapache" =
-          "restic -r /run/media/stel/Mapache/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
-        "restic-mount-mapache" =
-          "restic -r /run/media/stel/Mapache/restic-backups/ mount /home/stel/backups/Mapache-restic";
-        "pdf" = "evince-previewer";
-        "play-latest-obs-recording" =
-          "mpv $(ls /home/stel/videos/obs | sort --reverse | head -1)";
-        # Creating this alias because there's a weird bug with the clj command producing this error on nube1:
-        # rlwrap: error: Cannot execute BINDIR/clojure: No such file or directory
-        "clj" = "clojure";
-        "screenshot" =
-          "slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png";
-        "bat" = "bat --theme=base16";
-      };
-      promptInit = ''eval "$(starship init zsh)"'';
-      autosuggestions = { enable = true; };
-      ohMyZsh = {
-        enable = true;
-        plugins = [ "httpie" "colored-man-pages" ];
-      };
-    };
+    environment.etc.gitconfig.text = ''
+      [init]
+        defaultBranch = "main"
+      [merge]
+        ff = "only"
+      [user]
+        email = "stel@stel.codes"
+        name = "Stel Abrego"
+      [core]
+        excludesFile = /etc/gitignore
+    '';
+    environment.etc.gitignore.text = ''
+      *Session.vim
+      *.DS_Store
+      *.swp
+      *.direnv
+      /direnv
+      /local
+      /node_modules
+      *.jar
+    '';
 
-    programs.neovim = {
-      enable = true;
-      defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
-      runtime."filetype.vim".source =
-        /home/stel/config/modules/neovim/filetype.vim;
-      configure = {
-        customRC =
-          builtins.readFile /home/stel/config/modules/neovim/extra-config.vim;
-        packages.myVimPackage = let
-          stel-paredit = pkgs.vimUtils.buildVimPlugin {
-            pname = "stel-paredit";
-            version = "1.0";
-            src = pkgs.fetchFromGitHub {
-              owner = "stelcodes";
-              repo = "paredit";
-              rev = "27d2ea61ac6117e9ba827bfccfbd14296c889c37";
-              sha256 = "1bj5m1b4n2nnzvwbz0dhzg1alha2chbbdhfhl6rcngiprbdv0xi6";
-            };
-          };
-        in with pkgs.vimPlugins; {
-          start = [
-            nerdtree
-            vim-obsession
-            vim-commentary
-            vim-dispatch
-            vim-projectionist
-            vim-eunuch
-            vim-fugitive
-            vim-sensible
-            vim-nix
-            lightline-vim
-            conjure
-            vim-fish
-            vim-css-color
-            tabular
-            vim-gitgutter
-            vim-auto-save
-            ale
-            nord-vim
-            stel-paredit
-          ];
+    programs.zsh.enable = true;
+    programs.zsh.shellAliases."nix-search" = "nix repl '<nixpkgs>'";
+    programs.zsh.shellAliases."source-zsh" = "source $HOME/.config/zsh/.zshrc";
+    programs.zsh.shellAliases."source-tmux" = "tmux source-file ~/.tmux.conf";
+    programs.zsh.shellAliases."update" = "doas nix-channel --update";
+    programs.zsh.shellAliases."switch" = "doas nixos-rebuild switch";
+    programs.zsh.shellAliases."hg" = "history | grep";
+    programs.zsh.shellAliases."wifi" = "nmtui";
+    programs.zsh.shellAliases."vpn" = "doas protonvpn connect -f";
+    programs.zsh.shellAliases."attach" = "tmux attach";
+    programs.zsh.shellAliases."gui" = "exec sway";
+    programs.zsh.shellAliases."absolutepath" = "realpath -e";
+    programs.zsh.shellAliases."ls" = "exa";
+    programs.zsh.shellAliases."grep" = "rg";
+    programs.zsh.shellAliases."restic-backup-napi" =
+      "restic -r /run/media/stel/Napi/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
+    programs.zsh.shellAliases."restic-mount-napi" =
+      "restic -r /run/media/stel/Napi/restic-backups/ mount /home/stel/backups/Napi-restic";
+    programs.zsh.shellAliases."restic-backup-mapache" =
+      "restic -r /run/media/stel/Mapache/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
+    programs.zsh.shellAliases."restic-mount-mapache" =
+      "restic -r /run/media/stel/Mapache/restic-backups/ mount /home/stel/backups/Mapache-restic";
+    programs.zsh.shellAliases."pdf" = "evince-previewer";
+    programs.zsh.shellAliases."play-latest-obs-recording" =
+      "mpv $(ls /home/stel/videos/obs | sort --reverse | head -1)";
+    # Creating this alias because there's a weird bug with the clj command producing this error on nube1:
+    # rlwrap: error: Cannot execute BINDIR/clojure: No such file or directory
+    programs.zsh.shellAliases."clj" = "clojure";
+    programs.zsh.shellAliases."screenshot" =
+      "slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png";
+    programs.zsh.shellAliases."bat" = "bat --theme=base16";
+    programs.zsh.promptInit = ''eval "$(starship init zsh)"'';
+    programs.zsh.autosuggestions.enable = true;
+    programs.zsh.ohMyZsh.enable = true;
+    programs.zsh.ohMyZsh.plugins = [ "httpie" "colored-man-pages" ];
+
+    programs.neovim.enable = true;
+    programs.neovim.defaultEditor = true;
+    programs.neovim.viAlias = true;
+    programs.neovim.vimAlias = true;
+    programs.neovim.runtime = {
+      "filetype.vim".source = /home/stel/config/modules/neovim/filetype.vim;
+    };
+    programs.neovim.configure.customRC =
+      builtins.readFile /home/stel/config/modules/neovim/extra-config.vim;
+    programs.neovim.configure.packages.myVimPackage = let
+      stel-paredit = pkgs.vimUtils.buildVimPlugin {
+        pname = "stel-paredit";
+        version = "1.0";
+        src = pkgs.fetchFromGitHub {
+          owner = "stelcodes";
+          repo = "paredit";
+          rev = "27d2ea61ac6117e9ba827bfccfbd14296c889c37";
+          sha256 = "1bj5m1b4n2nnzvwbz0dhzg1alha2chbbdhfhl6rcngiprbdv0xi6";
         };
       };
+    in with pkgs.vimPlugins; {
+      start = [
+        nerdtree
+        vim-obsession
+        vim-commentary
+        vim-dispatch
+        vim-projectionist
+        vim-eunuch
+        vim-fugitive
+        vim-sensible
+        vim-nix
+        lightline-vim
+        conjure
+        vim-fish
+        vim-css-color
+        tabular
+        vim-gitgutter
+        vim-auto-save
+        ale
+        nord-vim
+        stel-paredit
+      ];
     };
 
-    environment.etc = {
-      gitconfig.text = ''
-        [init]
-          defaultBranch = "main"
-        [merge]
-          ff = "only"
-        [user]
-          email = "stel@stel.codes"
-          name = "Stel Abrego"
-        [core]
-          excludesFile = /etc/gitignore
-      '';
-      gitignore.text = ''
-        *Session.vim
-        *.DS_Store
-        *.swp
-        *.direnv
-        /direnv
-        /local
-        /node_modules
-        *.jar
-      '';
-    };
+    programs.tmux.enable = true;
+    programs.tmux.baseIndex = 1;
+    programs.tmux.clock24 = true;
+    programs.tmux.escapeTime = 10;
+    programs.tmux.keyMode = "vi";
+    programs.tmux.newSession = true;
+    programs.tmux.terminal = "screen-256color";
+    programs.tmux.extraConfig = let
+      continuumSaveScript =
+        "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
+    in ''
+      set-option -g prefix M-a
 
-    programs.tmux = {
-      enable = true;
-      baseIndex = 1;
-      clock24 = true;
-      escapeTime = 10;
-      keyMode = "vi";
-      newSession = true;
-      terminal = "screen-256color";
-      extraConfig = let
-        continuumSaveScript =
-          "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
-      in ''
-        set-option -g prefix M-a
+      set -ga terminal-overrides ',alacritty:Tc'
 
-        set -ga terminal-overrides ',alacritty:Tc'
+      # https://is.gd/8VKFEY
+      set -g focus-events on
 
-        # https://is.gd/8VKFEY
-        set -g focus-events on
+      # Custom Keybindings
+      bind -n M-h previous-window
+      bind -n M-l next-window
+      bind -n M-x kill-pane
+      bind -n M-d detach
+      bind -n M-f new-window -c "#{pane_current_path}"
+      bind -n M-s choose-tree -s
+      bind -n M-c copy-mode
+      bind -n M-r command-prompt 'rename-session %%'
+      bind -n M-n command-prompt 'new-session'
+      bind -n M-t source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
 
-        # Custom Keybindings
-        bind -n M-h previous-window
-        bind -n M-l next-window
-        bind -n M-x kill-pane
-        bind -n M-d detach
-        bind -n M-f new-window -c "#{pane_current_path}"
-        bind -n M-s choose-tree -s
-        bind -n M-c copy-mode
-        bind -n M-r command-prompt 'rename-session %%'
-        bind -n M-n command-prompt 'new-session'
-        bind -n M-t source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
+      # Fixes tmux escape input lag, see https://git.io/JtIsn
+      set -sg escape-time 10
 
-        # Fixes tmux escape input lag, see https://git.io/JtIsn
-        set -sg escape-time 10
+      # Update environment
+      set -g update-environment "PATH"
 
-        # Update environment
-        set -g update-environment "PATH"
+      set -g status-style fg=white,bg=default
+      set -g status-justify left
+      set -g status-left ""
+      # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
+      set -g status-right "#[fg=yellow,bg=default][#S] #[fg=default,bg=default]in #[fg=green,bg=default]#h#(${continuumSaveScript})"
 
-        set -g status-style fg=white,bg=default
-        set -g status-justify left
-        set -g status-left ""
-        # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
-        set -g status-right "#[fg=yellow,bg=default][#S] #[fg=default,bg=default]in #[fg=green,bg=default]#h#(${continuumSaveScript})"
+      run-shell ${pkgs.tmuxPlugins.urlview.rtp}
 
-        run-shell ${pkgs.tmuxPlugins.urlview.rtp}
+      run-shell ${pkgs.tmuxPlugins.yank.rtp}
 
-        run-shell ${pkgs.tmuxPlugins.yank.rtp}
+      set -g @resurrect-processes '"~bin/vim->vim -S"'
+      run-shell ${pkgs.tmuxPlugins.resurrect.rtp}
 
-        set -g @resurrect-processes '"~bin/vim->vim -S"'
-        run-shell ${pkgs.tmuxPlugins.resurrect.rtp}
-
-        set -g @continuum-restore 'on'
-        set -g @continuum-save-interval '1' # minutes
-        run-shell ${pkgs.tmuxPlugins.continuum.rtp}
-      '';
-    };
-
+      set -g @continuum-restore 'on'
+      set -g @continuum-save-interval '1' # minutes
+      run-shell ${pkgs.tmuxPlugins.continuum.rtp}
+    '';
   };
+
 }
