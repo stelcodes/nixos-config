@@ -5,7 +5,7 @@
     programs.tmux.clock24 = true;
     programs.tmux.escapeTime = 10;
     programs.tmux.keyMode = "vi";
-    programs.tmux.newSession = true;
+    programs.tmux.newSession = false;
     programs.tmux.terminal = "screen-256color";
     programs.tmux.extraConfig = let
       continuumSaveScript =

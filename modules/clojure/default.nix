@@ -7,5 +7,7 @@
       # rlwrap: error: Cannot execute BINDIR/clojure: No such file or directory
       "clj" = "clojure";
     };
+    # mkdir $HOME/.clojure && ln -s /etc/deps.edn $HOME/.clojure/deps.edn
+    environment.etc."deps.edn".source = ./deps.edn;
   };
 }

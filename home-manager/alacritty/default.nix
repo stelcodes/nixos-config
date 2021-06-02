@@ -8,5 +8,5 @@ pkgs: {
       (builtins.readFile /home/stel/config/misc/alacritty-nord.yml)
     ];
   };
-  programs.alacritty = { enable = true; };
+  programs.alacritty = { enable = false; };
 }

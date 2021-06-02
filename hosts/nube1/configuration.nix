@@ -18,7 +18,6 @@
     isNormalUser = true;
   };
 
-
   services.nginx.enable = true;
   services.nginx.recommendedGzipSettings = true;
   services.nginx.recommendedOptimisation = true;
