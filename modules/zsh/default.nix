@@ -16,6 +16,9 @@
       "bat" = "bat --theme=base16";
     };
     programs.zsh.promptInit = ''eval "$(starship init zsh)"'';
+    programs.zsh.shellInit = ''
+      path+=('/home/stel/.local/bin')
+    '';
     programs.zsh.autosuggestions.enable = true;
     programs.zsh.ohMyZsh.enable = true;
     programs.zsh.ohMyZsh.plugins = [ "httpie" "colored-man-pages" ];

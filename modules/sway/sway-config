@@ -101,6 +101,10 @@ output "*" {
 bg /home/stel/pictures/wallpapers/pretty-nord.jpg fill
 }
 
+bar {
+    swaybar_command waybar
+}
+
 mode "resize" {
 bindsym Down resize grow height 10 px
 bindsym Escape mode default
