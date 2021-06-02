@@ -1,8 +1,6 @@
 #cloud-config
-runcmd:
-  - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./bootstrap.nix NIX_CHANNEL=nixos-20.09 bash 2>&1 | tee /tmp/infect.log
 write_files:
-- path: /etc/nixos/bootstrap.nix
+- path: /etc/nixos/host.nix
   permissions: '0644'
   content: |
     { pkgs, config, ... }: {
@@ -246,3 +244,5 @@ write_files:
       };
 
     }
+runcmd:
+  - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-20.09 bash 2>&1 | tee /tmp/infect.log

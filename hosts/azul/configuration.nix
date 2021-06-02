@@ -1,18 +1,13 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
-{
+{ config, pkgs, ... }: {
   # From https://github.com/NixOS/nixpkgs/issues/15162
   nixpkgs.config.allowUnfree = true;
 
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #<home-manager/nixos>
-    /home/stel/config/modules/common.nix
-    /home/stel/config/modules/postgresql-local.nix
+    /home/stel/config/modules/laptop
+    /home/stel/config/modules/postgresql/local.nix
+    /home/stel/config/modules/clojure
+    /home/stel/config/modules/python
     # using a channel for home-manager becuse that's what the docs say to do
     # I could also use a flake but that would require a day to tinker with
     # I do want to use flakes eventually. Home-manager README has a good flake example.
@@ -20,55 +15,37 @@
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    kernelModules = [ "wl" ];
-    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
-    # resumeDevice = "/dev/sda2";
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelModules = [ "wl" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+  # boot.resumeDevice = "/dev/sda2";
 
-  security = {
-    pam.services.swaylock = {
-      text = ''
-        auth include login
-      '';
-    };
-  };
+  security.pam.services.swaylock.text = "auth include login";
 
-  networking = {
-    hostName = "azul"; # Define your hostname.
-    networkmanager.enable = true;
-    # networking.wireless.userControlled = true;
-    wireless.enable = false; # Enables wireless support via wpa_supplicant.
-    nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
-    # this should definitely be off
-    enableIPv6 = false;
-    # this should definitely be off
-    useDHCP = false;
-    # this should definitely be off (maybe) lol
-    interfaces.wlp3s0.useDHCP = false;
-  };
+  networking.hostName = "azul"; # Define your hostname.
+  networking.networkmanager.enable = true;
+  # networking.wireless.userControlled = true;
+  networking.wireless.enable =
+    false; # Enables wireless support via wpa_supplicant.
+  networking.nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
+  # this should definitely be off
+  networking.enableIPv6 = false;
+  # this should definitely be off
+  networking.useDHCP = false;
+  # this should definitely be off (maybe) lol
+  networking.interfaces.wlp3s0.useDHCP = false;
 
   # Enable sound.
   sound.enable = true;
 
-  hardware = {
-    pulseaudio = {
-      enable = true;
-      package = pkgs.pulseaudioFull.override { jackaudioSupport = true; };
-    };
-    facetimehd.enable = true;
-    bluetooth.enable = true;
-    opengl.enable = true;
-  };
+  hardware.pulseaudio.enable = true;
+  hardware.facetimehd.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.opengl.enable = true;
 
-  location = {
-    latitude = 42.2;
-    longitude = -83.6;
-  };
+  location.latitude = 42.2;
+  location.longitude = -83.6;
 
   users.users.test = {
     isNormalUser = true;
@@ -78,162 +55,112 @@
   # Need this for font-manager or any other gtk app to work I guess
   programs.dconf.enable = true;
 
-  services = {
-    # Enable CUPS to print documents.
-    printing.enable = true;
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
 
-    # Enable iOS devices to automatically connect
-    # Use idevice* commands like ideviceinfo
-    usbmuxd.enable = true;
+  # Enable iOS devices to automatically connect
+  # Use idevice* commands like ideviceinfo
+  services.usbmuxd.enable = true;
 
-    blueman.enable = true;
-    gnome.gnome-keyring.enable = true;
+  services.blueman.enable = true;
+  services.gnome.gnome-keyring.enable = true;
 
-    postgresql = {
-      ensureDatabases = [ "cuternews" "dev_blog" ];
-      ensureUsers = [
-        {
-          name = "dev_blog_directus";
-          ensurePermissions = { "DATABASE dev_blog" = "ALL PRIVILEGES"; };
-        }
-        {
-          name = "static_site_builder";
-          ensurePermissions = { "ALL TABLES IN SCHEMA public" = "SELECT"; };
-          # GRANT SELECT ON ALL TABLES IN SCHEMA public TO static_site_builder;
-          # This allows the user to read all tables in the default public schema. BUT not tables created after
-          # this command was run.
-          # Schema's are basically namespaces for tables in postgres
-          # The above command works for old tables, but static_site_builder doesn't have permission for new tables
-          # We need to change the default privileges for objects created by dev_blog_directus.
-          # The way default privileges work in postgres is this: only a user can change their own default privileges
-          # on *their own* objects. So the dev_blog_directus user has to change their default privileges to allow
-          # static_site_builder to SELECT on new dev_blog_directus tables.
-          # As dev_blog_directus user:
-          # ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO static_site_builder;
-        }
-      ];
-      # extraPlugins = [ pkgs.postgresql_13.pkgs.postgis ];
-    };
+  services.postgresql.ensureDatabases = [ "cuternews" "dev_blog" ];
+  services.postgresql.ensureUsers = [
+    {
+      name = "dev_blog_directus";
+      ensurePermissions = { "DATABASE dev_blog" = "ALL PRIVILEGES"; };
+    }
+    {
+      name = "static_site_builder";
+      ensurePermissions = { "ALL TABLES IN SCHEMA public" = "SELECT"; };
+      # As dev_blog_directus user:
+      # ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO static_site_builder;
+    }
+  ];
 
-    # don’t shutdown when power button is short-pressed
-    logind.extraConfig = "HandlePowerKey=ignore";
-    dnsmasq = {
-      enable = true;
-      extraConfig = "address=/lh/127.0.0.1";
-    };
+  # don’t shutdown when power button is short-pressed
+  services.logind.extraConfig = "HandlePowerKey=ignore";
+  services.dnsmasq.enable = true;
+  services.dnsmasq.extraConfig = "address=/lh/127.0.0.1";
 
-    # doas chown -R stel:nginx /www
-    # Each time I add something to /www I should run this command because nginx needs group
-    # permission in order to serve files
-    nginx = {
-      enable = true;
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = {
-        "dev-blog-published.lh".locations."/".root = "/www/dev-blog-published";
-        "dev-blog-preview.lh".locations."/".root = "/www/dev-blog-preview";
-        "dev-blog-development.lh".locations."/".proxyPass =
-          "http://localhost:3000";
-        "grip.lh".locations."/".proxyPass = "http://localhost:6419";
-        "directus.lh".locations."/".proxyPass = "http://localhost:8055";
-      };
-    };
+  # doas chown -R stel:nginx /www
+  # Each time I add something to /www I should run this command because nginx needs group
+  # permission in order to serve files
+  services.nginx.enable = true;
+  services.nginx.recommendedGzipSettings = true;
+  services.nginx.recommendedOptimisation = true;
+  services.nginx.recommendedProxySettings = true;
+  services.nginx.recommendedTlsSettings = true;
+  services.nginx.virtualHosts = {
+    "dev-blog-published.lh".locations."/".root = "/www/dev-blog-published";
+    "dev-blog-preview.lh".locations."/".root = "/www/dev-blog-preview";
+    "dev-blog-development.lh".locations."/".proxyPass = "http://localhost:3000";
+    "grip.lh".locations."/".proxyPass = "http://localhost:6419";
+    "directus.lh".locations."/".proxyPass = "http://localhost:8055";
   };
 
-  fonts = {
-    fontconfig = {
-      enable = true;
-      # https://git.io/Js0vT
-      defaultFonts = {
-        emoji =
-          [ "Noto Color Emoji" "Font Awesome 5 Free" "Font Awesome 5 Brands" ];
-        # For Alacritty
-        monospace = [
-          "Noto Sans Mono"
-          "Noto Color Emoji"
-          "Font Awesome 5 Free"
-          "Font Awesome 5 Brands"
-        ];
-        serif = [ "Noto Serif" ];
-        sansSerif = [ "Noto Sans" ];
-      };
-    };
-    fonts = [
-      pkgs.font-awesome
-      pkgs.noto-fonts-emoji
-      pkgs.noto-fonts
-      pkgs.powerline-fonts
-      # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
-    ];
-  };
+  fonts.fontconfig.enable = true;
+  # https://git.io/Js0vT
+  fonts.fontconfig.defaultFonts.emoji =
+    [ "Noto Color Emoji" "Font Awesome 5 Free" "Font Awesome 5 Brands" ];
+  # For Alacritty
+  fonts.fontconfig.defaultFonts.monospace = [
+    "Noto Sans Mono"
+    "Noto Color Emoji"
+    "Font Awesome 5 Free"
+    "Font Awesome 5 Brands"
+  ];
+  fonts.fontconfig.defaultFonts.serif = [ "Noto Serif" ];
+  fonts.fontconfig.defaultFonts.sansSerif = [ "Noto Sans" ];
+  fonts.fonts = [
+    pkgs.font-awesome
+    pkgs.noto-fonts-emoji
+    pkgs.noto-fonts
+    pkgs.powerline-fonts
+    # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+  ];
 
   environment.systemPackages = with pkgs; [
-    etcher
-    gparted
-    tor-browser-bundle-bin
+    # SOCIAL
+    slack
     discord
-    # proton vpn
+    # NETWORKING
     protonvpn-cli
+    libimobiledevice # For iphone hotspot tethering
+    # BOOKS
     calibre
-
-    #art
+    evince
+    # IMAGES
     gimp
-    # ardour
-
-    #printing
-    hplip
-    evince # pdf viewer
-    pdfarranger
-
-    # media
-    youtube-dl
+    # VIDEOS
     shotcut
+    youtube-dl
     mpv-unwrapped
-    # qjackctl
-    # a2jmidid
-    # cadence
-
+    obs-studio
+    libsForQt5.qt5.qtwayland
+    # PRINTING
+    hplip
+    # TORRENTING
     qbittorrent
-
-    # browsers
-
-    # Firefox settings:
-    # allow dns over https
-    # no proxy
-    firefox
+    tor-browser-bundle-bin
+    # BROWSERS
+    firefox # allow dns over https
     ungoogled-chromium
-
-    # upower
-    dbus
-
-    # music
+    # MUSIC
     spotify
-
-    # office
-
-    # Takes way too long to build
-    # libreoffice
-
-    #email
+    # EMAIL
     thunderbird
     protonmail-bridge
-
-    # partitioning
+    # DISKS
     gnome.gnome-disk-utility
-
-    # recording/streaming
-    obs-studio
-    obs-wlrobs
-    libsForQt5.qt5.qtwayland
-    pavucontrol
-
-    # graalvm11-ce
-    # For iphone hotspot tethering
-    libimobiledevice
-
-    slack
+    etcher
+    gparted
+    # IDK
+    dbus
+    # DATA PROCESSING
+    jq
+    yq
   ];
 
   # This value determines the NixOS release from which the default
@@ -251,11 +178,6 @@
         (import /home/stel/config/home-manager pkgs)
         (import /home/stel/config/home-manager/alacritty pkgs)
         (import /home/stel/config/home-manager/sway pkgs config)
-        (import /home/stel/config/home-manager/python pkgs)
-        (import /home/stel/config/home-manager/rust pkgs)
-        (import /home/stel/config/home-manager/go pkgs)
-        (import /home/stel/config/home-manager/nodejs pkgs)
-        (import /home/stel/config/home-manager/clojure pkgs)
         {
 
           xdg.userDirs = {

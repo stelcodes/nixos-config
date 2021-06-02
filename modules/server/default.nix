@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: {
+{ pkgs, ... }: {
+  imports = [ ../common ];
   config = {
 
     networking.firewall.allowPing = true;
