@@ -1,0 +1,129 @@
+font pango:Noto Sans Mono, Font Awesome 5 Free, Noto Color Emoji 8.000000
+floating_modifier Mod4
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+focus_wrapping no
+focus_follows_mouse yes
+focus_on_window_activation smart
+mouse_warping output
+workspace_layout default
+workspace_auto_back_and_forth no
+
+client.focused #2e3440 #2e3440 #eceff4 #2e9ef4 #8c738c
+client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
+client.unfocused #333333 #222222 #888888 #292d2e #222222
+client.urgent #2f343a #900000 #ffffff #900000 #900000
+client.placeholder #000000 #0c0c0c #ffffff #000000 #0c0c0c
+client.background #ffffff
+
+
+bindsym Mod4+1 workspace number 1
+bindsym Mod4+2 workspace number 2
+bindsym Mod4+3 workspace number 3
+bindsym Mod4+4 workspace number 4
+bindsym Mod4+5 workspace number 5
+bindsym Mod4+6 workspace number 6
+bindsym Mod4+7 workspace number 7
+bindsym Mod4+8 workspace number 8
+bindsym Mod4+9 workspace number 9
+bindsym Mod4+Down focus down
+bindsym Mod4+Left focus left
+bindsym Mod4+Return exec alacritty
+bindsym Mod4+Right focus right
+bindsym Mod4+Shift+1 move container to workspace number 1
+bindsym Mod4+Shift+2 move container to workspace number 2
+bindsym Mod4+Shift+3 move container to workspace number 3
+bindsym Mod4+Shift+4 move container to workspace number 4
+bindsym Mod4+Shift+5 move container to workspace number 5
+bindsym Mod4+Shift+6 move container to workspace number 6
+bindsym Mod4+Shift+7 move container to workspace number 7
+bindsym Mod4+Shift+8 move container to workspace number 8
+bindsym Mod4+Shift+9 move container to workspace number 9
+bindsym Mod4+Shift+Down move down
+bindsym Mod4+Shift+Left move left
+bindsym Mod4+Shift+Right move right
+bindsym Mod4+Shift+Up move up
+bindsym Mod4+Shift+c reload
+bindsym Mod4+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym Mod4+Shift+h move left
+bindsym Mod4+Shift+j move down
+bindsym Mod4+Shift+k move up
+bindsym Mod4+Shift+l move right
+bindsym Mod4+Shift+minus move scratchpad
+bindsym Mod4+Shift+q kill
+bindsym Mod4+Shift+space floating toggle
+bindsym Mod4+Up focus up
+bindsym Mod4+a focus parent
+bindsym Mod4+b splith
+bindsym Mod4+d exec /nix/store/jagxnsmx550j4kpznizw1p6ciqnxzs92-wofi-1.2.4/bin/wofi --show run
+bindsym Mod4+e layout toggle split
+bindsym Mod4+f fullscreen toggle
+bindsym Mod4+grave exec wofi-emoji
+bindsym Mod4+h focus left
+bindsym Mod4+j focus down
+bindsym Mod4+k focus up
+bindsym Mod4+l focus right
+bindsym Mod4+minus scratchpad show
+bindsym Mod4+r mode resize
+bindsym Mod4+s layout stacking
+bindsym Mod4+shift+tab workspace prev
+bindsym Mod4+space focus mode_toggle
+bindsym Mod4+tab workspace next
+bindsym Mod4+v splitv
+bindsym Mod4+w layout tabbed
+bindcode 121 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindcode 122 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindcode 123 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindcode 128 exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png
+bindcode 171 exec playerctl next
+bindcode 172 exec playerctl play-pause
+bindcode 173 exec playerctl previous
+bindcode 212 layout stacked
+bindcode 232 exec brightnessctl set 5%-
+bindcode 233 exec brightnessctl set +5%
+bindcode 237 exec brightnessctl --device='smc::kbd_backlight' set 10%-
+bindcode 238 exec brightnessctl --device='smc::kbd_backlight' set +10%
+input "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
+xkb_layout us
+xkb_options caps:escape
+xkb_variant mac
+}
+
+input "type:touchpad" {
+dwt enabled
+natural_scroll enabled
+tap enabled
+tap_button_map lrm
+}
+
+output "*" {
+bg /home/stel/pictures/wallpapers/pretty-nord.jpg fill
+}
+
+mode "resize" {
+bindsym Down resize grow height 10 px
+bindsym Escape mode default
+bindsym Left resize shrink width 10 px
+bindsym Return mode default
+bindsym Right resize grow width 10 px
+bindsym Up resize shrink height 10 px
+bindsym h resize shrink width 10 px
+bindsym j resize grow height 10 px
+bindsym k resize shrink height 10 px
+bindsym l resize grow width 10 px
+}
+
+assign [class="^Spotify$"] 1
+assign [class="^Gimp$"] 4
+assign [title="Shotcut$"] 4
+assign [class="^Thunderbird$"] 5
+assign [title="^calibre"] 6
+exec protonmail-bridge
+
+exec wlsunset -l 42 -L -83
+
+exec swayidle -w \
+timeout 300 'swaylock -f -c 000000' \
+timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+before-sleep 'swaylock -f -c 000000'

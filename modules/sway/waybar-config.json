@@ -1,0 +1,109 @@
+[
+  {
+    "backlight": {
+      "format": "{percent} {icon}",
+      "format-icons": [
+        "",
+        "",
+        ""
+      ],
+      "interval": 5
+    },
+    "battery": {
+      "format": "{capacity} {icon}",
+      "format-icons": [
+        " ",
+        " ",
+        " ",
+        " ",
+        " "
+      ],
+      "max-length": 40
+    },
+    "clock": {
+      "format-alt": "{:%a, %d. %b  %H:%M}"
+    },
+    "cpu": {
+      "format": "{usage} ",
+      "interval": 10
+    },
+    "disk": {
+      "format": "{percentage_used} ",
+      "interval": 30
+    },
+    "height": 20,
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+        "activated": " ",
+        "deactivated": " "
+      }
+    },
+    "layer": "top",
+    "memory": {
+      "format": "{} ",
+      "interval": 30
+    },
+    "modules-center": [],
+    "modules-left": [
+      "sway/workspaces",
+      "sway/mode"
+    ],
+    "modules-right": [
+      "cpu",
+      "memory",
+      "disk",
+      "network",
+      "backlight",
+      "pulseaudio",
+      "battery",
+      "idle_inhibitor",
+      "clock"
+    ],
+    "network": {
+      "format": "{ifname}",
+      "format-disconnected": "",
+      "format-ethernet": "{ifname} ",
+      "format-wifi": "{essid} {signalStrength} ",
+      "max-length": 50
+    },
+    "output": [
+      "eDP-1"
+    ],
+    "position": "bottom",
+    "pulseaudio": {
+      "format": "{volume} {icon}",
+      "format-bluetooth": "{volume} {icon} ",
+      "format-icons": {
+        "default": [
+          "",
+          ""
+        ]
+      },
+      "format-muted": "{volume} ",
+      "on-click": "pavucontrol"
+    },
+    "sway/workspaces": {
+      "all-outputs": true,
+      "disable-scroll": true,
+      "format": "{icon}",
+      "format-icons": {
+        "1": "vibes",
+        "2": "www",
+        "3": "term",
+        "4": "art",
+        "5": "mail",
+        "6": "books",
+        "default": "scratch"
+      },
+      "persistent_workspaces": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": []
+      }
+    }
+  }
+]
