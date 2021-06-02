@@ -4,7 +4,6 @@
     ./networking.nix # generated at runtime by nixos-infect
     /home/stel/config/modules/server
     /home/stel/config/modules/postgresql/local.nix
-    <home-manager/nixos>
   ];
 
   networking.hostName = "nube1";
@@ -18,6 +17,7 @@
     ];
     isNormalUser = true;
   };
+
 
   services.nginx.enable = true;
   services.nginx.recommendedGzipSettings = true;
@@ -67,16 +67,4 @@
     }
   ];
 
-  home-manager = {
-    useGlobalPkgs = true;
-    users.stel = { config, ... }:
-      pkgs.lib.mkMerge [
-        (import /home/stel/config/home-manager pkgs)
-        # (import /home/stel/config/home-manager/python pkgs)
-        # (import /home/stel/config/home-manager/rust pkgs)
-        # (import /home/stel/config/home-manager/go pkgs)
-        (import /home/stel/config/home-manager/nodejs pkgs)
-        (import /home/stel/config/home-manager/clojure pkgs)
-      ];
-  };
 }

@@ -8,6 +8,7 @@
     /home/stel/config/modules/postgresql/local.nix
     /home/stel/config/modules/clojure
     /home/stel/config/modules/python
+    /home/stel/config/modules/nodejs
     # using a channel for home-manager becuse that's what the docs say to do
     # I could also use a flake but that would require a day to tinker with
     # I do want to use flakes eventually. Home-manager README has a good flake example.
@@ -47,6 +48,7 @@
   location.latitude = 42.2;
   location.longitude = -83.6;
 
+  users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
   users.users.test = {
     isNormalUser = true;
     shell = pkgs.zsh;
@@ -175,11 +177,9 @@
     useGlobalPkgs = true;
     users.stel = { config, ... }:
       pkgs.lib.mkMerge [
-        (import /home/stel/config/home-manager pkgs)
         (import /home/stel/config/home-manager/alacritty pkgs)
         (import /home/stel/config/home-manager/sway pkgs config)
         {
-
           xdg.userDirs = {
             enable = true;
             desktop = "$HOME/desktop";
