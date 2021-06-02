@@ -43,9 +43,7 @@
     environment.variables.BROWSER = "firefox";
     environment.variables.EDITOR = "nvim";
     environment.systemPackages = with pkgs; [
-      zsh
       starship
-      neovim
       git
       bat
       # process monitoring
