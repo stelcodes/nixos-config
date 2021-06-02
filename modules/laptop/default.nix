@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ../common ../alacritty ];
+  imports = [ ../common ../alacritty ../sway ];
   config = {
     programs.zsh.shellAliases = {
       "restic-backup-napi" =

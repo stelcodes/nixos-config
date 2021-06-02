@@ -21,9 +21,9 @@
       grim
       slurp
     ];
-    # mkdir $HOME/.config/sway && ln -s /etc/sway-config $HOME/.config/sway/config
+    # mkdir -p $HOME/.config/sway && ln -s /etc/sway-config $HOME/.config/sway/config
     environment.etc."sway-config".source = ./sway-config;
-    # mkdir $HOME/.config/wofi && ln -s /etc/wofi-style.css $HOME/.config/wofi/style.css
+    # mkdir -p $HOME/.config/wofi && ln -s /etc/wofi-style.css $HOME/.config/wofi/style.css
     environment.etc."wofi-style.css".source = ./wofi-style.css;
     # Waybar checks /etc/xdg/waybar for configuration files so no need to create links
     environment.etc."xdg/waybar/style.css".source = ./waybar-style.css;

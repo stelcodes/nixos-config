@@ -30,7 +30,7 @@ pkgs: config: {
   };
 
   wayland.windowManager.sway = {
-    enable = true;
+    enable = false;
     config = {
       assigns = {
         "1" = [{ class = "^Spotify$"; }];

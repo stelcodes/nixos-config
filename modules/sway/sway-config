@@ -56,7 +56,7 @@ bindsym Mod4+Shift+space floating toggle
 bindsym Mod4+Up focus up
 bindsym Mod4+a focus parent
 bindsym Mod4+b splith
-bindsym Mod4+d exec /nix/store/jagxnsmx550j4kpznizw1p6ciqnxzs92-wofi-1.2.4/bin/wofi --show run
+bindsym Mod4+d exec wofi --show run
 bindsym Mod4+e layout toggle split
 bindsym Mod4+f fullscreen toggle
 bindsym Mod4+grave exec wofi-emoji

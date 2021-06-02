@@ -177,7 +177,6 @@
     useGlobalPkgs = true;
     users.stel = { config, ... }:
       pkgs.lib.mkMerge [
-        (import /home/stel/config/home-manager/sway pkgs config)
         {
           xdg.userDirs = {
             enable = true;
