@@ -16,5 +16,6 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJJJxJN5jyGvdGsGxwxWWw33ecF4lO0j7txQZRiQMTzs stel@gitstore"
     ];
     isNormalUser = true;
+    shell = pkgs.zsh;
   };
 }
