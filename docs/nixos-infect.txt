@@ -6,8 +6,8 @@ Set hostname
 
 Enable IPv6
 
-Put this in Digital Ocean's "user data" config:
-See digital-ocean-user-data.yaml
+Copy bootstrap.nix into user-data.yml if recently updated
+Put user-data.yml in Digital Ocean's "user data" config:
 
 Log files:
 /tmp/infect.log

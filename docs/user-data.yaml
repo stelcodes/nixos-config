@@ -2,9 +2,9 @@
 runcmd:
   - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./bootstrap.nix NIX_CHANNEL=nixos-21.05 bash 2>&1 | tee /tmp/infect.log
 write_files:
-- path: /etc/nixos/bootstrap.nix
-  permissions: '0644'
-  content: |
+  - path: /etc/nixos/bootstrap.nix
+    permissions: '0644'
+    content: |
       { pkgs, ... }: {
 
         config = {
@@ -28,7 +28,6 @@ write_files:
           security.sudo.enable = false;
 
           users.mutableUsers = true;
-          # Don't forget to set a password with ‘passwd’.
           users.users.stel = {
             isNormalUser = true;
             extraGroups = [ "wheel" ];
@@ -340,8 +339,8 @@ write_files:
                     \   'right': [ ]
                     \ },
                     \ 'component': {
-                    \   'readonly': '%{&readonly?"🔒":""}',
-                    \   'obsession': '%{ObsessionStatus("💾")}'
+                    \   'readonly': '%{&readonly?"readonly":""}',
+                    \   'obsession': '%{ObsessionStatus("session")}'
                     \ },
                     \ 'component_function': {
                     \   'gitbranch': 'LightlineFugitive',
@@ -397,7 +396,7 @@ write_files:
               function! LightlineFugitive()
                   if exists('*FugitiveHead')
                 let branch = FugitiveHead()
-                return branch !=# ${"''"} ? '🐢 '.branch : ${"''"}
+                return branch !=# ${"''"} ? 'git: '.branch : ${"''"}
                   endif
                   return ${"''"}
               endfunction

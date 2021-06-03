@@ -21,7 +21,6 @@
     security.sudo.enable = false;
 
     users.mutableUsers = true;
-    # Don't forget to set a password with ‘passwd’.
     users.users.stel = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
@@ -333,8 +332,8 @@
               \   'right': [ ]
               \ },
               \ 'component': {
-              \   'readonly': '%{&readonly?"🔒":""}',
-              \   'obsession': '%{ObsessionStatus("💾")}'
+              \   'readonly': '%{&readonly?"readonly":""}',
+              \   'obsession': '%{ObsessionStatus("session")}'
               \ },
               \ 'component_function': {
               \   'gitbranch': 'LightlineFugitive',
@@ -390,7 +389,7 @@
         function! LightlineFugitive()
             if exists('*FugitiveHead')
           let branch = FugitiveHead()
-          return branch !=# ${"''"} ? '🐢 '.branch : ${"''"}
+          return branch !=# ${"''"} ? 'git: '.branch : ${"''"}
             endif
             return ${"''"}
         endfunction
