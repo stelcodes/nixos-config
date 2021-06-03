@@ -4,11 +4,11 @@
 
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    /home/stel/config/modules/laptop
-    /home/stel/config/modules/postgresql/local.nix
-    /home/stel/config/modules/clojure
-    /home/stel/config/modules/python
-    /home/stel/config/modules/nodejs
+    /config/modules/laptop
+    /config/modules/postgresql/local.nix
+    /config/modules/clojure
+    /config/modules/python
+    /config/modules/nodejs
   ];
 
   # Use the systemd-boot EFI boot loader.

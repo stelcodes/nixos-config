@@ -2,8 +2,8 @@
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
-    /home/stel/config/modules/server
-    /home/stel/config/modules/postgresql/local.nix
+    /config/modules/server
+    /config/modules/postgresql/local.nix
   ];
 
   networking.hostName = "nube1";

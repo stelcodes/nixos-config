@@ -3,11 +3,11 @@
   config = {
     programs.zsh.shellAliases = {
       "restic-backup-napi" =
-        "restic -r /run/media/stel/Napi/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
+        "restic -r /run/media/stel/Napi/restic-backups/ backup --files-from=/config/misc/restic/include.txt --exclude-file=/config/misc/restic/exclude.txt";
       "restic-mount-napi" =
         "restic -r /run/media/stel/Napi/restic-backups/ mount /home/stel/backups/Napi-restic";
       "restic-backup-mapache" =
-        "restic -r /run/media/stel/Mapache/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
+        "restic -r /run/media/stel/Mapache/restic-backups/ backup --files-from=/config/misc/restic/include.txt --exclude-file=/config/misc/restic/exclude.txt";
       "restic-mount-mapache" =
         "restic -r /run/media/stel/Mapache/restic-backups/ mount /home/stel/backups/Mapache-restic";
       "pdf" = "evince-previewer";

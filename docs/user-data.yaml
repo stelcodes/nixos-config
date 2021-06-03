@@ -1,248 +1,461 @@
 #cloud-config
+runcmd:
+  - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./bootstrap.nix NIX_CHANNEL=nixos-21.05 bash 2>&1 | tee /tmp/infect.log
 write_files:
-- path: /etc/nixos/host.nix
+- path: /etc/nixos/bootstrap.nix
   permissions: '0644'
   content: |
-    { pkgs, config, ... }: {
-      config = {
+      { pkgs, ... }: {
 
-        boot.cleanTmpDir = true;
+        config = {
+          boot.cleanTmpDir = true;
 
-        # hosts
-        networking.hosts."104.236.219.156" = [ "nube1" ];
-        networking.hosts."167.99.122.78" = [ "morado1" ];
+          networking.hosts."104.236.219.156" = [ "nube1" ];
 
-        # Set your time zone.
-        time.timeZone = "America/Detroit";
+          time.timeZone = "America/Detroit";
 
-        # Select internationalisation properties.
-        i18n.defaultLocale = "en_US.UTF-8";
+          i18n.defaultLocale = "en_US.UTF-8";
 
-        console.font = "Lat2-Terminus16";
-        console.useXkbConfig = true;
-        # console.keyMap = "us";
+          console.font = "Lat2-Terminus16";
+          console.useXkbConfig = true;
 
-        security.doas.enable = true;
-        security.doas.extraRules = [{
-          users = [ "stel" ];
-          keepEnv = true;
-          noPass = true;
-          # persist = true;
-        }];
-        security.sudo.enable = false;
-        security.acme.email = "stel@stel.codes";
-        security.acme.acceptTerms = true;
+          security.doas.enable = true;
+          security.doas.extraRules = [{
+            users = [ "stel" ];
+            keepEnv = true;
+            noPass = true;
+          }];
+          security.sudo.enable = false;
 
-        users.mutableUsers = true;
-        # Don't forget to set a password with ‘passwd’.
-        users.users.stel.isNormalUser = true;
-        users.users.stel.extraGroups = [ "wheel" "networkmanager" "jackaudio" "audio" ];
-        users.users.stel.openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
-        ];
-        users.users.stel.shell = pkgs.zsh;
-
-        environment.variables.BROWSER = "firefox";
-        environment.variables.EDITOR = "nvim";
-        environment.systemPackages = with pkgs; [
-          zsh
-          starship
-          neovim
-          git
-          bat
-          # process monitoring
-          htop
-          procs
-          # cross platform trash bin
-          trash-cli
-          # alternative find, also used for fzf
-          fd
-          # system info
-          neofetch
-          # http client
-          httpie
-          # download stuff from the web
-          wget
-          # searching text
-          ripgrep
-          # documentaion
-          tealdeer
-          # archiving
-          unzip
-          # backups
-          restic
-          # ls replacement
-          exa
-          # make replacement
-          just
-          # math
-          rink
-          # nix
-          nixfmt
-          nix-prefetch-github
-          # timeless db
-          sqlite
-          # for urlview tmux plugin
-          urlview
-        ];
-
-        environment.etc.gitconfig.text = ''
-          [init]
-            defaultBranch = "main"
-          [merge]
-            ff = "only"
-          [user]
-            email = "stel@stel.codes"
-            name = "Stel Abrego"
-          [core]
-            excludesFile = /etc/gitignore
-        '';
-        environment.etc.gitignore.text = ''
-          *Session.vim
-          *.DS_Store
-          *.swp
-          *.direnv
-          /direnv
-          /local
-          /node_modules
-          *.jar
-        '';
-
-        programs.zsh.enable = true;
-        programs.zsh.shellAliases."nix-search" = "nix repl '<nixpkgs>'";
-        programs.zsh.shellAliases."source-zsh" = "source $HOME/.config/zsh/.zshrc";
-        programs.zsh.shellAliases."source-tmux" = "tmux source-file ~/.tmux.conf";
-        programs.zsh.shellAliases."update" = "doas nix-channel --update";
-        programs.zsh.shellAliases."switch" = "doas nixos-rebuild switch";
-        programs.zsh.shellAliases."hg" = "history | grep";
-        programs.zsh.shellAliases."wifi" = "nmtui";
-        programs.zsh.shellAliases."vpn" = "doas protonvpn connect -f";
-        programs.zsh.shellAliases."attach" = "tmux attach";
-        programs.zsh.shellAliases."gui" = "exec sway";
-        programs.zsh.shellAliases."absolutepath" = "realpath -e";
-        programs.zsh.shellAliases."ls" = "exa";
-        programs.zsh.shellAliases."grep" = "rg";
-        programs.zsh.shellAliases."restic-backup-napi" =
-          "restic -r /run/media/stel/Napi/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
-        programs.zsh.shellAliases."restic-mount-napi" =
-          "restic -r /run/media/stel/Napi/restic-backups/ mount /home/stel/backups/Napi-restic";
-        programs.zsh.shellAliases."restic-backup-mapache" =
-          "restic -r /run/media/stel/Mapache/restic-backups/ backup --files-from=/home/stel/config/misc/restic/include.txt --exclude-file=/home/stel/config/misc/restic/exclude.txt";
-        programs.zsh.shellAliases."restic-mount-mapache" =
-          "restic -r /run/media/stel/Mapache/restic-backups/ mount /home/stel/backups/Mapache-restic";
-        programs.zsh.shellAliases."pdf" = "evince-previewer";
-        programs.zsh.shellAliases."play-latest-obs-recording" =
-          "mpv $(ls /home/stel/videos/obs | sort --reverse | head -1)";
-        # Creating this alias because there's a weird bug with the clj command producing this error on nube1:
-        # rlwrap: error: Cannot execute BINDIR/clojure: No such file or directory
-        programs.zsh.shellAliases."clj" = "clojure";
-        programs.zsh.shellAliases."screenshot" =
-          "slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png";
-        programs.zsh.shellAliases."bat" = "bat --theme=base16";
-        programs.zsh.promptInit = ''eval "$(starship init zsh)"'';
-        programs.zsh.autosuggestions.enable = true;
-        programs.zsh.ohMyZsh.enable = true;
-        programs.zsh.ohMyZsh.plugins = [ "httpie" "colored-man-pages" ];
-
-        programs.neovim.enable = true;
-        programs.neovim.defaultEditor = true;
-        programs.neovim.viAlias = true;
-        programs.neovim.vimAlias = true;
-        programs.neovim.runtime = {
-          "filetype.vim".source = /home/stel/config/modules/neovim/filetype.vim;
-        };
-        programs.neovim.configure.customRC =
-          builtins.readFile /home/stel/config/modules/neovim/extra-config.vim;
-        programs.neovim.configure.packages.myVimPackage = let
-          stel-paredit = pkgs.vimUtils.buildVimPlugin {
-            pname = "stel-paredit";
-            version = "1.0";
-            src = pkgs.fetchFromGitHub {
-              owner = "stelcodes";
-              repo = "paredit";
-              rev = "27d2ea61ac6117e9ba827bfccfbd14296c889c37";
-              sha256 = "1bj5m1b4n2nnzvwbz0dhzg1alha2chbbdhfhl6rcngiprbdv0xi6";
-            };
+          users.mutableUsers = true;
+          # Don't forget to set a password with ‘passwd’.
+          users.users.stel = {
+            isNormalUser = true;
+            extraGroups = [ "wheel" ];
+            openssh.authorizedKeys.keys = [
+              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
+            ];
+            shell = pkgs.zsh;
           };
-        in with pkgs.vimPlugins; {
-          start = [
-            nerdtree
-            vim-obsession
-            vim-commentary
-            vim-dispatch
-            vim-projectionist
-            vim-eunuch
-            vim-fugitive
-            vim-sensible
-            vim-nix
-            lightline-vim
-            conjure
-            vim-fish
-            vim-css-color
-            tabular
-            vim-gitgutter
-            vim-auto-save
-            ale
-            nord-vim
-            stel-paredit
+
+          environment.variables.EDITOR = "nvim";
+          environment.systemPackages = with pkgs; [
+            starship
+            git
+            bat
+            procs
+            trash-cli
+            fd
+            neofetch
+            httpie
+            wget
+            ripgrep
+            tealdeer
+            unzip
+            exa
+            nixfmt
+            nix-prefetch-github
+            # for urlview tmux plugin
+            urlview
+            # for yank tmux plugin
+            wl-clipboard
           ];
+
+
+          programs.tmux.enable = true;
+          programs.tmux.baseIndex = 1;
+          programs.tmux.clock24 = true;
+          programs.tmux.escapeTime = 10;
+          programs.tmux.keyMode = "vi";
+          programs.tmux.newSession = false;
+          programs.tmux.terminal = "screen-256color";
+          programs.tmux.extraConfig = let
+            continuumSaveScript =
+              "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
+          in ''
+            set-option -g prefix M-a
+
+            set -ga terminal-overrides ',alacritty:Tc'
+
+            # https://is.gd/8VKFEY
+            set -g focus-events on
+
+            # Custom Keybindings
+            bind -n M-h previous-window
+            bind -n M-l next-window
+            bind -n M-x kill-pane
+            bind -n M-d detach
+            bind -n M-f new-window -c "#{pane_current_path}"
+            bind -n M-s choose-tree -s
+            bind -n M-c copy-mode
+            bind -n M-r command-prompt 'rename-session %%'
+            bind -n M-n command-prompt 'new-session'
+            bind -n M-t source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
+
+            # Fixes tmux escape input lag, see https://git.io/JtIsn
+            set -sg escape-time 10
+
+            # Update environment
+            set -g update-environment "PATH"
+
+            set -g status-style fg=white,bg=default
+            set -g status-justify left
+            set -g status-left ""
+            # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
+            set -g status-right "#[fg=yellow,bg=default][#S] #[fg=default,bg=default]in #[fg=green,bg=default]#h#(${continuumSaveScript})"
+
+            run-shell ${pkgs.tmuxPlugins.urlview.rtp}
+
+            run-shell ${pkgs.tmuxPlugins.yank.rtp}
+
+            set -g @resurrect-processes '"~bin/vim->vim -S"'
+            run-shell ${pkgs.tmuxPlugins.resurrect.rtp}
+
+            set -g @continuum-restore 'on'
+            set -g @continuum-save-interval '1' # minutes
+            run-shell ${pkgs.tmuxPlugins.continuum.rtp}
+          '';
+
+
+          programs.zsh.enable = true;
+          programs.zsh.shellAliases = {
+            "nix-search" = "nix repl '<nixpkgs>'";
+            "source-zsh" = "source /etc/zsh/zshrc";
+            "source-tmux" = "tmux source-file /etc/tmux.conf";
+            "update" = "doas nix-channel --update";
+            "switch" = "doas nixos-rebuild switch";
+            "hg" = "history | grep";
+            "wifi" = "nmtui";
+            "attach" = "tmux attach";
+            "absolutepath" = "realpath -e";
+            "ls" = "exa";
+            "grep" = "rg";
+            "bat" = "bat --theme=base16";
+          };
+          programs.zsh.promptInit = ''eval "$(starship init zsh)"'';
+          programs.zsh.shellInit = ''
+            path+=('/home/stel/.local/bin')
+          '';
+          programs.zsh.autosuggestions.enable = true;
+          programs.zsh.ohMyZsh.enable = true;
+          programs.zsh.ohMyZsh.plugins = [ "httpie" "colored-man-pages" ];
+
+
+          programs.neovim.enable = true;
+          programs.neovim.defaultEditor = true;
+          programs.neovim.viAlias = true;
+          programs.neovim.vimAlias = true;
+          programs.neovim.configure.customRC = ''
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Leader
+
+              let mapleader=" "
+              let maplocalleader=" "
+              nnoremap <Space> <Nop>
+              xnoremap <leader> <Nop>
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Substitution
+
+              " preview pane
+              set icm=split
+
+              nnoremap <leader>y viwy
+              nnoremap <leader>u :call StartSubstitution()<CR>
+
+              function! StartSubstitution()
+                call nvim_input(":%s/<C-r>\"//gc<left><left><left>")
+              endfunction
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " General Settings
+              " see https://github.com/ChristianChiarulli/nvim
+
+              " save undo history
+              set undofile
+              " treat dash separated words as a word text object
+              set iskeyword+=-
+              " Stop newline continution of comments
+              set formatoptions-=cro
+              " Required to keep multiple buffers open
+              set hidden
+              " The encoding displayed
+              set encoding=utf-8
+              " The encoding written to file
+              set fileencoding=utf-8
+              " Enable your mouse
+              set mouse=a
+              " Insert 2 spaces for a tab
+              set tabstop=2     
+              " Change the number of space characters inserted for indentation
+              set shiftwidth=2  
+              " Converts tabs to spaces
+              set expandtab     
+              " Makes indenting smart
+              set smartindent   
+              " Faster completion
+              set updatetime=300
+              " Wait forever fo mappings
+              set notimeout
+              " Copy paste between vim and everything else
+              set clipboard=unnamedplus     
+              """"""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Visuals
+
+              " Display long lines as just one line
+              set nowrap
+              " Makes popup menu smaller
+              set pumheight=10
+              " Enables syntax highlighing
+              syntax enable
+              " Show the cursor position all the time
+              set ruler
+              " More space for displaying messages
+              set cmdheight=2
+              " Line numbers
+              set number        
+              " Enable highlighting of the current line
+              set cursorline    
+              " Always show tabs
+              set showtabline=2 
+              " We don't need to see things like -- INSERT -- anymore
+              set noshowmode    
+              " enable full color support
+              set termguicolors 
+              " Always show the signcolumn, otherwise it would shift the text each time
+              set signcolumn=yes
+              " Setting this fixed my tmux rendering issues :)
+              set lazyredraw
+              " Horizontal splits will automatically be below
+              set splitbelow
+              " Vertical splits will automatically be to the right
+              set splitright
+              " Break lines at word boundaries for readability
+              set linebreak
+              set bg=dark
+              " set t_ut=
+              " set term=screen-256color
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Navigating
+
+              " stel's original window navigation solution
+              " ctrl-[hjkl] moves window focus in that direction, moving to another tab
+              " if necessary
+              function! MoveLeft()
+                if (winnr() == winnr('1h'))
+                  :tabprevious
+                else
+                  :call nvim_input("<Esc><C-w>h")
+                endif
+              endfunction
+
+              function! MoveRight()
+                if (winnr() == winnr('1l'))
+                  :tabnext
+                else
+                  :call nvim_input("<Esc><C-w>l")
+                endif
+              endfunction
+
+              nnoremap <C-j> <C-w>j
+              nnoremap <C-k> <C-w>k
+              nnoremap <C-h> :call MoveLeft()<CR>
+              nnoremap <C-l> :call MoveRight()<CR>
+
+              inoremap <C-j> <Esc><C-w>j
+              inoremap <C-k> <Esc><C-w>k
+              inoremap <C-h> <Esc>:call MoveLeft()<CR>
+              inoremap <C-l> <Esc>:call MoveRight()<CR>
+
+              tnoremap <C-j> <C-\><C-n><C-w>j
+              tnoremap <C-k> <C-\><C-n><C-w>k
+              tnoremap <C-h> <C-\><C-n>:call MoveLeft()<CR>
+              tnoremap <C-l> <C-\><C-n>:call MoveRight()<CR>
+
+              " Move to tab by index
+              noremap <leader>1 1gt
+              noremap <leader>2 2gt
+              noremap <leader>3 3gt
+              noremap <leader>4 4gt
+              noremap <leader>5 5gt
+              noremap <leader>6 6gt
+              noremap <leader>7 7gt
+              noremap <leader>8 8gt
+              noremap <leader>9 9gt
+              noremap <leader>0 :tablast<cr>
+
+              " tab moves cursor 10 lines down, shift-tab 10 lines up
+              nnoremap <silent> <TAB> 10j
+              nnoremap <silent> <S-TAB> 10k
+
+              " move through wrapped lines visually
+              nnoremap j gj
+              nnoremap k gk
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Auto complete
+
+              " <TAB>: completion.
+              inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Text manipulation
+
+              " Move selected line / block of text in visual mode
+              xnoremap K :move '<-2<CR>gv-gv
+              xnoremap J :move '>+1<CR>gv-gv
+
+              " Keeps selection active when indenting so you can do it multiple times quickly
+              vnoremap > >gv
+              vnoremap < <gv
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Formatting
+              autocmd FileType clojure nnoremap <buffer><leader>f :!zprint -w **/*.clj **/*.edn<CR>
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " my personal ctrl prefixed commmands
+              nnoremap <C-q> :q<CR>
+              nnoremap <C-t> <C-W>T
+              nnoremap <C-s> :source ~/.config/nvim/init.vim<CR>
+              nnoremap <C-d> :cd %:h<CR>
+              nnoremap <C-n> :NERDTreeToggle<CR>
+              nnoremap <C-c> :let @/=""<CR>
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " lightline config
+              set noshowmode
+              let g:lightline = {
+                    \ 'colorscheme': 'nord',
+                    \ 'active': {
+                    \   'left': [ [ 'mode', 'paste' ],
+                    \             [ 'gitbranch', 'readonly', 'absolutepath', 'modified' ] ],
+                    \   'right': [ [ 'lineinfo' ],
+                    \              [ 'percent' ],
+                    \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+                    \ },
+                    \ 'inactive': {
+                    \   'left': [ [ 'mode', 'paste' ],
+                    \             [ 'gitbranch', 'readonly', 'absolutepath', 'modified' ] ],
+                    \   'right': [ ]
+                    \ },
+                    \ 'component': {
+                    \   'readonly': '%{&readonly?"🔒":""}',
+                    \   'obsession': '%{ObsessionStatus("💾")}'
+                    \ },
+                    \ 'component_function': {
+                    \   'gitbranch': 'LightlineFugitive',
+                    \   'filename': 'MyFilename'
+                    \ },
+                    \ 'separator':    { 'left': ${"''"}, 'right': ${"''"} },
+                    \ 'subseparator': { 'left': ${"''"}, 'right': ${"''"} },
+                    \ 'tabline': {
+                    \   'left': [['tabs']],
+                    \   'right': [['obsession']]
+                    \ },
+                    \ 'tab_component_function': {
+                    \   'filename': 'MyTabFilename'
+                    \ }
+                    \ }
+
+              " I'm not actually using this filename component function anymore because I
+              " switched to absolutepath and it's much better for me!
+              " https://git.io/J3uxJ
+              function! MyFilename()
+                let root = fnamemodify(get(b:, 'git_dir'), ':h')
+                let path = expand('%:p')
+                if path[:len(root)-1] ==# root
+                  return path[len(root)+1:]
+                endif
+                return expand('%')
+              endfunction
+
+              " https://git.io/J3sfo
+              function! MyTabFilename(n)
+                let buflist = tabpagebuflist(a:n)
+                let winnr = tabpagewinnr(a:n)
+                let bufnum = buflist[winnr - 1]
+                let bufname = expand('#'.bufnum.':t')
+                let buffullname = expand('#'.bufnum.':p')
+                let buffullnames = []
+                let bufnames = []
+                for i in range(1, tabpagenr('$'))
+                  if i != a:n
+                    let num = tabpagebuflist(i)[tabpagewinnr(i) - 1]
+                    call add(buffullnames, expand('#' . num . ':p'))
+                    call add(bufnames, expand('#' . num . ':t'))
+                  endif
+                endfor
+                let i = index(bufnames, bufname)
+                if strlen(bufname) && i >= 0 && buffullnames[i] != buffullname
+                  return substitute(buffullname, '.*/\([^/]\+/\)', '\1', ${"''"})
+                else
+                  return strlen(bufname) ? bufname : '[No Name]'
+                endif
+              endfunction
+
+              function! LightlineFugitive()
+                  if exists('*FugitiveHead')
+                let branch = FugitiveHead()
+                return branch !=# ${"''"} ? '🐢 '.branch : ${"''"}
+                  endif
+                  return ${"''"}
+              endfunction
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Event Triggers
+
+              " this makes it so vim will update a buffer if it has changed
+              " on the filesystem when a FocusGained or BufEnter event happens
+              autocmd FocusGained,BufEnter * :checktime
+              autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s "change comment style for commentary.vim
+              autocmd FileType markdown setlocal wrap
+
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Terminal
+              tnoremap <Esc> <C-\><C-n>
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Debugging neovim
+              nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>r
+              """""""""""""""""""""""""""""""""""""""""""""""""""""
+              " Plug-in config
+              let g:auto_save = 1
+              let g:ale_linters = {'clojure': ['clj-kondo']}
+              colorscheme nord
+              let g:paredit_smartjump=1
+            '';
+          programs.neovim.configure.packages.myVimPackage = let
+            stel-paredit = pkgs.vimUtils.buildVimPlugin {
+              pname = "stel-paredit";
+              version = "1.0";
+              src = pkgs.fetchFromGitHub {
+                owner = "stelcodes";
+                repo = "paredit";
+                rev = "27d2ea61ac6117e9ba827bfccfbd14296c889c37";
+                sha256 = "1bj5m1b4n2nnzvwbz0dhzg1alha2chbbdhfhl6rcngiprbdv0xi6";
+              };
+            };
+          in with pkgs.vimPlugins; {
+            start = [
+              nerdtree
+              vim-obsession
+              vim-commentary
+              vim-dispatch
+              vim-projectionist
+              vim-eunuch
+              vim-fugitive
+              vim-sensible
+              vim-nix
+              lightline-vim
+              conjure
+              vim-fish
+              vim-css-color
+              tabular
+              vim-gitgutter
+              vim-auto-save
+              ale
+              nord-vim
+              stel-paredit
+            ];
+          };
         };
-
-        programs.tmux.enable = true;
-        programs.tmux.baseIndex = 1;
-        programs.tmux.clock24 = true;
-        programs.tmux.escapeTime = 10;
-        programs.tmux.keyMode = "vi";
-        programs.tmux.newSession = true;
-        programs.tmux.terminal = "screen-256color";
-        programs.tmux.extraConfig = let
-          continuumSaveScript =
-            "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
-        in ''
-          set-option -g prefix M-a
-
-          set -ga terminal-overrides ',alacritty:Tc'
-
-          # https://is.gd/8VKFEY
-          set -g focus-events on
-
-          # Custom Keybindings
-          bind -n M-h previous-window
-          bind -n M-l next-window
-          bind -n M-x kill-pane
-          bind -n M-d detach
-          bind -n M-f new-window -c "#{pane_current_path}"
-          bind -n M-s choose-tree -s
-          bind -n M-c copy-mode
-          bind -n M-r command-prompt 'rename-session %%'
-          bind -n M-n command-prompt 'new-session'
-          bind -n M-t source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
-
-          # Fixes tmux escape input lag, see https://git.io/JtIsn
-          set -sg escape-time 10
-
-          # Update environment
-          set -g update-environment "PATH"
-
-          set -g status-style fg=white,bg=default
-          set -g status-justify left
-          set -g status-left ""
-          # setting status right makes continuum fail! Apparently it uses the status to save itself? Crazy. https://git.io/JOXd9
-          set -g status-right "#[fg=yellow,bg=default][#S] #[fg=default,bg=default]in #[fg=green,bg=default]#h#(${continuumSaveScript})"
-
-          run-shell ${pkgs.tmuxPlugins.urlview.rtp}
-
-          run-shell ${pkgs.tmuxPlugins.yank.rtp}
-
-          set -g @resurrect-processes '"~bin/vim->vim -S"'
-          run-shell ${pkgs.tmuxPlugins.resurrect.rtp}
-
-          set -g @continuum-restore 'on'
-          set -g @continuum-save-interval '1' # minutes
-          run-shell ${pkgs.tmuxPlugins.continuum.rtp}
-        '';
-      };
-
-    }
-runcmd:
-  - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-20.09 bash 2>&1 | tee /tmp/infect.log
+      }

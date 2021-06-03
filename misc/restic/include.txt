@@ -3,7 +3,8 @@
 /home/stel/videos
 /home/stel/books
 /home/stel/code
-/home/stel/config
 /home/stel/pictures
 /home/stel/security
 /www
+/config
+/deploy

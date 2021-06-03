@@ -5,10 +5,10 @@
     programs.neovim.viAlias = true;
     programs.neovim.vimAlias = true;
     programs.neovim.runtime = {
-      "filetype.vim".source = /home/stel/config/modules/neovim/filetype.vim;
+      "filetype.vim".source = /config/modules/neovim/filetype.vim;
     };
     programs.neovim.configure.customRC =
-      builtins.readFile /home/stel/config/modules/neovim/extra-config.vim;
+      builtins.readFile /config/modules/neovim/extra-config.vim;
     programs.neovim.configure.packages.myVimPackage = let
       stel-paredit = pkgs.vimUtils.buildVimPlugin {
         pname = "stel-paredit";
