@@ -9,10 +9,6 @@
     /home/stel/config/modules/clojure
     /home/stel/config/modules/python
     /home/stel/config/modules/nodejs
-    # using a channel for home-manager becuse that's what the docs say to do
-    # I could also use a flake but that would require a day to tinker with
-    # I do want to use flakes eventually. Home-manager README has a good flake example.
-    <home-manager/nixos>
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -173,29 +169,5 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "20.09"; # Did you read the comment?
 
-  home-manager = {
-    useGlobalPkgs = true;
-    users.stel = { config, ... }:
-      pkgs.lib.mkMerge [{
-        xdg.userDirs = {
-          enable = true;
-          desktop = "$HOME/desktop";
-          documents = "$HOME/documents";
-          download = "$HOME/downloads";
-          music = "$HOME/music";
-          pictures = "$HOME/pictures";
-          publicShare = "$HOME/public";
-          templates = "$HOME/template";
-          videos = "$HOME/videos";
-        };
-        home = {
-          username = "stel";
-          stateVersion = "21.03";
-          # I'm putting all manually installed executables into ~/.local/bin 
-          sessionPath = [ "$HOME/.local/bin" ];
-        };
-        programs.home-manager.enable = true;
-      }];
-  };
 }
 
