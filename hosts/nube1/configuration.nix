@@ -4,6 +4,8 @@
     ./networking.nix # generated at runtime by nixos-infect
     /config/modules/server
     /config/modules/postgresql/local.nix
+    /config/modules/clojure
+    /config/modules/nodesjs
   ];
 
   networking.hostName = "nube1";
