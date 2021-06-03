@@ -19,7 +19,7 @@ ssh-keygen -t ed25519
 Copy public key:
 cat /home/stel/.ssh/id_ed25519.pub
 
-Put it in Github
+Put it in Github and gitstore server config
 
 Clone config:
 doas mkdir -p /config
