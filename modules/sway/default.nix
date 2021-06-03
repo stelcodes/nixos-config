@@ -15,6 +15,7 @@
       gnome3.seahorse
       wl-clipboard
       wofi
+      waybar
       gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
       wlsunset
       # sway screenshots
