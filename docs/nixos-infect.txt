@@ -27,8 +27,12 @@ doas chown stel /config
 git clone git@github.com:stelcodes/nixos-config.git /config
 mkdir /config/hosts/<hostname>
 cp /etc/nixos/* /config/hosts/<hostname>
+** if already made configuration.nix, then: **
+** doas cp /etc/nixos/hardware-configuration.nix /etc/nixos/networking.nix /config/hosts/<hostname> **
 doas rm -rf /etc/nixos
 doas ln -s /config/hosts/<hostname> /etc/nixos
+doas nixos-rebuild switch --upgrade
+doas nix-collect-garbage -d
 
 Edit nix channels (if not set initially):
 doas nix-channel --add https://nixos.org/channels/nixos-21.05 nixos
