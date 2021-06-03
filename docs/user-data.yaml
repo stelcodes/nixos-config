@@ -422,18 +422,8 @@ write_files:
               colorscheme nord
               let g:paredit_smartjump=1
             '';
-          programs.neovim.configure.packages.myVimPackage = let
-            stel-paredit = pkgs.vimUtils.buildVimPlugin {
-              pname = "stel-paredit";
-              version = "1.0";
-              src = pkgs.fetchFromGitHub {
-                owner = "stelcodes";
-                repo = "paredit";
-                rev = "27d2ea61ac6117e9ba827bfccfbd14296c889c37";
-                sha256 = "1bj5m1b4n2nnzvwbz0dhzg1alha2chbbdhfhl6rcngiprbdv0xi6";
-              };
-            };
-          in with pkgs.vimPlugins; {
+          programs.neovim.configure.packages.myVimPackage =
+            with pkgs.vimPlugins; {
             start = [
               nerdtree
               vim-obsession
@@ -445,15 +435,11 @@ write_files:
               vim-sensible
               vim-nix
               lightline-vim
-              conjure
-              vim-fish
               vim-css-color
               tabular
               vim-gitgutter
               vim-auto-save
-              ale
               nord-vim
-              stel-paredit
             ];
           };
         };
