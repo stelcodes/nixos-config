@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [ ../common ../alacritty ../sway ];
   config = {
+    environment.systemPackages = with pkgs; [xdg-utils];
     programs.zsh.shellAliases = {
       "restic-backup-napi" =
         "restic -r /run/media/stel/Napi/restic-backups/ backup --files-from=/config/misc/restic/include.txt --exclude-file=/config/misc/restic/exclude.txt";
