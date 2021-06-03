@@ -5,7 +5,7 @@
     /config/modules/server
     /config/modules/postgresql/local.nix
     /config/modules/clojure
-    /config/modules/nodesjs
+    /config/modules/nodejs
   ];
 
   networking.hostName = "nube1";
