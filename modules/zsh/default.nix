@@ -14,6 +14,11 @@
       "ls" = "exa";
       "grep" = "rg";
       "bat" = "bat --theme=base16";
+      "gs" = "git status";
+      "ga" = "git add";
+      "gc" = "git commit";
+      "gl" = "git pull";
+      "gp" = "git push";
     };
     programs.zsh.promptInit = ''eval "$(starship init zsh)"'';
     programs.zsh.shellInit = ''
