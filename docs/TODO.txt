@@ -8,8 +8,7 @@
 - Make dev-blog-generator into systemd service
   - Rename to dev-blog-generator?
 
-Using home-manager is annoying. It makes setting up a server much harder because I have to add the channel.
-- Switch away from home-manager to nixpkgs as soon possible for these things:
+✅ Switch away from home-manager to nixpkgs as soon possible for these things:
   - zsh
     - doable
   - tmux
@@ -19,4 +18,5 @@ Using home-manager is annoying. It makes setting up a server much harder because
   - neovim
     - no plugin support
 
-
+- add fuzzy finder support for files in the filepath
+  - fzf
