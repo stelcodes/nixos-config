@@ -22,16 +22,22 @@
 
   networking.hostName = "azul"; # Define your hostname.
   networking.networkmanager.enable = true;
-  # networking.wireless.userControlled = true;
-  networking.wireless.enable =
-    false; # Enables wireless support via wpa_supplicant.
+  environment.etc."NetworkManager/conf.d/broadcom_wl.conf".text = ''
+    [device]
+    match-device=driver:wlp3s0
+    wifi.scan-rand-mac-address=no
+    '';
   networking.nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
-  # this should definitely be off
-  networking.enableIPv6 = false;
-  # this should definitely be off
+  networking.enableIPv6 = true;
   networking.useDHCP = false;
-  # this should definitely be off (maybe) lol
   networking.interfaces.wlp3s0.useDHCP = false;
+  networking.interfaces.enp0s20u1c4i2.useDHCP = false;
+  # Winning usb iphone tethering settings:
+  # networking.enableIPv6 = true;
+  # *.useDHCP = false;
+  # doas dhcpcd --waitip --timeout 6000
+  # See realtime dhcp logging, will quit when an ip address is given
+
 
   # Enable sound.
   sound.enable = true;
