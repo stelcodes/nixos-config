@@ -69,8 +69,12 @@
   services.blueman.enable = true;
   services.gnome.gnome-keyring.enable = true;
 
-  services.postgresql.ensureDatabases = [ "cuternews" "dev_blog" ];
+  services.postgresql.ensureDatabases = [ "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
+    {
+      name = "functional_news_app";
+      ensurePermissions = { "DATABASE functional_news" = "ALL PRIVILEGES"; };
+    }
     {
       name = "dev_blog_directus";
       ensurePermissions = { "DATABASE dev_blog" = "ALL PRIVILEGES"; };
