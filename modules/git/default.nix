@@ -20,6 +20,10 @@
       /local
       /node_modules
       *.jar
+      *.cache
+      .sass-cache
+      .nrepl-port
+      .cpcache
     '';
   };
 }
