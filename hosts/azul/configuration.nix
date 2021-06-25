@@ -16,7 +16,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "wl" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+  boot.extraModprobeConfig = ''
+    options snd-hda-intel model=mba6
+  '';
   # boot.resumeDevice = "/dev/sda2";
+
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=10s
+  '';
 
   security.pam.services.swaylock.text = "auth include login";
 
@@ -26,7 +33,7 @@
     [device]
     match-device=driver:wlp3s0
     wifi.scan-rand-mac-address=no
-    '';
+  '';
   networking.nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
   networking.enableIPv6 = true;
   networking.useDHCP = false;
@@ -38,11 +45,11 @@
   # doas dhcpcd --waitip --timeout 6000
   # See realtime dhcp logging, will quit when an ip address is given
 
-
   # Enable sound.
   sound.enable = true;
 
   hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.facetimehd.enable = true;
   hardware.bluetooth.enable = true;
   hardware.opengl.enable = true;
@@ -169,6 +176,11 @@
     # DATA PROCESSING
     jq
     yq
+    dhcpcd
+    audacity
+    pavucontrol
+    rlwrap
+    glow
   ];
 
   # This value determines the NixOS release from which the default
