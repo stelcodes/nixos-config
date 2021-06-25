@@ -166,13 +166,31 @@ vnoremap < <gv
 autocmd FileType clojure nnoremap <buffer><leader>f :!zprint '{:width 120}' -w **/*.clj **/*.edn<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-" my personal ctrl prefixed commmands
+" My personal ctrl prefixed commmands
+
+" Quit current pane
 nnoremap <C-q> :q<CR>
+
+" Quit current pane, for insert mode
+inoremap <C-q> <Esc>:q<CR>
+
+" Make currently selected pane into it's own tab
 nnoremap <C-t> <C-W>T
-nnoremap <C-s> :source ~/.config/nvim/init.vim<CR>
+
+" Source config while inside Neovim (Doesn't work with NixOS setup)
+" nnoremap <C-s> :source ~/.config/nvim/init.vim<CR>
+
+" Change working directory to where current buffer's file is located
 nnoremap <C-d> :cd %:h<CR>
+
+" Open NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>
+
+" Clear search highlighting
 nnoremap <C-c> :let @/=""<CR>
+
+" Open Git Fugitive, make it a new tab, and move it to index 0
+nnoremap <C-g> :Git<CR><C-W>T:tabmove 0<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " lightline config
