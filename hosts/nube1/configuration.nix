@@ -11,15 +11,6 @@
   networking.hostName = "nube1";
   networking.firewall.allowedTCPPorts = [ 22 80 443 ];
 
-  users.users.git = {
-    description = "For serving git repos";
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBj6nr06BHdwsxcbSgMyPy5e6UghJgY7R9mTdmg4d9hx stel@nube1"
-    ];
-    isNormalUser = true;
-  };
-
   services.nginx.enable = true;
   services.nginx.recommendedGzipSettings = true;
   services.nginx.recommendedOptimisation = true;
@@ -43,10 +34,19 @@
       basicAuth = { "stel" = "dontlookatmydrafts!!!"; };
       locations."/".root = "/www/dev-blog-preview";
     };
+    "functionalnews.stel.codes" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/".proxyPass = "http://localhost:38628";
+    };
   };
 
-  services.postgresql.ensureDatabases = [ "test" "dev_blog" ];
+  services.postgresql.ensureDatabases = [ "test" "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
+    {
+      name = "functional_news_app";
+      ensurePermissions = { "DATABASE functional_news" = "ALL PRIVILEGES"; };
+    }
     {
       name = "dev_blog_directus";
       ensurePermissions = { "DATABASE dev_blog" = "ALL PRIVILEGES"; };
