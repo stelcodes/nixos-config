@@ -38,7 +38,7 @@
   networking.enableIPv6 = true;
   networking.useDHCP = false;
   networking.interfaces.wlp3s0.useDHCP = false;
-  networking.interfaces.enp0s20u1c4i2.useDHCP = false;
+  # networking.interfaces.enp0s20u1c4i2.useDHCP = false;
   # Winning usb iphone tethering settings:
   # networking.enableIPv6 = true;
   # *.useDHCP = false;
