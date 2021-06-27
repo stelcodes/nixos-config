@@ -38,7 +38,7 @@
       basicAuth = { "stel" = "dontlookatmydrafts!!!"; };
       locations."/".root = "/www/dev-blog-preview";
     };
-    "functionalnews.stel.codes" = {
+    "news.stel.codes" = {
       enableACME = true;
       forceSSL = true;
       locations."/".proxyPass = "http://localhost:38628";
