@@ -12,8 +12,7 @@
   networking.firewall.allowedTCPPorts = [ 22 80 443 ];
 
   users.users.functional_news_app = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
+    isSystemUser = true;
   };
 
   services.nginx.enable = true;
