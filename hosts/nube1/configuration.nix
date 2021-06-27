@@ -11,6 +11,11 @@
   networking.hostName = "nube1";
   networking.firewall.allowedTCPPorts = [ 22 80 443 ];
 
+  users.users.functional_news_app = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+  };
+
   services.nginx.enable = true;
   services.nginx.recommendedGzipSettings = true;
   services.nginx.recommendedOptimisation = true;
