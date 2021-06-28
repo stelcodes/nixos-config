@@ -76,6 +76,9 @@
   services.blueman.enable = true;
   services.gnome.gnome-keyring.enable = true;
 
+  # This should trigger "hybrid-sleep" when the battery is critical
+  services.upower.enable = true;
+
   services.postgresql.ensureDatabases = [ "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
     {
