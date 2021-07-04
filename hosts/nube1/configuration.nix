@@ -15,6 +15,8 @@
     isSystemUser = true;
   };
 
+  services.fail2ban.enable = true;
+
   services.nginx.enable = true;
   services.nginx.recommendedGzipSettings = true;
   services.nginx.recommendedOptimisation = true;
