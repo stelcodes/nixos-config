@@ -1,4 +1,4 @@
-{:aliases
- {:new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.1.297"}}
-        :exec-fn clj-new/create
-        :exec-args {:template "app"}}}}
+{:aliases {:jet {:extra-deps {borkdude/jet {:mvn/version "0.0.12"}}, :main-opts ["-m" "jet.main"]},
+           :new {:exec-args {:template "app"},
+                 :exec-fn clj-new/create,
+                 :extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.1.297"}}}}}

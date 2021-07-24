@@ -1,6 +1,8 @@
-{ config, pkgs, ... }: {
-  # From https://github.com/NixOS/nixpkgs/issues/15162
+{ config, pkgs, ... }: { # From https://github.com/NixOS/nixpkgs/issues/15162
   nixpkgs.config.allowUnfree = true;
+
+  # nixpkgs.overlays = let nixos-unstable = import <nixos-unstable> { };
+  # in [ (final: prev: { obs-studio = nixos-unstable.obs-studio; }) ];
 
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -9,6 +11,7 @@
     /config/modules/clojure
     /config/modules/python
     /config/modules/nodejs
+    /config/modules/i3
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -39,7 +42,7 @@
   networking.useDHCP = false;
   networking.interfaces.wlp3s0.useDHCP = false;
   # networking.interfaces.enp0s20u1c4i2.useDHCP = false;
-  # Winning usb iphone tethering settings:
+  # iphone tethering command: exec doas dhcpcd
   # networking.enableIPv6 = true;
   # *.useDHCP = false;
   # doas dhcpcd --waitip --timeout 6000
@@ -78,6 +81,8 @@
 
   # This should trigger "hybrid-sleep" when the battery is critical
   services.upower.enable = true;
+
+  services.pipewire.enable = true;
 
   services.postgresql.ensureDatabases = [ "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
@@ -139,7 +144,8 @@
     # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
   ];
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = let unstable = import <nixos-unstable> { };
+  in with pkgs; [
     # SOCIAL
     slack
     discord
@@ -161,7 +167,7 @@
     hplip
     # TORRENTING
     qbittorrent
-    tor-browser-bundle-bin
+    # tor-browser-bundle-bin
     # BROWSERS
     firefox # allow dns over https
     ungoogled-chromium

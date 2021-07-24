@@ -11,9 +11,7 @@
   networking.hostName = "nube1";
   networking.firewall.allowedTCPPorts = [ 22 80 443 ];
 
-  users.users.functional_news_app = {
-    isSystemUser = true;
-  };
+  users.users.functional_news_app = { isSystemUser = true; };
 
   services.fail2ban.enable = true;
 

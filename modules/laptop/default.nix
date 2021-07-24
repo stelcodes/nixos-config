@@ -1,6 +1,11 @@
 { pkgs, ... }: {
   imports = [ ../common ../alacritty ../sway ];
+
   config = {
+
+    # Set your time zone.
+    time.timeZone = "America/Denver";
+
     environment.systemPackages = with pkgs; [ xdg-utils ];
     programs.zsh.shellAliases = {
       "restic-backup-napi" =
@@ -17,7 +22,7 @@
       "screenshot" =
         "slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png";
       "vpn" = "doas protonvpn connect -f";
-      "gui" = "exec sway";
+      "tether" = "doas dhcpcd";
     };
   };
 }

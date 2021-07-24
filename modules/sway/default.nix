@@ -29,5 +29,6 @@
     # Waybar checks /etc/xdg/waybar for configuration files so no need to create links
     environment.etc."xdg/waybar/style.css".source = ./waybar-style.css;
     environment.etc."xdg/waybar/config".source = ./waybar-config.json;
+    programs.zsh.shellAliases."gui" = "exec sway";
   };
 }

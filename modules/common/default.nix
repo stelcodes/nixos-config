@@ -8,9 +8,6 @@
     networking.hosts."104.236.219.156" = [ "nube1" ];
     networking.hosts."167.99.122.78" = [ "morado1" ];
 
-    # Set your time zone.
-    time.timeZone = "America/Detroit";
-
     # Select internationalisation properties.
     i18n.defaultLocale = "en_US.UTF-8";
 
@@ -33,7 +30,7 @@
     # Don't forget to set a password with ‘passwd’.
     users.users.stel = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" "tty" ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
       ];
