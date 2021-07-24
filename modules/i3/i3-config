@@ -15,7 +15,7 @@ set $mod Mod4
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+font pango:DejaVu Sans Mono 7
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -23,11 +23,16 @@ font pango:DejaVu Sans Mono 8
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
+workspace_layout tabbed
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec alacritty
+
+# start browser
+bindsym $mod+Shift+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -146,10 +151,37 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+  status_command i3status -c /etc/i3status.conf
+  colors {
+    background #2e3440
+    statusline #d8dee9
+  }
+  font pango:DejaVu Sans Mono 9
 }
+
+bindcode 121 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindcode 122 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindcode 123 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+# bindcode 128 exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png
+bindcode 171 exec playerctl next
+bindcode 172 exec playerctl play-pause
+bindcode 173 exec playerctl previous
+bindcode 212 layout stacked
+bindcode 232 exec brightnessctl set 5%-
+bindcode 233 exec brightnessctl set +5%
+bindcode 237 exec brightnessctl --device='smc::kbd_backlight' set 10%-
+bindcode 238 exec brightnessctl --device='smc::kbd_backlight' set +10%
 
 exec feh --bg-fill /home/stel/pictures/wallpapers/pretty-nord.jpg
