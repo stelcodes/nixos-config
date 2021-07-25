@@ -20,9 +20,10 @@
       "play-latest-obs-recording" =
         "mpv $(ls /home/stel/videos/obs | sort --reverse | head -1)";
       "screenshot" =
-        "slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png";
+        "slurp | grim -g - ~/pictures/screenshots/$(date +%F_%T)_screenshot.png";
       "vpn" = "doas protonvpn connect -f";
       "tether" = "doas dhcpcd";
+      "backup-config" = "tar --create --gzip --file ~/backups/config/$(date +%F_%T)_config.tar.gz --directory=/config .";
     };
   };
 }
