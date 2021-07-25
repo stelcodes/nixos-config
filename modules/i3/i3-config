@@ -32,7 +32,7 @@ floating_modifier $mod
 bindsym $mod+Return exec alacritty
 
 # start browser
-bindsym $mod+Shift+Return exec alacritty
+bindsym $mod+Shift+Return exec firefox
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -174,7 +174,7 @@ bar {
 bindcode 121 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindcode 122 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindcode 123 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-# bindcode 128 exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png
+bindcode 128 exec escrotum --select --exec 'mv $f /home/stel/pictures/screenshots' $(date +%F_%T)_screenshot.png
 bindcode 171 exec playerctl next
 bindcode 172 exec playerctl play-pause
 bindcode 173 exec playerctl previous
@@ -184,4 +184,12 @@ bindcode 233 exec brightnessctl set +5%
 bindcode 237 exec brightnessctl --device='smc::kbd_backlight' set 10%-
 bindcode 238 exec brightnessctl --device='smc::kbd_backlight' set +10%
 
-exec feh --bg-fill /home/stel/pictures/wallpapers/pretty-nord.jpg
+# Creates timers, one for locking, then one for pending system
+exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer 180 'i3lock --ignore-empty-password --show-failed-attempts --nofork --color=000000' '' --timer 300 'systemctl suspend' ''
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --ignore-empty-password --show-failed-attempts --nofork --color=000000
+# Set background image
+exec --no-startup-id feh --bg-fill /home/stel/pictures/wallpapers/pretty-nord.jpg
+# Start protonmail bridge to get email
+exec --no-startup-id protonmail-bridge
