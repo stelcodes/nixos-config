@@ -140,7 +140,7 @@
     # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
   ];
 
-  environment.systemPackages = let unstable = import <nixos-unstable> { };
+  environment.systemPackages = let unstable = import <nixos-unstable> { config.allowUnfree = true; };
   in with pkgs; [
     # SOCIAL
     slack
@@ -157,8 +157,8 @@
     shotcut
     youtube-dl
     mpv-unwrapped
-    obs-studio
-    libsForQt5.qt5.qtwayland
+    unstable.obs-studio
+    unstable.zoom-us
     # PRINTING
     hplip
     # TORRENTING
@@ -169,6 +169,7 @@
     ungoogled-chromium
     # MUSIC
     spotify
+    unstable.reaper
     # EMAIL
     thunderbird
     protonmail-bridge
