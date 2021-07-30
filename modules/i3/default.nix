@@ -11,6 +11,6 @@
   services.xserver.displayManager.defaultSession = "none+i3";
   services.xserver.windowManager.i3.enable = true;
   services.xserver.windowManager.i3.configFile = ./i3-config;
-  environment.systemPackages = [ pkgs.feh pkgs.xidlehook pkgs.xss-lock pkgs.escrotum ];
+  environment.systemPackages = [ pkgs.feh pkgs.xidlehook pkgs.xss-lock pkgs.escrotum pkgs.rofimoji];
   environment.etc."i3status.conf".source = ./i3status.conf;
 }
