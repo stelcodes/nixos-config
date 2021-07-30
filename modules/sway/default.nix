@@ -21,6 +21,7 @@
       # sway screenshots
       grim
       slurp
+      rofimoji
     ];
     # mkdir -p $HOME/.config/sway && ln -s /etc/sway-config $HOME/.config/sway/config
     environment.etc."sway-config".source = ./sway-config;

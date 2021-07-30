@@ -65,7 +65,7 @@ bindsym Mod4+b splith
 bindsym Mod4+d exec wofi --show run
 bindsym Mod4+e layout toggle split
 bindsym Mod4+f fullscreen toggle
-bindsym Mod4+grave exec wofi-emoji
+# bindsym Mod4+grave exec wofi-emoji
 bindsym Mod4+h focus left
 bindsym Mod4+j focus down
 bindsym Mod4+k focus up
@@ -85,7 +85,7 @@ bindcode 128 exec slurp | grim -g - ~/pictures/screenshots/$(date +%F_%T)_screen
 bindcode 171 exec playerctl next
 bindcode 172 exec playerctl play-pause
 bindcode 173 exec playerctl previous
-bindcode 212 layout stacked
+bindcode 212 exec rofimoji --action clipboard --skin-tone neutral
 bindcode 232 exec brightnessctl set 5%-
 bindcode 233 exec brightnessctl set +5%
 bindcode 237 exec brightnessctl --device='smc::kbd_backlight' set 10%-
