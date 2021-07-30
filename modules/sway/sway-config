@@ -1,22 +1,28 @@
-font pango:Noto Sans Mono, Font Awesome 5 Free, Noto Color Emoji 8.000000
+# font pango:Noto Sans Mono, Font Awesome 5 Free, Noto Color Emoji 8.000000
+font pango:DejaVu Sans Mono 7
 floating_modifier Mod4
-default_border pixel 2
-default_floating_border pixel 2
-hide_edge_borders smart
+# default_border pixel 2
+# default_floating_border pixel 2
+# hide_edge_borders smart
 focus_wrapping no
 focus_follows_mouse yes
 focus_on_window_activation smart
 mouse_warping output
 workspace_layout tabbed
-workspace_auto_back_and_forth no
+# workspace_auto_back_and_forth no
 
-client.focused #2e3440 #2e3440 #eceff4 #2e9ef4 #8c738c
-client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
-client.unfocused #333333 #222222 #888888 #292d2e #222222
-client.urgent #2f343a #900000 #ffffff #900000 #900000
-client.placeholder #000000 #0c0c0c #ffffff #000000 #0c0c0c
-client.background #ffffff
+# client.focused #2e3440 #2e3440 #eceff4 #2e9ef4 #8c738c
+# client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
+# client.unfocused #333333 #222222 #888888 #292d2e #222222
+# client.urgent #2f343a #900000 #ffffff #900000 #900000
+# client.placeholder #000000 #0c0c0c #ffffff #000000 #0c0c0c
+# client.background #ffffff
 
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 bindsym Mod4+1 workspace number 1
 bindsym Mod4+2 workspace number 2
@@ -102,7 +108,12 @@ bg /home/stel/pictures/wallpapers/pretty-nord.jpg fill
 }
 
 bar {
-    swaybar_command waybar
+  status_command i3status -c /etc/i3status.conf
+  colors {
+    background #2e3440
+    statusline #d8dee9
+  }
+  font pango:DejaVu Sans Mono 9
 }
 
 mode "resize" {
