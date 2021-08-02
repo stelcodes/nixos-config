@@ -1,6 +1,9 @@
 { pkgs, ... }: {
-  config = {
+  config = let
+    unstable = import <nixos-unstable> { };
+  in {
     programs.neovim.enable = true;
+    programs.neovim.package = unstable.neovim-unwrapped;
     programs.neovim.defaultEditor = true;
     programs.neovim.viAlias = true;
     programs.neovim.vimAlias = true;
@@ -32,7 +35,7 @@
         vim-sensible
         vim-nix
         lightline-vim
-        conjure
+        unstable.vimPlugins.conjure
         vim-fish
         vim-css-color
         tabular
