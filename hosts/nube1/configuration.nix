@@ -49,7 +49,7 @@
   services.postgresql.settings = {
     # https://pgbadger.darold.net/documentation.html#POSTGRESQL-CONFIGURATION
     log_min_duration_statement = 0;
-    log_line_prefix = "%t [%p]: user=%u,db=%d ";
+    log_line_prefix = pkgs.lib.mkForce "%t [%p]: user=%u,db=%d ";
     log_checkpoints = true;
     log_connections = true;
     log_disconnections = true;
