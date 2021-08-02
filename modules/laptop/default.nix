@@ -23,7 +23,8 @@
         "slurp | grim -g - ~/pictures/screenshots/$(date +%F_%T)_screenshot.png";
       "vpn" = "doas protonvpn connect -f";
       "tether" = "doas dhcpcd";
-      "backup-config" = "tar --create --gzip --file ~/backups/config/$(date +%F_%T)_config.tar.gz --directory=/config .";
+      "backup-config" =
+        "tar --create --gzip --file ~/backups/config/$(date +%F_%T)_config.tar.gz --directory=/config .";
     };
   };
 }

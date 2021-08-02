@@ -140,54 +140,55 @@
     # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
   ];
 
-  environment.systemPackages = let unstable = import <nixos-unstable> { config.allowUnfree = true; };
-  in with pkgs; [
-    # SOCIAL
-    slack
-    discord
-    # NETWORKING
-    protonvpn-cli
-    libimobiledevice # For iphone hotspot tethering
-    # BOOKS
-    calibre
-    evince
-    # IMAGES
-    gimp
-    # VIDEOS
-    shotcut
-    youtube-dl
-    mpv-unwrapped
-    unstable.obs-studio
-    unstable.zoom-us
-    # PRINTING
-    hplip
-    # TORRENTING
-    qbittorrent
-    # tor-browser-bundle-bin
-    # BROWSERS
-    firefox # allow dns over https
-    ungoogled-chromium
-    # MUSIC
-    spotify
-    unstable.reaper
-    # EMAIL
-    thunderbird
-    protonmail-bridge
-    # DISKS
-    gnome.gnome-disk-utility
-    etcher
-    gparted
-    # IDK
-    dbus
-    # DATA PROCESSING
-    jq
-    yq
-    dhcpcd
-    audacity
-    pavucontrol
-    rlwrap
-    glow
-  ];
+  environment.systemPackages =
+    let unstable = import <nixos-unstable> { config.allowUnfree = true; };
+    in with pkgs; [
+      # SOCIAL
+      slack
+      discord
+      # NETWORKING
+      protonvpn-cli
+      libimobiledevice # For iphone hotspot tethering
+      # BOOKS
+      calibre
+      evince
+      # IMAGES
+      gimp
+      # VIDEOS
+      shotcut
+      youtube-dl
+      mpv-unwrapped
+      unstable.obs-studio
+      unstable.zoom-us
+      # PRINTING
+      hplip
+      # TORRENTING
+      qbittorrent
+      # tor-browser-bundle-bin
+      # BROWSERS
+      firefox # allow dns over https
+      ungoogled-chromium
+      # MUSIC
+      spotify
+      unstable.reaper
+      # EMAIL
+      thunderbird
+      protonmail-bridge
+      # DISKS
+      gnome.gnome-disk-utility
+      etcher
+      gparted
+      # IDK
+      dbus
+      # DATA PROCESSING
+      jq
+      yq
+      dhcpcd
+      audacity
+      pavucontrol
+      rlwrap
+      glow
+    ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
