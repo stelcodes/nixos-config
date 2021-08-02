@@ -46,7 +46,19 @@
     };
   };
 
-  services.postgresql.settings = { log_statement = "all"; };
+  services.postgresql.settings = {
+    # https://pgbadger.darold.net/documentation.html#POSTGRESQL-CONFIGURATION
+    log_min_duration_statement = 0;
+    log_line_prefix = "%t [%p]: user=%u,db=%d ";
+    log_checkpoints = true;
+    log_connections = true;
+    log_disconnections = true;
+    log_lock_waits = true;
+    log_temp_files = 0;
+    log_autovacuum_min_duration = 0;
+    log_error_verbosity = "default";
+    lc_messages = "C";
+  };
   services.postgresql.ensureDatabases = [ "test" "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
     {
