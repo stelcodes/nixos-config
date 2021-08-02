@@ -40,8 +40,8 @@
   networking.nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
   networking.enableIPv6 = true;
   networking.useDHCP = false;
-  networking.interfaces.wlp3s0.useDHCP = false;
-  # networking.interfaces.enp0s20u1c4i2.useDHCP = false;
+  # networking.interfaces.wlp3s0.useDHCP = false;
+  # networking.interfaces.enp0s20u1c4i2.useDHCP = true;
   # iphone tethering command: exec doas dhcpcd
   # networking.enableIPv6 = true;
   # *.useDHCP = false;
