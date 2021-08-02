@@ -46,6 +46,7 @@
     };
   };
 
+  services.postgresql.settings = { log_statement = "all"; };
   services.postgresql.ensureDatabases = [ "test" "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
     {
