@@ -163,7 +163,8 @@ vnoremap < <gv
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Formatting
-autocmd FileType clojure nnoremap <buffer><leader>f :!zprint '{:width 120}' -w %<CR>
+autocmd FileType clojure nnoremap <buffer><leader>f :!zprint '{:width 120}' -w %<CR> :e <CR>
+autocmd FileType nix nnoremap <buffer><leader>f :!nixfmt %<CR> :e <CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " My personal ctrl prefixed commmands
