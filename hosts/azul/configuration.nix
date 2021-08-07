@@ -75,10 +75,10 @@
   services.blueman.enable = true;
   services.gnome.gnome-keyring.enable = true;
 
-  # This should trigger "hybrid-sleep" when the battery is critical
   services.upower.enable = true;
+  services.upower.criticalPowerAction = "Hibernate";
 
-  services.pipewire.enable = true;
+  services.pipewire.enable = false;
 
   services.postgresql.ensureDatabases = [ "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
@@ -174,6 +174,7 @@
       # EMAIL
       thunderbird
       protonmail-bridge
+      hydroxide
       # DISKS
       gnome.gnome-disk-utility
       etcher
@@ -188,6 +189,7 @@
       pavucontrol
       rlwrap
       glow
+      # unstable.android-studio
     ];
 
   # This value determines the NixOS release from which the default

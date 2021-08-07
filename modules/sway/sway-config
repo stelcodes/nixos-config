@@ -129,12 +129,7 @@ bindsym k resize shrink height 10 px
 bindsym l resize grow width 10 px
 }
 
-assign [class="^Spotify$"] 1
-assign [class="^Gimp$"] 4
-assign [title="Shotcut$"] 4
-assign [class="^Thunderbird$"] 5
-assign [title="^calibre"] 6
-exec protonmail-bridge
+exec hydroxide serve
 
 exec wlsunset -l 42 -L -83
 
