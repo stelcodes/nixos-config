@@ -4,7 +4,7 @@
   config = {
 
     # Set your time zone.
-    time.timeZone = "America/Denver";
+    time.timeZone = "America/Los_Angeles";
 
     environment.systemPackages = with pkgs; [ xdg-utils ];
     programs.zsh.shellAliases = {
@@ -25,6 +25,8 @@
       "tether" = "doas dhcpcd";
       "backup-config" =
         "tar --create --gzip --file ~/backups/config/$(date +%F_%T)_config.tar.gz --directory=/config .";
+      "protonmail" = "firefox --new-window mail.protonmail.com/login";
+      "yt" = "youtube-dl -f \"best[height=720]\"";
     };
   };
 }

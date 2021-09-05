@@ -100,6 +100,7 @@
 
   # don’t shutdown when power button is short-pressed
   services.logind.extraConfig = "HandlePowerKey=ignore";
+  services.logind.lidSwitch = "hibernate";
   services.dnsmasq.enable = true;
   services.dnsmasq.extraConfig = "address=/lh/127.0.0.1";
 
@@ -173,7 +174,6 @@
       unstable.reaper
       # EMAIL
       thunderbird
-      protonmail-bridge
       hydroxide
       # DISKS
       gnome.gnome-disk-utility
