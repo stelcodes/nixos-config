@@ -26,6 +26,11 @@
       forceSSL = true;
       locations."/".proxyPass = "http://localhost:8055";
     };
+    "isobel.stel.codes" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/".proxyPass = "http://localhost:8059";
+    };
     "stel.codes" = {
       enableACME = true;
       forceSSL = true;

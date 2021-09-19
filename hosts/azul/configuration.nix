@@ -156,11 +156,9 @@
       # IMAGES
       gimp
       # VIDEOS
-      shotcut
       youtube-dl
       mpv-unwrapped
       unstable.obs-studio
-      unstable.zoom-us
       # PRINTING
       hplip
       # TORRENTING
@@ -171,7 +169,6 @@
       ungoogled-chromium
       # MUSIC
       spotify
-      unstable.reaper
       # EMAIL
       thunderbird
       hydroxide
@@ -190,6 +187,9 @@
       rlwrap
       glow
       # unstable.android-studio
+      # rustc
+      rustup
+      unstable.tor-browser-bundle-bin
     ];
 
   # This value determines the NixOS release from which the default

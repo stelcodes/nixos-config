@@ -76,7 +76,7 @@ bindsym Mod4+s layout stacking
 bindsym Mod4+shift+tab workspace prev
 bindsym Mod4+space focus mode_toggle
 bindsym Mod4+tab workspace next
-bindsym Mod4+v splitv
+# bindsym Mod4+v splitv
 bindsym Mod4+w layout tabbed
 bindcode 121 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindcode 122 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
