@@ -27,6 +27,7 @@
         "tar --create --gzip --file ~/backups/config/$(date +%F_%T)_config.tar.gz --directory=/config .";
       "protonmail" = "firefox --new-window mail.protonmail.com/login";
       "yt" = "youtube-dl -f \"best[height=720]\"";
+      "gui" = "exec sway";
     };
   };
 }

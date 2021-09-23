@@ -10,19 +10,20 @@
       libinput
       xorg.xev
       gnome3.nautilus
-      keepassxc
       font-manager
       gnome3.seahorse
       wl-clipboard
       wofi
-      waybar
+      # waybar
       gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
       wlsunset
       # sway screenshots
       grim
       slurp
       rofimoji
+      i3status
     ];
+    environment.etc."i3status.conf".source = ../i3/i3status.conf;
     # mkdir -p $HOME/.config/sway && ln -s /etc/sway-config $HOME/.config/sway/config
     environment.etc."sway-config".source = ./sway-config;
     # mkdir -p $HOME/.config/wofi && ln -s /etc/wofi-style.css $HOME/.config/wofi/style.css

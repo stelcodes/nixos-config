@@ -35,7 +35,7 @@
         vim-sensible
         vim-nix
         lightline-vim
-        unstable.vimPlugins.conjure
+        conjure
         vim-fish
         vim-css-color
         tabular

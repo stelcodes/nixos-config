@@ -11,7 +11,7 @@
     /config/modules/clojure
     /config/modules/python
     /config/modules/nodejs
-    /config/modules/i3
+    # /config/modules/i3
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -190,6 +190,8 @@
       # rustc
       rustup
       unstable.tor-browser-bundle-bin
+      vlc
+      keepassxc
     ];
 
   # This value determines the NixOS release from which the default
