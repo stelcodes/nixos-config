@@ -28,6 +28,7 @@
       "protonmail" = "firefox --new-window mail.protonmail.com/login";
       "yt" = "youtube-dl -f \"best[height=720]\"";
       "gui" = "exec sway";
+      "clj-repl" = "rlwrap clojure -M:repl";
     };
   };
 }

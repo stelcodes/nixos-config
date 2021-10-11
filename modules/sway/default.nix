@@ -22,6 +22,7 @@
       slurp
       rofimoji
       i3status
+      pamixer # to control volume with pipewire
     ];
     environment.etc."i3status.conf".source = ../i3/i3status.conf;
     # mkdir -p $HOME/.config/sway && ln -s /etc/sway-config $HOME/.config/sway/config

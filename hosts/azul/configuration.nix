@@ -51,16 +51,15 @@
   # Enable sound.
   sound.enable = true;
 
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  hardware.pulseaudio.enable = false;
+  # hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.facetimehd.enable = true;
   hardware.bluetooth.enable = true;
   hardware.opengl.enable = true;
 
   location.latitude = 42.2;
   location.longitude = -83.6;
-
-  users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
+users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
 
   # Need this for font-manager or any other gtk app to work I guess
   programs.dconf.enable = true;
@@ -75,10 +74,17 @@
   services.blueman.enable = true;
   services.gnome.gnome-keyring.enable = true;
 
+  # For upower to work? maybe?
+  services.dbus.enable = true;
+
   services.upower.enable = true;
   services.upower.criticalPowerAction = "Hibernate";
+  services.upower.percentageCritical = 5;
 
-  services.pipewire.enable = false;
+  services.pipewire.enable = true;
+  services.pipewire.pulse.enable = true;
+  services.pipewire.jack.enable = true;
+  services.pipewire.alsa.enable = true;
 
   services.postgresql.ensureDatabases = [ "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
@@ -176,8 +182,6 @@
       gnome.gnome-disk-utility
       etcher
       gparted
-      # IDK
-      dbus
       # DATA PROCESSING
       jq
       yq
@@ -192,6 +196,7 @@
       unstable.tor-browser-bundle-bin
       vlc
       keepassxc
+      unstable.fcp
     ];
 
   # This value determines the NixOS release from which the default
