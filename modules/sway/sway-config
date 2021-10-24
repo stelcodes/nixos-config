@@ -66,7 +66,7 @@ bindsym Mod4+d exec wofi --show run
 bindsym Mod4+e layout toggle split
 bindsym Mod4+f fullscreen toggle
 # bindsym Mod4+grave exec wofi-emoji
-bindsym Mod4+c exec wl-paste -p | wl-copy
+# bindsym Mod4+c exec wl-paste -p | wl-copy
 # bindsym Mod4+v exec wl-paste
 bindsym Mod4+Shift+Return exec firefox
 bindsym Mod4+h focus left

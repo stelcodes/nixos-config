@@ -28,8 +28,6 @@
     DefaultTimeoutStopSec=10s
   '';
 
-  security.pam.services.swaylock.text = "auth include login";
-
   networking.hostName = "azul"; # Define your hostname.
   networking.networkmanager.enable = true;
   environment.etc."NetworkManager/conf.d/broadcom_wl.conf".text = ''
@@ -40,51 +38,13 @@
   networking.nameservers = [ "8.8.8.8" "208.67.222.222" "1.1.1.1" "9.9.9.9" ];
   networking.enableIPv6 = true;
   networking.useDHCP = false;
-  # networking.interfaces.wlp3s0.useDHCP = false;
-  # networking.interfaces.enp0s20u1c4i2.useDHCP = true;
-  # iphone tethering command: exec doas dhcpcd
-  # networking.enableIPv6 = true;
-  # *.useDHCP = false;
-  # doas dhcpcd --waitip --timeout 6000
-  # See realtime dhcp logging, will quit when an ip address is given
 
-  # Enable sound.
-  sound.enable = true;
-
-  hardware.pulseaudio.enable = false;
-  # hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.facetimehd.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.opengl.enable = true;
 
   location.latitude = 42.2;
   location.longitude = -83.6;
-users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
+  users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
 
-  # Need this for font-manager or any other gtk app to work I guess
-  programs.dconf.enable = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable iOS devices to automatically connect
-  # Use idevice* commands like ideviceinfo
-  services.usbmuxd.enable = true;
-
-  services.blueman.enable = true;
-  services.gnome.gnome-keyring.enable = true;
-
-  # For upower to work? maybe?
-  services.dbus.enable = true;
-
-  services.upower.enable = true;
-  services.upower.criticalPowerAction = "Hibernate";
-  services.upower.percentageCritical = 5;
-
-  services.pipewire.enable = true;
-  services.pipewire.pulse.enable = true;
-  services.pipewire.jack.enable = true;
-  services.pipewire.alsa.enable = true;
 
   services.postgresql.ensureDatabases = [ "dev_blog" "functional_news" ];
   services.postgresql.ensureUsers = [
@@ -104,12 +64,6 @@ users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
     }
   ];
 
-  # don’t shutdown when power button is short-pressed
-  services.logind.extraConfig = "HandlePowerKey=ignore";
-  services.logind.lidSwitch = "hibernate";
-  services.dnsmasq.enable = true;
-  services.dnsmasq.extraConfig = "address=/lh/127.0.0.1";
-
   # doas chown -R stel:nginx /www
   # Each time I add something to /www I should run this command because nginx needs group
   # permission in order to serve files
@@ -125,27 +79,6 @@ users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
     "grip.lh".locations."/".proxyPass = "http://localhost:6419";
     "directus.lh".locations."/".proxyPass = "http://localhost:8055";
   };
-
-  fonts.fontconfig.enable = true;
-  # https://git.io/Js0vT
-  fonts.fontconfig.defaultFonts.emoji =
-    [ "Noto Color Emoji" "Font Awesome 5 Free" "Font Awesome 5 Brands" ];
-  # For Alacritty
-  fonts.fontconfig.defaultFonts.monospace = [
-    "Noto Sans Mono"
-    "Noto Color Emoji"
-    "Font Awesome 5 Free"
-    "Font Awesome 5 Brands"
-  ];
-  fonts.fontconfig.defaultFonts.serif = [ "Noto Serif" ];
-  fonts.fontconfig.defaultFonts.sansSerif = [ "Noto Sans" ];
-  fonts.fonts = [
-    pkgs.font-awesome
-    pkgs.noto-fonts-emoji
-    pkgs.noto-fonts
-    pkgs.powerline-fonts
-    # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
-  ];
 
   environment.systemPackages =
     let unstable = import <nixos-unstable> { config.allowUnfree = true; };
@@ -164,6 +97,7 @@ users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
       # VIDEOS
       youtube-dl
       mpv-unwrapped
+      vlc
       unstable.obs-studio
       # PRINTING
       hplip
@@ -173,6 +107,7 @@ users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
       # BROWSERS
       firefox # allow dns over https
       ungoogled-chromium
+      unstable.tor-browser-bundle-bin
       # MUSIC
       spotify
       # EMAIL
@@ -193,8 +128,6 @@ users.users.stel.extraGroups = [ "networkmanager" "jackaudio" "audio" ];
       # unstable.android-studio
       # rustc
       rustup
-      unstable.tor-browser-bundle-bin
-      vlc
       keepassxc
       unstable.fcp
     ];

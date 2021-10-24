@@ -8,17 +8,11 @@
       "update" = "doas nix-channel --update";
       "switch" = "doas nixos-rebuild switch";
       "hg" = "history | grep";
-      "wifi" = "nmtui";
-      "attach" = "tmux attach";
       "absolutepath" = "realpath -e";
-      "ls" = "exa";
-      "grep" = "rg";
       "bat" = "bat --theme=base16";
       "gs" = "git status";
       "ga" = "git add";
       "gc" = "git commit";
-      "gl" = "git pull";
-      "gp" = "git push";
     };
     programs.zsh.promptInit = ''eval "$(starship init zsh)"'';
     programs.zsh.shellInit = ''

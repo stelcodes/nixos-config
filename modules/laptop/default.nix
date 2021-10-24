@@ -6,6 +6,64 @@
     # Set your time zone.
     time.timeZone = "America/Los_Angeles";
 
+    # Enable ALSA sound.
+    sound.enable = true;
+
+    hardware.bluetooth.enable = true;
+    hardware.opengl.enable = true;
+
+    # Need this for font-manager or any other gtk app to work I guess
+    programs.dconf.enable = true;
+
+    # Enable CUPS to print documents.
+    services.printing.enable = true;
+
+    # Enable iOS devices to automatically connect
+    # Use idevice* commands like ideviceinfo
+    services.usbmuxd.enable = true;
+
+    services.blueman.enable = true;
+    services.gnome.gnome-keyring.enable = true;
+
+    # For upower to work? maybe?
+    services.dbus.enable = true;
+
+    services.upower.enable = true;
+    services.upower.criticalPowerAction = "Hibernate";
+    services.upower.percentageCritical = 10;
+
+    services.pipewire.enable = true;
+    services.pipewire.pulse.enable = true;
+    services.pipewire.jack.enable = true;
+    services.pipewire.alsa.enable = true;
+
+    # don’t shutdown when power button is short-pressed
+    services.logind.extraConfig = "HandlePowerKey=ignore";
+    services.logind.lidSwitch = "hybrid-sleep";
+    services.dnsmasq.enable = true;
+    services.dnsmasq.extraConfig = "address=/lh/127.0.0.1";
+
+    fonts.fontconfig.enable = true;
+    # https://git.io/Js0vT
+    fonts.fontconfig.defaultFonts.emoji =
+      [ "Noto Color Emoji" "Font Awesome 5 Free" "Font Awesome 5 Brands" ];
+    # For Alacritty
+    fonts.fontconfig.defaultFonts.monospace = [
+      "Noto Sans Mono"
+      "Noto Color Emoji"
+      "Font Awesome 5 Free"
+      "Font Awesome 5 Brands"
+    ];
+    fonts.fontconfig.defaultFonts.serif = [ "Noto Serif" ];
+    fonts.fontconfig.defaultFonts.sansSerif = [ "Noto Sans" ];
+    fonts.fonts = [
+      pkgs.font-awesome
+      pkgs.noto-fonts-emoji
+      pkgs.noto-fonts
+      pkgs.powerline-fonts
+      # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+    ];
+
     environment.systemPackages = with pkgs; [ xdg-utils ];
     programs.zsh.shellAliases = {
       "restic-backup-napi" =
@@ -29,6 +87,7 @@
       "yt" = "youtube-dl -f \"best[height=720]\"";
       "gui" = "exec sway";
       "clj-repl" = "rlwrap clojure -M:repl";
+      "wifi" = "nmtui";
     };
   };
 }

@@ -33,5 +33,6 @@
     environment.etc."xdg/waybar/style.css".source = ./waybar-style.css;
     environment.etc."xdg/waybar/config".source = ./waybar-config.json;
     programs.zsh.shellAliases."gui" = "exec sway";
+    security.pam.services.swaylock.text = "auth include login";
   };
 }
