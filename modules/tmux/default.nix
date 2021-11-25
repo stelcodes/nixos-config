@@ -1,16 +1,19 @@
 { pkgs, ... }: {
   config = {
-    programs.tmux.enable = true;
-    programs.tmux.baseIndex = 1;
-    programs.tmux.clock24 = true;
-    programs.tmux.escapeTime = 10;
-    programs.tmux.keyMode = "vi";
-    programs.tmux.newSession = false;
-    programs.tmux.terminal = "screen-256color";
-    programs.tmux.extraConfig = let
+    environment.systemPackages = [ pkgs.tmux ];
+    environment.etc."tmux.conf".text = let
       continuumSaveScript =
         "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
     in ''
+      set  -g default-terminal "screen-256color"
+      set  -g base-index      1
+      setw -g pane-base-index 1
+      set -g status-keys vi
+      set -g mode-keys   vi
+      setw -g aggressive-resize off
+      setw -g clock-mode-style  24
+      set  -s escape-time       10
+      set  -g history-limit     2000
       set-option -g prefix M-a
 
       set -ga terminal-overrides ',alacritty:Tc'

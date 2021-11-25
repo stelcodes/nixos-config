@@ -64,7 +64,20 @@
       # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
     ];
 
-    environment.systemPackages = with pkgs; [ xdg-utils ];
+    environment.systemPackages = with pkgs; [
+      # QUALITY OF LIFE
+      pavucontrol
+      xdg-utils
+      # NETWORKING
+      protonvpn-cli
+      libimobiledevice # For iphone hotspot tethering
+      # DISKS
+      gnome.gnome-disk-utility
+      etcher
+      gparted
+      # SECRETS
+      keepassxc
+    ];
     programs.zsh.shellAliases = {
       "restic-backup-napi" =
         "restic -r /run/media/stel/Napi/restic-backups/ backup --files-from=/config/misc/restic/include.txt --exclude-file=/config/misc/restic/exclude.txt";

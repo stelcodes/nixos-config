@@ -39,44 +39,34 @@
 
     environment.variables.BROWSER = "firefox";
     environment.variables.EDITOR = "nvim";
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages =
+      let unstable = import <nixos-unstable> { config.allowUnfree = true; };
+      in with pkgs; [
       starship
-      git
+      urlview
+      # CORE UTILS
       bat
-      # process monitoring
       htop
       procs
-      # cross platform trash bin
       trash-cli
-      # alternative find, also used for fzf
       fd
-      # system info
       neofetch
-      # http client
       httpie
-      # download stuff from the web
       wget
-      # searching text
       ripgrep
-      # documentaion
       tealdeer
-      # archiving
       unzip
-      # backups
       restic
-      # ls replacement
       exa
-      # make replacement
       just
-      # math
-      rink
-      # nix
+      unstable.fcp
+      # PRINTING
+      hplip
+      # CODING
+      git
       nixfmt
       nix-prefetch-github
-      # timeless db
       sqlite
-      # for urlview tmux plugin
-      urlview
     ];
   };
 }

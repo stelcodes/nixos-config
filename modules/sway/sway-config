@@ -94,20 +94,23 @@ bindcode 233 exec brightnessctl set +5%
 bindcode 237 exec brightnessctl --device='smc::kbd_backlight' set 10%-
 bindcode 238 exec brightnessctl --device='smc::kbd_backlight' set +10%
 input "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
-xkb_layout us
-xkb_options caps:escape
-xkb_variant mac
+  xkb_variant mac
 }
 
+input "type:keyboard" {
+  xkb_layout us
+  xkb_options caps:escape
+}
+  
 input "type:touchpad" {
-dwt enabled
-natural_scroll enabled
-tap enabled
-tap_button_map lrm
+  dwt enabled
+  natural_scroll enabled
+  tap enabled
+  tap_button_map lrm
 }
 
 output "*" {
-bg /home/stel/pictures/wallpapers/pretty-nord.jpg fill
+  bg /home/stel/pictures/wallpapers/pretty-nord.jpg fill
 }
 
 bar {
