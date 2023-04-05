@@ -7,10 +7,6 @@
     <home-manager/nixos>
     ../../modules/common
     ../../modules/laptop
-    ../../modules/home-manager
-    ../../modules/home-manager/tmux
-    ../../modules/home-manager/neovim
-    ../../modules/home-manager/fish
     # ../../modules/postgresql/local.nix
     # ../../modules/clojure
     # ../../modules/python
@@ -43,12 +39,70 @@
   # HOME MANAGER
   home-manager.useUserPackages = true;
   home-manager.useGlobalPkgs = true;
-  home-manager.users.stel = { pkgs, config, ... }: {
-    programs.fish.enable = true;
-    programs.neovim.enable = true;
-    home.stateVersion = config.system.stateVersion;
-    home.packages = with pkgs; [];
-  };
+  home-manager.users.stel = { config, ... }:
+  pkgs.lib.mkMerge [
+    (import ../../home-manager pkgs)
+    (import ../../home-manager/zsh pkgs)
+    (import ../../home-manager/tmux pkgs)
+    (import ../../home-manager/neovim pkgs)
+    (import ../../home-manager/alacritty pkgs)
+    (import ../../home-manager/sway pkgs config)
+    (import ../../home-manager/python pkgs)
+    (import ../../home-manager/rust pkgs)
+    (import ../../home-manager/go pkgs)
+    (import ../../home-manager/nodejs pkgs)
+    (import ../../home-manager/clojure pkgs)
+    {
+
+      home.stateVersion = "23.05";
+      home.username = "stel";
+      home.homeDirectory = "/home/stel";
+      home.packages = [
+        pkgs.tor-browser-bundle-bin
+        pkgs.discord
+
+            # proton vpn
+            pkgs.protonvpn-cli
+            pkgs.calibre
+
+            #art
+            pkgs.gimp
+            # pkgs.ardour
+
+            #printing
+            pkgs.hplip
+            pkgs.evince # pdf viewer
+            pkgs.pdfarranger
+
+            # media
+            pkgs.youtube-dl
+            pkgs.shotcut
+            pkgs.mpv-unwrapped
+            pkgs.qbittorrent
+
+            # browsers
+            pkgs.firefox
+            pkgs.ungoogled-chromium
+
+            # music
+            pkgs.spotify
+
+            # partitioning
+            pkgs.gnome.gnome-disk-utility
+
+            # recording/streaming
+            pkgs.obs-studio
+            # pkgs.obs-wlrobs
+            pkgs.libsForQt5.qt5.qtwayland
+            pkgs.pavucontrol
+
+            # pkgs.graalvm11-ce
+            # For iphone hotspot tethering
+            pkgs.libimobiledevice
+          ];
+
+        }
+      ];
 
 
   # This value determines the NixOS release from which the default

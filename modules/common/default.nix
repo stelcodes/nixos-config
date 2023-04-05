@@ -52,7 +52,7 @@
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
       ];
-      shell = lib.mkDefault pkgs.fish;
+      shell = pkgs.fish;
     };
 
     programs.fish.enable = lib.mkDefault true;
