@@ -6,6 +6,7 @@ pkgs: {
       # name = "OpenDyslexicMono Nerd Font";
       size = 13;
     };
+    theme = "Nord";
     settings = {
       shell = "${pkgs.fish}/bin/fish";
       shell_integration = "no-cursor";
@@ -44,6 +45,5 @@ pkgs: {
       "kitty_mod+up" = "scroll_page_up";
       "kitty_mod+down" = "scroll_page_down";
     };
-    extraConfig = builtins.readFile ./nord.conf;
   };
 }

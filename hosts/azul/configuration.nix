@@ -34,7 +34,7 @@
   hardware.facetimehd.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.desktopManager.gnome.enable = true;
+  programs.sway.enable = true;
 
   # HOME MANAGER
   home-manager.useUserPackages = true;
@@ -44,7 +44,7 @@
     (import ../../home-manager pkgs)
     (import ../../home-manager/zsh pkgs)
     (import ../../home-manager/tmux pkgs)
-    (import ../../home-manager/neovim pkgs)
+    (import ../../home-manager/neovim/new-config.nix pkgs)
     (import ../../home-manager/alacritty pkgs)
     (import ../../home-manager/kitty pkgs)
     (import ../../home-manager/sway pkgs config)

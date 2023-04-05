@@ -56,10 +56,10 @@ pkgs: {
 
     # I'm putting all manually installed executables into ~/.local/bin
     sessionPath = [ "$HOME/.local/bin" ];
-    sessionVariables = {
-      SHELL = "${pkgs.zsh}/bin/zsh";
-      EDITOR = "${pkgs.neovim}/bin/nvim";
-    };
+    # sessionVariables = {
+    #   SHELL = "${pkgs.zsh}/bin/zsh";
+    #   EDITOR = "${pkgs.neovim}/bin/nvim";
+    # };
   };
 
   programs = {
@@ -93,9 +93,9 @@ pkgs: {
         core.editor = "nvim";
         init = { defaultBranch = "main"; };
         merge = { ff = "only"; };
-        url = {
-          "git@github.com:".insteadOf = "https://github.com/";
-        };
+        # url = {
+        #   "git@github.com:".insteadOf = "https://github.com/";
+        # };
         # pull.rebase = "true";
       };
     };
@@ -128,7 +128,10 @@ pkgs: {
       # enableNixDirenvIntegration = true;
     };
 
-    nnn.enable = true;
+    nnn = {
+      enable = true;
+      package = pkgs.nnn.override ({ withNerdIcons = true; });
+    };
 
 
     # Just doesn't work. Getting permission denied error when it tries to read .config/gh

@@ -1,5 +1,5 @@
 { pkgs, lib, ... }: {
-  imports = [ ../neovim ../zsh ../tmux ../git ];
+  imports = [ ];
 
   config = {
     boot.cleanTmpDir = true;

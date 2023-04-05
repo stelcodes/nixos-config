@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ../common ../alacritty ../sway ];
+  imports = [ ];
 
   config = {
 
@@ -15,11 +15,14 @@
     # Configure keymap in X11
     services.xserver = {
       enable = true;
+      autorun = false;
       layout = "us";
       xkbVariant = "";
       xkbOptions = "caps:swapescape";
       libinput.enable = true;
     };
+    # displayManager.startx.enable = true;
+
 
     # Enable iOS devices to automatically connect
     # Use idevice* commands like ideviceinfo
@@ -71,6 +74,7 @@
     ];
     fonts.fontconfig.defaultFonts.serif = [ "Noto Serif" ];
     fonts.fontconfig.defaultFonts.sansSerif = [ "Noto Sans" ];
+    # fonts.enableDefaultFonts = true;
     fonts.fonts = [
       pkgs.font-awesome
       pkgs.noto-fonts-emoji
