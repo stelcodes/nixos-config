@@ -46,6 +46,7 @@
     (import ../../home-manager/tmux pkgs)
     (import ../../home-manager/neovim pkgs)
     (import ../../home-manager/alacritty pkgs)
+    (import ../../home-manager/kitty pkgs)
     (import ../../home-manager/sway pkgs config)
     (import ../../home-manager/python pkgs)
     (import ../../home-manager/rust pkgs)

@@ -12,14 +12,14 @@
     # Enable CUPS to print documents.
     services.printing.enable = true;
 
-  # Configure keymap in X11
-  services.xserver = {
-    enable = true;
-    layout = "us";
-    xkbVariant = "";
-    xkbOptions = "caps:swapescape";
-    libinput.enable = true;
-  };
+    # Configure keymap in X11
+    services.xserver = {
+      enable = true;
+      layout = "us";
+      xkbVariant = "";
+      xkbOptions = "caps:swapescape";
+      libinput.enable = true;
+    };
 
     # Enable iOS devices to automatically connect
     # Use idevice* commands like ideviceinfo
@@ -76,7 +76,9 @@
       pkgs.noto-fonts-emoji
       pkgs.noto-fonts
       pkgs.powerline-fonts
-      # (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+      pkgs.jetbrains-mono
+      # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/data/fonts/nerdfonts/shas.nix
+      (pkgs.nerdfonts.override { fonts = [ "Noto" "JetBrainsMono" "OpenDyslexic" ]; })
     ];
 
     environment.systemPackages = with pkgs; [
