@@ -2,7 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
-    /config/modules/server
+    ../../modules/server
   ];
 
   networking.hostName = "gitstore";

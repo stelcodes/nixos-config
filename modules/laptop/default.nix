@@ -3,12 +3,6 @@
 
   config = {
 
-    # Set your time zone.
-    time.timeZone = "America/Los_Angeles";
-
-    # Enable ALSA sound.
-    sound.enable = true;
-
     hardware.bluetooth.enable = true;
     hardware.opengl.enable = true;
 
@@ -17,6 +11,15 @@
 
     # Enable CUPS to print documents.
     services.printing.enable = true;
+
+  # Configure keymap in X11
+  services.xserver = {
+    enable = true;
+    layout = "us";
+    xkbVariant = "";
+    xkbOptions = "caps:swapescape";
+    libinput.enable = true;
+  };
 
     # Enable iOS devices to automatically connect
     # Use idevice* commands like ideviceinfo
@@ -32,13 +35,25 @@
     services.upower.criticalPowerAction = "Hibernate";
     services.upower.percentageCritical = 10;
 
-    services.pipewire.enable = true;
-    services.pipewire.pulse.enable = true;
-    services.pipewire.jack.enable = true;
-    services.pipewire.alsa.enable = true;
+    # Enable sound with pipewire.
+    sound.enable = true;
+    hardware.pulseaudio.enable = false;
+    security.rtkit.enable = true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      #jack.enable = true;
+
+      # use the example session manager (no others are packaged yet so this is enabled by default,
+      # no need to redefine it in your config for now)
+      #media-session.enable = true;
+    };
 
     # don’t shutdown when power button is short-pressed
-    services.logind.extraConfig = "HandlePowerKey=ignore";
+    services.logind.extraConfig = "HandlePowerKey=hibernate";
     services.logind.lidSwitch = "hybrid-sleep";
     services.dnsmasq.enable = true;
     services.dnsmasq.extraConfig = "address=/lh/127.0.0.1";
@@ -65,18 +80,8 @@
     ];
 
     environment.systemPackages = with pkgs; [
-      # QUALITY OF LIFE
-      pavucontrol
-      xdg-utils
-      # NETWORKING
-      protonvpn-cli
-      libimobiledevice # For iphone hotspot tethering
-      # DISKS
-      gnome.gnome-disk-utility
-      etcher
-      gparted
-      # SECRETS
-      keepassxc
+      firefox
+      urlview # move to tmux module
     ];
     programs.zsh.shellAliases = {
       "restic-backup-napi" =

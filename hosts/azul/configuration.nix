@@ -1,79 +1,55 @@
 { config, pkgs, ... }: {
-  nixpkgs.config.allowUnfree = true;
+
+  # sudo env NIXPKGS_ALLOW_INSECURE=1 NIX_PATH="nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/home/stel/nixos-config/hosts/azul/configuration.nix:/nix/var/nix/profiles/per-user/root/channels" nixos-rebuild switch
 
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    /config/modules/laptop
-    /config/modules/postgresql/local.nix
-    /config/modules/clojure
-    /config/modules/python
-    /config/modules/nodejs
+    <home-manager/nixos>
+    ../../modules/common
+    ../../modules/laptop
+    ../../modules/home-manager
+    ../../modules/home-manager/tmux
+    ../../modules/home-manager/neovim
+    ../../modules/home-manager/fish
+    # ../../modules/postgresql/local.nix
+    # ../../modules/clojure
+    # ../../modules/python
+    # ../../modules/nodejs
   ];
 
-  # Use the systemd-boot EFI boot loader.
+  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = [ "wl" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
-  boot.extraModprobeConfig = ''
-    options snd-hda-intel model=mba6
-  '';
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "azul"; # Define your hostname.
-  networking.networkmanager.enable = true;
-  networking.enableIPv6 = true;
-  networking.useDHCP = false;
+  # Setup keyfile
+  boot.initrd.secrets = {
+    "/crypto_keyfile.bin" = null;
+  };
+
+  # Enable swap on luks
+  boot.initrd.luks.devices."luks-aa91d73b-ad89-4d21-8221-0dcdd36b142a".device = "/dev/disk/by-uuid/aa91d73b-ad89-4d21-8221-0dcdd36b142a";
+  boot.initrd.luks.devices."luks-aa91d73b-ad89-4d21-8221-0dcdd36b142a".keyFile = "/crypto_keyfile.bin";
+
+  networking.hostName = "azul";
+  networking.firewall.allowedTCPPorts = [ ];
+  networking.firewall.allowedUDPPorts = [ ];
 
   hardware.facetimehd.enable = true;
 
-  users.users.stel.extraGroups = [ "networkmanager" ];
+  # Enable the GNOME Desktop Environment.
+  services.xserver.desktopManager.gnome.enable = true;
 
-  # doas chown -R stel:nginx /www
-  # Each time I add something to /www I should run this command because nginx needs group
-  # permission in order to serve files
-  services.nginx.enable = true;
-  services.nginx.recommendedGzipSettings = true;
-  services.nginx.recommendedOptimisation = true;
-  services.nginx.recommendedProxySettings = true;
-  services.nginx.recommendedTlsSettings = true;
-  services.nginx.virtualHosts = {
-    "dev-blog-published.lh".locations."/".root = "/www/dev-blog-published";
-    "dev-blog-preview.lh".locations."/".root = "/www/dev-blog-preview";
-    "dev-blog-development.lh".locations."/".proxyPass = "http://localhost:3000";
-    "grip.lh".locations."/".proxyPass = "http://localhost:6419";
-    "directus.lh".locations."/".proxyPass = "http://localhost:8055";
+  # HOME MANAGER
+  home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
+  home-manager.users.stel = { pkgs, config, ... }: {
+    programs.fish.enable = true;
+    programs.neovim.enable = true;
+    home.stateVersion = config.system.stateVersion;
+    home.packages = with pkgs; [];
   };
 
-  environment.systemPackages =
-    let unstable = import <nixos-unstable> { config.allowUnfree = true; };
-    in with pkgs; [
-      # SOCIAL
-      slack
-      discord
-      # MEDIA
-      calibre
-      evince
-      gimp
-      youtube-dl
-      mpv-unwrapped
-      unstable.obs-studio
-      qbittorrent
-      # BROWSERS
-      firefox # allow dns over https
-      unstable.tor-browser-bundle-bin
-      # MUSIC
-      spotify
-      # CODING
-      jq
-      yq
-      rlwrap
-      glow
-      unstable.chroma
-      rustup
-      # unstable.android-studio
-      usbutils # for lsusb
-    ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -81,7 +57,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 

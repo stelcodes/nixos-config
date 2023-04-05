@@ -1,17 +1,17 @@
 { pkgs, ... }: {
   config = let
-    unstable = import <nixos-unstable> { };
+    # unstable = import <nixos-unstable> { };
   in {
     programs.neovim.enable = true;
-    programs.neovim.package = unstable.neovim-unwrapped;
+    # programs.neovim.package = neovim-unwrapped;
     programs.neovim.defaultEditor = true;
-    programs.neovim.viAlias = true;
-    programs.neovim.vimAlias = true;
+    # programs.neovim.viAlias = true;
+    # programs.neovim.vimAlias = true;
     programs.neovim.runtime = {
-      "filetype.vim".source = /config/modules/neovim/filetype.vim;
+      "filetype.vim".source = ./filetype.vim;
     };
     programs.neovim.configure.customRC =
-      builtins.readFile /config/modules/neovim/extra-config.vim;
+      builtins.readFile ./extra-config.vim;
     programs.neovim.configure.packages.myVimPackage = let
       stel-paredit = pkgs.vimUtils.buildVimPlugin {
         pname = "stel-paredit";
@@ -44,6 +44,25 @@
         ale
         nord-vim
         stel-paredit
+        plenary-nvim
+        telescope-nvim
+        {
+          plugin = "telescope-nvim";
+          config = ''
+            packadd! telescope-nvim
+            lua <<EOF
+            ${builtins.readFile ./telescope-nvim.lua}
+            EOF
+          '';
+        }
+        telescope-ui-select-nvim
+        telescope-file-browser-nvim
+        nvim-lspconfig
+        markdown-preview-nvim
+        vim-better-whitespace
+        lualine-nvim
+        nvim-web-devicons
+        gitsigns-nvim
       ];
     };
   };

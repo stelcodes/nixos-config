@@ -2,10 +2,10 @@
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
-    /config/modules/server
-    /config/modules/postgresql/local.nix
-    /config/modules/clojure
-    /config/modules/nodejs
+    ../../modules/server
+    ../../modules/postgresql/local.nix
+    ../../modules/clojure
+    ../../modules/nodejs
   ];
 
   networking.hostName = "nube1";
