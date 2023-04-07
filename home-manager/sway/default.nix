@@ -31,6 +31,16 @@ pkgs: config: {
 
   wayland.windowManager.sway = {
     enable = true;
+    extraSessionCommands = ''
+	export SDL_VIDEODRIVER=wayland
+	# needs qt5.qtwayland in systemPackages
+	export QT_QPA_PLATFORM=wayland
+	export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+	# Fix for some Java AWT applications (e.g. Android Studio),
+	# use this if they aren't displayed properly:
+	export _JAVA_AWT_WM_NONREPARENTING=1
+    '';
+
     config = {
       assigns = {
         "1" = [{ class = "^Spotify$"; }];
@@ -80,13 +90,13 @@ pkgs: config: {
         "173" = "exec playerctl previous"; # f7
         "172" = "exec playerctl play-pause"; # f8
         "171" = "exec playerctl next"; # f9
-        "121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
-        "122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
-        "123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
-      };
-      input = {
-        "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
-          xkb_layout = "us";
+		"121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
+		"122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
+		"123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
+	      };
+	      input = {
+		"1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
+		  xkb_layout = "us";
           xkb_variant = "mac";
           xkb_options = "caps:escape";
         };
@@ -98,7 +108,8 @@ pkgs: config: {
         };
       };
       output = {
-        "*" = { bg = "/home/stel/pictures/wallpapers/pretty-nord.jpg fill"; };
+        # "*" = { bg = "/home/stel/pictures/wallpapers/pretty-nord.jpg fill"; };
+        "*" = { bg = "#2e3440 solid_color"; };
       };
       startup = [
         { command = "protonmail-bridge"; }
