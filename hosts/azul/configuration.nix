@@ -43,6 +43,7 @@
   pkgs.lib.mkMerge [
     (import ../../home-manager pkgs)
     (import ../../home-manager/zsh pkgs)
+    (import ../../home-manager/fish pkgs)
     (import ../../home-manager/tmux pkgs)
     (import ../../home-manager/neovim/new-config.nix pkgs)
     (import ../../home-manager/alacritty pkgs)

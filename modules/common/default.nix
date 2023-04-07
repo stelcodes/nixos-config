@@ -60,7 +60,6 @@
     environment.systemPackages =
       with pkgs; [
       vim
-      starship # move to home-manager/fish module
       # CORE UTILS
       bat
       htop
@@ -84,6 +83,7 @@
       nixfmt
       nix-prefetch-github
       sqlite
+      dua
     ];
 
 
