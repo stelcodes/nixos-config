@@ -93,6 +93,7 @@ pkgs: {
         type = "lua";
         config = ''
           local gs = require('gitsigns')
+          gs.setup()
           -- the :w is so fugitive will pick up the staging changes
           vim.keymap.set({'n','v'}, '<leader>gs', gs.stage_hunk)
           vim.keymap.set('n', '<leader>gu', gs.undo_stage_hunk)
@@ -180,6 +181,37 @@ pkgs: {
         require('auto-session').setup {
           auto_restore_enabled = false
         }
+      '';
+    }
+
+    pkgs.vimPlugins.nvim-web-devicons
+
+    {
+      plugin = pkgs.vimPlugins.bufferline-nvim;
+      type = "lua";
+      config = ''
+        local buff = require('bufferline')
+        buff.setup {
+          options = {
+            mode = 'tabs',
+            separator_style = 'thin',
+            sort_by = 'tabs'
+          }
+        }
+      '';
+    }
+
+    {
+      plugin = pkgs.vimPlugins.vim-eunuch;
+      type = "lua";
+      config = ''
+        local delete_eunuch_cmds = function()
+          vim.cmd 'delcommand SudoEdit'
+          vim.cmd 'delcommand SudoWrite'
+        end
+        vim.api.nvim_create_autocmd({'VimEnter'}, {
+          callback = delete_eunuch_cmds
+        })
       '';
     }
 
