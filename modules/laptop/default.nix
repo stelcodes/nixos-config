@@ -31,13 +31,6 @@
     services.blueman.enable = true;
     services.gnome.gnome-keyring.enable = true;
 
-    # For upower to work? maybe?
-    services.dbus.enable = true;
-
-    services.upower.enable = true;
-    services.upower.criticalPowerAction = "Hibernate";
-    services.upower.percentageCritical = 10;
-
     # Enable sound with pipewire.
     sound.enable = true;
     hardware.pulseaudio.enable = false;
