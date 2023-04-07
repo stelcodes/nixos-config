@@ -3,6 +3,15 @@ pkgs: {
     enable = true;
     defaultEditor = true;
     extraLuaConfig = builtins.readFile ./base.lua;
+    extraPackages = [
+      pkgs.clojure-lsp
+      pkgs.rnix-lsp
+      pkgs.pyright
+      pkgs.nodePackages.typescript-language-server
+      pkgs.rust-analyzer
+      pkgs.java-language-server
+      pkgs.lua-language-server
+    ];
     plugins = let
       hydropump-nvim = pkgs.vimUtils.buildVimPlugin {
         pname = "hydropump-nvim";
@@ -37,7 +46,7 @@ pkgs: {
           sha256 = "MRoCpqfyVB3G7XNYzQYlIR+Guip2dhuttfIY1Wol76s=";
         };
       };
-    in with pkgs.vimPlugins; [
+    in [
 
       # {
       #  plugin = hydropump-nvim;
@@ -49,22 +58,22 @@ pkgs: {
         plugin = pkgs.vimPlugins.conjure;
         type = "lua";
         config = ''
-        vim.g['conjure#mapping#prefix'] = ','
-        vim.g['conjure#log#hud#width'] = 1
-        vim.g['conjure#log#hud#height'] = 0.6
-        vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
-        vim.g['conjure#eval#gsubs'] = {
-          ['do-comment'] = {'^%(comment[%s%c]', '(do '}
-        }
-        vim.g['conjure#eval#result_register'] = '*'
+          vim.g['conjure#mapping#prefix'] = ','
+          vim.g['conjure#log#hud#width'] = 1
+          vim.g['conjure#log#hud#height'] = 0.6
+          vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
+          vim.g['conjure#eval#gsubs'] = {
+            ['do-comment'] = {'^%(comment[%s%c]', '(do '}
+          }
+          vim.g['conjure#eval#result_register'] = '*'
         '';
       }
       {
         plugin = stel-paredit;
         type = "lua";
         config = ''
-        vim.g['paredit_smartjump'] = 1
-        vim.g['paredit_matchlines'] = 500
+          vim.g['paredit_smartjump'] = 1
+          vim.g['paredit_matchlines'] = 500
         '';
       }
       pkgs.vimPlugins.plenary-nvim
@@ -81,7 +90,7 @@ pkgs: {
         config = "colorscheme nord";
       }
 
-      vim-nix
+      pkgs.vimPlugins.vim-nix
 
       {
         plugin = pkgs.vimPlugins.vim-auto-save;
@@ -146,8 +155,8 @@ pkgs: {
           options = {
             icons_enabled = true,
             theme = 'nord',
-            component_separators = { left = ''', right = '''},
-            section_separators = { left = ''', right = '''},
+            component_separators = { left = "", right = ""},
+            section_separators = { left = "", right = ""},
             disabled_filetypes = {},
             always_divide_middle = true,
           },
@@ -213,6 +222,12 @@ pkgs: {
           callback = delete_eunuch_cmds
         })
       '';
+    }
+
+    {
+     plugin = pkgs.vimPlugins.nvim-lspconfig;
+     type = "lua";
+     config = builtins.readFile ./nvim-lspconfig.lua;
     }
 
   ];
