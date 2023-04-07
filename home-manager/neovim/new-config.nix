@@ -207,6 +207,7 @@ pkgs: {
             sort_by = 'tabs'
           }
         }
+        vim.api.nvim_set_hl(0, "BufferlineFill", { link = "BufferlineBackground" })
       '';
     }
 

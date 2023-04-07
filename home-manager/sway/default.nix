@@ -32,13 +32,13 @@ pkgs: config: {
   wayland.windowManager.sway = {
     enable = true;
     extraSessionCommands = ''
-	export SDL_VIDEODRIVER=wayland
-	# needs qt5.qtwayland in systemPackages
-	export QT_QPA_PLATFORM=wayland
-	export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-	# Fix for some Java AWT applications (e.g. Android Studio),
-	# use this if they aren't displayed properly:
-	export _JAVA_AWT_WM_NONREPARENTING=1
+      export SDL_VIDEODRIVER=wayland
+      # needs qt5.qtwayland in systemPackages
+      export QT_QPA_PLATFORM=wayland
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      # Fix for some Java AWT applications (e.g. Android Studio),
+      # use this if they aren't displayed properly:
+      export _JAVA_AWT_WM_NONREPARENTING=1
     '';
 
     config = {
@@ -46,7 +46,7 @@ pkgs: config: {
         "1" = [{ class = "^Spotify$"; }];
         # "2" = [{ class = "^Firefox$"; }];
         # "3" = [{ title = "^Alacritty$"; }];
-        "4" = [ { class = "^Gimp$"; } { title = "Shotcut$"; } ];
+        "4" = [{ class = "^Gimp$"; } { title = "Shotcut$"; }];
         "5" = [{ class = "^Thunderbird$"; }];
         "6" = [{ title = "^calibre"; }];
       };
@@ -61,16 +61,27 @@ pkgs: config: {
       colors = {
         focused = {
           background = "#2e3440";
+          border = "#616e88";
+          childBorder = "#616e88";
+          indicator = "#2e9ef4";
+          text = "#eceff4";
+        };
+        unfocused = {
+          background = "#222730";
           border = "#2e3440";
-          childBorder = "#8c738c";
+          childBorder = "#2e3440";
           indicator = "#2e9ef4";
           text = "#eceff4";
         };
       };
-      window = { hideEdgeBorders = "smart"; };
+      window = {
+        hideEdgeBorders = "both";
+        border = 1;
+      };
       keybindings =
         let modifier = config.wayland.windowManager.sway.config.modifier;
-        in pkgs.lib.mkOptionDefault {
+        in
+        pkgs.lib.mkOptionDefault {
           "${modifier}+tab" = "workspace next";
           "${modifier}+shift+tab" = "workspace prev";
           # backtick ` is called grave
@@ -90,13 +101,13 @@ pkgs: config: {
         "173" = "exec playerctl previous"; # f7
         "172" = "exec playerctl play-pause"; # f8
         "171" = "exec playerctl next"; # f9
-		"121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
-		"122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
-		"123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
-	      };
-	      input = {
-		"1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
-		  xkb_layout = "us";
+        "121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
+        "122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
+        "123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
+      };
+      input = {
+        "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
+          xkb_layout = "us";
           xkb_variant = "mac";
           xkb_options = "caps:escape";
         };
@@ -119,14 +130,14 @@ pkgs: config: {
         # This will lock your screen after 300 seconds of inactivity, then turn off
         # your displays after another 300 seconds, and turn your screens back on when
         # resumed. It will also lock your screen before your computer goes to sleep.
-        {
-          command = ''
-            swayidle -w \
-            timeout 300 'swaylock -f -c 000000' \
-            timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-            before-sleep 'swaylock -f -c 000000'
-          '';
-        }
+        # {
+        #   command = ''
+        #     swayidle -w \
+        #     timeout 300 'swaylock -f -c 000000' \
+        #     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+        #     before-sleep 'swaylock -f -c 000000'
+        #   '';
+        # }
         # {
         #   command = "sleep 7 && systemctl --user restart waybar";
         #   always = true;
@@ -157,73 +168,73 @@ pkgs: config: {
         "idle_inhibitor"
         "clock"
       ];
-        "sway/workspaces" = {
-          disable-scroll = true;
-          all-outputs = true;
-          format = "{icon}";
-          format-icons = {
-            "1" = "vibes";
-            "2" = "www";
-            "3" = "term";
-            "4" = "art";
-            "5" = "mail";
-            "6" = "books";
-            default = "scratch";
-          };
-          persistent_workspaces = {
-            "1" = [ ];
-            "2" = [ ];
-            "3" = [ ];
-            "4" = [ ];
-            "5" = [ ];
-            "6" = [ ];
-          };
+      "sway/workspaces" = {
+        disable-scroll = true;
+        all-outputs = true;
+        format = "{icon}";
+        format-icons = {
+          "1" = "vibes";
+          "2" = "www";
+          "3" = "term";
+          "4" = "art";
+          "5" = "mail";
+          "6" = "books";
+          default = "scratch";
         };
-        cpu = {
-          interval = 10;
-          format = "{usage} ";
+        persistent_workspaces = {
+          "1" = [ ];
+          "2" = [ ];
+          "3" = [ ];
+          "4" = [ ];
+          "5" = [ ];
+          "6" = [ ];
         };
-        memory = {
-          interval = 30;
-          format = "{} ";
+      };
+      cpu = {
+        interval = 10;
+        format = "{usage} ";
+      };
+      memory = {
+        interval = 30;
+        format = "{} ";
+      };
+      disk = {
+        interval = 30;
+        format = "{percentage_used} ";
+      };
+      network = {
+        # format = "{bandwidthDownBits}";
+        max-length = 50;
+        format = "{ifname}";
+        format-ethernet = "{ifname} ";
+        format-disconnected = "";
+        format-wifi = "{essid} {signalStrength} ";
+      };
+      pulseaudio = {
+        format = "{volume} {icon}";
+        format-bluetooth = "{volume} {icon} ";
+        format-muted = "{volume} ";
+        format-icons = { default = [ "" "" ]; };
+        on-click = "pavucontrol";
+      };
+      clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
+      battery = {
+        format = "{capacity} {icon}";
+        format-icons = [ " " " " " " " " " " ];
+        max-length = 40;
+      };
+      idle_inhibitor = {
+        format = "{icon}";
+        format-icons = {
+          activated = " ";
+          deactivated = " ";
         };
-        disk = {
-          interval = 30;
-          format = "{percentage_used} ";
-        };
-        network = {
-          # format = "{bandwidthDownBits}";
-          max-length = 50;
-          format = "{ifname}";
-          format-ethernet = "{ifname} ";
-          format-disconnected = "";
-          format-wifi = "{essid} {signalStrength} ";
-        };
-        pulseaudio = {
-          format = "{volume} {icon}";
-          format-bluetooth = "{volume} {icon} ";
-          format-muted = "{volume} ";
-          format-icons = { default = [ "" "" ]; };
-          on-click = "pavucontrol";
-        };
-        clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
-        battery = {
-          format = "{capacity} {icon}";
-          format-icons = [ " " " " " " " " " " ];
-          max-length = 40;
-        };
-        idle_inhibitor = {
-          format = "{icon}";
-          format-icons = {
-            activated = " ";
-            deactivated = " ";
-          };
-        };
-        backlight = {
-          interval = 5;
-          format = "{percent} {icon}";
-          format-icons = [ "" "" "" ];
-        };
+      };
+      backlight = {
+        interval = 5;
+        format = "{percent} {icon}";
+        format-icons = [ "" "" "" ];
+      };
     }];
   };
 }
