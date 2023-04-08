@@ -3,12 +3,10 @@ pkgs: config: {
   home.packages = [
     pkgs.swaylock
     pkgs.swayidle
-    pkgs.dmenu
     pkgs.brightnessctl
     pkgs.playerctl
     pkgs.libinput
-    pkgs.xorg.xev
-    pkgs.slurp # dependency for swaytools (installed via pip install --user swaytools)
+    pkgs.wev
     pkgs.gnome3.nautilus
     pkgs.keepassxc
     pkgs.font-manager
@@ -17,15 +15,14 @@ pkgs: config: {
     pkgs.wofi
     pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
     pkgs.wlsunset
-    # Sway screenshots
     pkgs.grim
     pkgs.slurp
+    pkgs.pamixer
+    pkgs.wofi-emoji
   ];
 
   xdg.configFile = {
-    "wofi/config".text = ''
-      allow_images=true
-    '';
+    "wofi/config".text = "allow_images=true";
     "wofi/style.css".source = ./wofi.css;
   };
 
@@ -50,11 +47,11 @@ pkgs: config: {
         "5" = [{ class = "^Thunderbird$"; }];
         "6" = [{ title = "^calibre"; }];
       };
-      terminal = "alacritty";
+      terminal = "${pkgs.kitty}/bin/kitty";
       menu = "${pkgs.wofi}/bin/wofi --show run";
       modifier = "Mod4";
       fonts = {
-        names = [ "Noto Sans Mono" "Font Awesome 5 Free" "Noto Color Emoji" ];
+        names = [ "NotoSansMono Nerd Font" ];
         size = 8.0;
       };
       bars = [ ];
@@ -101,9 +98,9 @@ pkgs: config: {
         "173" = "exec playerctl previous"; # f7
         "172" = "exec playerctl play-pause"; # f8
         "171" = "exec playerctl next"; # f9
-        "121" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle"; # f10
-        "122" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%"; # f11
-        "123" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%"; # f12
+        "121" = "exec pamixer --toggle-mute"; # f10
+        "122" = "exec pamixer --decrease 5"; # f11
+        "123" = "exec pamixer --increase 5"; # f12
       };
       input = {
         "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
