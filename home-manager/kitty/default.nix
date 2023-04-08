@@ -2,7 +2,7 @@ pkgs: {
   programs.kitty = {
     enable = true;
     font = {
-      name = "JetBrains Mono Nerd Font";
+      name = "NotoSansMono Nerd Font";
       # name = "OpenDyslexicMono Nerd Font";
       size = 13;
     };
@@ -23,7 +23,7 @@ pkgs: {
       tab_bar_margin_width = 0;
       tab_bar_style = "powerline";
       tab_powerline_style = "round";
-      tab_bar_min_tabs = 1;
+      tab_bar_min_tabs = 2;
       kitty_mod = "alt";
     };
     keybindings = {
@@ -44,6 +44,9 @@ pkgs: {
       "kitty_mod+p" = "show_scrollback";
       "kitty_mod+up" = "scroll_page_up";
       "kitty_mod+down" = "scroll_page_down";
+      "kitty_mod+equal" = "change_font_size all 13.0";
+      "kitty_mod+plus" = "change_font_size all +0.5";
+      "kitty_mod+minus" = "change_font_size all -0.5";
     };
   };
 }
