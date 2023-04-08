@@ -42,6 +42,7 @@
   home-manager.users.stel = { config, ... }:
   pkgs.lib.mkMerge [
     (import ../../home-manager pkgs)
+    (import ../../home-manager/gtk pkgs)
     (import ../../home-manager/zsh pkgs)
     (import ../../home-manager/fish pkgs)
     (import ../../home-manager/tmux pkgs)
@@ -83,7 +84,7 @@
             pkgs.qbittorrent
 
             # browsers
-            pkgs.firefox
+            # pkgs.firefox
             pkgs.ungoogled-chromium
 
             # music
