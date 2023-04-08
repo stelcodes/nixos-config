@@ -19,7 +19,7 @@ pkgs: {
       jcu = "journalctl --user";
       config = "cd ~/nixos-config && nvim";
       d = "dua --stay-on-filesystem interactive";
-      new-shh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
+      new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
       # ISO 8601 date format with UTC timezone
       date-iso = "date -u +\"%Y-%m-%dT%H:%M:%SZ\"";
     };

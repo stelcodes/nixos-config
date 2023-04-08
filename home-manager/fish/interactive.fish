@@ -21,5 +21,6 @@ function n
   cd $(cat /tmp/nnn-last-dir | string sub --start 5 --end -1)
 end
 
+set -g fish_greeting (printf (_ '🐟 don\'t be afraid to ask for %shelp%s 💞') (set_color green) (set_color normal))
 starship init fish | source
 direnv hook fish | source
