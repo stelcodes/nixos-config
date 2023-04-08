@@ -1,13 +1,10 @@
 { pkgs, lib, ... }: {
-  imports = [ ];
-
   config = {
     boot.cleanTmpDir = true;
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-    # hosts
+    # Enable networking
+    networking.networkmanager.enable = true;
+    networking.hosts."127.0.0.1" = [ "lh" ];
     networking.hosts."104.236.219.156" = [ "nube1" ];
     networking.hosts."167.99.122.78" = [ "morado1" ];
 
@@ -59,7 +56,7 @@
 
     environment.systemPackages =
       with pkgs; [
-      vim
+        vim
       # CORE UTILS
       bat
       htop
@@ -86,8 +83,7 @@
       dua
     ];
 
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+    # Allow unfree packages
+    nixpkgs.config.allowUnfree = true;
   };
 }
