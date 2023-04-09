@@ -1,4 +1,5 @@
 pkgs: {
+
   gtk = {
     enable = true;
     font = {
@@ -19,8 +20,15 @@ pkgs: {
     #   name = "Nordzy-cursors";
     # };
   };
+
   qt = {
     enable = true;
     platformTheme = "gtk";
   };
+
+  # https://wiki.archlinux.org/title/Dolphin#Mismatched_folder_view_background_colors
+  xdg.configFile.kdeglobals.text = ''
+    [Colors:View]
+    BackgroundNormal=#2e3440
+  '';
 }
