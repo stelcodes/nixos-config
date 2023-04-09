@@ -21,9 +21,12 @@ pkgs: {
       enable_audio_bell = "no";
       tab_bar_edge = "bottom";
       tab_bar_margin_width = 0;
-      tab_bar_style = "powerline";
-      tab_powerline_style = "round";
+      tab_bar_style = "fade";
       tab_bar_min_tabs = 2;
+      active_tab_foreground = "#81a1c1";
+      active_tab_background = "#434c5e";
+      inactive_tab_foreground = "#68809a";
+      inactive_tab_background = "#373e4d";
       kitty_mod = "alt";
     };
     keybindings = {
