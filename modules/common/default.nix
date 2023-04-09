@@ -83,6 +83,9 @@
       dua
     ];
 
+    # Nice to have, required for gnome-disks to work
+    services.udisks2.enable = true;
+
     # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
   };
