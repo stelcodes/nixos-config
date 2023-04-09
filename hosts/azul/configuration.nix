@@ -34,7 +34,7 @@
 
   hardware.facetimehd.enable = true;
 
-  # Enable the GNOME Desktop Environment.
+  # To add sessions to display manager menus
   programs.sway.enable = true;
 
   # HOME MANAGER
@@ -103,6 +103,13 @@
           # pkgs.graalvm11-ce
           # For iphone hotspot tethering
           pkgs.libimobiledevice
+
+          (pkgs.symlinkJoin {
+            name = "obsidian";
+            paths = [ pkgs.obsidian ];
+            buildInputs = [ pkgs.makeWrapper ];
+            postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
+          })
         ];
 
       }
