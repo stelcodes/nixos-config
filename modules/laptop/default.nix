@@ -46,6 +46,14 @@
     services.logind.lidSwitch = "suspend-then-hibernate";
     systemd.sleep.extraConfig = "HibernateDelaySec=30m";
 
+    powerManagement = {
+      enable = true;
+      powertop.enable = true;
+      # powertop --auto-run will run at boot
+      # Run powertop --calibrate at first
+      # Maybe switch to services.tlp if I need configuration
+    };
+
     fonts.fontconfig.enable = true;
     fonts.enableDefaultFonts = true;
     fonts.fonts = [
@@ -55,10 +63,19 @@
 
     # https://github.com/mkaply/queryamoid/releases/tag/v0.1
     # https://github.com/mozilla/policy-templates/blob/master/README.md#extensionsettings
+    # Apparently Mozilla doesn't let you set the default search engine using policies anymore >:c
     programs.firefox = {
       enable = true;
+      preferences = {
+        "browser.chrome.toolbar_tips" = false;
+        "browser.uidensity" = 1;
+        "browser.fullscreen.autohide" = false;
+        "browser.tabs.insertAfterCurrent" = true;
+        "browser.newtabpage.enabled" = false;
+        "browser.startup.homepage" = "chrome://browser/content/blanktab.html";
+        "browser.shell.checkDefaultBrowser" = false;
+      };
       policies = {
-        # Extensions = ["https://addons.mozilla.org/firefox/downloads/latest/nord-firefox/latest.xpi"];
         ExtensionSettings = {
           "uBlock0@raymondhill.net" = {
             installation_mode = "normal_installed";
@@ -67,10 +84,6 @@
           "vimium-c@gdh1995.cn" = {
             installation_mode = "normal_installed";
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-c/latest.xpi";
-          };
-          "{26e789e7-acf2-4346-9381-ad473c245e43}" = {
-            installation_mode = "normal_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/nord-firefox/latest.xpi";
           };
         };
       };
