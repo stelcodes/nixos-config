@@ -25,6 +25,7 @@ pkgs: {
       tab_bar_min_tabs = 2;
       active_tab_foreground = "#81a1c1";
       active_tab_background = "#434c5e";
+      active_tab_font_style = "bold";
       inactive_tab_foreground = "#68809a";
       inactive_tab_background = "#373e4d";
       kitty_mod = "alt";
