@@ -8,10 +8,6 @@
     <home-manager/nixos>
     ../../modules/common
     ../../modules/laptop
-    # ../../modules/postgresql/local.nix
-    # ../../modules/clojure
-    # ../../modules/python
-    # ../../modules/nodejs
   ];
 
   # Bootloader.
@@ -34,30 +30,7 @@
 
   hardware.facetimehd.enable = true;
 
-  # To add sessions to display manager menus
-  programs.sway.enable = true;
-
-  nixpkgs = {
-    overlays = [
-      (self: super: {
-        success-alert = super.fetchurl {
-          url = "https://cdn.freesound.org/previews/651/651624_14258856-lq.mp3";
-          sha256 = "urNwmGEG2YJsKOtqh69n9VHdj9wSV0UPYEQ3caEAF2c=";
-        };
-        failure-alert = super.fetchurl {
-          url = "https://cdn.freesound.org/previews/651/651625_14258856-lq.mp3";
-          sha256 = "XAEJAts+KUNVRCFLXlGYPIJ06q4EjdT39G0AsXGbT2M=";
-        };
-        obsidian-wayland = super.symlinkJoin {
-          name = "obsidian";
-          paths = [ super.obsidian ];
-          buildInputs = [ super.makeWrapper ];
-          postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
-        };
-      })
-    ];
-  };
-
+  system.stateVersion = "23.05";
 
   # HOME MANAGER
   home-manager.useUserPackages = true;
@@ -79,101 +52,15 @@
       (import ../../home-manager/nodejs pkgs)
       (import ../../home-manager/clojure pkgs)
       {
-
         home.stateVersion = "23.05";
         home.username = "stel";
         home.homeDirectory = "/home/stel";
-
-        home.file = {
-          ".local/bin/view-rebuild-log" = {
-            executable = true;
-            text = ''
-              #!/usr/bin/env bash
-              kitty nvim /tmp/nixos-rebuild-log
-            '';
-          };
-
-          ".local/bin/view-nmtui" = {
-            executable = true;
-            text = ''
-              #!/usr/bin/env bash
-              kitty nmtui
-            '';
-          };
-
-          ".local/bin/rebuild" = {
-            executable = true;
-            text = ''
-              #!/usr/bin/env bash
-              echo "active" > /tmp/nixos-rebuild-status
-              doas nixos-rebuild switch &> /tmp/nixos-rebuild-log
-              if test $? -eq 0; then
-                echo "success" > /tmp/nixos-rebuild-status
-                mpv --gapless-audio=no ${pkgs.success-alert}
-              else
-                echo "failure" > /tmp/nixos-rebuild-status
-                mpv --gapless-audio=no ${pkgs.failure-alert}
-              fi
-            '';
-          };
-        };
         home.packages = [
-          pkgs.tor-browser-bundle-bin
           pkgs.discord
-
-          # proton vpn
           pkgs.protonvpn-cli
-          pkgs.calibre
-
-          #art
-          pkgs.gimp
-          # pkgs.ardour
-
-          #printing
-          pkgs.hplip
-          pkgs.evince # pdf viewer
-          pkgs.pdfarranger
-
-          # media
-          pkgs.youtube-dl
-          pkgs.shotcut
-          pkgs.mpv-unwrapped
-          pkgs.qbittorrent
-
-          # browsers
-          # pkgs.firefox
-          pkgs.ungoogled-chromium
-
-          # music
-          pkgs.spotify
-
-          # partitioning
-          pkgs.gnome.gnome-disk-utility
-
-          # recording/streaming
-          pkgs.obs-studio
-          # pkgs.obs-wlrobs
-          pkgs.libsForQt5.qt5.qtwayland
-          pkgs.pavucontrol
-
-          # pkgs.graalvm11-ce
-          # For iphone hotspot tethering
-          pkgs.libimobiledevice
-          pkgs.obsidian-wayland
-
         ];
-
       }
     ];
-
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 

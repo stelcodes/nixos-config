@@ -86,9 +86,29 @@
     # Nice to have, required for gnome-disks to work
     services.udisks2.enable = true;
 
-    nixpkgs.config = {
-      allowInsecure = true;
-      allowUnfree = true;
+    nixpkgs = {
+      config = {
+        allowInsecure = true;
+        allowUnfree = true;
+      };
+      overlays = [
+        (self: super: {
+          success-alert = super.fetchurl {
+            url = "https://cdn.freesound.org/previews/651/651624_14258856-lq.mp3";
+            sha256 = "urNwmGEG2YJsKOtqh69n9VHdj9wSV0UPYEQ3caEAF2c=";
+          };
+          failure-alert = super.fetchurl {
+            url = "https://cdn.freesound.org/previews/651/651625_14258856-lq.mp3";
+            sha256 = "XAEJAts+KUNVRCFLXlGYPIJ06q4EjdT39G0AsXGbT2M=";
+          };
+          obsidian-wayland = super.symlinkJoin {
+            name = "obsidian";
+            paths = [ super.obsidian ];
+            buildInputs = [ super.makeWrapper ];
+            postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
+          };
+        })
+      ];
     };
 
     nix = {

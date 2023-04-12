@@ -89,5 +89,27 @@
       };
     };
 
+    programs.sway.enable = true;
+
+    environment.systemPackages = [
+      pkgs.calibre
+      pkgs.gimp
+      pkgs.qbittorrent
+      pkgs.ungoogled-chromium
+      # partitioning
+      pkgs.gnome.gnome-disk-utility
+      # music
+      pkgs.spotify
+      #printing
+      pkgs.hplip
+      pkgs.mpv-unwrapped
+      # For iphone hotspot tethering
+      pkgs.libimobiledevice
+      pkgs.obsidian-wayland
+      pkgs.pavucontrol
+      # pkgs.libsForQt5.qt5.qtwayland
+      pkgs.tor-browser-bundle-bin
+    ];
+
   };
 }

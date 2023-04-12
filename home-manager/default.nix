@@ -34,12 +34,43 @@ pkgs: {
       pkgs.babashka
     ];
 
-    # I'm putting all manually installed executables into ~/.local/bin
     sessionPath = [ "$HOME/.local/bin" ];
-    # sessionVariables = {
-    #   SHELL = "${pkgs.zsh}/bin/zsh";
-    #   EDITOR = "${pkgs.neovim}/bin/nvim";
-    # };
+
+    file = {
+      ".local/bin/view-rebuild-log" = {
+        executable = true;
+        text = ''
+          #!/usr/bin/env bash
+          kitty nvim /tmp/nixos-rebuild-log
+        '';
+      };
+      ".local/bin/view-nmtui" = {
+        executable = true;
+        text = ''
+          #!/usr/bin/env bash
+          kitty nmtui
+        '';
+      };
+      ".local/bin/rebuild" = {
+        executable = true;
+        text = ''
+          #!/usr/bin/env bash
+          if test -f /tmp/nixos-rebuild-pid; then
+            kill "$(</tmp/nixos-rebuild-pid)"
+          fi
+          echo $$ > /tmp/nixos-rebuild-pid
+          echo "active" > /tmp/nixos-rebuild-status
+          doas nixos-rebuild switch &> /tmp/nixos-rebuild-log
+          if test $? -eq 0; then
+            echo "success" > /tmp/nixos-rebuild-status
+            mpv --gapless-audio=no ${pkgs.success-alert}
+          else
+            echo "failure" > /tmp/nixos-rebuild-status
+            mpv --gapless-audio=no ${pkgs.failure-alert}
+          fi
+        '';
+      };
+    };
   };
 
   programs = {
@@ -80,25 +111,27 @@ pkgs: {
       };
     };
 
-    fzf = let
-      fzfExcludes = [
-        ".local"
-        ".cache"
-        ".git"
-        "node_modules"
-        ".rustup"
-        ".cargo"
-        ".m2"
-        ".bash_history"
-      ];
-      # string lib found here https://git.io/JtIua
-      fzfExcludesString =
-        pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'") fzfExcludes;
-    in {
-      enable = false;
-      defaultOptions = [ "--height 80%" "--reverse" ];
-      defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
-    };
+    fzf =
+      let
+        fzfExcludes = [
+          ".local"
+          ".cache"
+          ".git"
+          "node_modules"
+          ".rustup"
+          ".cargo"
+          ".m2"
+          ".bash_history"
+        ];
+        # string lib found here https://git.io/JtIua
+        fzfExcludesString =
+          pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'") fzfExcludes;
+      in
+      {
+        enable = false;
+        defaultOptions = [ "--height 80%" "--reverse" ];
+        defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
+      };
 
     direnv = {
       enable = true;
