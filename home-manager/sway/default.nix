@@ -7,7 +7,7 @@ pkgs: config: {
     pkgs.playerctl
     pkgs.libinput
     pkgs.wev
-    pkgs.gnome3.nautilus
+    pkgs.gnome.nautilus
     pkgs.keepassxc
     pkgs.font-manager
     pkgs.gnome3.seahorse
@@ -60,14 +60,14 @@ pkgs: config: {
           background = "#2e3440";
           border = "#616e88";
           childBorder = "#616e88";
-          indicator = "#2e9ef4";
+          indicator = "#ebcb8b";
           text = "#eceff4";
         };
         unfocused = {
           background = "#222730";
           border = "#2e3440";
           childBorder = "#2e3440";
-          indicator = "#2e9ef4";
+          indicator = "#ebcb8b";
           text = "#eceff4";
         };
       };
@@ -90,7 +90,7 @@ pkgs: config: {
         "233" = "exec brightnessctl set +5%"; # f2
         "128" =
           "exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png"; # f3
-        "212" = "layout stacked"; # f4
+        "212" = "exec rebuild"; # f4
         "237" =
           "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
         "238" =
@@ -103,10 +103,12 @@ pkgs: config: {
         "123" = "exec pamixer --increase 5"; # f12
       };
       input = {
-        "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
-          xkb_layout = "us";
-          xkb_variant = "mac";
+        "type:keyboard" = {
           xkb_options = "caps:escape";
+          xkb_layout = "us";
+        };
+        "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
+          xkb_variant = "mac";
         };
         "type:touchpad" = {
           natural_scroll = "enabled";
@@ -155,6 +157,7 @@ pkgs: config: {
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ ];
       modules-right = [
+        "custom/rebuild"
         "cpu"
         "memory"
         "disk"
@@ -165,26 +168,34 @@ pkgs: config: {
         "idle_inhibitor"
         "clock"
       ];
+      "custom/rebuild" = {
+        format = "rebuild: {}";
+        max-length = 25;
+        interval = 2;
+        exec-if = pkgs.writeShellScript "waybar-rebuild-exec-if" ''
+          test -f /tmp/nixos-rebuild-status
+        '';
+        exec = pkgs.writeShellScript "waybar-rebuild-exec" ''
+          echo "$(< /tmp/nixos-rebuild-status)"
+        '';
+        # Waybar env does not include my normal PATH so I'm using fish as a wrapper
+        on-click = "${pkgs.fish}/bin/fish -c view-rebuild-log";
+      };
       "sway/workspaces" = {
         disable-scroll = true;
         all-outputs = true;
         format = "{icon}";
         format-icons = {
-          "1" = "vibes";
+          "1" = "term";
           "2" = "www";
-          "3" = "term";
-          "4" = "art";
-          "5" = "mail";
-          "6" = "books";
-          default = "scratch";
+          "3" = "notes";
+          "4" = "media";
         };
         persistent_workspaces = {
           "1" = [ ];
           "2" = [ ];
           "3" = [ ];
           "4" = [ ];
-          "5" = [ ];
-          "6" = [ ];
         };
       };
       cpu = {
@@ -201,11 +212,12 @@ pkgs: config: {
       };
       network = {
         # format = "{bandwidthDownBits}";
-        max-length = 50;
+        max-length = 60;
         format = "{ifname}";
         format-ethernet = "{ifname} ";
         format-disconnected = "";
         format-wifi = "{essid} {signalStrength} ";
+        on-click = "${pkgs.kitty}/bin/kitty nmtui";
       };
       pulseaudio = {
         format = "{volume} {icon}";
@@ -230,7 +242,7 @@ pkgs: config: {
       backlight = {
         interval = 5;
         format = "{percent} {icon}";
-        format-icons = [ "" "" "" ];
+        format-icons = [ "" "" "" ];
       };
     }];
   };
