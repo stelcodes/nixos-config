@@ -57,31 +57,31 @@
     environment.systemPackages =
       with pkgs; [
         vim
-      # CORE UTILS
-      bat
-      htop
-      procs
-      trash-cli
-      fd
-      neofetch
-      httpie
-      wget
-      ripgrep
-      tealdeer
-      unzip
-      restic
-      exa
-      just
-      fcp
-      # PRINTING
-      hplip
-      # CODING
-      git
-      nixfmt
-      nix-prefetch-github
-      sqlite
-      dua
-    ];
+        # CORE UTILS
+        bat
+        htop
+        procs
+        trash-cli
+        fd
+        neofetch
+        httpie
+        wget
+        ripgrep
+        tealdeer
+        unzip
+        restic
+        exa
+        just
+        fcp
+        # PRINTING
+        hplip
+        # CODING
+        git
+        nixfmt
+        nix-prefetch-github
+        sqlite
+        dua
+      ];
 
     # Nice to have, required for gnome-disks to work
     services.udisks2.enable = true;
