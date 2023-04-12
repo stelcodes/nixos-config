@@ -14,11 +14,14 @@ pkgs: {
       package = pkgs.nordzy-icon-theme;
       name = "Nordzy";
     };
-    # Cursors only display on GTK apps, kind of annoying
-    # cursorTheme = {
-    #   package = pkgs.nordzy-cursor-theme;
-    #   name = "Nordzy-cursors";
-    # };
+  };
+
+  home.pointerCursor = {
+    package = pkgs.nordzy-cursor-theme;
+    name = "Nordzy-cursors";
+    # Sway seems unaffected by this size and defaults to 24
+    size = 24;
+    gtk.enable = true;
   };
 
   qt = {
