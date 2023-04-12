@@ -83,6 +83,40 @@
         home.stateVersion = "23.05";
         home.username = "stel";
         home.homeDirectory = "/home/stel";
+
+        home.file = {
+          ".local/bin/view-rebuild-log" = {
+            executable = true;
+            text = ''
+              #!/usr/bin/env bash
+              kitty nvim /tmp/nixos-rebuild-log
+            '';
+          };
+
+          ".local/bin/view-nmtui" = {
+            executable = true;
+            text = ''
+              #!/usr/bin/env bash
+              kitty nmtui
+            '';
+          };
+
+          ".local/bin/rebuild" = {
+            executable = true;
+            text = ''
+              #!/usr/bin/env bash
+              echo "active" > /tmp/nixos-rebuild-status
+              doas nixos-rebuild switch &> /tmp/nixos-rebuild-log
+              if test $? -eq 0; then
+                echo "success" > /tmp/nixos-rebuild-status
+                mpv --gapless-audio=no ${pkgs.success-alert}
+              else
+                echo "failure" > /tmp/nixos-rebuild-status
+                mpv --gapless-audio=no ${pkgs.failure-alert}
+              fi
+            '';
+          };
+        };
         home.packages = [
           pkgs.tor-browser-bundle-bin
           pkgs.discord
