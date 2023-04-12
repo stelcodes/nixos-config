@@ -37,7 +37,10 @@ pkgs: config: {
       # use this if they aren't displayed properly:
       export _JAVA_AWT_WM_NONREPARENTING=1
     '';
-
+    extraConfig = ''
+      bindgesture swipe:3:right workspace prev
+      bindgesture swipe:3:left workspace next
+    '';
     config = {
       assigns = {
         "1" = [{ class = "^Spotify$"; }];
@@ -122,25 +125,7 @@ pkgs: config: {
         "*" = { bg = "#2e3440 solid_color"; };
       };
       startup = [
-        { command = "protonmail-bridge"; }
-        {
-          command = "wlsunset -l 42 -L -83";
-        }
-        # This will lock your screen after 300 seconds of inactivity, then turn off
-        # your displays after another 300 seconds, and turn your screens back on when
-        # resumed. It will also lock your screen before your computer goes to sleep.
-        # {
-        #   command = ''
-        #     swayidle -w \
-        #     timeout 300 'swaylock -f -c 000000' \
-        #     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-        #     before-sleep 'swaylock -f -c 000000'
-        #   '';
-        # }
-        # {
-        #   command = "sleep 7 && systemctl --user restart waybar";
-        #   always = true;
-        # }
+        { command = "wlsunset -l 42 -L -83"; }
       ];
     };
   };
