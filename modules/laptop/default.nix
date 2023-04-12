@@ -139,13 +139,14 @@
       pkgs.spotify
       #printing
       pkgs.hplip
-      pkgs.mpv-unwrapped
+      # pkgs.mpv-unwrapped
       # For iphone hotspot tethering
       pkgs.libimobiledevice
       pkgs.obsidian-wayland
       pkgs.pavucontrol
       # pkgs.libsForQt5.qt5.qtwayland
       pkgs.tor-browser-bundle-bin
+      pkgs.vlc
     ];
 
   };
