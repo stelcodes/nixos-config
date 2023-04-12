@@ -222,6 +222,8 @@ pkgs: {
           '';
         }
 
+        pkgs.vimPlugins.suda-vim
+
         {
           plugin = pkgs.vimPlugins.vim-eunuch;
           type = "lua";
