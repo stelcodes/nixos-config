@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
   config = {
     boot.cleanTmpDir = true;
 
@@ -86,7 +86,17 @@
     # Nice to have, required for gnome-disks to work
     services.udisks2.enable = true;
 
-    # Allow unfree packages
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config = {
+      allowInsecure = true;
+      allowUnfree = true;
+    };
+
+    nix = {
+      nixPath = [
+        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+        "nixos-config=/home/stel/nixos-config/hosts/${config.networking.hostName}/configuration.nix"
+        "/nix/var/nix/profiles/per-user/root/channels"
+      ];
+    };
   };
 }
