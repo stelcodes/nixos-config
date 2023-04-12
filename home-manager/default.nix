@@ -15,6 +15,7 @@ pkgs: {
       templates = "$HOME/template";
       videos = "$HOME/videos";
     };
+    configFile."mpv/mpv.conf".text = "gapless-audio=no";
   };
 
   home = {
@@ -41,7 +42,7 @@ pkgs: {
         executable = true;
         text = ''
           #!/usr/bin/env bash
-          kitty nvim /tmp/nixos-rebuild-log
+          kitty nvim -R /tmp/nixos-rebuild-log
         '';
       };
       ".local/bin/view-nmtui" = {
@@ -63,11 +64,12 @@ pkgs: {
           doas nixos-rebuild switch &> /tmp/nixos-rebuild-log
           if test $? -eq 0; then
             echo "success" > /tmp/nixos-rebuild-status
-            mpv --gapless-audio=no ${pkgs.success-alert}
+            cvlc --play-and-exit ${pkgs.success-alert}
           else
             echo "failure" > /tmp/nixos-rebuild-status
-            mpv --gapless-audio=no ${pkgs.failure-alert}
+            cvlc --play-and-exit ${pkgs.failure-alert}
           fi
+          rm /tmp/nixos-rebuild-pid
         '';
       };
     };
