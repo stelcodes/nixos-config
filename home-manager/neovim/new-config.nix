@@ -281,6 +281,17 @@ pkgs: {
             '';
         }
 
+        {
+          plugin = pkgs.vimPlugins.vim-better-whitespace;
+          type = "lua";
+          config = ''
+            vim.g["better_whitespace_guicolor"] = "#94545d"
+            vim.g["better_whitespace_filetypes_blacklist"] = {
+              "", "diff", "git", "gitcommit", "unite", "qf", "help", "fugitive"
+            }
+          '';
+        }
+
       ];
   };
 }
