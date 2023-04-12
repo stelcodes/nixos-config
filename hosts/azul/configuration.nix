@@ -37,6 +37,28 @@
   # To add sessions to display manager menus
   programs.sway.enable = true;
 
+  nixpkgs = {
+    overlays = [
+      (self: super: {
+        success-alert = super.fetchurl {
+          url = "https://cdn.freesound.org/previews/651/651624_14258856-lq.mp3";
+          sha256 = "urNwmGEG2YJsKOtqh69n9VHdj9wSV0UPYEQ3caEAF2c=";
+        };
+        failure-alert = super.fetchurl {
+          url = "https://cdn.freesound.org/previews/651/651625_14258856-lq.mp3";
+          sha256 = "XAEJAts+KUNVRCFLXlGYPIJ06q4EjdT39G0AsXGbT2M=";
+        };
+        obsidian-wayland = super.symlinkJoin {
+          name = "obsidian";
+          paths = [ super.obsidian ];
+          buildInputs = [ super.makeWrapper ];
+          postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
+        };
+      })
+    ];
+  };
+
+
   # HOME MANAGER
   home-manager.useUserPackages = true;
   home-manager.useGlobalPkgs = true;
@@ -103,13 +125,8 @@
           # pkgs.graalvm11-ce
           # For iphone hotspot tethering
           pkgs.libimobiledevice
+          pkgs.obsidian-wayland
 
-          (pkgs.symlinkJoin {
-            name = "obsidian";
-            paths = [ pkgs.obsidian ];
-            buildInputs = [ pkgs.makeWrapper ];
-            postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
-          })
         ];
 
       }
