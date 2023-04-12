@@ -91,6 +91,25 @@
 
     programs.sway.enable = true;
 
+    services.cron = {
+      enable = true;
+      # https://crontab.guru
+      systemCronJobs =
+        let
+          hibernateCriticalBattery = pkgs.writeShellScript "hibernate-critical-battery" ''
+            ${pkgs.acpi}/bin/acpi -b | ${pkgs.gawk}/bin/awk -F'[,:%]' '{print $2, $3}' | {
+              read -r status capacity
+              if [ "$status" = Discharging -a "$capacity" -lt 8 ]; then
+                ${pkgs.systemd}/bin/systemctl hibernate
+              fi
+            }
+          '';
+        in
+        [
+          "* * * * * ${hibernateCriticalBattery}"
+        ];
+    };
+
     environment.systemPackages = [
       pkgs.calibre
       pkgs.gimp
@@ -109,6 +128,7 @@
       pkgs.pavucontrol
       # pkgs.libsForQt5.qt5.qtwayland
       pkgs.tor-browser-bundle-bin
+      pkgs.acpi
     ];
 
   };
