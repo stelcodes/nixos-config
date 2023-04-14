@@ -42,7 +42,7 @@ pkgs: {
           version = "1.0";
           src = pkgs.fetchFromGitHub {
             owner = "stelcodes";
-            repo = "telescope-file-browser-nvim";
+            repo = "telescope-file-browser.nvim";
             rev = "6ef20dd9e03a30bd116d872aefbceb277b6a3855";
             sha256 = "MRoCpqfyVB3G7XNYzQYlIR+Guip2dhuttfIY1Wol76s=";
           };
