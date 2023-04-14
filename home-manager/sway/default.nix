@@ -40,6 +40,9 @@ pkgs: config: {
     extraConfig = ''
       bindgesture swipe:3:right workspace prev
       bindgesture swipe:3:left workspace next
+      # I have to put this in extraConfig because it needs to be after the type:keyboard rule
+      # and config.input only accepts unordered attribute set atm
+      input "1:1:AT_Translated_Set_2_keyboard" xkb_options caps:escape,altwin:swap_alt_win
     '';
     config = {
       assigns = {
@@ -105,6 +108,8 @@ pkgs: config: {
         "122" = "exec pamixer --decrease 5"; # f11
         "123" = "exec pamixer --increase 5"; # f12
       };
+      # There's a big problem with how home-manager handles the input and output values
+      # The ordering *does* matter so the value should be a list, not a set.
       input = {
         "type:keyboard" = {
           xkb_options = "caps:escape";
@@ -123,6 +128,8 @@ pkgs: config: {
       output = {
         # "*" = { bg = "/home/stel/pictures/wallpapers/pretty-nord.jpg fill"; };
         "*" = { bg = "#2e3440 solid_color"; };
+        # Framework screen
+        "BOE 0x095F Unknown" = { scale = "1.5"; };
       };
       startup = [
         { command = "wlsunset -l 42 -L -83"; }
