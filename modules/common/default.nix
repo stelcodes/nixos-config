@@ -26,9 +26,7 @@
       LC_TIME = "en_US.UTF-8";
     };
 
-    console.font = "Lat2-Terminus16";
     console.useXkbConfig = true;
-    # console.keyMap = "us";
 
     security.doas.enable = true;
     security.doas.extraRules = [{
@@ -81,6 +79,7 @@
         nix-prefetch-github
         sqlite
         dua
+        croc
       ];
 
     # Nice to have, required for gnome-disks to work
