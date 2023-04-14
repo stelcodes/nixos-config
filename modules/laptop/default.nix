@@ -144,7 +144,8 @@
       # pkgs.mpv-unwrapped
       # For iphone hotspot tethering
       pkgs.libimobiledevice
-      pkgs.obsidian-wayland
+      pkgs.obsidian
+      pkgs.discord
       pkgs.pavucontrol
       # pkgs.libsForQt5.qt5.qtwayland
       pkgs.tor-browser-bundle-bin

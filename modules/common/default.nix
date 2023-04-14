@@ -100,13 +100,13 @@
             url = "https://cdn.freesound.org/previews/651/651625_14258856-lq.mp3";
             sha256 = "XAEJAts+KUNVRCFLXlGYPIJ06q4EjdT39G0AsXGbT2M=";
           };
-          obsidian-wayland = super.symlinkJoin {
+          obsidian = super.symlinkJoin {
             name = "obsidian-wayland";
             paths = [ super.obsidian ];
             buildInputs = [ super.makeWrapper ];
             postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
           };
-          discord-wayland = super.symlinkJoin {
+          discord = super.symlinkJoin {
             name = "discord-wayland";
             paths = [ super.discord ];
             buildInputs = [ super.makeWrapper ];
