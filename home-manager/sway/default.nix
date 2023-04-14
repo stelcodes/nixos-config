@@ -76,6 +76,13 @@ pkgs: config: {
           indicator = "#ebcb8b";
           text = "#eceff4";
         };
+        focusedInactive = {
+          background = "#222730";
+          border = "#2e3440";
+          childBorder = "#2e3440";
+          indicator = "#ebcb8b";
+          text = "#eceff4";
+        };
       };
       window = {
         hideEdgeBorders = "both";
@@ -89,19 +96,22 @@ pkgs: config: {
           "${modifier}+shift+tab" = "workspace prev";
           # backtick ` is called grave
           "${modifier}+grave" = "exec wofi-emoji";
-          "${modifier}+r" = "exec rebuild";
-          "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
-          "XF86MonBrightnessUp" = "exec brightnessctl set +5%";
-          "XF86AudioPrev" = "exec playerctl previous";
-          "XF86AudioPlay" = "exec playerctl play-pause";
-          "XF86AudioNext" = "exec playerctl next";
-          "XF86AudioMute" = "exec pamixer --toggle-mute";
-          "XF86AudioLowerVolume" = "exec pamixer --decrease 5";
-          "XF86AudioRaiseVolume" = "exec pamixer --increase 5";
+          "${modifier}+shift+r" = "exec rebuild";
+          XF86MonBrightnessDown = "exec brightnessctl set 5%-";
+          XF86MonBrightnessUp = "exec brightnessctl set +5%";
+          XF86AudioPrev = "exec playerctl previous";
+          XF86AudioPlay = "exec playerctl play-pause";
+          XF86AudioNext = "exec playerctl next";
+          XF86AudioMute = "exec pamixer --toggle-mute";
+          XF86AudioLowerVolume = "exec pamixer --decrease 5";
+          XF86AudioRaiseVolume = "exec pamixer --increase 5";
+          Print = ''
+            exec mkdir -p $XDG_PICTURES_DIR/screenshots && \
+            slurp | grim -g - $XDG_PICTURES_DIR/screenshots/grim:$(date -u +%Y-%m-%dT%H:%M:%SZ).png
+          '';
         };
       keycodebindings = {
         # Use xev to get keycodes, libinput gives wrong codes for some reason
-        "128" = "exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png"; # f3
         "212" = "exec rebuild"; # f4
         "237" = "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
         "238" = "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
@@ -178,14 +188,16 @@ pkgs: config: {
         format-icons = {
           "1" = "term";
           "2" = "www";
-          "3" = "notes";
-          "4" = "media";
+          "3" = "sys";
+          "4" = "notes";
+          "5" = "vibes";
         };
         persistent_workspaces = {
           "1" = [ ];
           "2" = [ ];
           "3" = [ ];
           "4" = [ ];
+          "5" = [ ];
         };
       };
       cpu = {
