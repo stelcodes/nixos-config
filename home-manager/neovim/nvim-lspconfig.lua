@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>ln', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<leader>ll', vim.diagnostic.open_float, opts)
-    vim.keymap.set('n', '<leader>lf', vim.lsp.buf.formatting, opts)
+    vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, opts)
     vim.keymap.set('v', '<leader>lf', function() vim.lsp.buf.range_formatting({}) end, opts)
 
     -- Add borders to :LspInfo floating window
