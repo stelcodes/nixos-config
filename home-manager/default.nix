@@ -16,6 +16,10 @@ pkgs: {
       videos = "$HOME/videos";
     };
     configFile."mpv/mpv.conf".text = "gapless-audio=no";
+    configFile."electron-flags.conf".text = ''
+      --enable-features=WaylandWindowDecorations
+      --ozone-platform-hint=auto
+    '';
   };
 
   home = {
