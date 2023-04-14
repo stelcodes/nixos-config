@@ -20,7 +20,7 @@ pkgs: {
       config = "cd ~/nixos-config && nvim";
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
-      date-iso = "date -u +\"%Y-%m-%dT%H:%M:%SZ\""; # ISO 8601 date format with UTC timezone
+      date-iso = "date -u +%Y-%m-%dT%H:%M:%SZ"; # ISO 8601 date format with UTC timezone
       t = "tmux attach -t config; or tmux";
       n = "nnn -eauUA";
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
