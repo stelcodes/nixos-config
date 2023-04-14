@@ -89,24 +89,22 @@ pkgs: config: {
           "${modifier}+shift+tab" = "workspace prev";
           # backtick ` is called grave
           "${modifier}+grave" = "exec wofi-emoji";
+          "${modifier}+r" = "exec rebuild";
+          "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
+          "XF86MonBrightnessUp" = "exec brightnessctl set +5%";
+          "XF86AudioPrev" = "exec playerctl previous";
+          "XF86AudioPlay" = "exec playerctl play-pause";
+          "XF86AudioNext" = "exec playerctl next";
+          "XF86AudioMute" = "exec pamixer --toggle-mute";
+          "XF86AudioLowerVolume" = "exec pamixer --decrease 5";
+          "XF86AudioRaiseVolume" = "exec pamixer --increase 5";
         };
       keycodebindings = {
         # Use xev to get keycodes, libinput gives wrong codes for some reason
-        "232" = "exec brightnessctl set 5%-"; # f1
-        "233" = "exec brightnessctl set +5%"; # f2
-        "128" =
-          "exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png"; # f3
+        "128" = "exec slurp | grim -g - ~/pictures/screenshots/grim:$(date -Iseconds).png"; # f3
         "212" = "exec rebuild"; # f4
-        "237" =
-          "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
-        "238" =
-          "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
-        "173" = "exec playerctl previous"; # f7
-        "172" = "exec playerctl play-pause"; # f8
-        "171" = "exec playerctl next"; # f9
-        "121" = "exec pamixer --toggle-mute"; # f10
-        "122" = "exec pamixer --decrease 5"; # f11
-        "123" = "exec pamixer --increase 5"; # f12
+        "237" = "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
+        "238" = "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
       };
       # There's a big problem with how home-manager handles the input and output values
       # The ordering *does* matter so the value should be a list, not a set.
