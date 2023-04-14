@@ -78,6 +78,8 @@
         libinput.enable = true;
       };
 
+      getty.autologinUser = "stel";
+
       # Enable iOS devices to automatically connect
       # Use idevice* commands like ideviceinfo
       usbmuxd.enable = true;
