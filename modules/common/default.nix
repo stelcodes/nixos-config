@@ -101,10 +101,22 @@
             sha256 = "XAEJAts+KUNVRCFLXlGYPIJ06q4EjdT39G0AsXGbT2M=";
           };
           obsidian-wayland = super.symlinkJoin {
-            name = "obsidian";
+            name = "obsidian-wayland";
             paths = [ super.obsidian ];
             buildInputs = [ super.makeWrapper ];
             postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
+          };
+          discord-wayland = super.symlinkJoin {
+            name = "discord-wayland";
+            paths = [ super.discord ];
+            buildInputs = [ super.makeWrapper ];
+            postBuild = "wrapProgram $out/bin/discord --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
+          };
+          ungoogled-chromium = super.symlinkJoin {
+            name = "ungoogled-chromium-wayland";
+            paths = [ super.ungoogled-chromium ];
+            buildInputs = [ super.makeWrapper ];
+            postBuild = "wrapProgram $out/bin/chromium --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
           };
         })
       ];
