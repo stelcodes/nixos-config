@@ -110,6 +110,7 @@ pkgs: {
         core.editor = "nvim";
         init = { defaultBranch = "main"; };
         merge = { ff = "only"; };
+        push.autoSetupRemote = true;
         # url = {
         #   "git@github.com:".insteadOf = "https://github.com/";
         # };
