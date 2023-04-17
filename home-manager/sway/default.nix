@@ -1,4 +1,4 @@
-pkgs: config: {
+pkgs: {
 
   home.packages = [
     pkgs.swaylock
@@ -37,22 +37,7 @@ pkgs: config: {
       # use this if they aren't displayed properly:
       export _JAVA_AWT_WM_NONREPARENTING=1
     '';
-    extraConfig = ''
-      bindgesture swipe:3:right workspace prev
-      bindgesture swipe:3:left workspace next
-      # I have to put this in extraConfig because it needs to be after the type:keyboard rule
-      # and config.input only accepts unordered attribute set atm
-      input "1:1:AT_Translated_Set_2_keyboard" xkb_options caps:escape,altwin:swap_alt_win
-    '';
-    config = {
-      assigns = {
-        "1" = [{ class = "^Spotify$"; }];
-        # "2" = [{ class = "^Firefox$"; }];
-        # "3" = [{ title = "^Alacritty$"; }];
-        "4" = [{ class = "^Gimp$"; } { title = "Shotcut$"; }];
-        "5" = [{ class = "^Thunderbird$"; }];
-        "6" = [{ title = "^calibre"; }];
-      };
+    config = rec {
       terminal = "${pkgs.kitty}/bin/kitty";
       menu = "${pkgs.wofi}/bin/wofi --show run";
       modifier = "Mod4";
@@ -85,18 +70,21 @@ pkgs: config: {
         };
       };
       window = {
-        hideEdgeBorders = "both";
+        hideEdgeBorders = "none";
         border = 1;
       };
       keybindings =
-        let modifier = config.wayland.windowManager.sway.config.modifier;
-        in
         pkgs.lib.mkOptionDefault {
           "${modifier}+tab" = "workspace next";
           "${modifier}+shift+tab" = "workspace prev";
           # backtick ` is called grave
           "${modifier}+grave" = "exec wofi-emoji";
           "${modifier}+shift+r" = "exec rebuild";
+          "${modifier}+space" = "exec ${menu}";
+          "${modifier}+backspace" = "exec firefox";
+          "${modifier}+o" = "output eDP-1 toggle";
+          "${modifier}+shift+o" = "output eDP-1 dpms toggle";
+          "${modifier}+p" = "exec doas protonvpn connect --fastest";
           XF86MonBrightnessDown = "exec brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec brightnessctl set +5%";
           XF86AudioPrev = "exec playerctl previous";
@@ -134,13 +122,42 @@ pkgs: config: {
         };
       };
       output = {
-        # "*" = { bg = "/home/stel/pictures/wallpapers/pretty-nord.jpg fill"; };
         "*" = { bg = "#2e3440 solid_color"; };
         # Framework screen
         "BOE 0x095F Unknown" = { scale = "1.5"; };
       };
       startup = [
+        # Most of these should ideally be systemd user services
         { command = "wlsunset -l 42 -L -83"; }
+        { command = "doas protonvpn connect --fastest"; }
+        {
+          command = "sleep 2 && systemctl --user is-active waybar || systemctl --user restart waybar";
+          always = true;
+        }
+      ];
+    };
+    extraConfig = ''
+      bindgesture swipe:3:right workspace prev
+      bindgesture swipe:3:left workspace next
+      # I have to put this in extraConfig because it needs to be after the type:keyboard rule
+      # and config.input only accepts unordered attribute set atm
+      input "1:1:AT_Translated_Set_2_keyboard" xkb_options caps:escape,altwin:swap_alt_win
+      bindswitch lid:off output * dpms off
+    '';
+  };
+
+  services = {
+    swayidle = {
+      enable = true;
+      events = [
+        {
+          event = "before-sleep";
+          command = "${pkgs.swaylock}/bin/swaylock -f -c 000000 && ${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+        }
+        {
+          event = "after-resume";
+          command = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
+        }
       ];
     };
   };
