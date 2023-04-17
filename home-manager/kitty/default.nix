@@ -29,6 +29,10 @@ pkgs: {
       inactive_tab_foreground = "#68809a";
       inactive_tab_background = "#373e4d";
       kitty_mod = "alt";
+      # For nnn previews
+      allow_remote_control = "yes";
+      listen_on = "unix:/tmp/kitty";
+      enabled_layouts = "splits";
     };
     keybindings = {
       "ctrl+shift+c" = "send_text all \\x03";
