@@ -40,7 +40,7 @@
   # HOME MANAGER
   home-manager.useUserPackages = true;
   home-manager.useGlobalPkgs = true;
-  home-manager.users.stel = { config, ... }:
+  home-manager.users.stel = { ... }:
     pkgs.lib.mkMerge [
       (import ../../home-manager pkgs)
       (import ../../home-manager/gtk pkgs)
@@ -50,7 +50,7 @@
       (import ../../home-manager/neovim/new-config.nix pkgs)
       (import ../../home-manager/alacritty pkgs)
       (import ../../home-manager/kitty pkgs)
-      (import ../../home-manager/sway pkgs config)
+      (import ../../home-manager/sway pkgs)
       (import ../../home-manager/python pkgs)
       (import ../../home-manager/rust pkgs)
       (import ../../home-manager/go pkgs)

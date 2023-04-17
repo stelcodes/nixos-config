@@ -46,7 +46,7 @@
       (import ../../home-manager/neovim/new-config.nix pkgs)
       (import ../../home-manager/alacritty pkgs)
       (import ../../home-manager/kitty pkgs)
-      (import ../../home-manager/sway pkgs config)
+      (import ../../home-manager/sway pkgs)
       (import ../../home-manager/python pkgs)
       (import ../../home-manager/rust pkgs)
       (import ../../home-manager/go pkgs)
