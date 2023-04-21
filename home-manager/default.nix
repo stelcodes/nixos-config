@@ -164,6 +164,8 @@ pkgs: {
 
     starship.enable = true;
 
+    bash.enable = true;
+
     # Just doesn't work. Getting permission denied error when it tries to read .config/gh
     # gh.enable = true;
   };
