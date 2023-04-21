@@ -63,8 +63,12 @@ pkgs: {
         executable = true;
         text = ''
           #!/usr/bin/env bash
+          if ! ping -c 1 -W 5 nixos.org &> /dev/null; then
+            echo 'Error: Network not up'
+            exit 1
+          fi
           if test -f /tmp/nixos-rebuild-pid; then
-            kill "$(</tmp/nixos-rebuild-pid)"
+            doas kill "$(</tmp/nixos-rebuild-pid)"
           fi
           echo $$ > /tmp/nixos-rebuild-pid
           echo "active" > /tmp/nixos-rebuild-status
