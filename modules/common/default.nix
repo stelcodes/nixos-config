@@ -1,6 +1,6 @@
 { pkgs, lib, config, ... }: {
   config = {
-    boot.cleanTmpDir = true;
+    boot.tmp.cleanOnBoot = true;
 
     # Enable networking
     networking.networkmanager.enable = true;
