@@ -25,22 +25,35 @@
 
       sway.enable = true;
 
-      # https://github.com/mkaply/queryamoid/releases/tag/v0.1
-      # https://github.com/mozilla/policy-templates/blob/master/README.md#extensionsettings
-      # Apparently Mozilla doesn't let you set the default search engine using policies anymore >:c
       firefox = {
         enable = true;
-        preferences = {
-          "browser.chrome.toolbar_tips" = false;
-          "browser.uidensity" = 1;
-          "browser.fullscreen.autohide" = false;
-          "browser.tabs.insertAfterCurrent" = true;
-          "browser.newtabpage.enabled" = false;
-          "browser.startup.homepage" = "chrome://browser/content/blanktab.html";
-          "browser.shell.checkDefaultBrowser" = false;
-        };
+        # https://github.com/mozilla/policy-templates/blob/master/README.md
+        # Apparently Mozilla doesn't let you set the default search engine using policies anymore >:c
         policies = {
+          Preferences =
+            let
+              user = (x: { Status = "user"; Value = x; });
+            in
+            # DNS problems: network.dnsCacheExpiration
+            {
+              "browser.chrome.toolbar_tips" = user false;
+              "browser.uidensity" = user 1;
+              "browser.fullscreen.autohide" = user false;
+              "browser.tabs.insertAfterCurrent" = user true;
+              "browser.newtabpage.enabled" = user false;
+              "browser.startup.homepage" = user "chrome://browser/content/blanktab.html";
+              "browser.shell.checkDefaultBrowser" = user false;
+              "font.name.monospace.x-western" = user "NotoSansMono Nerd Font";
+              "font.name.sans-serif.x-western" = user "NotoSans Nerd Font";
+              "font.name.serif.x-western" = user "NotoSerif Nerd Font";
+              "media.ffmpeg.vaapi.enabled" = user true;
+            };
           ExtensionSettings = {
+            # https://github.com/mkaply/queryamoid/releases/tag/v0.1
+            "queryamoid@kaply.com" = {
+              installation_mode = "normal_installed";
+              install_url = "https://github.com/mkaply/queryamoid/releases/download/v0.1/query_amo_addon_id-0.1-fx.xpi";
+            };
             "uBlock0@raymondhill.net" = {
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
@@ -135,21 +148,18 @@
       pkgs.gimp
       pkgs.qbittorrent
       pkgs.ungoogled-chromium
-      # partitioning
       pkgs.gnome.gnome-disk-utility
-      # music
       pkgs.spotify
-      #printing
       pkgs.hplip
-      # pkgs.mpv-unwrapped
-      # For iphone hotspot tethering
-      pkgs.libimobiledevice
+      pkgs.libimobiledevice # For iphone hotspot tethering
       pkgs.obsidian
       pkgs.discord
       pkgs.pavucontrol
-      # pkgs.libsForQt5.qt5.qtwayland
-      pkgs.tor-browser-bundle-bin
+      pkgs.tor-browser-bundle-bin # tor-browser not working 4/16/23
       pkgs.vlc
+      pkgs.mpv
+      pkgs.appimage-run
+      pkgs.protonvpn-cli
     ];
 
   };
