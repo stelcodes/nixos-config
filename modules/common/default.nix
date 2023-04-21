@@ -118,6 +118,12 @@
             buildInputs = [ super.makeWrapper ];
             postBuild = "wrapProgram $out/bin/chromium --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
           };
+          spotify = super.symlinkJoin {
+            name = "spotify-wayland";
+            paths = [ super.spotify ];
+            buildInputs = [ super.makeWrapper ];
+            postBuild = "wrapProgram $out/bin/spotify --add-flags '--enable-features=UseOzonePlatform --ozone-platform=wayland'";
+          };
         })
       ];
     };
