@@ -15,11 +15,18 @@ pkgs: {
       templates = "$HOME/template";
       videos = "$HOME/videos";
     };
-    configFile."mpv/mpv.conf".text = "gapless-audio=no";
-    configFile."electron-flags.conf".text = ''
-      --enable-features=WaylandWindowDecorations
-      --ozone-platform-hint=auto
-    '';
+    configFile = {
+      "mpv/mpv.conf".text = ''
+        gapless-audio=no
+        hwdec=auto-safe
+        vo=gpu
+        profile=gpu-hq
+        gpu-context=wayland
+      '';
+      "electron-flags.conf".text = ''
+        --enable-features=WaylandWindowDecorations
+        --ozone-platform-hint=auto
+      '';
 
       "starship.toml".source = ../misc/starship.toml;
     };

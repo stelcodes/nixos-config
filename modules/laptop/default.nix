@@ -10,7 +10,15 @@
 
     hardware = {
       bluetooth.enable = true;
-      opengl.enable = true;
+      opengl = {
+        enable = true;
+        extraPackages = with pkgs; [
+          intel-media-driver # LIBVA_DRIVER_NAME=iHD
+          vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+          vaapiVdpau
+          libvdpau-va-gl
+        ];
+      };
       # Use pipewire instead of pulseaudio
       pulseaudio.enable = false;
     };
