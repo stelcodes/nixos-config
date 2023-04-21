@@ -78,7 +78,7 @@
         libinput.enable = true;
       };
 
-      getty.autologinUser = "stel";
+      # getty.autologinUser = "stel";
 
       # Enable iOS devices to automatically connect
       # Use idevice* commands like ideviceinfo
