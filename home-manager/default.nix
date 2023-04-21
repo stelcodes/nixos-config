@@ -20,6 +20,9 @@ pkgs: {
       --enable-features=WaylandWindowDecorations
       --ozone-platform-hint=auto
     '';
+
+      "starship.toml".source = ../misc/starship.toml;
+    };
   };
 
   home = {
@@ -159,6 +162,7 @@ pkgs: {
       }) + "/plugins";
     };
 
+    starship.enable = true;
 
     # Just doesn't work. Getting permission denied error when it tries to read .config/gh
     # gh.enable = true;

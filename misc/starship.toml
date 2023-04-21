@@ -1,0 +1,38 @@
+format="${custom.ssh}${custom.nnn}$all"
+
+[username]
+show_always = true
+format = "[$user]($style)@"
+
+[hostname]
+ssh_only = false
+trim_at = ""
+format = "[$hostname]($style) "
+
+[directory]
+truncate_to_repo=false
+style='bold blue'
+
+[git_branch]
+format = "on [$branch]($style) "
+
+[package]
+format = "[$symbol$version]($style) "
+
+[cmd_duration]
+disabled = true
+
+[custom.ssh]
+when = "test $SSH_CLIENT"
+format = "[ssh](purple bold) "
+
+[custom.nnn]
+when = "test $NNN_FIFO"
+format = "[nnn](purple bold) "
+
+[gcloud]
+disabled = true
+
+[shell]
+disabled = false
+style = "blue"
