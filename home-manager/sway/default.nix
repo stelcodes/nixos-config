@@ -226,18 +226,15 @@ pkgs: {
       height = 20;
       output = [ "eDP-1" ];
       modules-left = [ "sway/workspaces" "sway/mode" ];
-      modules-center = [ ];
+      modules-center = [ "clock" ];
       modules-right = [
         "custom/rebuild"
-        "cpu"
-        "memory"
-        "disk"
         "network"
+        "cpu"
         "backlight"
         "pulseaudio"
         "battery"
         "idle_inhibitor"
-        "clock"
       ];
       "custom/rebuild" = {
         format = "rebuild: {}";
@@ -247,7 +244,7 @@ pkgs: {
           test -f /tmp/nixos-rebuild-status
         '';
         exec = pkgs.writeShellScript "waybar-rebuild-exec" ''
-          echo "$(< /tmp/nixos-rebuild-status)"
+          echo "$(< /tmp/nixos-rebuild-status)"
         '';
         # Waybar env does not include my normal PATH so I'm using fish as a wrapper
         on-click = "${pkgs.fish}/bin/fish -c view-rebuild-log";
@@ -259,8 +256,8 @@ pkgs: {
         format-icons = {
           "1" = "term";
           "2" = "www";
-          "3" = "sys";
-          "4" = "notes";
+          "3" = "notes";
+          "4" = "sys";
           "5" = "vibes";
         };
         persistent_workspaces = {
@@ -299,7 +296,11 @@ pkgs: {
         format-icons = { default = [ "" "" ]; };
         on-click = "pavucontrol";
       };
-      clock = { format-alt = "{:%a, %d. %b  %H:%M}"; };
+      clock = {
+        format = "{:%a %b %e %I:%M %p} ";
+        format-alt = "{:week %U day %j} ";
+        tooltip-format = "<tt><small>{calendar}</small></tt>";
+      };
       battery = {
         format = "{capacity} {icon}";
         format-icons = [ " " " " " " " " " " ];
