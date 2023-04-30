@@ -78,13 +78,13 @@ pkgs: {
             doas kill "$(</tmp/nixos-rebuild-pid)"
           fi
           echo $$ > /tmp/nixos-rebuild-pid
-          echo "active" > /tmp/nixos-rebuild-status
+          echo "" > /tmp/nixos-rebuild-status
           doas nixos-rebuild switch &> /tmp/nixos-rebuild-log
           if test $? -eq 0; then
-            echo "success" > /tmp/nixos-rebuild-status
+            echo "" > /tmp/nixos-rebuild-status
             cvlc --play-and-exit ${pkgs.success-alert}
           else
-            echo "failure" > /tmp/nixos-rebuild-status
+            echo "" > /tmp/nixos-rebuild-status
             cvlc --play-and-exit ${pkgs.failure-alert}
           fi
           rm /tmp/nixos-rebuild-pid
