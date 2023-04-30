@@ -51,21 +51,21 @@ pkgs: {
           background = "#2e3440";
           border = "#616e88";
           childBorder = "#616e88";
-          indicator = "#ebcb8b";
+          indicator = "#a3be8c";
           text = "#eceff4";
         };
         unfocused = {
           background = "#222730";
           border = "#2e3440";
           childBorder = "#2e3440";
-          indicator = "#ebcb8b";
+          indicator = "#616e88";
           text = "#eceff4";
         };
         focusedInactive = {
           background = "#222730";
           border = "#2e3440";
           childBorder = "#2e3440";
-          indicator = "#ebcb8b";
+          indicator = "#616e88";
           text = "#eceff4";
         };
       };
