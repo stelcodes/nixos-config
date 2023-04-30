@@ -159,7 +159,7 @@ pkgs: {
       events = [
         {
           event = "before-sleep";
-          command = "${pkgs.swaylock}/bin/swaylock -f -c 000000 && ${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+          command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
         }
         {
           event = "after-resume";
