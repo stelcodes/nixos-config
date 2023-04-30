@@ -19,6 +19,7 @@ pkgs: {
     pkgs.slurp
     pkgs.pamixer
     pkgs.wofi-emoji
+    pkgs.libnotify
   ];
 
   xdg.configFile = {
@@ -182,12 +183,47 @@ pkgs: {
       };
       systemdTarget = "sway-session.target";
     };
+
+    mako = {
+      enable = true;
+      anchor = "bottom-right";
+      font = "NotoSans Nerd Font 10";
+      extraConfig = ''
+        sort=-time
+        layer=overlay
+        background-color=#2e3440
+        width=300
+        height=110
+        border-size=2
+        border-color=#88c0d0
+        border-radius=5
+        icons=1
+        max-icon-size=64
+        default-timeout=5000
+        ignore-timeout=1
+        padding=14
+        margin=20
+
+        [urgency=low]
+        border-color=#81a1c1
+
+        [urgency=normal]
+        border-color=#88c0d0
+
+        [urgency=high]
+        border-color=#bf616a
+        default-timeout=0
+      '';
+    };
   };
 
   programs.waybar = {
     enable = true;
     style = builtins.readFile ./waybar.css;
-    systemd.enable = true;
+    systemd = {
+      enable = true;
+      target = "sway-session.target";
+    };
     settings = [{
       layer = "top";
       position = "bottom";
