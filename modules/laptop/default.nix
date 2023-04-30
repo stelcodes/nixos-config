@@ -54,6 +54,7 @@
               "font.name.sans-serif.x-western" = user "NotoSans Nerd Font";
               "font.name.serif.x-western" = user "NotoSerif Nerd Font";
               "media.ffmpeg.vaapi.enabled" = user true;
+              "extensions.pocket.enabled" = user false;
             };
           DNSOverHTTPS = {
             # Solves my protonvpn reconnect dns issue
