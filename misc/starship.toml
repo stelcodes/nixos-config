@@ -27,7 +27,7 @@ when = "test $SSH_CLIENT"
 format = "[ssh](purple bold) "
 
 [custom.nnn]
-when = "test $NNN_FIFO"
+when = "test $NNNLVL"
 format = "[nnn](purple bold) "
 
 [gcloud]
