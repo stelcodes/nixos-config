@@ -34,6 +34,7 @@ pkgs: {
       dl-music-yt = "${dl-base} --format 'bestaudio' --extract-audio --audio-format opus";
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
+      vpn = "doas protonvpn";
     };
     functions = {
       nnn-rsync = builtins.readFile ./nnn-rsync.fish;
