@@ -61,7 +61,6 @@
         home.username = "stel";
         home.homeDirectory = "/home/stel";
         home.packages = [
-          pkgs.protonvpn-cli
         ];
       }
     ];
