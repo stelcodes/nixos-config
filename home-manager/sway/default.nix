@@ -137,7 +137,6 @@ pkgs: {
       };
       startup = [
         # Most of these should ideally be systemd user services
-        { command = "wlsunset -l 42 -L -83"; }
         { command = "doas protonvpn connect --fastest"; }
         {
           command = "sleep 2 && systemctl --user is-active waybar || systemctl --user restart waybar";
@@ -170,6 +169,17 @@ pkgs: {
           command = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
         }
       ];
+      systemdTarget = "sway-session.target";
+    };
+
+    wlsunset = {
+      enable = true;
+      latitude = "42";
+      longitude = "-83";
+      temperature = {
+        day = 6500;
+        night = 3000;
+      };
       systemdTarget = "sway-session.target";
     };
   };
