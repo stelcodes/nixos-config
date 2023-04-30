@@ -170,6 +170,7 @@ pkgs: {
           command = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
         }
       ];
+      systemdTarget = "sway-session.target";
     };
   };
 
