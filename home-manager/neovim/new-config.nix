@@ -111,21 +111,7 @@ pkgs: {
         {
           plugin = pkgs.vimPlugins.gitsigns-nvim;
           type = "lua";
-          config = ''
-            local gs = require('gitsigns')
-            gs.setup()
-            -- the :w is so fugitive will pick up the staging changes
-            vim.keymap.set({'n','v'}, '<leader>gs', gs.stage_hunk)
-            vim.keymap.set('n', '<leader>gu', gs.undo_stage_hunk)
-            vim.keymap.set({'n', 'v'}, '<leader>gr', gs.reset_hunk)
-            vim.keymap.set('n', '<leader>gR', gs.reset_buffer)
-            vim.keymap.set('n', '<leader>gp', gs.prev_hunk)
-            vim.keymap.set('n', '<leader>gn', gs.next_hunk)
-            vim.keymap.set('n', '<leader>gb', function() gs.blame_line{full=true} end)
-            vim.keymap.set('n', '<leader>gS', gs.stage_buffer)
-            vim.keymap.set('n', '<leader>gU', gs.reset_buffer_index)
-            vim.keymap.set('n', '<leader>gq', gs.setqflist)
-          '';
+          config = builtins.readFile ./gitsigns-config.lua;
         }
 
         {
@@ -213,7 +199,7 @@ pkgs: {
             local buff = require('bufferline')
             buff.setup {
               options = {
-                mode = 'tabs',
+                mode = 'buffers',
                 separator_style = 'thin',
                 sort_by = 'tabs'
               }
