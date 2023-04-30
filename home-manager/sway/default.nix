@@ -104,6 +104,11 @@ pkgs: {
         "237" = "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
         "238" = "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
       };
+      modes = pkgs.lib.mkOptionDefault {
+        resize = {
+          "r" = "resize set width 80 ppt height 90 ppt, move position center";
+        };
+      };
       # There's a big problem with how home-manager handles the input and output values
       # The ordering *does* matter so the value should be a list, not a set.
       input = {
