@@ -81,7 +81,7 @@ pkgs: {
           "${modifier}+shift+tab" = "workspace prev";
           # backtick ` is called grave
           "${modifier}+grave" = "exec wofi-emoji";
-          "${modifier}+shift+r" = "systemctl --user restart waybar";
+          "${modifier}+shift+r" = "reload";
           "${modifier}+c" = "exec rebuild";
           "${modifier}+space" = "exec ${menu}";
           "${modifier}+backspace" = "exec firefox";
@@ -137,12 +137,8 @@ pkgs: {
         "BOE 0x095F Unknown" = { scale = "1.5"; };
       };
       startup = [
-        # Most of these should ideally be systemd user services
         { command = "doas protonvpn connect --fastest"; }
-        {
-          command = "sleep 2 && systemctl --user is-active waybar || systemctl --user restart waybar";
-          always = true;
-        }
+        { command = "systemctl --user restart waybar"; always = true; }
       ];
     };
     extraConfig = ''
