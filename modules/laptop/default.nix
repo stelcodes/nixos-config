@@ -42,7 +42,6 @@
             let
               user = (x: { Status = "user"; Value = x; });
             in
-            # DNS problems: network.dnsCacheExpiration
             {
               "browser.chrome.toolbar_tips" = user false;
               "browser.uidensity" = user 1;
@@ -56,6 +55,11 @@
               "font.name.serif.x-western" = user "NotoSerif Nerd Font";
               "media.ffmpeg.vaapi.enabled" = user true;
             };
+          DNSOverHTTPS = {
+            # Solves my protonvpn reconnect dns issue
+            Enabled = true;
+            Locked = true;
+          };
           ExtensionSettings = {
             # https://github.com/mkaply/queryamoid/releases/tag/v0.1
             "queryamoid@kaply.com" = {
