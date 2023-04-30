@@ -80,12 +80,15 @@ pkgs: {
           "${modifier}+shift+tab" = "workspace prev";
           # backtick ` is called grave
           "${modifier}+grave" = "exec wofi-emoji";
-          "${modifier}+shift+r" = "exec rebuild";
+          "${modifier}+shift+r" = "systemctl --user restart waybar";
+          "${modifier}+c" = "exec rebuild";
           "${modifier}+space" = "exec ${menu}";
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+o" = "output eDP-1 toggle";
           "${modifier}+shift+o" = "output eDP-1 dpms toggle";
           "${modifier}+p" = "exec doas protonvpn connect --fastest";
+          "${modifier}+less" = "focus parent";
+          "${modifier}+greater" = "focus child";
           XF86MonBrightnessDown = "exec brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec brightnessctl set +5%";
           XF86AudioPrev = "exec playerctl previous";
