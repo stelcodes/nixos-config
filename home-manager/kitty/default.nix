@@ -12,7 +12,7 @@ pkgs: {
       shell_integration = "no-cursor";
       disable_ligatures = "never";
       cursor_shape = "block";
-      cursor_blink_interval = "0.3";
+      cursor_blink_interval = 0;
       scrollback_lines = 3000;
       scrollback_pager = "less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
       scrollback_pager_history_size = 20;
