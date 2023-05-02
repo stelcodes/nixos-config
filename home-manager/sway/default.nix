@@ -40,7 +40,7 @@ pkgs: {
       export MOZ_ENABLE_WAYLAND=1
     '';
     config = rec {
-      terminal = "${pkgs.kitty}/bin/kitty";
+      terminal = "${pkgs.wezterm}/bin/wezterm";
       menu = "${pkgs.wofi}/bin/wofi --show run";
       modifier = "Mod4";
       fonts = {
@@ -288,7 +288,7 @@ pkgs: {
         format-ethernet = "{ifname} ";
         format-disconnected = "";
         format-wifi = "{essid} {signalStrength} ";
-        on-click = "${pkgs.kitty}/bin/kitty nmtui";
+        on-click = "${pkgs.wezterm}/bin/wezterm start nmtui";
       };
       pulseaudio = {
         format = "{volume} {icon}";

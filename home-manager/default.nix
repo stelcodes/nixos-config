@@ -162,6 +162,11 @@ pkgs: {
 
     bash.enable = true;
 
+    wezterm = {
+      enable = true;
+      extraConfig = builtins.readFile ../misc/wezterm.lua;
+    };
+
     # Just doesn't work. Getting permission denied error when it tries to read .config/gh
     # gh.enable = true;
   };
