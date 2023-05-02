@@ -51,44 +51,29 @@ pkgs: {
 
     sessionPath = [ "$HOME/.local/bin" ];
 
+    sessionVariables = {
+      SUCCESS_ALERT = "${pkgs.success-alert}";
+      FAILURE_ALERT = "${pkgs.failure-alert}";
+    };
+
     file = {
       ".local/bin/view-rebuild-log" = {
         executable = true;
         text = ''
           #!/usr/bin/env bash
-          kitty nvim -R /tmp/nixos-rebuild-log
+          wezterm start nvim -R /tmp/nixos-rebuild.log
         '';
       };
       ".local/bin/view-nmtui" = {
         executable = true;
         text = ''
           #!/usr/bin/env bash
-          kitty nmtui
+          wezterm start nmtui
         '';
       };
       ".local/bin/rebuild" = {
         executable = true;
-        text = ''
-          #!/usr/bin/env bash
-          if ! ping -c 1 -W 5 nixos.org &> /dev/null; then
-            echo 'Error: Network not up'
-            exit 1
-          fi
-          if test -f /tmp/nixos-rebuild-pid; then
-            doas kill "$(</tmp/nixos-rebuild-pid)"
-          fi
-          echo $$ > /tmp/nixos-rebuild-pid
-          echo "" > /tmp/nixos-rebuild-status
-          doas nixos-rebuild switch &> /tmp/nixos-rebuild-log
-          if test $? -eq 0; then
-            echo "" > /tmp/nixos-rebuild-status
-            cvlc --play-and-exit ${pkgs.success-alert}
-          else
-            echo "" > /tmp/nixos-rebuild-status
-            cvlc --play-and-exit ${pkgs.failure-alert}
-          fi
-          rm /tmp/nixos-rebuild-pid
-        '';
+        source = ../misc/nixos-rebuild.sh;
       };
     };
   };
