@@ -242,10 +242,10 @@ pkgs: {
         max-length = 25;
         interval = 2;
         exec-if = pkgs.writeShellScript "waybar-rebuild-exec-if" ''
-          test -f /tmp/nixos-rebuild-status
+          test -f /tmp/nixos-rebuild.status
         '';
         exec = pkgs.writeShellScript "waybar-rebuild-exec" ''
-          echo "$(< /tmp/nixos-rebuild-status)"
+          echo "$(< /tmp/nixos-rebuild.status)"
         '';
         # Waybar env does not include my normal PATH so I'm using fish as a wrapper
         on-click = "${pkgs.fish}/bin/fish -c view-rebuild-log";
