@@ -86,6 +86,7 @@ pkgs: {
           "${modifier}+space" = "exec ${menu}";
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+o" = "output eDP-1 toggle";
+          "${modifier}+n" = "exec makoctl dismiss --all";
           "${modifier}+shift+o" = "output eDP-1 dpms toggle";
           "${modifier}+p" = "exec doas protonvpn connect --fastest";
           "${modifier}+less" = "focus parent";
