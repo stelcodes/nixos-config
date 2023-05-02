@@ -7,6 +7,7 @@ format = "[$user]($style)@"
 [hostname]
 ssh_only = false
 trim_at = ""
+style = "bold green"
 format = "[$hostname]($style) "
 
 [directory]
