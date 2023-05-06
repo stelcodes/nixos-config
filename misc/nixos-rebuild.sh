@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eEuxo pipefail
+set -euxo pipefail
 
 STATUS_FILE=/tmp/nixos-rebuild.status
 LOG_FILE=/tmp/nixos-rebuild.log
@@ -28,8 +28,7 @@ ensure_network() {
 
 rebuild_config() {
   {
-    doas nixos-rebuild switch | tee $LOG_FILE
-    succeed
+    doas nixos-rebuild switch 2>&1 | tee $LOG_FILE && succeed
   } || {
     echo "ERROR: Config rebuild failed"
     cvlc --play-and-exit $FAILURE_ALERT
