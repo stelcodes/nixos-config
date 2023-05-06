@@ -320,7 +320,7 @@ pkgs: {
         on-click = "pavucontrol";
       };
       clock = {
-        format = "{:%a %b %e %I:%M %p} ";
+        format = "{:%a %b %d %I:%M %p} ";
         format-alt = "{:week %U day %j} ";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
       };
