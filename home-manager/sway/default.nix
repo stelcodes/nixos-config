@@ -200,7 +200,7 @@ pkgs: {
         border-radius=5
         icons=1
         max-icon-size=64
-        default-timeout=5000
+        default-timeout=0
         ignore-timeout=1
         padding=14
         margin=20
