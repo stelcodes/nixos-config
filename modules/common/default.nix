@@ -132,6 +132,7 @@
             postBuild = "wrapProgram $out/bin/spotify --add-flags '--enable-features=UseOzonePlatform --ozone-platform=wayland'";
           };
           protonvpn-cli = super.pkgs.protonvpn-cli_2;
+          pomo = super.callPackage ../../packages/pomo.nix {};
         })
       ];
     };

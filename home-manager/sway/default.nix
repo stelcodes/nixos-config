@@ -218,6 +218,20 @@ pkgs: {
     };
   };
 
+  systemd.user.services.pomo-notify = {
+    Unit = {
+      Description = "pomo.sh notify daemon";
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.pomo}/bin/pomo notify";
+      Restart = "always";
+    };
+    Install = {
+      WantedBy = [ "sway-session.target" ];
+    };
+  };
+
   programs.waybar = {
     enable = true;
     style = builtins.readFile ./waybar.css;
@@ -231,7 +245,7 @@ pkgs: {
       height = 20;
       output = [ "eDP-1" ];
       modules-left = [ "sway/workspaces" "sway/mode" ];
-      modules-center = [ "clock" ];
+      modules-center = [ "clock" "custom/pomo" ];
       modules-right = [
         "custom/rebuild"
         "network"
@@ -241,16 +255,20 @@ pkgs: {
         "battery"
         "idle_inhibitor"
       ];
+      "custom/pomo" = {
+        format = "{} 󱎫 ";
+        exec = "${pkgs.pomo}/bin/pomo clock";
+        # exec-if = "test -f $HOME/.local/share/pomo";
+        interval = 1;
+        on-click = "${pkgs.pomo}/bin/pomo pause";
+        on-click-right = "${pkgs.pomo}/bin/pomo stop";
+      };
       "custom/rebuild" = {
         format = "rebuild: {}";
         max-length = 25;
         interval = 2;
-        exec-if = pkgs.writeShellScript "waybar-rebuild-exec-if" ''
-          test -f /tmp/nixos-rebuild.status
-        '';
-        exec = pkgs.writeShellScript "waybar-rebuild-exec" ''
-          echo "$(< /tmp/nixos-rebuild.status)"
-        '';
+        exec-if = "test -f /tmp/nixos-rebuild.status";
+        exec = "echo \"$(< /tmp/nixos-rebuild.status)\"";
         # Waybar env does not include my normal PATH so I'm using fish as a wrapper
         on-click = "${pkgs.fish}/bin/fish -c view-rebuild-log";
       };
