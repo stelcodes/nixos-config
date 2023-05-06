@@ -168,6 +168,9 @@ pkgs: {
           command = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
         }
       ];
+      timeouts = [
+        { timeout = 300; command = "systemctl suspend-then-hibernate"; }
+      ];
       systemdTarget = "sway-session.target";
     };
 
