@@ -75,10 +75,11 @@ pkgs: {
         hideEdgeBorders = "none";
         border = 1;
       };
+      workspaceLayout = "tabbed";
       keybindings =
         pkgs.lib.mkOptionDefault {
-          "${modifier}+tab" = "workspace next";
-          "${modifier}+shift+tab" = "workspace prev";
+          "${modifier}+tab" = "workspace back_and_forth";
+          # "${modifier}+shift+tab" = "workspace prev";
           # backtick ` is called grave
           "${modifier}+grave" = "exec wofi-emoji";
           "${modifier}+shift+r" = "reload";
