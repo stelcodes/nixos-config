@@ -17,6 +17,11 @@ config.color_scheme = 'nord'
 config.font_size = 13.0;
 config.font = wezterm.font { family = "NotoSansMono Nerd Font" };
 
+config.disable_default_key_bindings = true
+config.tab_bar_at_bottom = true
+
+config.alternate_buffer_wheel_scroll_speed = 1;
+
 config.keys = {
   {
     key = 'c',
@@ -95,18 +100,18 @@ config.keys = {
     mods = 'ALT',
     action = wezterm.action.ActivatePaneDirection 'Down',
   },
- {
+  {
     key = 'n',
     mods = 'ALT',
     action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
   },
- {
+  {
     key = 'm',
     mods = 'ALT',
     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
 
- {
+  {
     key = 'LeftArrow',
     mods = 'ALT',
     action = wezterm.action.AdjustPaneSize { 'Left', 2 },
@@ -155,6 +160,10 @@ config.keys = {
       end),
     },
   },
+  -- CTRL-SHIFT-l activates the debug overlay
+  { key = 'D', mods = 'ALT', action = wezterm.action.ShowDebugOverlay },
+  { key = 'k', mods = 'ALT', action = wezterm.action.ScrollByLine(-1) },
+  { key = 'j', mods = 'ALT', action = wezterm.action.ScrollByLine(1) },
 }
 
 for i = 1, 8 do
@@ -164,6 +173,18 @@ for i = 1, 8 do
     action = wezterm.action.ActivateTab(i - 1),
   })
 end
+
+wezterm.on('update-right-status', function(window, pane)
+  -- local date = wezterm.strftime '%Y-%m-%d %H:%M:%S'
+  local mw = window:mux_window()
+
+  -- Make it italic and underlined
+  window:set_right_status(wezterm.format {
+    -- { Attribute = { Underline = 'Single' } },
+    -- { Attribute = { Italic = true } },
+    { Text = mw:get_workspace() },
+  })
+end)
 
 config.use_fancy_tab_bar = false
 config.check_for_updates = false
@@ -196,5 +217,9 @@ config.window_padding = {
   top = '0cell',
   bottom = '0cell',
 }
+
+config.unix_domains = { { name = 'unix' } }
+config.default_gui_startup_args = {"connect", "unix"}
+
 -- and finally, return the configuration to wezterm
 return config
