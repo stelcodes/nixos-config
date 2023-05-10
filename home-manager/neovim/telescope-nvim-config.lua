@@ -39,7 +39,7 @@ tele.setup {
       height=0.99,
       width=0.95,
       flex = {
-        flip_columns = 120,
+        flip_columns = 160,
         flip_lines = 20,
       },
       horizontal = {
