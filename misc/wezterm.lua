@@ -60,26 +60,6 @@ config.keys = {
   -- { key = '+', mods = 'ALT', action = wezterm.action.IncreaseFontSize },
   { key = '+', mods = 'ALT|SHIFT', action = wezterm.action.IncreaseFontSize },
   { key = '=', mods = 'ALT',       action = wezterm.action.ResetFontSize },
-  -- {
-  --   key = 'LeftArrow',
-  --   mods = 'ALT',
-  --   action = wezterm.action.ActivatePaneDirection 'Left',
-  -- },
-  -- {
-  --   key = 'RightArrow',
-  --   mods = 'ALT',
-  --   action = wezterm.action.ActivatePaneDirection 'Right',
-  -- },
-  -- {
-  --   key = 'UpArrow',
-  --   mods = 'ALT',
-  --   action = wezterm.action.ActivatePaneDirection 'Up',
-  -- },
-  -- {
-  --   key = 'DownArrow',
-  --   mods = 'ALT',
-  --   action = wezterm.action.ActivatePaneDirection 'Down',
-  -- },
   {
     key = 'H',
     mods = 'ALT',
@@ -148,19 +128,32 @@ config.keys = {
       description = wezterm.format {
         { Attribute = { Intensity = 'Bold' } },
         { Foreground = { AnsiColor = 'Fuchsia' } },
-        { Text = 'Enter name for new workspace' },
+        { Text = 'New workspace' },
       },
       action = wezterm.action_callback(function(window, pane, line)
-        -- line will be `nil` if they hit escape without entering anything
-        -- An empty string if they just hit enter
-        -- Or the actual line of text they wrote
-        if line then
+        if line and line ~= '' then
           window:perform_action(wezterm.action.SwitchToWorkspace { name = line }, pane)
         end
       end),
     },
   },
-  -- CTRL-SHIFT-l activates the debug overlay
+  {
+    key = 'r',
+    mods = 'ALT',
+    action = wezterm.action.PromptInputLine {
+      description = wezterm.format {
+        { Attribute = { Intensity = 'Bold' } },
+        { Foreground = { AnsiColor = 'Fuchsia' } },
+        { Text = 'Rename workspace' },
+      },
+      action = wezterm.action_callback(function(window, pane, line)
+        if line and line ~= '' then
+          wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
+        end
+      end),
+    },
+
+  },
   { key = 'D', mods = 'ALT', action = wezterm.action.ShowDebugOverlay },
   { key = 'k', mods = 'ALT', action = wezterm.action.ScrollByLine(-1) },
   { key = 'j', mods = 'ALT', action = wezterm.action.ScrollByLine(1) },
@@ -219,7 +212,7 @@ config.window_padding = {
 }
 
 config.unix_domains = { { name = 'unix' } }
-config.default_gui_startup_args = {"connect", "unix"}
+config.default_gui_startup_args = { "connect", "unix" }
 
 config.show_new_tab_button_in_tab_bar = false
 config.mouse_wheel_scrolls_tabs = false
