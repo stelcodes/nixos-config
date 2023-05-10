@@ -195,7 +195,7 @@
 
     environment.systemPackages = [
       pkgs.calibre
-      pkgs.gimp
+      pkgs.gimp-with-plugins
       pkgs.qbittorrent
       pkgs.ungoogled-chromium
       pkgs.gnome.gnome-disk-utility
@@ -210,6 +210,7 @@
       pkgs.mpv
       pkgs.appimage-run
       pkgs.protonvpn-cli
+      pkgs.signal-desktop
     ];
 
   };
