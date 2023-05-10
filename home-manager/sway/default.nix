@@ -266,7 +266,8 @@ pkgs: {
       modules-center = [ "clock" "custom/pomo" ];
       modules-right = [
         "custom/rebuild"
-        "network"
+        "network#1"
+        "network#2"
         "cpu"
         "backlight"
         "pulseaudio"
@@ -321,13 +322,20 @@ pkgs: {
         interval = 30;
         format = "{percentage_used} ";
       };
-      network = {
-        # format = "{bandwidthDownBits}";
+      "network#1" = {
         max-length = 60;
-        format = "{ifname}";
-        format-ethernet = "{ifname} ";
+        interface = "wl*";
+        # format = "{ifname}";
+        # format-ethernet = "{ifname} ";
         format-disconnected = "";
         format-wifi = "{essid} {signalStrength} ";
+        on-click = "${pkgs.wezterm}/bin/wezterm start nmtui";
+      };
+      "network#2" = {
+        max-length = 60;
+        interface = "proton*";
+        format = "";
+        format-disconnected = "";
         on-click = "${pkgs.wezterm}/bin/wezterm start nmtui";
       };
       pulseaudio = {
