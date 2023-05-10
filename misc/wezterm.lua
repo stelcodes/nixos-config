@@ -212,14 +212,17 @@ config.colors = {
 }
 
 config.window_padding = {
-  left = '0cell',
-  right = '0cell',
-  top = '0cell',
-  bottom = '0cell',
+  left = 0,
+  right = 0,
+  top = 0,
+  bottom = 0,
 }
 
 config.unix_domains = { { name = 'unix' } }
 config.default_gui_startup_args = {"connect", "unix"}
+
+config.show_new_tab_button_in_tab_bar = false
+config.mouse_wheel_scrolls_tabs = false
 
 -- and finally, return the configuration to wezterm
 return config
