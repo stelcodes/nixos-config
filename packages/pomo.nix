@@ -22,12 +22,6 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  buildInputs = [ coreutils ];
-
-  postPatch = ''
-    patchShebangs pomo.sh
-  '';
-
   installPhase = ''
     runHook preInstall
 
