@@ -139,7 +139,6 @@ pkgs: {
         "BOE 0x095F Unknown" = { scale = "1.5"; };
       };
       startup = [
-        { command = "doas protonvpn connect --fastest"; }
         { command = "systemctl --user restart waybar"; always = true; }
       ];
     };
@@ -234,6 +233,22 @@ pkgs: {
       WantedBy = [ "sway-session.target" ];
     };
   };
+
+
+  # systemd.user.services.protonvpn-disconnect = {
+  #   Unit = {
+  #     Description = "protonvpn disconnect before sleep";
+  #     Before = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
+  #   };
+  #   Service = {
+  #     Type = "forking";
+  #     ExecStart = "${pkgs.protonvpn-cli}/bin/protonvpn disconnect";
+  #     Environment = [ "PVPN_WAIT=300" "PVPN_DEBUG=1" "SUDO_USER=stel" ];
+  #   };
+  #   Install = {
+  #     WantedBy = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
+  #   };
+  # };
 
   programs.waybar = {
     enable = true;
