@@ -201,10 +201,12 @@ pkgs: {
               options = {
                 mode = 'buffers',
                 separator_style = 'thin',
-                sort_by = 'tabs'
+                sort_by = 'directory'
               }
             }
             vim.api.nvim_set_hl(0, "BufferlineFill", { link = "BufferlineBackground" })
+            vim.keymap.set('n', 'H', '<cmd>BufferLineCyclePrev<cr>')
+            vim.keymap.set('n', 'L', '<cmd>BufferLineCycleNext<cr>')
           '';
         }
 

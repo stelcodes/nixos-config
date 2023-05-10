@@ -156,9 +156,8 @@ vim.keymap.set('t', '<c-q>', '<esc><c-w>q')
 
 -- TABS
 -- Navigate tabs
-vim.keymap.set('n', 'T', '<cmd>tabnew<cr><cmd>terminal fish<cr>')
-vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
-vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
+vim.keymap.set('n', 'T', '<cmd>tabprevious<cr>')
+vim.keymap.set('n', 't', '<cmd>tabnext<cr>')
 -- Move tabs
 vim.keymap.set('n', '<c-left>', '<cmd>tabmove -1<cr>')
 vim.keymap.set('n', '<c-right>', '<cmd>tabmove +1<cr>')
