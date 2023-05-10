@@ -169,7 +169,10 @@ pkgs: {
         }
       ];
       timeouts = [
-        { timeout = 300; command = "systemctl suspend-then-hibernate"; }
+        {
+          timeout = 300;
+          command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+        }
       ];
       systemdTarget = "sway-session.target";
     };
