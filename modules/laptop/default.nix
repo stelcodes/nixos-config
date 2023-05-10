@@ -26,37 +26,6 @@
     # Hibernate after 30 minutes of sleep
     systemd = {
       sleep.extraConfig = "HibernateDelaySec=30m";
-      services = {
-        protonvpn-disconnect = {
-          description = "ProtonVPN-CLI disconnect before sleep";
-          before = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
-          wantedBy = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
-          environment = { PVPN_WAIT = "5"; PVPN_DEBUG = "1"; SUDO_USER = "root"; };
-          restartIfChanged = false;
-          serviceConfig = {
-            Type = "forking";
-            ExecStart = "${pkgs.protonvpn-cli}/bin/protonvpn disconnect";
-            Restart = "on-failure";
-            RestartSec = 1;
-            TimeoutStartSec = 15;
-          };
-        };
-        protonvpn-connect = {
-          description = "ProtonVPN-CLI reconnect after sleep";
-          requires = [ "network-online.target" ];
-          after = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
-          wantedBy = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
-          environment = { PVPN_WAIT = "5"; PVPN_DEBUG = "1"; SUDO_USER = "root"; };
-          restartIfChanged = false;
-          serviceConfig = {
-            Type = "forking";
-            ExecStart = "${pkgs.protonvpn-cli}/bin/protonvpn connect --fastest";
-            Restart = "on-failure";
-            RestartSec = 1;
-            TimeoutStartSec = 15;
-          };
-        };
-      };
     };
 
     programs = {
