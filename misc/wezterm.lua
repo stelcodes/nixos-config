@@ -15,7 +15,8 @@ end
 -- For example, changing the color scheme:
 config.color_scheme = 'nord'
 config.font_size = 13.0;
-config.font = wezterm.font { family = "NotoSansMono Nerd Font" };
+-- config.font = wezterm.font { family = "NotoSansM Nerd Font Mono" };
+config.font = wezterm.font { family = "FiraMono Nerd Font Mono" };
 
 config.disable_default_key_bindings = true
 config.tab_bar_at_bottom = true
@@ -216,6 +217,8 @@ config.default_gui_startup_args = { "connect", "unix" }
 
 config.show_new_tab_button_in_tab_bar = false
 config.mouse_wheel_scrolls_tabs = false
+
+config.debug_key_events = true
 
 -- and finally, return the configuration to wezterm
 return config

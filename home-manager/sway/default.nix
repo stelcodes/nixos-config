@@ -44,7 +44,8 @@ pkgs: {
       menu = "${pkgs.wofi}/bin/wofi --show run";
       modifier = "Mod4";
       fonts = {
-        names = [ "NotoSansMono Nerd Font" ];
+        names = [ "FiraMono Nerd Font"];
+        style = "Regular";
         size = 8.0;
       };
       bars = [ ];
@@ -190,7 +191,7 @@ pkgs: {
     mako = {
       enable = true;
       anchor = "bottom-right";
-      font = "NotoSans Nerd Font 10";
+      font = "FiraMono Nerd Font 10";
       extraConfig = ''
         sort=-time
         layer=overlay
@@ -346,8 +347,8 @@ pkgs: {
         on-click = "pavucontrol";
       };
       clock = {
-        format = "{:%a %b %d %I:%M %p} ";
-        format-alt = "{:week %U day %j} ";
+        format = "{:%a %b %d %I:%M %p} 󱛡";
+        format-alt = "{:week %U day %j} 󱛡";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
       };
       battery = {

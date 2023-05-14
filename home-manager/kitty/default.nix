@@ -2,8 +2,7 @@ pkgs: {
   programs.kitty = {
     enable = true;
     font = {
-      name = "NotoSansMono Nerd Font";
-      # name = "OpenDyslexicMono Nerd Font";
+      name = "FiraMono Nerd Font";
       size = 13;
     };
     theme = "Nord";

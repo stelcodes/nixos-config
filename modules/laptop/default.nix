@@ -57,9 +57,9 @@
               "browser.urlbar.suggest.engines" = locked false;
               "browser.urlbar.suggest.searches" = locked false;
               "dom.security.https_only_mode" = locked true;
-              "font.name.monospace.x-western" = user "NotoSansMono Nerd Font";
-              "font.name.sans-serif.x-western" = user "NotoSans Nerd Font";
-              "font.name.serif.x-western" = user "NotoSerif Nerd Font";
+              "font.name.monospace.x-western" = user "FiraMono Nerd Font";
+              "font.name.sans-serif.x-western" = user "FiraMono Nerd Font";
+              "font.name.serif.x-western" = user "FiraMono Nerd Font";
               "media.ffmpeg.vaapi.enabled" = locked true;
             };
           DisableFirefoxStudies = true;
@@ -189,7 +189,7 @@
       enableDefaultFonts = true;
       fonts = [
         # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/data/fonts/nerdfonts/shas.nix
-        (pkgs.nerdfonts.override { fonts = [ "Noto" "JetBrainsMono" ]; })
+        (pkgs.nerdfonts.override { fonts = [ "FiraMono" ]; })
       ];
     };
 

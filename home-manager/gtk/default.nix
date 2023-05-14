@@ -3,7 +3,7 @@ pkgs: {
   gtk = {
     enable = true;
     font = {
-      name = "NotoSans Nerd Font";
+      name = "FiraMono Nerd Font";
       size = 10;
     };
     theme = {
