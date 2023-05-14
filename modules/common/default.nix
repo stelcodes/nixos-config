@@ -139,6 +139,7 @@
             buildInputs = [ super.makeWrapper ];
             postBuild = "wrapProgram $out/bin/signal-desktop --add-flags '--enable-features=UseOzonePlatform --ozone-platform=wayland'";
           };
+          wezterm-nightly = super.callPackage ../../packages/wezterm-nightly { };
         })
       ];
     };
