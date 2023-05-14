@@ -278,7 +278,6 @@ pkgs: {
       "custom/pomo" = {
         format = "{} 󱎫 ";
         exec = "${pkgs.pomo}/bin/pomo clock";
-        # exec-if = "test -f $HOME/.local/share/pomo";
         interval = 1;
         on-click = "${pkgs.pomo}/bin/pomo pause";
         on-click-right = "${pkgs.pomo}/bin/pomo stop";
