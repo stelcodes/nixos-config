@@ -107,6 +107,10 @@
             url = "https://cdn.freesound.org/previews/651/651625_14258856-lq.mp3";
             sha256 = "XAEJAts+KUNVRCFLXlGYPIJ06q4EjdT39G0AsXGbT2M=";
           };
+          pomo-alert = super.fetchurl {
+            url = "https://cdn.freesound.org/previews/421/421829_8224400-lq.mp3";
+            sha256 = "049x6z6d3ssfx6rh8y11var1chj3x67nfrakigydnj3961hnr6ar";
+          };
           obsidian = super.symlinkJoin {
             name = "obsidian-wayland";
             paths = [ super.obsidian ];

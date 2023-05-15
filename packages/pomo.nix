@@ -11,10 +11,10 @@ stdenv.mkDerivation rec {
   version = "unstable-2023-01-26";
 
   src = fetchFromGitHub {
-    owner = "jsspencer";
+    owner = "stelcodes";
     repo = "pomo";
-    rev = "47e57fe2c75677bd7a1491f93510e830a8008cac";
-    sha256 = "eGLjvfKeTgSuC7sCk7qN5K73tr5vbJHuD0v7cIg5ZpA=";
+    rev = "1fa2468c45db6711b72e775fe324c5a9c1d13a05";
+    sha256 = "O6YBfXwfcMd2niNd0laPt060ub5j/hqcMft4KWKaYTk=";
   };
 
   dontConfigure = true;
