@@ -274,6 +274,17 @@ pkgs: {
   #   };
   # };
 
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      color = "000000";
+      font-size = 24;
+      indicator-idle-visible = false;
+      indicator-radius = 100;
+      show-failed-attempts = true;
+    };
+  };
+
   programs.waybar = {
     enable = true;
     style = builtins.readFile ./waybar.css;
