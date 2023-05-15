@@ -67,7 +67,7 @@ pkgs: {
       menu = "${pkgs.wofi}/bin/wofi --show run";
       modifier = "Mod4";
       fonts = {
-        names = [ "FiraMono Nerd Font"];
+        names = [ "FiraMono Nerd Font" ];
         style = "Regular";
         size = 8.0;
       };
@@ -257,22 +257,6 @@ pkgs: {
       WantedBy = [ "sway-session.target" ];
     };
   };
-
-
-  # systemd.user.services.protonvpn-disconnect = {
-  #   Unit = {
-  #     Description = "protonvpn disconnect before sleep";
-  #     Before = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
-  #   };
-  #   Service = {
-  #     Type = "forking";
-  #     ExecStart = "${pkgs.protonvpn-cli}/bin/protonvpn disconnect";
-  #     Environment = [ "PVPN_WAIT=300" "PVPN_DEBUG=1" "SUDO_USER=stel" ];
-  #   };
-  #   Install = {
-  #     WantedBy = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
-  #   };
-  # };
 
   programs.swaylock = {
     enable = true;
