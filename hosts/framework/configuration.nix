@@ -44,18 +44,10 @@
     pkgs.lib.mkMerge [
       (import ../../home-manager pkgs)
       (import ../../home-manager/gtk pkgs)
-      (import ../../home-manager/zsh pkgs)
       (import ../../home-manager/fish pkgs)
-      (import ../../home-manager/tmux pkgs)
       (import ../../home-manager/neovim/new-config.nix pkgs)
-      (import ../../home-manager/alacritty pkgs)
       (import ../../home-manager/kitty pkgs)
       (import ../../home-manager/sway pkgs)
-      (import ../../home-manager/python pkgs)
-      (import ../../home-manager/rust pkgs)
-      (import ../../home-manager/go pkgs)
-      (import ../../home-manager/nodejs pkgs)
-      (import ../../home-manager/clojure pkgs)
       {
         home.stateVersion = "23.05";
         home.username = "stel";
