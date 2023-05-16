@@ -5,7 +5,6 @@ set -x MANPAGER 'nvim +Man!'
 set -x BAT_THEME 'base16' # For bat and delta
 set -x NNN_TRASH 1
 set -x NNN_PLUG 'p:preview-tui;d:dragdrop'
-set -x NNN_TMPFILE '/tmp/nnn-last-dir'
 set -x NNN_FCOLORS "030304030705020801030301"
 set -x NNN_FIFO '/tmp/nnn.fifo'
 
