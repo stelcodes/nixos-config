@@ -88,6 +88,7 @@
         sqlite
         dua
         croc
+        yt-dlp
       ];
 
     # Nice to have, required for gnome-disks to work
