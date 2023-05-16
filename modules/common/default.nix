@@ -102,14 +102,17 @@
       overlays = [
         (self: super: {
           success-alert = super.fetchurl {
+            # https://freesound.org/people/martcraft/sounds/651624/
             url = "https://cdn.freesound.org/previews/651/651624_14258856-lq.mp3";
             sha256 = "urNwmGEG2YJsKOtqh69n9VHdj9wSV0UPYEQ3caEAF2c=";
           };
           failure-alert = super.fetchurl {
+            # https://freesound.org/people/martcraft/sounds/651625/
             url = "https://cdn.freesound.org/previews/651/651625_14258856-lq.mp3";
             sha256 = "XAEJAts+KUNVRCFLXlGYPIJ06q4EjdT39G0AsXGbT2M=";
           };
           pomo-alert = super.fetchurl {
+            # https://freesound.org/people/dersinnsspace/sounds/421829/
             url = "https://cdn.freesound.org/previews/421/421829_8224400-lq.mp3";
             sha256 = "049x6z6d3ssfx6rh8y11var1chj3x67nfrakigydnj3961hnr6ar";
           };
