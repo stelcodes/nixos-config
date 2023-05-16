@@ -34,8 +34,9 @@ pkgs: {
           block_type=$1
           if [[ $block_type -eq 0 ]]; then
               send_msg 'End of a work period. Locking Screen!'
+              ${pkgs.playerctl}/bin/playerctl --all-players stop
               ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
-              ${pkgs.swaylock}/bin/swaylock
+              ${pkgs.swaylock}/bin/swaylock &
           elif [[ $block_type -eq 1 ]]; then
               send_msg 'End of a break period. Time for work!'
               ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert}
@@ -45,8 +46,8 @@ pkgs: {
           fi
       }
       POMO_MSG_CALLBACK="custom_notify"
-      POMO_WORK_TIME=30
-      POMO_BREAK_TIME=10
+      POMO_WORK_TIME=28
+      POMO_BREAK_TIME=8
     '';
   };
 
@@ -266,6 +267,7 @@ pkgs: {
       indicator-idle-visible = false;
       indicator-radius = 100;
       show-failed-attempts = true;
+      daemonize = true;
     };
   };
 
