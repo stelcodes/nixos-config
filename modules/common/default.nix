@@ -7,6 +7,7 @@
     networking.hosts."127.0.0.1" = [ "lh" ];
     networking.hosts."104.236.219.156" = [ "nube1" ];
     networking.hosts."167.99.122.78" = [ "morado1" ];
+    networking.hosts."192.168.0.25" = [ "macmini" ];
 
     # Set your time zone.
     time.timeZone = "America/Los_Angeles";
