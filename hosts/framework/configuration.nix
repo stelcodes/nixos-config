@@ -45,7 +45,7 @@
       (import ../../home-manager pkgs)
       (import ../../home-manager/gtk pkgs)
       (import ../../home-manager/fish pkgs)
-      (import ../../home-manager/neovim/new-config.nix pkgs)
+      (import ../../home-manager/neovim pkgs)
       (import ../../home-manager/kitty pkgs)
       (import ../../home-manager/sway pkgs)
       {
