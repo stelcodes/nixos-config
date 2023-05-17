@@ -154,11 +154,22 @@
     };
 
     nix = {
+      # Nix Package Manager settings
       nixPath = [
         "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
         "nixos-config=/home/stel/nixos-config/hosts/${config.networking.hostName}/configuration.nix"
         "/nix/var/nix/profiles/per-user/root/channels"
       ];
+      # settings = {
+      #   auto-optimise-store = true; # Optimise syslinks
+      # };
+      package = pkgs.nixFlakes; # Enable nixFlakes on system
+      # registry.nixpkgs.flake = inputs.nixpkgs;
+      extraOptions = ''
+        experimental-features = nix-command flakes
+        keep-outputs          = true
+        keep-derivations      = true
+      '';
     };
   };
 }
