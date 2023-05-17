@@ -1,4 +1,4 @@
-pkgs: {
+{ pkgs, ... }: {
 
   home.packages = [
     pkgs.swaylock
@@ -40,7 +40,7 @@ pkgs: {
                 send_msg 'End of a work period. Locking Screen!'
                 ${pkgs.playerctl}/bin/playerctl --all-players stop
                 ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
-                { ${pkgs.swaylock}/bin/swaylock; ${pkgs.pomo}/bin/start; } &
+                { ${pkgs.swaylock}/bin/swaylock; ${pkgs.pomo}/bin/pomo start; } &
             elif [[ $block_type -eq 1 ]]; then
                 send_msg 'End of a break period. Time for work!'
                 ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert}

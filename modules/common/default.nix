@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, inputs, ... }: {
   config = {
     boot.tmp.cleanOnBoot = true;
 
@@ -164,7 +164,7 @@
       #   auto-optimise-store = true; # Optimise syslinks
       # };
       package = pkgs.nixFlakes; # Enable nixFlakes on system
-      # registry.nixpkgs.flake = inputs.nixpkgs;
+      registry.nixpkgs.flake = inputs.nixpkgs;
       extraOptions = ''
         experimental-features = nix-command flakes
         keep-outputs          = true

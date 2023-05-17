@@ -1,4 +1,4 @@
-pkgs: {
+{ pkgs, ... }: {
 
   systemd.user.startServices = true;
 
