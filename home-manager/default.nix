@@ -27,8 +27,12 @@
         --enable-features=WaylandWindowDecorations
         --ozone-platform-hint=auto
       '';
-
       "starship.toml".source = ../misc/starship.toml;
+      "systemd/user.conf".text = ''
+        [Manager]
+        DefaultTimeoutStopSec=10
+        DefaultTimeoutAbortSec=10
+      '';
     };
   };
 

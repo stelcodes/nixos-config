@@ -171,5 +171,11 @@
         keep-derivations      = true
       '';
     };
+
+    systemd.extraConfig = ''
+      [Manager]
+      DefaultTimeoutStopSec=10
+      DefaultTimeoutAbortSec=10
+    '';
   };
 }
