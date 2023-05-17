@@ -26,29 +26,34 @@ pkgs: {
   xdg.configFile = {
     "wofi/config".text = "allow_images=true";
     "wofi/style.css".source = ./wofi.css;
-    "pomo.cfg".source = pkgs.writeShellScript "pomo-cfg" ''
-      # This file gets sourced by pomo.sh at startup
-      # I'm only caring about linux atm
-      function custom_notify {
-          # send_msg is defined in the pomo.sh source
-          block_type=$1
-          if [[ $block_type -eq 0 ]]; then
-              send_msg 'End of a work period. Locking Screen!'
-              ${pkgs.playerctl}/bin/playerctl --all-players stop
-              ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
-              ${pkgs.swaylock}/bin/swaylock &
-          elif [[ $block_type -eq 1 ]]; then
-              send_msg 'End of a break period. Time for work!'
-              ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert}
-          else
-              echo "Unknown block type"
-              exit 1
-          fi
-      }
-      POMO_MSG_CALLBACK="custom_notify"
-      POMO_WORK_TIME=28
-      POMO_BREAK_TIME=8
-    '';
+    "pomo.cfg" = {
+      onChange = ''
+        ${pkgs.systemd}/bin/systemctl --user restart pomo-notify.service
+      '';
+      source = pkgs.writeShellScript "pomo-cfg" ''
+        # This file gets sourced by pomo.sh at startup
+        # I'm only caring about linux atm
+        function custom_notify {
+            # send_msg is defined in the pomo.sh source
+            block_type=$1
+            if [[ $block_type -eq 0 ]]; then
+                send_msg 'End of a work period. Locking Screen!'
+                ${pkgs.playerctl}/bin/playerctl --all-players stop
+                ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
+                ${pkgs.swaylock}/bin/swaylock &
+            elif [[ $block_type -eq 1 ]]; then
+                send_msg 'End of a break period. Time for work!'
+                ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert}
+            else
+                echo "Unknown block type"
+                exit 1
+            fi
+        }
+        POMO_MSG_CALLBACK="custom_notify"
+        POMO_WORK_TIME=28
+        POMO_BREAK_TIME=8
+      '';
+    };
   };
 
   wayland.windowManager.sway = {
