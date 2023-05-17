@@ -109,9 +109,11 @@
           WebsiteFilter = {
             Block = [
               "*://news.ycombinator.com/*"
-              "*://*.reddit.com/*"
+              "*://*.reddit.com/"
+              "*://*.reddit.com/?*"
               "*://*.reddit.com/r/popular/*"
             ];
+            Exceptions = [ ];
           };
         };
       };
