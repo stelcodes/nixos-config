@@ -183,7 +183,7 @@ pkgs: {
           plugin = pkgs.vimPlugins.auto-session;
           type = "lua";
           config = ''
-            vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+            vim.o.sessionoptions="buffers,curdir,folds,help,tabpages,winsize,winpos"
             require('auto-session').setup {
               auto_save_enabled = true,
               auto_restore_enabled = true
