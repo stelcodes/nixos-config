@@ -150,9 +150,9 @@ vim.keymap.set('n', '<c-j>', '<C-w>j')
 vim.keymap.set('n', '<c-k>', '<C-w>k')
 vim.keymap.set('n', '<c-h>', '<c-w>h')
 vim.keymap.set('n', '<c-l>', '<c-w>l')
--- Quit the current window, also avoid Ex mode
-vim.keymap.set('n', '<c-q>', '<c-w>q')
-vim.keymap.set('t', '<c-q>', '<esc><c-w>q')
+-- Delete current buffer, also avoid Ex mode
+vim.keymap.set('n', '<c-q>', '<cmd>bd<cr>')
+vim.keymap.set('t', '<c-q>', '<esc><cmd>bd!<cr>')
 
 -- TABS
 -- Navigate tabs
