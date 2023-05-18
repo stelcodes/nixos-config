@@ -34,6 +34,17 @@
         DefaultTimeoutAbortSec=10
       '';
     };
+    mimeApps = {
+      # https://www.iana.org/assignments/media-types/media-types.xhtml
+      enable = true;
+      defaultApplications = {
+        "application/http" = [ "firefox.desktop" ];
+        "text/html" = [ "firefox.desktop" ];
+        "application/pdf" = [ "firefox.desktop" ];
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
+      };
+    };
   };
 
   home = {
