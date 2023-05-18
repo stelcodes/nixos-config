@@ -56,34 +56,6 @@
           ];
         };
 
-        #   vm = lib.nixosSystem {
-        #     # VM profile
-        #     inherit system;
-        #     specialArgs = {
-        #       inherit inputs user location;
-        #       hostName = "vm";
-        #       mainMonitor = "Virtual-1";
-        #     };
-        #     modules = [
-        #       ./vm
-        #       ./configuration.nix
-        #
-        #       home-manager.nixosModules.home-manager
-        #       {
-        #         home-manager.useGlobalPkgs = true;
-        #         home-manager.useUserPackages = true;
-        #         home-manager.extraSpecialArgs = {
-        #           inherit user;
-        #           hostName = "vm";
-        #           mainMonitor = "Virtual-1";
-        #         };
-        #         home-manager.users.${user} = {
-        #           imports = [ (import ./home.nix) ] ++ [ (import ./vm/home.nix) ];
-        #         };
-        #       }
-        #     ];
-        #   };
-
       };
     };
 }
