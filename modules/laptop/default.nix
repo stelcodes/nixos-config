@@ -213,6 +213,7 @@
       pkgs.appimage-run
       pkgs.protonvpn-cli
       pkgs.signal-desktop
+      pkgs.slack
     ];
 
   };
