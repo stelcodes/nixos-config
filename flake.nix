@@ -44,11 +44,6 @@
                 mainMonitor = "eDP-1";
               };
               home-manager.users.${user} = {
-                home = {
-                  username = "${user}";
-                  homeDirectory = "/home/${user}";
-                  stateVersion = "23.05";
-                };
                 imports = [
                   ./home-manager
                   ./home-manager/gtk

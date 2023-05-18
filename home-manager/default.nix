@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, user, ... }: {
 
   systemd.user.startServices = true;
 
@@ -37,6 +37,10 @@
   };
 
   home = {
+    stateVersion = "23.05";
+
+    username = "${user}";
+    homeDirectory = "/home/${user}";
 
     packages = [
       pkgs.htop
