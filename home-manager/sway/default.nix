@@ -67,6 +67,8 @@
       # use this if they aren't displayed properly:
       export _JAVA_AWT_WM_NONREPARENTING=1
       export MOZ_ENABLE_WAYLAND=1
+      # Automatically add electron/chromium wayland flags
+      export NIXOS_OZONE_WL=1
     '';
     config = rec {
       terminal = "${pkgs.wezterm}/bin/wezterm";
