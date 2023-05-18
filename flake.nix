@@ -50,6 +50,7 @@
                   ./home-manager/fish
                   ./home-manager/neovim
                   ./home-manager/sway
+                  ./home-manager/vscode
                 ];
               };
             }
