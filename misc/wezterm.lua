@@ -219,6 +219,7 @@ config.window_padding = {
 
 config.unix_domains = { { name = 'unix' } }
 config.default_gui_startup_args = { "connect", "unix" }
+config.default_workspace = "config"
 
 config.show_new_tab_button_in_tab_bar = false
 config.mouse_wheel_scrolls_tabs = false
