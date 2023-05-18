@@ -156,6 +156,8 @@ vim.keymap.set('n', '<c-l>', '<c-w>l')
 vim.keymap.set('n', '<c-q>', '<cmd>bd<cr>')
 vim.keymap.set('t', '<c-q>', '<esc><cmd>bd!<cr>')
 
+vim.keymap.set('n', '<c-x>', '<cmd>split %<cr>')
+
 -- TABS
 -- Navigate tabs
 vim.keymap.set('n', 'T', '<cmd>tabprevious<cr>')
