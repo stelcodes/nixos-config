@@ -23,9 +23,9 @@
       pulseaudio.enable = false;
     };
 
-    # Hibernate after 30 minutes of sleep
+    # Hibernate after 45 minutes of sleep
     systemd = {
-      sleep.extraConfig = "HibernateDelaySec=30m";
+      sleep.extraConfig = "HibernateDelaySec=45m";
     };
 
     programs = {
