@@ -1,3 +1,0 @@
-# Uninstalls everything from nix-env land
-# Got this command from the uninstall section of the nix-env manual
-nix-env -e '.*'
