@@ -118,6 +118,8 @@ vim.opt.termguicolors = true
 vim.opt.ignorecase = true
 -- don't ignore case when searching with capital letters
 vim.opt.smartcase = true
+-- turn swapfiles off
+vim.opt.swapfile = false
 
 ----------------------------------------------------------------------------------------
 -- GLOBALS
