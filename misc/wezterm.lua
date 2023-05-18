@@ -37,6 +37,11 @@ config.keys = {
     end),
   },
   {
+    key = 'v',
+    mods = 'CTRL',
+    action = wezterm.action.PasteFrom 'Clipboard',
+  },
+  {
     key = 'l',
     mods = 'ALT',
     action = wezterm.action.ActivateTabRelative(1),
