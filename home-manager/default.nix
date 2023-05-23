@@ -183,7 +183,7 @@
 
     wezterm = {
       enable = true;
-      package = pkgs.wezterm-nightly;
+      # package = pkgs.wezterm-nightly;
       extraConfig = builtins.readFile ../misc/wezterm.lua;
     };
 
