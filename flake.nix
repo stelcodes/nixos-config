@@ -56,6 +56,42 @@
           ];
         };
 
+
+        ########################################################################
+        # macbook laptop i7-4650U
+        ########################################################################
+        macbook = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs user;
+            hostName = "macbook";
+          };
+          modules = [
+            ./hosts/macbook
+            ./modules/common
+            ./modules/laptop
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit user;
+                hostName = "macbook";
+                mainMonitor = "eDP-1";
+              };
+              home-manager.users.${user} = {
+                imports = [
+                  ./home-manager
+                  ./home-manager/gtk
+                  ./home-manager/fish
+                  ./home-manager/neovim
+                  ./home-manager/sway
+                ];
+              };
+            }
+          ];
+        };
+
       };
     };
 }
