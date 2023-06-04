@@ -94,6 +94,11 @@
         executable = true;
         source = ../misc/nixos-rebuild.sh;
       };
+      ".xinitrc" = {
+        text = ''
+          exec cinnamon-session
+        '';
+      };
     };
   };
 
