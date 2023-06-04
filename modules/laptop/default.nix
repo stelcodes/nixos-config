@@ -217,6 +217,8 @@
       pkgs.protonvpn-cli
       pkgs.signal-desktop
       pkgs.slack
+      pkgs.zoom-us
+      pkgs.gnome-feeds
     ];
 
   };
