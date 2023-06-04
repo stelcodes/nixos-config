@@ -139,7 +139,7 @@
         autorun = false;
         layout = "us";
         xkbVariant = "";
-        xkbOptions = "caps:swapescape";
+        xkbOptions = pkgs.lib.mkDefault "caps:swapescape";
         libinput.enable = true;
       };
 

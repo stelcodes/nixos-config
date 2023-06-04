@@ -4,6 +4,8 @@
     ./hardware-configuration.nix
   ];
 
+  services.xserver.xkbOptions = "caps:escape,altwin:swap_alt_win";
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
