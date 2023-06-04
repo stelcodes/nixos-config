@@ -13,8 +13,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "stelcodes";
     repo = "pomo";
-    rev = "1fa2468c45db6711b72e775fe324c5a9c1d13a05";
-    sha256 = "O6YBfXwfcMd2niNd0laPt060ub5j/hqcMft4KWKaYTk=";
+    rev = "00ff7861e91c095adf709861029e892344c66dbd";
+    sha256 = "FqdePN+o0Txa3F4kHB/R+aUEfsez9YxPmymbLXxrbrg=";
   };
 
   dontConfigure = true;
