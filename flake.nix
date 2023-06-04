@@ -65,7 +65,7 @@
         ########################################################################
         # macbook laptop i7-4650U
         ########################################################################
-        macbook = nixpkgs.lib.nixosSystem {
+        macbook = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
             inherit inputs user;
@@ -75,7 +75,7 @@
             ./hosts/macbook
             ./modules/common
             ./modules/laptop
-            home-manager.nixosModules.home-manager
+            inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
