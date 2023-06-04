@@ -137,10 +137,13 @@
       xserver = {
         enable = true;
         autorun = false;
-        layout = "us";
-        xkbVariant = "";
+        layout = pkgs.lib.mkDefault "us";
+        xkbVariant = pkgs.lib.mkDefault "";
         xkbOptions = pkgs.lib.mkDefault "caps:swapescape";
         libinput.enable = true;
+        displayManager.startx.enable = true;
+        displayManager.lightdm.enable = false;
+        desktopManager.cinnamon.enable = true;
       };
 
       # getty.autologinUser = "stel";
