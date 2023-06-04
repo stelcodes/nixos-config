@@ -2,17 +2,20 @@
   description = "My Personal NixOS System Flake Configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Nix Packages
-
+    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; }; # Nix Packages
     home-manager = {
       # User Package Management
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    musnix = {
+      url = "github:musnix/musnix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # Function that tells my flake which to use and what do what to do with the dependencies.
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }:
+  outputs = inputs:
     let
       # Variables that can be used in the config files.
       user = "stel";
@@ -24,17 +27,18 @@
         ########################################################################
         # framework laptop i5-1240P
         ########################################################################
-        framework = nixpkgs.lib.nixosSystem {
+        framework = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
             inherit inputs user;
             hostName = "framework";
           };
           modules = [
-            ./hosts/framework
             ./modules/common
             ./modules/laptop
-            home-manager.nixosModules.home-manager
+            ./hosts/framework
+            inputs.musnix.nixosModules.musnix
+            inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
