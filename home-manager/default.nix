@@ -131,6 +131,8 @@
         "*~"
         "*.swp"
         "*.#"
+        "/.lsp"
+        "/.clj-kondo"
       ];
       delta.enable = true;
       extraConfig = {
