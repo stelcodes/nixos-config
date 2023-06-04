@@ -20,6 +20,7 @@
       pkgs.vscode-extensions.arcticicestudio.nord-visual-studio-code
       pkgs.vscode-extensions.bbenoist.nix
       pkgs.vscode-extensions.bungcip.better-toml
+      pkgs.vscode-extensions.betterthantomorrow.calva
     ];
   };
 }
