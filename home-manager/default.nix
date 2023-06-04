@@ -103,7 +103,11 @@
 
     bat = {
       enable = true;
-      config = { theme = "base16"; };
+      config = {
+        theme = "Nord";
+        paging = "always";
+        style = "plain";
+      };
     };
 
     git = {

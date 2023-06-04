@@ -2,7 +2,7 @@ set -x BROWSER "firefox"
 set -x EDITOR "nvim"
 set -x PAGER "less --chop-long-lines --RAW-CONTROL-CHARS"
 set -x MANPAGER 'nvim +Man!'
-set -x BAT_THEME 'base16' # For bat and delta
+# set -x BAT_THEME 'base16' # For bat and delta
 set -x NNN_TRASH 1
 set -x NNN_PLUG 'p:preview-tui;d:dragdrop'
 set -x NNN_FCOLORS "030304030705020801030301"
