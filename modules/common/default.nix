@@ -27,7 +27,29 @@
       LC_TIME = "en_US.UTF-8";
     };
 
-    console.useXkbConfig = true;
+    console = {
+      useXkbConfig = true;
+      # https://terminal.sexy - JSON Scheme export
+      # Nord terminal.app theme
+      colors = [
+        "2d3241"
+        "b14a56"
+        "92b477"
+        "e6c274"
+        "6d8eb5"
+        "a5789e"
+        "75b3c7"
+        "dfe3ed"
+        "3b4358"
+        "b14a56"
+        "92b477"
+        "e6c274"
+        "6d8eb5"
+        "a5789e"
+        "7cafad"
+        "e7ebf1"
+      ];
+    };
 
     xdg = {
       portal = {
