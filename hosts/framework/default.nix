@@ -1,10 +1,27 @@
-{ hostName, ... }: {
+{ hostName, pkgs, ... }: {
 
   imports = [
     ./hardware-configuration.nix
   ];
 
   services.xserver.xkbOptions = "caps:escape,altwin:swap_alt_win";
+
+  # https://github.com/musnix/musnix
+  musnix = {
+    enable = true;
+    soundcardPciId = "00:1f.3";
+  };
+
+  # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
+  environment.systemPackages = [
+    pkgs.qpwgraph
+    pkgs.reaper
+    pkgs.autotalent
+    pkgs.talentedhack
+    pkgs.distrho
+    pkgs.musescore
+    pkgs.ffmpeg_6
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
