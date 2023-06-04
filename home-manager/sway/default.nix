@@ -58,6 +58,7 @@
 
   wayland.windowManager.sway = {
     enable = true;
+    wrapperFeatures.gtk = true;
     extraSessionCommands = ''
       export SDL_VIDEODRIVER=wayland
       # needs qt5.qtwayland in systemPackages
@@ -69,6 +70,10 @@
       export MOZ_ENABLE_WAYLAND=1
       # Automatically add electron/chromium wayland flags
       export NIXOS_OZONE_WL=1
+      # For GTK4 applications specifically
+      export GTK_THEME=Nordic
+      export GDK_SCALE=2
+      export GDK_DPI_SCALE=-1
     '';
     config = rec {
       terminal = "${pkgs.wezterm}/bin/wezterm";
@@ -124,6 +129,7 @@
           "${modifier}+p" = "exec doas protonvpn connect --fastest";
           "${modifier}+less" = "focus parent";
           "${modifier}+greater" = "focus child";
+          "${modifier}+semicolon" = "exec ~/nixos-config/misc/sway-toggle-laptop-resolution.clj";
           XF86MonBrightnessDown = "exec brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec brightnessctl set +5%";
           XF86AudioPrev = "exec playerctl previous";
@@ -171,7 +177,9 @@
         "BOE 0x095F Unknown" = { scale = "1.5"; };
       };
       startup = [
-        { command = "systemctl --user restart waybar"; always = true; }
+        # Stopped working when switching between Cinnamon and Sway (see waybar config)
+        # { command = "systemctl --user restart waybar"; always = true; }
+        { command = "pgrep waybar || waybar"; always = true; }
       ];
     };
     extraConfig = ''
@@ -280,10 +288,13 @@
   programs.waybar = {
     enable = true;
     style = builtins.readFile ./waybar.css;
-    systemd = {
-      enable = true;
-      target = "sway-session.target";
-    };
+    # Stopped working when switching between Cinnamon and Sway
+    # [error] Bar need to run under Wayland
+    # GTK4 get_default_display was saying it was still X11
+    # systemd = {
+    #   enable = true;
+    #   target = "sway-session.target";
+    # };
     settings = [{
       layer = "top";
       position = "bottom";
