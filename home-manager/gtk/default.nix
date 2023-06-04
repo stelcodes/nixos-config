@@ -14,6 +14,12 @@
       package = pkgs.nordzy-icon-theme;
       name = "Nordzy";
     };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+      gtk-theme-name = "Nordic";
+      gtk-icon-theme-name = "Nordzy";
+      gtk-cursor-theme-name = "Nordzy-cursors";
+    };
   };
 
   home.pointerCursor = {
