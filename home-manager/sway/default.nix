@@ -70,9 +70,8 @@
       export MOZ_ENABLE_WAYLAND=1
       # Automatically add electron/chromium wayland flags
       export NIXOS_OZONE_WL=1
-      # For GTK4 applications specifically
-      export GTK_THEME=Nordic
-      export GDK_SCALE=2
+      # Fix for GTK scale issues when also using Cinnamon
+      # export GDK_SCALE=1
       export GDK_DPI_SCALE=-1
     '';
     config = rec {
