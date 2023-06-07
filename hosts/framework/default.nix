@@ -9,7 +9,9 @@
   # https://github.com/musnix/musnix
   musnix = {
     enable = true;
-    soundcardPciId = "00:1f.3";
+    # Audio starts with beeps and squeaks when soundcard latency is
+    # reduced so it's disabled for now (might be driver issue)
+    # soundcardPciId = "00:1f.3";
   };
 
   # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
