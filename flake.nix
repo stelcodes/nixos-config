@@ -54,7 +54,7 @@
                   ./modules/fish/home.nix
                   ./modules/neovim/home.nix
                   ./modules/sway/home.nix
-                  ./home-manager/vscode
+                  ./modules/vscode/home.nix
                 ];
               };
             }
