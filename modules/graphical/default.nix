@@ -202,16 +202,8 @@
       pkgs.slack
       pkgs.zoom-us
       pkgs.gnome-feeds
-      pkgs.i3lock
       pkgs.gnome.dconf-editor
     ];
-
-    programs.fish.loginShellInit = ''
-      # Fix nautilus theme reset when using an alternate gnome desktop
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface gtk-theme "Nordic"
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.wm.preferences theme "Nordic"
-      ${pkgs.glib}/bin/gsettings set org.cinnamon.desktop.background picture-uri "file://${pkgs.nord-wallpaper}"
-    '';
 
   };
 }
