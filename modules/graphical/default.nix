@@ -203,6 +203,7 @@
       pkgs.zoom-us
       pkgs.gnome-feeds
       pkgs.i3lock
+      pkgs.gnome.dconf-editor
     ];
 
     programs.fish.loginShellInit = ''

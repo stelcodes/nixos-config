@@ -1,7 +1,11 @@
-{ hostName, pkgs, ... }: {
+{ hostName, pkgs, inputs, ... }: {
 
   imports = [
     ./hardware-configuration.nix
+    ../../modules/common
+    ../../modules/graphical
+    ../../modules/laptop
+    inputs.musnix.nixosModules.musnix
   ];
 
   services.xserver.xkbOptions = "caps:escape,altwin:swap_alt_win";

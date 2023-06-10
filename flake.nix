@@ -34,11 +34,7 @@
             hostName = "framework";
           };
           modules = [
-            ./modules/common
-            ./modules/graphical
-            ./modules/laptop
             ./hosts/framework
-            inputs.musnix.nixosModules.musnix
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -50,13 +46,7 @@
               };
               home-manager.users.${user} = {
                 imports = [
-                  ./modules/common/home.nix
-                  ./modules/graphical/home.nix
-                  # no laptop/home.nix needed yet
-                  ./modules/fish/home.nix
-                  ./modules/neovim/home.nix
-                  ./modules/sway/home.nix
-                  ./modules/vscode/home.nix
+                  ./hosts/framework/home.nix
                 ];
               };
             }
@@ -89,12 +79,7 @@
               };
               home-manager.users.${user} = {
                 imports = [
-                  ./modules/common/home.nix
-                  ./modules/graphical/home.nix
-                  # no laptop/home.nix needed yet
-                  ./modules/fish/home.nix
-                  ./modules/neovim/home.nix
-                  ./modules/sway/home.nix
+                  ./modules/laptop/home.nix
                 ];
               };
             }
