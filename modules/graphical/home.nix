@@ -22,12 +22,18 @@
     };
   };
 
-  home.pointerCursor = {
-    package = pkgs.nordzy-cursor-theme;
-    name = "Nordzy-cursors";
-    # Sway seems unaffected by this size and defaults to 24
-    size = 24;
-    gtk.enable = true;
+  home = {
+    sessionVariables = {
+      # For gnome calculator, probably nautilus too
+      GTK_THEME = "Nordic";
+    };
+    pointerCursor = {
+      package = pkgs.nordzy-cursor-theme;
+      name = "Nordzy-cursors";
+      # Sway seems unaffected by this size and defaults to 24
+      size = 24;
+      gtk.enable = true;
+    };
   };
 
   qt = {
