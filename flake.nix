@@ -53,7 +53,7 @@
                   ./modules/laptop/home.nix
                   ./modules/fish/home.nix
                   ./modules/neovim/home.nix
-                  ./home-manager/sway
+                  ./modules/sway/home.nix
                   ./home-manager/vscode
                 ];
               };
@@ -90,7 +90,7 @@
                   ./modules/laptop/home.nix
                   ./modules/fish/home.nix
                   ./modules/neovim/home.nix
-                  ./home-manager/sway
+                  ./modules/sway/home.nix
                 ];
               };
             }
