@@ -35,6 +35,7 @@
           };
           modules = [
             ./modules/common
+            ./modules/graphical
             ./modules/laptop
             ./hosts/framework
             inputs.musnix.nixosModules.musnix
@@ -50,7 +51,8 @@
               home-manager.users.${user} = {
                 imports = [
                   ./modules/common/home.nix
-                  ./modules/laptop/home.nix
+                  ./modules/graphical/home.nix
+                  # no laptop/home.nix needed yet
                   ./modules/fish/home.nix
                   ./modules/neovim/home.nix
                   ./modules/sway/home.nix
@@ -74,6 +76,7 @@
           modules = [
             ./hosts/macbook
             ./modules/common
+            ./modules/graphical
             ./modules/laptop
             inputs.home-manager.nixosModules.home-manager
             {
@@ -87,7 +90,8 @@
               home-manager.users.${user} = {
                 imports = [
                   ./modules/common/home.nix
-                  ./modules/laptop/home.nix
+                  ./modules/graphical/home.nix
+                  # no laptop/home.nix needed yet
                   ./modules/fish/home.nix
                   ./modules/neovim/home.nix
                   ./modules/sway/home.nix
