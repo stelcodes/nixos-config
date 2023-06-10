@@ -120,6 +120,8 @@
               "*://news.ycombinator.com/*"
               "*://*.reddit.com/"
               "*://*.reddit.com/?*"
+              "*://*.reddit.com/r/popular"
+              "*://*.reddit.com/r/popular?*"
               "*://*.reddit.com/r/popular/*"
             ];
             Exceptions = [ ];
