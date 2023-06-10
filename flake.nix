@@ -50,7 +50,7 @@
               home-manager.users.${user} = {
                 imports = [
                   ./modules/common/home.nix
-                  ./home-manager/gtk
+                  ./modules/laptop/home.nix
                   ./modules/fish/home.nix
                   ./home-manager/neovim
                   ./home-manager/sway
@@ -87,7 +87,7 @@
               home-manager.users.${user} = {
                 imports = [
                   ./modules/common/home.nix
-                  ./home-manager/gtk
+                  ./modules/laptop/home.nix
                   ./modules/fish/home.nix
                   ./home-manager/neovim
                   ./home-manager/sway
