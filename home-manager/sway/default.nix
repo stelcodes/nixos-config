@@ -179,8 +179,8 @@
       };
       startup = [
         # Stopped working when switching between Cinnamon and Sway (see waybar config)
-        # { command = "systemctl --user restart waybar"; always = true; }
-        { command = "pgrep waybar || waybar"; always = true; }
+        { command = "systemctl --user is-active waybar || systemctl --user restart waybar"; always = true; }
+        # { command = "pgrep waybar || waybar"; always = true; }
       ];
     };
     extraConfig = ''
@@ -292,10 +292,10 @@
     # Stopped working when switching between Cinnamon and Sway
     # [error] Bar need to run under Wayland
     # GTK4 get_default_display was saying it was still X11
-    # systemd = {
-    #   enable = true;
-    #   target = "sway-session.target";
-    # };
+    systemd = {
+      enable = true;
+      target = "sway-session.target";
+    };
     settings = [{
       layer = "top";
       position = "bottom";
