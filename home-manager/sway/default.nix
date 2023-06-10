@@ -37,9 +37,12 @@
             block_type=$1
             if [[ $block_type -eq 0 ]]; then
                 send_msg 'End of a work period. Locking Screen!'
-                ${pkgs.playerctl}/bin/playerctl --all-players stop
                 ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
-                { ${pkgs.swaylock}/bin/swaylock; ${pkgs.pomo}/bin/pomo start; } &
+                ${pkgs.playerctl}/bin/playerctl --all-players stop
+                {
+                  ${pkgs.swaylock}/bin/swaylock || env --unset WAYLAND_DISPLAY ${pkgs.i3lock}/bin/i3lock -n -c 2e3440;
+                  ${pkgs.pomo}/bin/pomo start;
+                } &
             elif [[ $block_type -eq 1 ]]; then
                 send_msg 'End of a break period. Time for work!'
                 ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert}
