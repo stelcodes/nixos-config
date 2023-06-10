@@ -54,16 +54,29 @@ config.keys = {
   {
     key = 'w',
     mods = 'ALT',
-    action = wezterm.action.CloseCurrentPane { confirm = false },
+    -- confirm = false doesn't work for some reason??
+    action = wezterm.action.CloseCurrentPane { confirm = true },
   },
   {
     key = 't',
     mods = 'ALT',
-    action = wezterm.action.SpawnTab 'CurrentPaneDomain',
+    -- Spawn tab right next to current tab instead of at the end
+    -- https://github.com/wez/wezterm/discussions/2691
+    action = wezterm.action_callback(function(window, pane)
+      local mux_window = window:mux_window()
+      local tabs = mux_window:tabs_with_info()
+      local current_index = 0
+      for _, tab_info in ipairs(tabs) do
+        if tab_info.is_active then
+          current_index = tab_info.index
+          break
+        end
+      end
+      mux_window:spawn_tab {}
+      window:perform_action(wezterm.action.MoveTab(current_index + 1), pane)
+    end)
   },
   { key = '-', mods = 'ALT',       action = wezterm.action.DecreaseFontSize },
-  -- { key = '+', mods = 'ALT', action = wezterm.action.IncreaseFontSize },
-  -- { key = '+', mods = 'ALT', action = wezterm.action.IncreaseFontSize },
   { key = '+', mods = 'ALT|SHIFT', action = wezterm.action.IncreaseFontSize },
   { key = '=', mods = 'ALT',       action = wezterm.action.ResetFontSize },
   {
@@ -225,6 +238,8 @@ config.show_new_tab_button_in_tab_bar = false
 config.mouse_wheel_scrolls_tabs = false
 
 config.debug_key_events = true
+
+config.skip_close_confirmation_for_processes_named = { 'fish' }
 
 -- and finally, return the configuration to wezterm
 return config
