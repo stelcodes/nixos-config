@@ -7,7 +7,6 @@
     pkgs.playerctl
     pkgs.libinput
     pkgs.wev
-    pkgs.gnome.nautilus
     pkgs.keepassxc
     pkgs.font-manager
     pkgs.gnome3.seahorse

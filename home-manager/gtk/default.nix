@@ -35,6 +35,7 @@
     platformTheme = "gtk";
   };
 
+  # I'm using nemo (comes with cinnamon) instead of dolphin now
   # https://wiki.archlinux.org/title/Dolphin#Mismatched_folder_view_background_colors
   xdg.configFile.kdeglobals.text = ''
     [Colors:View]

@@ -111,6 +111,7 @@
         dua
         croc
         yt-dlp
+        ranger
       ];
 
     # Nice to have, required for gnome-disks to work
