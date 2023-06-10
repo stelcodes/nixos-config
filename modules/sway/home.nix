@@ -22,49 +22,6 @@
     pkgs.pomo
   ];
 
-  xdg.configFile = {
-    "wofi/config".text = "allow_images=true";
-    "wofi/style.css".source = ./wofi.css;
-    "pomo.cfg" = {
-      onChange = ''
-        ${pkgs.systemd}/bin/systemctl --user restart pomo-notify.service
-      '';
-      source = pkgs.writeShellScript "pomo-cfg" ''
-        # This file gets sourced by pomo.sh at startup
-        # I'm only caring about linux atm
-        function custom_notify {
-            # send_msg is defined in the pomo.sh source
-            block_type=$1
-            if [[ $block_type -eq 0 ]]; then
-                send_msg 'End of a work period. Locking Screen!'
-                ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
-                ${pkgs.playerctl}/bin/playerctl --all-players stop
-                if pgrep sway &> /dev/null; then
-                  { ${pkgs.swaylock}/bin/swaylock; ${pkgs.pomo}/bin/pomo start; } &
-                elif pgrep cinnamon &> /dev/null; then
-                  ${pkgs.cinnamon.cinnamon-screensaver}/bin/cinnamon-screensaver-command -a
-                  {
-                    while ${pkgs.cinnamon.cinnamon-screensaver}/bin/cinnamon-screensaver-command --query | ${pkgs.gnugrep}/bin/grep -q 'is active'; do
-                      sleep 5;
-                    done
-                    ${pkgs.pomo}/bin/pomo start;
-                  } &
-                fi
-            elif [[ $block_type -eq 1 ]]; then
-                send_msg 'End of a break period. Time for work!'
-                ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert}
-            else
-                echo "Unknown block type"
-                exit 1
-            fi
-        }
-        POMO_MSG_CALLBACK="custom_notify"
-        POMO_WORK_TIME=28
-        POMO_BREAK_TIME=8
-      '';
-    };
-  };
-
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -265,20 +222,6 @@
         border-color=#bf616a
         default-timeout=0
       '';
-    };
-  };
-
-  systemd.user.services.pomo-notify = {
-    Unit = {
-      Description = "pomo.sh notify daemon";
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.pomo}/bin/pomo notify";
-      Restart = "always";
-    };
-    Install = {
-      WantedBy = [ "sway-session.target" ];
     };
   };
 
