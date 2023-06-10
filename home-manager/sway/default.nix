@@ -327,7 +327,7 @@
         exec-if = "test -f /tmp/nixos-rebuild.status";
         exec = "echo \"$(< /tmp/nixos-rebuild.status)\"";
         # Waybar env does not include my normal PATH so I'm using fish as a wrapper
-        on-click = "${pkgs.fish}/bin/fish -c view-rebuild-log";
+        on-click = "${pkgs.wezterm}/bin/wezterm start -- ${pkgs.coreutils}/bin/tail -n +1 -F /tmp/nixos-rebuild.log";
       };
       "sway/workspaces" = {
         disable-scroll = true;
