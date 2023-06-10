@@ -139,6 +139,10 @@
             url = "https://cdn.freesound.org/previews/421/421829_8224400-lq.mp3";
             sha256 = "049x6z6d3ssfx6rh8y11var1chj3x67nfrakigydnj3961hnr6ar";
           };
+          nord-wallpaper = super.fetchurl {
+            url = "https://raw.githubusercontent.com/dxnst/nord-backgrounds/9334ccc197cf0e4299778fd6ff4202fdbe2756f2/music/3840x2160/bjorkvespertine.png";
+            sha256 = "bZQVGQHO+YZ5aVfBdHbEELz1Zu4dBnO33w21nKVoHZ4=";
+          };
           obsidian = super.symlinkJoin {
             name = "obsidian-wayland";
             paths = [ super.obsidian ];
