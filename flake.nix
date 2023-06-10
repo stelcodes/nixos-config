@@ -51,7 +51,7 @@
                 imports = [
                   ./modules/common/home.nix
                   ./home-manager/gtk
-                  ./home-manager/fish
+                  ./modules/fish/home.nix
                   ./home-manager/neovim
                   ./home-manager/sway
                   ./home-manager/vscode
@@ -88,7 +88,7 @@
                 imports = [
                   ./modules/common/home.nix
                   ./home-manager/gtk
-                  ./home-manager/fish
+                  ./modules/fish/home.nix
                   ./home-manager/neovim
                   ./home-manager/sway
                 ];
