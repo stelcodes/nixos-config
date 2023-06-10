@@ -33,6 +33,10 @@
         DefaultTimeoutStopSec=10
         DefaultTimeoutAbortSec=10
       '';
+      "ranger/rc.conf".text = ''
+        set preview_images true
+        set preview_images_method iterm2
+      '';
     };
     mimeApps = {
       # https://www.iana.org/assignments/media-types/media-types.xhtml
