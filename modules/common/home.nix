@@ -27,7 +27,7 @@
         --enable-features=WaylandWindowDecorations
         --ozone-platform-hint=auto
       '';
-      "starship.toml".source = ../misc/starship.toml;
+      "starship.toml".source = ../../misc/starship.toml;
       "systemd/user.conf".text = ''
         [Manager]
         DefaultTimeoutStopSec=10
@@ -37,7 +37,7 @@
         set preview_images true
         set preview_images_method iterm2
       '';
-      "foot/foot.ini".source = ../misc/foot-nord-theme.ini;
+      "foot/foot.ini".source = ../../misc/foot-nord-theme.ini;
     };
     mimeApps = {
       # https://www.iana.org/assignments/media-types/media-types.xhtml
@@ -97,7 +97,7 @@
       };
       ".local/bin/rebuild" = {
         executable = true;
-        source = ../misc/nixos-rebuild.sh;
+        source = ../../misc/nixos-rebuild.sh;
       };
       ".xinitrc" = {
         text = ''
@@ -202,7 +202,7 @@
     wezterm = {
       enable = true;
       # package = pkgs.wezterm-nightly;
-      extraConfig = builtins.readFile ../misc/wezterm.lua;
+      extraConfig = builtins.readFile ../../misc/wezterm.lua;
     };
 
     # Just doesn't work. Getting permission denied error when it tries to read .config/gh

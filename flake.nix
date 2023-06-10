@@ -49,7 +49,7 @@
               };
               home-manager.users.${user} = {
                 imports = [
-                  ./home-manager
+                  ./modules/common/home.nix
                   ./home-manager/gtk
                   ./home-manager/fish
                   ./home-manager/neovim
@@ -86,7 +86,7 @@
               };
               home-manager.users.${user} = {
                 imports = [
-                  ./home-manager
+                  ./modules/common/home.nix
                   ./home-manager/gtk
                   ./home-manager/fish
                   ./home-manager/neovim
