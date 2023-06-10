@@ -40,6 +40,7 @@
                 ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
                 ${pkgs.playerctl}/bin/playerctl --all-players stop
                 {
+                  # I could use `cinnamon-screensaver-command -a` here instead of i3lock
                   ${pkgs.swaylock}/bin/swaylock || env --unset WAYLAND_DISPLAY ${pkgs.i3lock}/bin/i3lock -n -c 2e3440;
                   ${pkgs.pomo}/bin/pomo start;
                 } &
