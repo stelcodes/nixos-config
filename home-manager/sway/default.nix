@@ -278,7 +278,7 @@
   programs.swaylock = {
     enable = true;
     settings = {
-      color = "000000";
+      color = "2e3440";
       font-size = 24;
       indicator-idle-visible = false;
       indicator-radius = 100;
