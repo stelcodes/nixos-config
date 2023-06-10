@@ -37,6 +37,7 @@
         set preview_images true
         set preview_images_method iterm2
       '';
+      "foot/foot.ini".source = ../misc/foot-nord-theme.ini;
     };
     mimeApps = {
       # https://www.iana.org/assignments/media-types/media-types.xhtml
