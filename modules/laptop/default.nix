@@ -228,6 +228,7 @@
       pkgs.slack
       pkgs.zoom-us
       pkgs.gnome-feeds
+      pkgs.i3lock
     ];
 
   };
