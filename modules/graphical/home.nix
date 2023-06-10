@@ -98,5 +98,15 @@
       # They're kept in a json file at .config/cinnamon/spices/menu@cinnamon.org/
       # They can be changed by right clicking the menu icon -> configure
       # I'm just manually set <Super>d menu shortcut for now
+
+      # Calendar
+      # Same deal
+      # Format: %b %e %l:%M %p
+
+      # Maybe set these in the future?
+      # org.gnome.desktop.interface
+      # org.gnome.desktop.wm.preferences
+      # org.cinnamon.desktop.background picture-uri "file://${pkgs.nord-wallpaper}"
     };
+
 }
