@@ -7,6 +7,14 @@
       sleep.extraConfig = "HibernateDelaySec=45m";
     };
 
+    powerManagement = {
+      enable = true;
+      powertop.enable = true;
+      # powertop --auto-run will run at boot
+      # Run powertop --calibrate at first
+      # Maybe switch to services.tlp if I need configuration
+    };
+
     services = {
 
       # don’t shutdown when power button is short-pressed
