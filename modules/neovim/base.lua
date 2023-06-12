@@ -203,8 +203,8 @@ vim.keymap.set('n', 'f', ':let @+=expand("%")<cr>:echo expand("%")<cr>')
 -- Copy absolute path of file
 vim.keymap.set('n', 'F', ':let @+=expand("%:p")<cr>:echo expand("%:p")<cr>')
 -- Clear search highlighting
-vim.keymap.set('n', '<c-/>', ':let @/=""<cr>')
-vim.keymap.set('i', '<c-/>', ':let @/=""<cr>')
+vim.keymap.set('n', '<c-h>', ':let @/=""<cr>')
+vim.keymap.set('i', '<c-h>', ':let @/=""<cr>')
 -- Open Git Fugitive, make it full window in a new tab positioned before other tabs
 vim.keymap.set('n', '<c-g>', ':Git<cr>:only<cr>')
 -- Remap visual block mode because I use <c-v> for paste
