@@ -20,6 +20,7 @@
     pkgs.wofi-emoji
     pkgs.libnotify
     pkgs.pomo
+    pkgs.foot
   ];
 
   wayland.windowManager.sway = {
@@ -41,8 +42,8 @@
       export GDK_DPI_SCALE=-1
     '';
     config = rec {
-      terminal = "${pkgs.wezterm}/bin/wezterm";
       menu = "${pkgs.wofi}/bin/wofi --show run";
+      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach; fish'";
       modifier = "Mod4";
       fonts = {
         names = [ "FiraMono Nerd Font" ];
@@ -283,7 +284,7 @@
         exec-if = "test -f /tmp/nixos-rebuild.status";
         exec = "echo \"$(< /tmp/nixos-rebuild.status)\"";
         # Waybar env does not include my normal PATH so I'm using fish as a wrapper
-        on-click = "${pkgs.wezterm}/bin/wezterm start -- ${pkgs.coreutils}/bin/tail -n +1 -F /tmp/nixos-rebuild.log";
+        on-click = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F /tmp/nixos-rebuild.log";
       };
       "sway/workspaces" = {
         disable-scroll = true;
@@ -325,14 +326,14 @@
         # format-ethernet = "{ifname} ";
         format-disconnected = "";
         format-wifi = "{essid} {signalStrength} ";
-        on-click = "${pkgs.wezterm}/bin/wezterm start nmtui";
+        on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
       };
       "network#2" = {
         max-length = 60;
         interface = "proton*";
         format = "";
         format-disconnected = "";
-        on-click = "${pkgs.wezterm}/bin/wezterm start nmtui";
+        on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
       };
       pulseaudio = {
         format = "{volume} {icon}";
