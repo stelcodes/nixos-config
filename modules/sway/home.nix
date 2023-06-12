@@ -42,8 +42,8 @@
       export GDK_DPI_SCALE=-1
     '';
     config = rec {
-      menu = "${pkgs.wofi}/bin/wofi --show run";
       terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach; fish'";
+      menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
       modifier = "Mod4";
       fonts = {
         names = [ "FiraMono Nerd Font" ];
