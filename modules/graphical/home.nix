@@ -34,6 +34,9 @@
       size = 24;
       gtk.enable = true;
     };
+    packages = [
+      pkgs.jellyfin-media-player
+    ];
   };
 
   qt = {
