@@ -9,15 +9,10 @@
 }
 
 window#waybar {
-    opacity: 0.8;
     background-color: #2e3440;
     transition-property: background-color;
     transition-duration: .5s;
     border-top: 1px solid #8c738c;
-}
-
-window#waybar.hidden {
-    opacity: 0.2;
 }
 
 #workspaces button {
