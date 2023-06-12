@@ -156,6 +156,12 @@
       # and config.input only accepts unordered attribute set atm
       input "1:1:AT_Translated_Set_2_keyboard" xkb_options caps:escape,altwin:swap_alt_win
       bindswitch lid:off output * dpms off
+      for_window [app_id=org.gnome.Calculator] floating enable
+      for_window [class=REAPER] floating enable
+      for_window [app_id=nmtui] floating enable
+      for_window [app_id=qalculate-gtk] floating enable
+      for_window [app_id=\.?blueman-manager(-wrapped)?] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=nixos_rebuild_log] floating enable, resize set width 80 ppt height 80 ppt, move position center
     '';
   };
 
