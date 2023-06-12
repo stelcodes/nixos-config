@@ -264,7 +264,6 @@
       layer = "top";
       position = "bottom";
       height = 20;
-      output = [ "eDP-1" ];
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "clock" "custom/pomo" ];
       modules-right = [
