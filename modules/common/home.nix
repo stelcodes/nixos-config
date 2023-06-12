@@ -37,7 +37,13 @@
         set preview_images true
         set preview_images_method iterm2
       '';
-      "foot/foot.ini".source = ../../misc/foot-nord-theme.ini;
+      "foot/foot.ini".text = ''
+        [main]
+        font=FiraMono Nerd Font:size=12
+        shell=${pkgs.fish}/bin/fish
+
+        ${builtins.readFile ../../misc/foot-nord-theme.ini}
+      '';
     };
     mimeApps = {
       # https://www.iana.org/assignments/media-types/media-types.xhtml
