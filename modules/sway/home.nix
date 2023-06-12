@@ -274,6 +274,7 @@
         "cpu"
         "backlight"
         "pulseaudio"
+        "bluetooth"
         "battery"
         "idle_inhibitor"
       ];
@@ -326,6 +327,10 @@
         interval = 30;
         format = "{percentage_used} ";
       };
+      bluetooth = {
+        format = "";
+        on-click = "${pkgs.blueman}/bin/blueman-manager";
+      };
       "network#1" = {
         max-length = 60;
         interface = "wl*";
@@ -347,7 +352,7 @@
         format-bluetooth = "{volume} {icon} ";
         format-muted = "{volume} ";
         format-icons = { default = [ "" "" ]; };
-        on-click = "pavucontrol";
+        on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
       };
       clock = {
         format = "{:%a %b %d %I:%M %p} 󱛡";
