@@ -81,21 +81,19 @@
       workspaceLayout = "tabbed";
       keybindings =
         pkgs.lib.mkOptionDefault {
-          "${modifier}+tab" = "workspace back_and_forth";
-          # "${modifier}+shift+tab" = "workspace prev";
-          # backtick ` is called grave
+          "${modifier}+tab" = "focus next";
+          "${modifier}+shift+tab" = "focus prev";
           "${modifier}+grave" = "exec wofi-emoji";
           "${modifier}+shift+r" = "reload";
           "${modifier}+c" = "exec rebuild";
-          "${modifier}+space" = "exec ${menu}";
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+o" = "output eDP-1 toggle";
           "${modifier}+n" = "exec makoctl dismiss --all";
           "${modifier}+shift+o" = "output eDP-1 dpms toggle";
-          "${modifier}+p" = "exec doas protonvpn connect --fastest";
+          "${modifier}+i" = "exec doas protonvpn connect --fastest";
           "${modifier}+less" = "focus parent";
           "${modifier}+greater" = "focus child";
-          "${modifier}+semicolon" = "exec ~/nixos-config/misc/sway-toggle-laptop-resolution.clj";
+          "${modifier}+equal" = "exec ~/nixos-config/misc/sway-toggle-laptop-resolution.clj";
           XF86MonBrightnessDown = "exec brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec brightnessctl set +5%";
           XF86AudioPrev = "exec playerctl previous";
