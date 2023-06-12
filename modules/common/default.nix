@@ -177,6 +177,7 @@
           };
           wezterm-nightly = super.callPackage ../../packages/wezterm-nightly { };
           gnome-feeds-nightly = super.callPackage ../../packages/gnome-feeds-nightly { };
+          writeBabashkaScript = super.callPackage ../../packages/write-babashka-script.nix { };
         })
       ];
     };
