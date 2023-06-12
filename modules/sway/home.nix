@@ -20,6 +20,7 @@
     pkgs.wofi-emoji
     pkgs.libnotify
     pkgs.pomo
+    pkgs.wdisplays
     pkgs.foot
   ];
 
