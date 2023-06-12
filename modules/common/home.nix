@@ -106,13 +106,6 @@
         executable = true;
         source = ../../misc/nixos-rebuild.sh;
       };
-      ".xinitrc" = {
-        text = ''
-          exec cinnamon-session
-          # Maybe not necessary?
-          dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-        '';
-      };
     };
   };
 

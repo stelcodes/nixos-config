@@ -146,9 +146,10 @@
         xkbVariant = pkgs.lib.mkDefault "";
         xkbOptions = pkgs.lib.mkDefault "caps:swapescape";
         libinput.enable = true;
-        displayManager.startx.enable = true;
-        displayManager.lightdm.enable = false;
-        desktopManager.cinnamon.enable = true;
+        # I can't for the love of god get a decent multi-desktop setup with sway
+        # It's just too damn hard and I'm giving up forever
+        # displayManager.startx.enable = true;
+        # desktopManager.cinnamon.enable = true;
       };
 
       # getty.autologinUser = "stel";
