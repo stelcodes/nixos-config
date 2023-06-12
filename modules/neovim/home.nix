@@ -148,10 +148,16 @@
           plugin = pkgs.vimPlugins.lualine-nvim;
           type = "lua";
           config = ''
+            -- switch nord theme normal bg colors
+            local nord = require('lualine.themes.nord')
+            local tmp = nord.normal.b.bg
+            nord.normal.b.bg = nord.normal.c.bg
+            nord.normal.c.bg = tmp
+
             require('lualine').setup {
               options = {
                 icons_enabled = true,
-                theme = 'nord',
+                theme = nord,
                 component_separators = { left = "", right = ""},
                 section_separators = { left = "", right = ""},
                 disabled_filetypes = {},
