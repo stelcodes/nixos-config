@@ -140,7 +140,14 @@
       output = {
         "*" = { bg = "#2e3440 solid_color"; };
         # Framework screen
-        "BOE 0x095F Unknown" = { scale = "1.5"; };
+        "BOE 0x095F Unknown" = {
+          scale = "1.5";
+          position = "0 1080";
+        };
+        # Epson projector
+        "Seiko Epson Corporation EPSON PJ 0x00000101" = {
+          position = "0 0";
+        };
       };
       startup = [
         # Stopped working when switching between Cinnamon and Sway (see waybar config)
