@@ -6,5 +6,6 @@
     ../../modules/fish/home.nix
     ../../modules/neovim/home.nix
     ../../modules/vscode/home.nix
+    ../../modules/tmux/home.nix
   ];
 }
