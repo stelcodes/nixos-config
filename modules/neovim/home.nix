@@ -98,6 +98,11 @@
               minimal_mode = true,
               alternate_backgrounds = false
             }
+            -- No support for linux console colors currently
+            -- Fallback to decent builtin colorscheme
+            if vim.fn.getenv('TERM') == 'linux' then
+              vim.cmd 'colorscheme industry'
+            end
           '';
         }
 
