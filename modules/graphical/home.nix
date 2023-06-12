@@ -36,6 +36,7 @@
     };
     packages = [
       pkgs.jellyfin-media-player
+      pkgs.cycle-pulse-sink
     ];
   };
 

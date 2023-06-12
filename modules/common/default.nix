@@ -123,7 +123,7 @@
         allowUnfree = true;
       };
       overlays = [
-        (self: super: {
+        (self: super: rec {
           success-alert = super.fetchurl {
             # https://freesound.org/people/martcraft/sounds/651624/
             url = "https://cdn.freesound.org/previews/651/651624_14258856-lq.mp3";
@@ -178,6 +178,11 @@
           wezterm-nightly = super.callPackage ../../packages/wezterm-nightly { };
           gnome-feeds-nightly = super.callPackage ../../packages/gnome-feeds-nightly { };
           writeBabashkaScript = super.callPackage ../../packages/write-babashka-script.nix { };
+          cycle-pulse-sink = writeBabashkaScript {
+            name = "cycle-pulse-sink";
+            source = ../../misc/cycle-pulse-sink.clj;
+            runtimeInputs = [ super.pulseaudio ];
+          };
         })
       ];
     };

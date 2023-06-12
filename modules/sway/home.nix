@@ -93,6 +93,7 @@
           "${modifier}+n" = "exec makoctl dismiss --all";
           "${modifier}+shift+o" = "output eDP-1 dpms toggle";
           "${modifier}+i" = "exec doas protonvpn connect --fastest";
+          "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
           "${modifier}+less" = "focus parent";
           "${modifier}+greater" = "focus child";
           "${modifier}+equal" = "exec ~/nixos-config/misc/sway-toggle-laptop-resolution.clj";
