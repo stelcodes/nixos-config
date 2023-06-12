@@ -86,22 +86,7 @@
       SUCCESS_ALERT = "${pkgs.success-alert}";
       FAILURE_ALERT = "${pkgs.failure-alert}";
     };
-
     file = {
-      ".local/bin/view-rebuild-log" = {
-        executable = true;
-        text = ''
-          #!/usr/bin/env bash
-          wezterm start nvim -R /tmp/nixos-rebuild.log
-        '';
-      };
-      ".local/bin/view-nmtui" = {
-        executable = true;
-        text = ''
-          #!/usr/bin/env bash
-          wezterm start nmtui
-        '';
-      };
       ".local/bin/rebuild" = {
         executable = true;
         source = ../../misc/nixos-rebuild.sh;
