@@ -142,7 +142,12 @@
       };
 
       # Enable CUPS to print documents.
-      printing.enable = true;
+      printing = {
+        enable = true;
+        drivers = [
+          pkgs.hplip
+        ];
+      };
 
       # Configure keymap in X11
       xserver = {
@@ -186,7 +191,6 @@
       pkgs.ungoogled-chromium
       pkgs.gnome.gnome-disk-utility
       pkgs.spotify
-      pkgs.hplip
       pkgs.libimobiledevice # For iphone hotspot tethering
       pkgs.obsidian
       pkgs.discord
