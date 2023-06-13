@@ -11,7 +11,7 @@ setup() {
 
 succeed() {
   echo "" > $STATUS_FILE
-  cvlc --play-and-exit $SUCCESS_ALERT
+  mpv $SUCCESS_ALERT || true
 }
 
 fail() {
@@ -22,7 +22,7 @@ fail() {
 ensure_network() {
   ping -c 1 -W 5 8.8.8.8 &> /dev/null || {
     echo 'ERROR: Network not up' | tee $LOG_FILE
-    cvlc --play-and-exit $FAILURE_ALERT
+    mpv $FAILURE_ALERT || true
     fail
   }
 }
@@ -32,7 +32,7 @@ rebuild_config() {
     doas nixos-rebuild switch --flake "$HOME/nixos-config#" 2>&1 | tee $LOG_FILE && succeed
   } || {
     echo "ERROR: Config rebuild failed"
-    cvlc --play-and-exit $FAILURE_ALERT
+    mpv $FAILURE_ALERT || true
     fail
   }
 }
@@ -40,5 +40,4 @@ rebuild_config() {
 trap "fail" SIGINT SIGTERM SIGKILL ERR
 
 setup
-# ensure_network
 rebuild_config

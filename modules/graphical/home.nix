@@ -70,7 +70,7 @@
                 echo "End of work period"
                 send_msg 'End of a work period. Locking Screen!'
                 ${pkgs.playerctl}/bin/playerctl --all-players stop
-                ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert} || sleep 10
+                ${pkgs.mpv}/bin/mpv ${pkgs.pomo-alert} || sleep 10
                 if ${pkgs.procps}/bin/pgrep sway &> /dev/null; then
                   echo "Sway detected"
                   { ${pkgs.swaylock}/bin/swaylock; ${pkgs.pomo}/bin/pomo start; } &
@@ -78,7 +78,7 @@
             elif [[ $block_type -eq 1 ]]; then
                 echo "End of break period"
                 send_msg 'End of a break period. Time for work!'
-                ${pkgs.vlc}/bin/cvlc --play-and-exit ${pkgs.pomo-alert}
+                ${pkgs.mpv}/bin/mpv ${pkgs.pomo-alert}
             else
                 echo "Unknown block type"
                 exit 1
