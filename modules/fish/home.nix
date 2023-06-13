@@ -21,7 +21,7 @@
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
       date-iso = "date -u +%Y-%m-%dT%H:%M:%SZ"; # ISO 8601 date format with UTC timezone
-      t = "tmux attach -t config; or tmux";
+      t = "tmux attach || tmux";
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
       dl-base = "yt-dlp --embed-metadata --embed-thumbnail --progress";
       dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor,selfpromo,outro' --remux-video 'mkv'";
@@ -34,6 +34,7 @@
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
       vpn = "doas protonvpn";
+      network-test = "ping -c 1 -W 5 8.8.8.8";
     };
     functions = {
       nnn-rsync = builtins.readFile ./nnn-rsync.fish;
