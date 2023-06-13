@@ -51,9 +51,9 @@
               "browser.urlbar.suggest.engines" = locked false;
               "browser.urlbar.suggest.searches" = locked false;
               "dom.security.https_only_mode" = locked true;
-              "font.name.monospace.x-western" = user "FiraMono Nerd Font";
-              "font.name.sans-serif.x-western" = user "FiraMono Nerd Font";
-              "font.name.serif.x-western" = user "FiraMono Nerd Font";
+              # It looks like firefox doesn't allow font settings to be overridden
+              "font.name.monospace.x-western" = locked "FiraMono Nerd Font";
+              "font.size.monospace.x-western" = locked 16;
               "media.ffmpeg.vaapi.enabled" = locked true;
             };
           DisableFirefoxStudies = true;
@@ -105,7 +105,13 @@
             Locked = false;
             StartPage = "none";
           };
+          ManagedBookmarks = [
+            { name = "Printing"; url = "localhost:631"; }
+            { name = "Firefox Policies"; url = "mozilla.github.io/policy-templates"; }
+          ];
+          ManualAppUpdateOnly = true;
           NewTabPage = false;
+          NoDefaultBookmarks = true;
           OfferToSaveLogins = false;
           OverrideFirstRunPage = "";
           PasswordManagerEnabled = false;
