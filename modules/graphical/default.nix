@@ -184,28 +184,5 @@
       ];
     };
 
-    environment.systemPackages = [
-      pkgs.calibre
-      pkgs.gimp-with-plugins
-      pkgs.qbittorrent
-      pkgs.ungoogled-chromium
-      pkgs.gnome.gnome-disk-utility
-      pkgs.spotify
-      pkgs.libimobiledevice # For iphone hotspot tethering
-      pkgs.obsidian
-      pkgs.discord
-      pkgs.pavucontrol
-      pkgs.tor-browser-bundle-bin # tor-browser not working 4/16/23
-      pkgs.vlc
-      pkgs.mpv
-      pkgs.appimage-run
-      pkgs.protonvpn-cli
-      pkgs.signal-desktop
-      pkgs.slack
-      pkgs.zoom-us
-      pkgs.gnome-feeds
-      pkgs.gnome.dconf-editor
-    ];
-
   };
 }
