@@ -50,16 +50,17 @@ in
       bind -n M-J select-pane -D
       bind -n M-K select-pane -U
       bind -n M-Q kill-pane
-      bind -n M-t choose-tree -s
+      bind -n M-s choose-tree -s
+      bind -n M-S switch-client -l
       bind -n M-f copy-mode
       bind -n M-w new-window -a -c "#{pane_current_path}"
       bind -n M-W select-window -l
-      bind -n M-s command-prompt 'new-session %%'
-      bind -n M-S switch-client -l
+      bind -n M-t command-prompt 'new-session %%'
       bind -n M-r command-prompt 'rename-session %%'
-      bind -n M-R source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
-      bind -n M-x split-window -h -c "#{pane_current_path}"
-      bind -n M-v split-window -v -c "#{pane_current_path}"
+      bind -n M-c source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
+      bind -n M-C run-shell -b rebuild
+      bind -n M-x split-window -v -c "#{pane_current_path}"
+      bind -n M-v split-window -h -c "#{pane_current_path}"
 
       bind -n M-1 select-window -t 1
       bind -n M-2 select-window -t 2
@@ -87,20 +88,23 @@ in
       set -g pane-active-border-style bg=default,fg=blue
       set -g display-panes-colour black
       set -g display-panes-active-colour brightblack
-      # set -g clock-mode-colour cyan
-      # set -g clock-mode-style 12
+      set -g clock-mode-colour cyan
       set -g message-style bg=brightblack,fg=cyan
       set -g message-command-style bg=brightblack,fg=cyan
       set -g status-left "#[fg=black,bg=cyan,bold] #S "
-      set -g status-right "#[fg=white,bg=brightblack] %I:%M %p #{?pane_in_mode,#[fg=black#,bg=yellow#,bold],#[fg=black#,bg=cyan#,bold]} #H "
+      set -g status-right "#{?client_prefix,#[fg=black#,bg=cyan] M-a ,}#[fg=white,bg=brightblack] %I:%M %p #{?pane_in_mode,#[fg=black#,bg=yellow#,bold],#[fg=black#,bg=cyan#,bold]} #H "
       set -g window-status-format "#[fg=white,bg=black] #I #W #F "
       set -g window-status-current-format "#[fg=white,bg=brightblack] #I #W #F "
       set -g window-status-separator ""
     '';
-    # TODO: Get tmux-mode-indicator or prefix-highlight working. Won't show up at all. So weird...
     plugins = [
-      pkgs.tmuxPlugins.tmux-thumbs
       pkgs.tmuxPlugins.yank
+      {
+        plugin = pkgs.tmuxPlugins.tmux-thumbs;
+        extraConfig = ''
+          set -g @thumbs-command 'echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
+        '';
+      }
       {
         plugin = pkgs.tmuxPlugins.resurrect;
         extraConfig = ''
