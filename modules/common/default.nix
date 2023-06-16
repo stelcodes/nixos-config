@@ -185,7 +185,7 @@
           };
           tmux-snapshot = pkgs.writeShellApplication {
             name = "tmux-snapshot";
-            runtimeInputs = [ pkgs.coreutils-full pkgs.procps pkgs.tmux ];
+            runtimeInputs = [ pkgs.coreutils-full pkgs.procps pkgs.hostname pkgs.gnused pkgs.tmux ];
             text = ''
               if pgrep tmux &> /dev/null; then
                 echo "tmux is running, saving snapshot..."
