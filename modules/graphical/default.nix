@@ -108,6 +108,7 @@
           ManagedBookmarks = [
             { name = "Printing"; url = "localhost:631"; }
             { name = "Firefox Policies"; url = "mozilla.github.io/policy-templates"; }
+            { name = "Jellyfin"; url = "macmini:8096"; }
           ];
           ManualAppUpdateOnly = true;
           NewTabPage = false;
@@ -118,6 +119,7 @@
           WebsiteFilter = {
             Block = [
               "*://news.ycombinator.com/*"
+              "*://*.youtube.com/*"
               "*://*.reddit.com/"
               "*://*.reddit.com/?*"
               "*://*.reddit.com/r/popular"
