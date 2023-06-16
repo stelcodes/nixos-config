@@ -5,6 +5,7 @@
     ../../modules/common
     ../../modules/graphical
     ../../modules/laptop
+    ../../modules/tmux
     inputs.musnix.nixosModules.musnix
   ];
 
