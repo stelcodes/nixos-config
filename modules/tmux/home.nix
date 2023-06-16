@@ -1,35 +1,6 @@
-{ pkgs, ... }:
-let
-  resurrectSaveScript = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
-in
-{
+{ pkgs, ... }: {
   # These packages are needed for tmux-yank to work on remote tmux instances (Xserver and wayland support)
   home.packages = [ pkgs.xsel pkgs.wl-clipboard ];
-
-  systemd.user.services.tmux-resurrect-periodic-save = {
-    Unit = {
-      Description = "Periodically save tmux state via tmux-resurrect plugin";
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = pkgs.writeShellScript "tmux-resurrect-periodic-save" ''
-        while true; do
-          if ${pkgs.toybox}/bin/pgrep tmux; then
-            echo "tmux is running, saving state"
-            ${resurrectSaveScript} quiet
-          else
-            echo "tmux is not running"
-          fi
-          echo "sleeping..."
-          sleep 300
-        done
-      '';
-      Restart = "always";
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
-  };
 
   programs.tmux = {
     enable = true;
@@ -38,6 +9,7 @@ in
     shell = "${pkgs.fish}/bin/fish";
     prefix = "M-a";
     terminal = "screen-256color";
+    secureSocket = false;
     extraConfig = ''
       # Options
 
