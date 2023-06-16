@@ -32,6 +32,8 @@
       bind -n M-C run-shell -b rebuild
       bind -n M-x split-window -v -c "#{pane_current_path}"
       bind -n M-v split-window -h -c "#{pane_current_path}"
+      bind -n M-< swap-window -d -t -1
+      bind -n M-> swap-window -d -t +1
 
       bind -n M-1 select-window -t 1
       bind -n M-2 select-window -t 2
