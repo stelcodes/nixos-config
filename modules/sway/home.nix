@@ -44,7 +44,7 @@
       ${pkgs.systemd}/bin/systemctl --user import-environment GDK_DPI_SCALE
     '';
     config = rec {
-      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux; fish'";
+      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || fish'";
       menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
       modifier = "Mod4";
       fonts = {

@@ -2,6 +2,27 @@
   # These packages are needed for tmux-yank to work on remote tmux instances (Xserver and wayland support)
   home.packages = [ pkgs.xsel pkgs.wl-clipboard ];
 
+  systemd.user.services.tmux = {
+    Unit = {
+      Description = "tmux default session";
+    };
+    Service = {
+      Type = "forking";
+      Environment = [
+        "PATH=/home/%u/.nix-profile/bin:/etc/profiles/per-user/%u/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
+      ];
+      ExecStart = "${pkgs.tmux}/bin/tmux new-session -d";
+      ExecStop = [
+        "${pkgs.tmux-snapshot}/bin/tmux-snapshot quiet"
+        "${pkgs.tmux}/bin/tmux kill-server"
+      ];
+      RestartSec = 2;
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
   programs.tmux = {
     enable = true;
     baseIndex = 1;

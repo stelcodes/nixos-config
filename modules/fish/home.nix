@@ -21,7 +21,8 @@
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
       date-iso = "date -u +%Y-%m-%dT%H:%M:%SZ"; # ISO 8601 date format with UTC timezone
-      t = "tmux attach || tmux";
+      t = "tmux attach";
+      tmux = "systemctl --user status tmux.service";
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
       dl-base = "yt-dlp --embed-metadata --embed-thumbnail --progress";
       dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor,selfpromo,outro' --remux-video 'mkv'";
