@@ -37,7 +37,6 @@ in
     keyMode = "vi";
     shell = "${pkgs.fish}/bin/fish";
     prefix = "M-a";
-    # Set to "tmux-256color" normally, but theres this macOS bug https://git.io/JtLls
     terminal = "screen-256color";
     extraConfig = ''
       # Options
@@ -55,7 +54,7 @@ in
       bind -n M-f copy-mode
       bind -n M-w new-window -a -c "#{pane_current_path}"
       bind -n M-W select-window -l
-      bind -n M-t command-prompt 'new-session %%'
+      bind -n M-t command-prompt 'new-session -s %%'
       bind -n M-r command-prompt 'rename-session %%'
       bind -n M-c source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
       bind -n M-C run-shell -b rebuild
