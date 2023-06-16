@@ -44,7 +44,7 @@
       ${pkgs.systemd}/bin/systemctl --user import-environment GDK_DPI_SCALE
     '';
     config = rec {
-      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach; fish'";
+      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux; fish'";
       menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
       modifier = "Mod4";
       fonts = {
@@ -171,12 +171,16 @@
       for_window [app_id=qalculate-gtk] floating enable
       for_window [app_id=\.?blueman-manager(-wrapped)?] floating enable, resize set width 80 ppt height 80 ppt, move position center
       for_window [app_id=nixos_rebuild_log] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=htop] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
     '';
   };
 
   services = {
     swayidle = {
       enable = true;
+      # Waits for commands to finish (-w) by default
       events = [
         {
           event = "before-sleep";
@@ -318,6 +322,7 @@
       cpu = {
         interval = 10;
         format = "{usage} ";
+        on-click = "${pkgs.foot}/bin/foot --app-id=htop ${pkgs.htop}/bin/htop --tree --sort-key=PERCENT_CPU";
       };
       memory = {
         interval = 30;
