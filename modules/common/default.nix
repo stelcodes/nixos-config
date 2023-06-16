@@ -183,6 +183,18 @@
             source = ../../misc/cycle-pulse-sink.clj;
             runtimeInputs = [ super.pulseaudio ];
           };
+          tmux-snapshot = pkgs.writeShellApplication {
+            name = "tmux-snapshot";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.procps pkgs.tmux ];
+            text = ''
+              if pgrep tmux &> /dev/null; then
+                echo "tmux is running, saving snapshot..."
+                ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh quiet && echo "saved sucessfully"
+              else
+                echo "tmux is not running"
+              fi
+            '';
+          };
         })
       ];
     };
