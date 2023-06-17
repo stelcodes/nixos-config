@@ -187,9 +187,9 @@
             name = "tmux-snapshot";
             runtimeInputs = [ pkgs.coreutils-full pkgs.procps pkgs.hostname pkgs.gnused pkgs.tmux ];
             text = ''
-              if pgrep tmux &> /dev/null; then
+              if tmux has-session; then
                 echo "tmux is running, saving snapshot..."
-                ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh quiet && echo "saved sucessfully"
+                ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh quiet
               else
                 echo "tmux is not running"
               fi
