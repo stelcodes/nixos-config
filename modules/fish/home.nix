@@ -3,6 +3,10 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = builtins.readFile ./interactive.fish;
+    loginShellInit = ''
+      ${pkgs.neofetch}/bin/neofetch
+      ${pkgs.pomo}/bin/pomo start
+    '';
     shellAbbrs = rec {
       ll = "ls -l";
       la = "ls -A";
