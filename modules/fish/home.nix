@@ -37,6 +37,9 @@
       vpn = "doas protonvpn";
       network-test = "ping -c 1 -W 5 8.8.8.8";
     };
+    shellAliases = {
+      nnn = "n";
+    };
     functions = {
       nnn-rsync = builtins.readFile ./nnn-rsync.fish;
       n = builtins.readFile ./n.fish;

@@ -3,7 +3,7 @@ if test -n "$NNNLVL" -a "$NNNLVL" -ge 1
     return
 end
 set -x NNN_TMPFILE $(mktemp)
-command nnn -eauUA
+command nnn -eauUA $argv
 if test -e $NNN_TMPFILE
     source $NNN_TMPFILE
     rm $NNN_TMPFILE
