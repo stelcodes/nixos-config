@@ -27,13 +27,10 @@
     enable = true;
     baseIndex = 1;
     keyMode = "vi";
-    shell = "${pkgs.fish}/bin/fish";
     prefix = "M-a";
     terminal = "screen-256color";
     secureSocket = false;
     extraConfig = ''
-      # Options
-
       # Custom Keybindings
       bind -n M-h previous-window
       bind -n M-l next-window
@@ -66,12 +63,13 @@
       bind -n M-8 select-window -t 8
       bind -n M-9 select-window -t 9
 
+      # Use default-command instead of default-shell to avoid unwanted login shell behavior
+      set -g default-command "exec ${pkgs.fish}/bin/fish";
       # Fixes tmux escape input lag, see https://git.io/JtIsn
       set -sg escape-time 10
-
       set -g focus-events on
       set -g renumber-windows on
-      set -g update-environment "PATH"
+      set -g update-environment "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK"
 
       # From nord tmux plugin
       set -g status-interval 1
