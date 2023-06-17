@@ -187,7 +187,7 @@
       events = [
         {
           event = "before-sleep";
-          command = "${pkgs.pomo}/bin/pomo stop; ${pkgs.swaylock}/bin/swaylock; ${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+          command = "${pkgs.pomo}/bin/pomo stop; ${pkgs.swaylock}/bin/swaylock --daemonize; ${pkgs.sway}/bin/swaymsg 'output * dpms off'";
         }
         {
           event = "after-resume";
