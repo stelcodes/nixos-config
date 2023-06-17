@@ -41,10 +41,12 @@
       # Fix for GTK scale issues when also using Cinnamon
       # export GDK_SCALE=1
       export GDK_DPI_SCALE=-1
+      # Forgot what graphical program is being run from systemd user service
+      # Could use systemd.user.extraConfig = '''DefaultEnvironment="GDK_DPI_SCALE=-1"'''
       ${pkgs.systemd}/bin/systemctl --user import-environment GDK_DPI_SCALE
     '';
     config = rec {
-      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || fish'";
+      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach; fish'";
       menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
       modifier = "Mod4";
       fonts = {
@@ -83,15 +85,16 @@
       workspaceLayout = "tabbed";
       keybindings =
         pkgs.lib.mkOptionDefault {
+          # Use "Shift" to properly override defaults
           "${modifier}+tab" = "focus next";
-          "${modifier}+shift+tab" = "focus prev";
+          "${modifier}+Shift+tab" = "focus prev";
           "${modifier}+grave" = "exec wofi-emoji";
-          "${modifier}+shift+r" = "reload";
-          "${modifier}+c" = "exec rebuild";
+          "${modifier}+c" = "reload";
+          "${modifier}+Shift+c" = "exec rebuild";
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+o" = "output eDP-1 toggle";
           "${modifier}+n" = "exec makoctl dismiss --all";
-          "${modifier}+shift+o" = "output eDP-1 dpms toggle";
+          "${modifier}+Shift+o" = "output eDP-1 dpms toggle";
           "${modifier}+i" = "exec doas protonvpn connect --fastest";
           "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
           "${modifier}+less" = "focus parent";
