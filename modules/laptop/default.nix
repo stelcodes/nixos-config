@@ -17,8 +17,11 @@
 
     services = {
 
-      # don’t shutdown when power button is short-pressed
-      logind.extraConfig = "HandlePowerKey=hibernate";
+      logind.extraConfig = ''
+        # Don’t shutdown when power button is short-pressed
+        HandlePowerKey=hibernate
+        InhibitDelayMaxSec=10
+      '';
       logind.lidSwitch = "suspend-then-hibernate";
 
       cron = {
