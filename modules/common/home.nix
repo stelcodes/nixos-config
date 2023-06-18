@@ -105,6 +105,7 @@
       pkgs.nix-prefetch-github
       pkgs.babashka
       pkgs.tmux-snapshot
+      pkgs.truecolor-test
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
