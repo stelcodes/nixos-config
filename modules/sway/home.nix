@@ -94,7 +94,7 @@
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+o" = "output eDP-1 toggle";
           "${modifier}+n" = "exec makoctl dismiss --all";
-          "${modifier}+Shift+o" = "output eDP-1 dpms toggle";
+          "${modifier}+Shift+o" = "output eDP-1 power toggle";
           "${modifier}+i" = "exec doas protonvpn connect --fastest";
           "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
           "${modifier}+less" = "focus parent";
@@ -167,7 +167,7 @@
       # I have to put this in extraConfig because it needs to be after the type:keyboard rule
       # and config.input only accepts unordered attribute set atm
       input "1:1:AT_Translated_Set_2_keyboard" xkb_options caps:escape,altwin:swap_alt_win
-      bindswitch lid:off output * dpms off
+      bindswitch lid:off output * power off
       for_window [app_id=org.gnome.Calculator] floating enable
       for_window [class=REAPER] floating enable
       for_window [app_id=nmtui] floating enable
@@ -187,11 +187,11 @@
       events = [
         {
           event = "before-sleep";
-          command = "${pkgs.tmux-snapshot}/bin/tmux-snapshot; ${pkgs.swaylock}/bin/swaylock --daemonize; ${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+          command = "${pkgs.tmux-snapshot}/bin/tmux-snapshot; ${pkgs.swaylock}/bin/swaylock --daemonize; ${pkgs.sway}/bin/swaymsg 'output * power off'";
         }
         {
           event = "after-resume";
-          command = "${pkgs.pomo}/bin/pomo start; ${pkgs.sway}/bin/swaymsg 'output * dpms on'";
+          command = "${pkgs.pomo}/bin/pomo start; ${pkgs.sway}/bin/swaymsg 'output * power on'";
         }
       ];
       timeouts = [
