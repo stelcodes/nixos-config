@@ -145,12 +145,6 @@
           };
           protonvpn-cli = super.pkgs.protonvpn-cli_2;
           pomo = super.callPackage ../../packages/pomo.nix { };
-          signal-desktop = super.symlinkJoin {
-            name = "signal-desktop-wayland";
-            paths = [ super.signal-desktop ];
-            buildInputs = [ super.makeWrapper ];
-            postBuild = "wrapProgram $out/bin/signal-desktop --add-flags '--enable-features=UseOzonePlatform --ozone-platform=wayland'";
-          };
           wezterm-nightly = super.callPackage ../../packages/wezterm-nightly { };
           gnome-feeds-nightly = super.callPackage ../../packages/gnome-feeds-nightly { };
           writeBabashkaScript = super.callPackage ../../packages/write-babashka-script.nix { };
