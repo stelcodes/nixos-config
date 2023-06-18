@@ -1,9 +1,16 @@
-if test -n "$NNNLVL" -a "$NNNLVL" -ge 1
+if set --query NNNLVL
     echo "nnn is already running"
     return
 end
+
 set -x NNN_TMPFILE $(mktemp)
-command nnn -eauUA $argv
+
+if test $TERM_PROGRAM = "tmux"
+  command nnn -eauUAP p $argv
+else
+  command nnn -eauUA $argv
+end
+
 if test -e $NNN_TMPFILE
     source $NNN_TMPFILE
     rm $NNN_TMPFILE
