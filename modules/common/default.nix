@@ -153,6 +153,11 @@
             source = ../../misc/cycle-pulse-sink.clj;
             runtimeInputs = [ self.pulseaudio ];
           };
+          cycle-sway-scale = self.writeBabashkaScript {
+            name = "cycle-sway-scale";
+            source = ../../misc/cycle-sway-scale.clj;
+            runtimeInputs = [ self.sway ];
+          };
           tmux-snapshot = super.writeShellApplication {
             name = "tmux-snapshot";
             runtimeInputs = [ self.coreutils-full self.procps self.hostname self.gnused self.tmux ];
