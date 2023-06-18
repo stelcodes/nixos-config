@@ -209,7 +209,7 @@
       longitude = "-83";
       temperature = {
         day = 6500;
-        night = 0;
+        night = 3000;
       };
       gamma = "0.85";
       systemdTarget = "sway-session.target";
