@@ -2,7 +2,12 @@
   home.packages = [ pkgs.starship ];
   programs.fish = {
     enable = true;
-    interactiveShellInit = builtins.readFile ./interactive.fish;
+    interactiveShellInit = ''
+      set -g fish_greeting (printf (_ '🐟 don\'t be afraid to ask for %shelp%s 💞') (set_color green) (set_color normal))
+      fish_vi_key_bindings
+      ${pkgs.starship}/bin/starship init fish | source
+      # Maybe add direnv sourcing here later
+    '';
     loginShellInit = ''
       ${pkgs.neofetch}/bin/neofetch
       ${pkgs.pomo}/bin/pomo start

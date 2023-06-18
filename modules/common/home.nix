@@ -112,6 +112,16 @@
     sessionVariables = {
       SUCCESS_ALERT = "${pkgs.success-alert}";
       FAILURE_ALERT = "${pkgs.failure-alert}";
+      BROWSER = "firefox";
+      EDITOR = "nvim";
+      PAGER = "less --chop-long-lines --RAW-CONTROL-CHARS";
+      MANPAGER = "nvim +Man!";
+      NNN_TRASH = "1";
+      NNN_PLUG = "p:preview-tui;d:dragdrop";
+      NNN_FCOLORS = "030304030705020801030301";
+      NNN_FIFO = "/tmp/nnn.fifo";
+      NNN_BATTHEME = "Nord";
+      NNN_BATSTYLE = "plain";
     };
     file = {
       ".local/bin/rebuild" = {
