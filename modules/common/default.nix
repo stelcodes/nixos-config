@@ -143,30 +143,6 @@
             url = "https://raw.githubusercontent.com/dxnst/nord-backgrounds/9334ccc197cf0e4299778fd6ff4202fdbe2756f2/music/3840x2160/bjorkvespertine.png";
             sha256 = "bZQVGQHO+YZ5aVfBdHbEELz1Zu4dBnO33w21nKVoHZ4=";
           };
-          obsidian = super.symlinkJoin {
-            name = "obsidian-wayland";
-            paths = [ super.obsidian ];
-            buildInputs = [ super.makeWrapper ];
-            postBuild = "wrapProgram $out/bin/obsidian --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
-          };
-          discord = super.symlinkJoin {
-            name = "discord-wayland";
-            paths = [ super.discord ];
-            buildInputs = [ super.makeWrapper ];
-            postBuild = "wrapProgram $out/bin/discord --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
-          };
-          ungoogled-chromium = super.symlinkJoin {
-            name = "ungoogled-chromium-wayland";
-            paths = [ super.ungoogled-chromium ];
-            buildInputs = [ super.makeWrapper ];
-            postBuild = "wrapProgram $out/bin/chromium --add-flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'";
-          };
-          spotify = super.symlinkJoin {
-            name = "spotify-wayland";
-            paths = [ super.spotify ];
-            buildInputs = [ super.makeWrapper ];
-            postBuild = "wrapProgram $out/bin/spotify --add-flags '--enable-features=UseOzonePlatform --ozone-platform=wayland'";
-          };
           protonvpn-cli = super.pkgs.protonvpn-cli_2;
           pomo = super.callPackage ../../packages/pomo.nix { };
           signal-desktop = super.symlinkJoin {
