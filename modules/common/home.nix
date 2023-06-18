@@ -41,6 +41,7 @@
         [main]
         font=FiraMono Nerd Font:size=12
         shell=${pkgs.fish}/bin/fish
+        dpi-aware=no
 
         [environment]
         COLORTERM=truecolor
