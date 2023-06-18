@@ -195,14 +195,6 @@
         defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
       };
 
-    direnv = {
-      enable = true;
-      # I wish I could get nix-shell to work with clojure but it's just too buggy.
-      # The issue: when I include pkgs.clojure in nix.shell and try to run aliased commands out of my deps.edn,
-      # it errors with any alias using the :extra-paths.
-      # enableNixDirenvIntegration = true;
-    };
-
     nnn = {
       enable = true;
       package = pkgs.nnn.override { withNerdIcons = true; };
@@ -218,13 +210,5 @@
 
     bash.enable = true;
 
-    wezterm = {
-      enable = true;
-      # package = pkgs.wezterm-nightly;
-      extraConfig = builtins.readFile ../../misc/wezterm.lua;
-    };
-
-    # Just doesn't work. Getting permission denied error when it tries to read .config/gh
-    # gh.enable = true;
   };
 }
