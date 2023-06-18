@@ -24,8 +24,8 @@
       gf = "log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
       sc = "systemctl";
       scu = "systemctl --user";
-      jc = "journalctl";
-      jcu = "journalctl --user";
+      jc = "journalctl -ex --unit";
+      jcu = "journalctl --user -ex --unit";
       config = "cd ~/nixos-config && nvim";
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
@@ -45,6 +45,7 @@
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
       vpn = "doas protonvpn";
       network-test = "ping -c 1 -W 5 8.8.8.8";
+      rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
     };
     shellAliases = {
       nnn = "n";
