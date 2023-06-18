@@ -42,6 +42,32 @@
         font=FiraMono Nerd Font:size=12
         shell=${pkgs.fish}/bin/fish
 
+        [environment]
+        COLORTERM=truecolor
+
+        [mouse]
+        hide-when-typing=yes
+
+        [key-bindings]
+        scrollback-up-page=none
+        scrollback-down-page=none
+        clipboard-copy=Control+c
+        clipboard-paste=Control+v
+        primary-paste=none
+        search-start=none
+        font-increase=Control+plus
+        font-decrease=Control+minus
+        font-reset=Control+equal
+        spawn-terminal=none
+        show-urls-launch=Control+Shift+u
+        prompt-prev=none
+        prompt-next=none
+
+
+        [text-bindings]
+        \x03 = Control+Shift+c
+        \x16 = Control+Shift+v
+
         ${builtins.readFile ../../misc/foot-nord-theme.ini}
       '';
     };
