@@ -123,7 +123,7 @@
         allowUnfree = true;
       };
       overlays = [
-        (self: super: rec {
+        (self: super: {
           success-alert = super.fetchurl {
             # https://freesound.org/people/martcraft/sounds/651624/
             url = "https://cdn.freesound.org/previews/651/651624_14258856-lq.mp3";
@@ -143,32 +143,33 @@
             url = "https://raw.githubusercontent.com/dxnst/nord-backgrounds/9334ccc197cf0e4299778fd6ff4202fdbe2756f2/music/3840x2160/bjorkvespertine.png";
             sha256 = "bZQVGQHO+YZ5aVfBdHbEELz1Zu4dBnO33w21nKVoHZ4=";
           };
-          protonvpn-cli = super.pkgs.protonvpn-cli_2;
+          protonvpn-cli = super.protonvpn-cli_2;
           pomo = super.callPackage ../../packages/pomo.nix { };
           wezterm-nightly = super.callPackage ../../packages/wezterm-nightly { };
           gnome-feeds-nightly = super.callPackage ../../packages/gnome-feeds-nightly { };
           writeBabashkaScript = super.callPackage ../../packages/write-babashka-script.nix { };
-          cycle-pulse-sink = writeBabashkaScript {
+          cycle-pulse-sink = self.writeBabashkaScript {
             name = "cycle-pulse-sink";
             source = ../../misc/cycle-pulse-sink.clj;
-            runtimeInputs = [ super.pulseaudio ];
+            runtimeInputs = [ self.pulseaudio ];
           };
-          tmux-snapshot = pkgs.writeShellApplication {
+          tmux-snapshot = super.writeShellApplication {
             name = "tmux-snapshot";
-            runtimeInputs = [ pkgs.coreutils-full pkgs.procps pkgs.hostname pkgs.gnused pkgs.tmux ];
+            runtimeInputs = [ self.coreutils-full self.procps self.hostname self.gnused self.tmux ];
             text = ''
               if tmux has-session; then
                 echo "tmux is running, saving snapshot..."
-                ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh quiet
+                ${self.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh quiet
               else
                 echo "tmux is not running"
               fi
             '';
           };
-          truecolor-test = pkgs.writeShellApplication {
+          truecolor-test = super.writeShellApplication {
             name = "truecolor-test";
+            runtimeInputs = [ self.coreutils self.gawk ];
             text = ''
-              ${pkgs.gawk}/bin/awk 'BEGIN{
+              awk 'BEGIN{
                   s="/\\/\\/\\/\\/\\"; s=s s s s s s s s s s s s s s s s s s s s s s s;
                   for (colnum = 0; colnum<256; colnum++) {
                       r = 255-(colnum*255/255);
@@ -183,16 +184,16 @@
               }'
             '';
           };
-          rebuild = pkgs.writeShellApplication {
+          rebuild = super.writeShellApplication {
             name = "rebuild";
-            runtimeInputs = with pkgs; [ coreutils nixos-rebuild mpv ];
+            runtimeInputs = with self; [ coreutils nixos-rebuild mpv ];
             text = ''
               STATUS_FILE=/tmp/nixos-rebuild.status
               LOG_FILE=/tmp/nixos-rebuild.log
 
               rebuild() { /run/wrappers/bin/doas nixos-rebuild switch --flake "$HOME/nixos-config#" 2>&1 | tee $LOG_FILE; }
-              succeed() { echo "new generation created 🥳" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${pkgs.success-alert} || true; }
-              fail() { echo "something went wrong 🤔" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${pkgs.failure-alert} || true; exit 1; }
+              succeed() { echo "new generation created 🥳" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${self.success-alert} || true; }
+              fail() { echo "something went wrong 🤔" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${self.failure-alert} || true; exit 1; }
 
               echo "" > $STATUS_FILE
               if rebuild; then succeed; else fail; fi
