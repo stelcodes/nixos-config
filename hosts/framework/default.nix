@@ -18,6 +18,8 @@
     # soundcardPciId = "00:1f.3";
   };
 
+  powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
+
   # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
   environment.systemPackages = [
     pkgs.qpwgraph
