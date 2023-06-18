@@ -203,9 +203,11 @@ vim.keymap.set('n', 'f', ':let @+=expand("%")<cr>:echo expand("%")<cr>')
 -- Copy absolute path of file
 vim.keymap.set('n', 'F', ':let @+=expand("%:p")<cr>:echo expand("%:p")<cr>')
 -- Clear search highlighting
-vim.keymap.set('n', '<c-h>', ':let @/=""<cr>')
-vim.keymap.set('i', '<c-h>', ':let @/=""<cr>')
+-- <c-/> doesn't work in tmux for some reason
+vim.keymap.set('n', '<c-n>', ':let @/=""<cr>')
+vim.keymap.set('i', '<c-n>', ':let @/=""<cr>')
 -- Open Git Fugitive, make it full window in a new tab positioned before other tabs
+-- This could be improved bc right now it clobbers existing window arrangements in the tab
 vim.keymap.set('n', '<c-g>', ':Git<cr>:only<cr>')
 -- Remap visual block mode because I use <c-v> for paste
 vim.keymap.set('n', '<c-b>', '<c-v>')
