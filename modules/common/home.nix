@@ -106,6 +106,7 @@
       pkgs.babashka
       pkgs.tmux-snapshot
       pkgs.truecolor-test
+      pkgs.rebuild
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
@@ -123,12 +124,6 @@
       NNN_FIFO = "/tmp/nnn.fifo";
       NNN_BATTHEME = "Nord";
       NNN_BATSTYLE = "plain";
-    };
-    file = {
-      ".local/bin/rebuild" = {
-        executable = true;
-        source = ../../misc/nixos-rebuild.sh;
-      };
     };
   };
 

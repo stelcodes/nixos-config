@@ -213,6 +213,22 @@
               }'
             '';
           };
+          rebuild = pkgs.writeShellApplication {
+            name = "rebuild";
+            runtimeInputs = with pkgs; [ coreutils nixos-rebuild mpv ];
+            text = ''
+              STATUS_FILE=/tmp/nixos-rebuild.status
+              LOG_FILE=/tmp/nixos-rebuild.log
+
+              rebuild() { /run/wrappers/bin/doas nixos-rebuild switch --flake "$HOME/nixos-config#" 2>&1 | tee $LOG_FILE; }
+              succeed() { echo "new generation created 🥳" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${pkgs.success-alert} || true; }
+              fail() { echo "something went wrong 🤔" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${pkgs.failure-alert} || true; exit 1; }
+
+              echo "" > $STATUS_FILE
+              if rebuild; then succeed; else fail; fi
+            '';
+          };
+
         })
       ];
     };
