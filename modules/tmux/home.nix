@@ -1,7 +1,25 @@
-{ pkgs, ... }: {
-  # These packages are needed for tmux-yank to work on remote tmux instances (Xserver and wayland support)
-  home.packages = [ pkgs.xsel pkgs.wl-clipboard ];
-
+{ pkgs, ... }:
+let
+  pluginDeps = with pkgs; [
+    # tmux-resurrect
+    coreutils-full
+    hostname
+    gnused
+    gawk
+    gnugrep
+    gzip
+    gnutar
+    procps
+    which
+    tmux
+    # tmux-yank
+    xsel
+    wl-clipboard
+    # testing
+    bash
+  ];
+in
+{
   systemd.user.services.tmux = {
     Unit = {
       Description = "tmux default session";
@@ -9,13 +27,16 @@
     Service = {
       Type = "forking";
       Environment = [
-        "PATH=/home/%u/.nix-profile/bin:/etc/profiles/per-user/%u/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
+        # Must include implicit deps for all tmux plugins and commands run with "run-shell"
+        # Most of these are for tmux-resurrect save.sh and restore.sh
+        "PATH=${pkgs.lib.makeBinPath pluginDeps }"
       ];
       ExecStart = "${pkgs.tmux}/bin/tmux new-session -d";
       ExecStop = [
-        "${pkgs.tmux-snapshot}/bin/tmux-snapshot quiet"
+        "${pkgs.tmux-snapshot}/bin/tmux-snapshot"
         "${pkgs.tmux}/bin/tmux kill-server"
       ];
+      Restart = "always";
       RestartSec = 2;
     };
     Install = {
@@ -30,8 +51,26 @@
     prefix = "M-a";
     terminal = "screen-256color";
     secureSocket = false;
+    plugins = [
+      pkgs.tmuxPlugins.yank
+      {
+        plugin = pkgs.tmuxPlugins.tmux-thumbs;
+        extraConfig = ''
+          set -g @thumbs-command 'echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
+        '';
+      }
+      {
+        plugin = pkgs.tmuxPlugins.resurrect;
+        extraConfig = ''
+          set -g @resurrect-capture-pane-contents 'on'
+          set -g @resurrect-processes '"~nvim->nvim"'
+        '';
+      }
+    ];
     extraConfig = ''
-      # Custom Keybindings
+      #########################################################################
+      # KEYBINDINGS
+
       bind -n M-h previous-window
       bind -n M-l next-window
       bind -n M-H select-pane -L
@@ -52,7 +91,6 @@
       bind -n M-v split-window -h -c "#{pane_current_path}"
       bind -n M-< swap-window -d -t -1
       bind -n M-> swap-window -d -t +1
-
       bind -n M-1 select-window -t 1
       bind -n M-2 select-window -t 2
       bind -n M-3 select-window -t 3
@@ -63,17 +101,25 @@
       bind -n M-8 select-window -t 8
       bind -n M-9 select-window -t 9
 
+      #########################################################################
+      # BEHAVIOR
+
       # Use default-command instead of default-shell to avoid unwanted login shell behavior
-      set -g default-command "exec ${pkgs.fish}/bin/fish";
-      # Fixes tmux escape input lag, see https://git.io/JtIsn
+      # Also don't prefix command with exec because it causes tmux-resurrect restore.sh to crash
+      set -g default-command ${pkgs.fish}/bin/fish
+      # Fixes tmux/neovim escape input lag: https://github.com/neovim/neovim/wiki/FAQ#esc-in-tmux-or-gnu-screen-is-delayed
       set -sg escape-time 10
       set -g focus-events on
       set -g renumber-windows on
       set -g update-environment "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK"
-
-      # From nord tmux plugin
-      set -g status-interval 1
       set -g status on
+      set -g status-interval 1
+      set -sa terminal-features ',foot:RGB'
+      setenv -g COLORTERM truecolor
+
+      #########################################################################
+      # APPEARANCE
+
       set -g status-justify left
       set -g status-style bg=black,fg=white
       set -g pane-border-style bg=default,fg=brightblack
@@ -89,20 +135,5 @@
       set -g window-status-current-format "#[fg=white,bg=brightblack] #I #W #F "
       set -g window-status-separator ""
     '';
-    plugins = [
-      pkgs.tmuxPlugins.yank
-      {
-        plugin = pkgs.tmuxPlugins.tmux-thumbs;
-        extraConfig = ''
-          set -g @thumbs-command 'echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
-        '';
-      }
-      {
-        plugin = pkgs.tmuxPlugins.resurrect;
-        extraConfig = ''
-          set -g @resurrect-capture-pane-contents 'on'
-        '';
-      }
-    ];
   };
 }
