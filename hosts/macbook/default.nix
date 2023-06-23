@@ -22,7 +22,10 @@
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
 
-  hardware.facetimehd.enable = true;
+  hardware.facetimehd = {
+    enable = true;
+    withCalibration = true;
+  };
 
   system.stateVersion = "23.05";
 }
