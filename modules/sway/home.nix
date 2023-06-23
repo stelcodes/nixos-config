@@ -89,7 +89,7 @@
           "${modifier}+tab" = "focus next";
           "${modifier}+Shift+tab" = "focus prev";
           "${modifier}+grave" = "exec wofi-emoji";
-          "${modifier}+c" = "reload";
+          "${modifier}+c" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
           "${modifier}+Shift+c" = "exec rebuild";
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+o" = "output eDP-1 toggle";
