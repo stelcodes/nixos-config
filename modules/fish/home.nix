@@ -26,7 +26,7 @@
       scu = "systemctl --user";
       jc = "journalctl -ex --unit";
       jcu = "journalctl --user -ex --unit";
-      config = "cd ~/nixos-config && nvim";
+      config = "cd ~/nixos-config; nvim";
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
       date-iso = "date -u +%Y-%m-%dT%H:%M:%SZ"; # ISO 8601 date format with UTC timezone
