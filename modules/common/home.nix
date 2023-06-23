@@ -108,6 +108,7 @@
       pkgs.tmux-snapshot
       pkgs.truecolor-test
       pkgs.rebuild
+      pkgs.toggle-service
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
