@@ -274,7 +274,7 @@
       layer = "top";
       position = "bottom";
       height = 20;
-      modules-left = [ "sway/workspaces" "sway/mode" ];
+      modules-left = [ "sway/workspaces" "sway/mode" "tray" ];
       modules-center = [ "clock" "custom/pomo" ];
       modules-right = [
         "custom/rebuild"
@@ -288,7 +288,7 @@
         "idle_inhibitor"
       ];
       "custom/pomo" = {
-        format = "{} 󱎫 ";
+        format = "{} 󱎫";
         exec = "${pkgs.pomo}/bin/pomo clock";
         interval = 1;
         on-click = "${pkgs.pomo}/bin/pomo pause";
@@ -299,7 +299,7 @@
         max-length = 25;
         interval = 2;
         exec-if = "test -f /tmp/nixos-rebuild.status";
-        exec = "echo \"$(< /tmp/nixos-rebuild.status)\"";
+        exec = "echo \"$(< /tmp/nixos-rebuild.status)\"";
         # Waybar env does not include my normal PATH so I'm using fish as a wrapper
         on-click = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F /tmp/nixos-rebuild.log";
       };
@@ -338,7 +338,8 @@
         format = "{percentage_used} ";
       };
       bluetooth = {
-        format = "";
+        format = "BT ";
+        format-on = "BT 󰂲";
         on-click = "${pkgs.blueman}/bin/blueman-manager";
       };
       "network#1" = {
@@ -371,14 +372,14 @@
       };
       battery = {
         format = "{capacity} {icon}";
-        format-icons = [ " " " " " " " " " " ];
+        format-icons = [ "" "" "" "" "" ];
         max-length = 40;
       };
       idle_inhibitor = {
         format = "{icon}";
         format-icons = {
-          activated = " ";
-          deactivated = " ";
+          activated = "";
+          deactivated = "";
         };
       };
       backlight = {
