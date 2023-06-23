@@ -205,6 +205,24 @@
             '';
           };
 
+          toggle-service = super.writeShellApplication {
+            name = "toggle-service";
+            runtimeInputs = [ self.systemd ];
+            text = ''
+              SERVICE="$1.service"
+              if ! systemctl --user cat "$SERVICE" &> /dev/null; then
+                echo "ERROR: Service does not exist"
+                exit 1
+              fi
+              if systemctl --user is-active "$SERVICE"; then
+                echo "Stopping service"
+                systemctl --user stop "$SERVICE"
+              else
+                echo "Starting service"
+                systemctl --user start "$SERVICE"
+              fi
+            '';
+          };
         })
       ];
     };
