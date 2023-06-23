@@ -57,6 +57,12 @@
       pkgs.gnome.dconf-editor
       pkgs.jellyfin-media-player
       pkgs.cycle-pulse-sink
+      pkgs.cycle-sway-scale
+      pkgs.cinnamon.nemo
+      pkgs.qalculate-gtk
+      pkgs.swayimg
+      pkgs.gnome.eog
+      pkgs.gajim
     ];
   };
 
