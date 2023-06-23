@@ -250,5 +250,12 @@
       DefaultTimeoutStopSec=10
       DefaultTimeoutAbortSec=10
     '';
+
+    hardware = {
+      enableRedistributableFirmware = true;
+      cpu.intel.updateMicrocode = true;
+      cpu.amd.updateMicrocode = true;
+    };
+
   };
 }
