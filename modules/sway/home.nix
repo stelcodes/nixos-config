@@ -216,8 +216,8 @@
 
     wlsunset = {
       enable = true;
-      latitude = "42";
-      longitude = "-83";
+      latitude = "38";
+      longitude = "-124";
       temperature = {
         day = 6500;
         night = 3000;
