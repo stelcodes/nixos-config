@@ -1,4 +1,8 @@
-{ pkgs, user, ... }: {
+{ pkgs, user, inputs, ... }: {
+
+  imports = [
+    inputs.nix-index-database.hmModules.nix-index
+  ];
 
   systemd.user.startServices = true;
 
@@ -135,6 +139,10 @@
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
+
+    # Use "," command to run programs not currently installed with prebuilt nixpkgs index
+    nix-index.enable = true;
+    nix-index-database.comma.enable = true;
 
     bat = {
       enable = true;

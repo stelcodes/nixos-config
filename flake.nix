@@ -12,6 +12,10 @@
       url = "github:musnix/musnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-index-database = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # Function that tells my flake which to use and what do what to do with the dependencies.
@@ -40,7 +44,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit user;
+                inherit inputs user;
                 hostName = "framework";
                 mainMonitor = "eDP-1";
               };
