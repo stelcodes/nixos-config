@@ -130,7 +130,9 @@ in
       set -g message-style bg=brightblack,fg=cyan
       set -g message-command-style bg=brightblack,fg=cyan
       set -g status-left "#[fg=black,bg=cyan,bold] #S "
+      set -g status-left-length 25
       set -g status-right "#{?client_prefix,#[fg=black#,bg=cyan] M-a ,}#[fg=white,bg=brightblack] %I:%M %p #{?pane_in_mode,#[fg=black#,bg=yellow#,bold],#[fg=black#,bg=cyan#,bold]} #H "
+      set -g status-right-length 50
       set -g window-status-format "#[fg=white,bg=black] #I #W #F "
       set -g window-status-current-format "#[fg=white,bg=brightblack] #I #W #F "
       set -g window-status-separator ""
