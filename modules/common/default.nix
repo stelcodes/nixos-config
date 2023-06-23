@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, ... }: {
+{ pkgs, lib, config, inputs, user, ... }: {
   config = {
     boot.tmp.cleanOnBoot = true;
 
@@ -71,7 +71,8 @@
 
     users.mutableUsers = true;
     # Don't forget to set a password with ‘passwd’.
-    users.users.stel = {
+    users.users.${user} = {
+      initialPassword = "password";
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" ];
       openssh.authorizedKeys.keys = [
