@@ -31,7 +31,7 @@
 
       firefox = {
         enable = true;
-        # https://github.com/mozilla/policy-templates/blob/master/README.md
+        # https://mozilla.github.io/policy-templates/
         # Apparently Mozilla doesn't let you set the default search engine using policies anymore >:c
         policies = {
           Preferences =
