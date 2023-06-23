@@ -197,8 +197,18 @@
       ];
       timeouts = [
         {
-          timeout = 600;
-          command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+          timeout = 900;
+          command = let app = pkgs.writeShellApplication {
+            name = "swayidle-timeout";
+            runtimeInputs = [ pkgs.systemd pkgs.playerctl ];
+            text = ''
+              if playerctl status | grep -q "Playing"; then
+                systemctl --restart swayidle.service
+              else
+                systemctl suspend-then-hibernate
+              fi
+            '';
+          }; in "${app}/bin/swayidle-timeout";
         }
       ];
       systemdTarget = "sway-session.target";
