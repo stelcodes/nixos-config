@@ -42,22 +42,26 @@ window#waybar {
     background-color: #64727D;
 }
 
-#clock,
-#disk,
+#idle_inhibitor,
 #battery,
-#cpu,
-#memory,
-#temperature,
+#bluetooth,
 #backlight,
+#cpu,
 #network,
-#pulseaudio,
+#custom-rebuild,
+#clock,
+#custom-pomo,
 #custom-media,
 #tray,
 #mode,
-#idle_inhibitor,
+#disk,
+#memory,
+#temperature,
+#pulseaudio,
 #mpd {
-    padding: 0 10px;
-    margin: 0 4px;
+    padding-right: 14px;
+    padding-left: 6px;
+    margin: 0;
 }
 
 #window,
