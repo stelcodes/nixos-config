@@ -82,6 +82,9 @@
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
         "inode/directory" = [ "nemo.desktop" ];
+        "image/png" = [ "org.gnome.eog.desktop" ];
+        "image/jpeg" = [ "org.gnome.eog.desktop" ];
+        "image/avif" = [ "org.gnome.eog.desktop" ];
       };
     };
   };
