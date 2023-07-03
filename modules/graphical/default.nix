@@ -131,6 +131,14 @@
         };
       };
 
+      thunar = {
+        enable = true;
+        plugins = [
+          pkgs.xfce.thunar-archive-plugin
+          pkgs.xfce.thunar-volman
+        ];
+      };
+
     };
 
     services = {
@@ -174,6 +182,10 @@
       blueman.enable = true;
 
       gnome.gnome-keyring.enable = true;
+
+      # For thunar https://nixos.wiki/wiki/Thunar
+      gvfs.enable = true;
+      tumbler.enable = true;
 
     };
 

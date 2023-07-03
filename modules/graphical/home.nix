@@ -66,7 +66,6 @@
       pkgs.jellyfin-media-player
       pkgs.cycle-pulse-sink
       pkgs.cycle-sway-scale
-      pkgs.cinnamon.nemo
       pkgs.qalculate-gtk
       pkgs.swayimg
       pkgs.gnome.eog
@@ -82,7 +81,6 @@
   };
 
   xdg.configFile = {
-    # I'm using nemo (comes with cinnamon) instead of dolphin now
     # https://wiki.archlinux.org/title/Dolphin#Mismatched_folder_view_background_colors
     kdeglobals.text = ''
       [Colors:View]

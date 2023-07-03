@@ -85,7 +85,7 @@
         "application/pdf" = [ "firefox.desktop" ];
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
-        "inode/directory" = [ "nemo.desktop" ];
+        "inode/directory" = [ "thunar.desktop" ];
         "image/png" = [ "org.gnome.eog.desktop" ];
         "image/jpeg" = [ "org.gnome.eog.desktop" ];
         "image/avif" = [ "org.gnome.eog.desktop" ];
