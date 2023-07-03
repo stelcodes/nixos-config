@@ -29,7 +29,7 @@ in
       Environment = [
         # Must include implicit deps for all tmux plugins and commands run with "run-shell"
         # Most of these are for tmux-resurrect save.sh and restore.sh
-        "PATH=${pkgs.lib.makeBinPath pluginDeps }"
+        "PATH=${pkgs.lib.makeBinPath pluginDeps}"
       ];
       ExecStart = "${pkgs.tmux}/bin/tmux new-session -d";
       ExecStop = [
@@ -63,7 +63,8 @@ in
         plugin = pkgs.tmuxPlugins.resurrect;
         extraConfig = ''
           set -g @resurrect-capture-pane-contents 'on'
-          set -g @resurrect-processes '~nvim->nvim ~man->man'
+          # Doesn't work because nvim process invokation gets ran without proper quoting
+          # set -g @resurrect-processes '~nvim->nvim ~man->man'
         '';
       }
     ];
