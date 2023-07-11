@@ -8,6 +8,10 @@
     inputs.musnix.nixosModules.musnix
   ];
 
+  programs = {
+    nix-ld.enable = true;
+  };
+
   services.xserver.xkbOptions = "caps:escape,altwin:swap_alt_win";
 
   # https://github.com/musnix/musnix
@@ -31,6 +35,8 @@
     pkgs.ffmpeg_6
     pkgs.bitwig-studio
     pkgs.lsp-plugins
+    inputs.nix-alien.packages.x86_64-linux.nix-alien
+    pkgs.graillon-free
   ];
 
   # Bootloader.

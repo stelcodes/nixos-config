@@ -225,6 +225,7 @@
             '';
           };
           bitwig-studio = super.callPackage ../../packages/bitwig5.nix { };
+          graillon-free = super.callPackage ../../packages/graillon.nix { };
         })
       ];
     };
