@@ -139,6 +139,7 @@
         ];
       };
 
+      file-roller.enable = true;
     };
 
     services = {
