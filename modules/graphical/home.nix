@@ -117,8 +117,8 @@
             fi
         }
         POMO_MSG_CALLBACK="custom_notify"
-        POMO_WORK_TIME=28
-        POMO_BREAK_TIME=8
+        POMO_WORK_TIME=30
+        POMO_BREAK_TIME=5
       '';
     };
   };
