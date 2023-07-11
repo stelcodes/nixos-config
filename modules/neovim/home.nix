@@ -294,6 +294,17 @@
           '';
         }
 
+        {
+          plugin = pkgs.vimPlugins.everforest;
+          type = "lua";
+          config = ''
+            vim.g["everforest_background"] = "medium"
+            vim.g["everforest_better_performance"] = 0
+          '';
+        }
+
+        pkgs.vimPlugins.playground
+
       ];
   };
 }
