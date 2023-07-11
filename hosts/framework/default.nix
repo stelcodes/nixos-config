@@ -29,6 +29,8 @@
     pkgs.distrho
     pkgs.musescore
     pkgs.ffmpeg_6
+    pkgs.bitwig-studio
+    pkgs.lsp-plugins
   ];
 
   # Bootloader.

@@ -224,6 +224,7 @@
               fi
             '';
           };
+          bitwig-studio = super.callPackage ../../packages/bitwig5.nix { };
         })
       ];
     };
