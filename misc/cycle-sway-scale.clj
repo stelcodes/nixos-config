@@ -21,6 +21,6 @@
 (debug current-scale)
 
 (cond (== 1 current-scale) (set-output-scale 1.5)
-      (== 1.5 current-scale) (set-output-scale 2)
+      ;; (== 1.5 current-scale) (set-output-scale 2)
       :else (set-output-scale 1))
 
