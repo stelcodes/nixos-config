@@ -179,9 +179,9 @@
       for_window [app_id=htop] floating enable, resize set width 80 ppt height 80 ppt, move position center
       for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
       for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
-      # Workaround for bitwig plugin windows with no class or app_id metadata
-      for_window [shell=xwayland] floating enable
       for_window [app_id=org.rncbc.qpwgraph] floating enable
+      # Workaround for Bitwig moving itself to current workspace when scale changes
+      for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
     '';
   };
 
