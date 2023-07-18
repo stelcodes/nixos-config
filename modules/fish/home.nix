@@ -29,7 +29,8 @@
       config = "cd ~/nixos-config; nvim";
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
-      date-iso = "date -u +%Y-%m-%dT%H:%M:%SZ"; # ISO 8601 date format with UTC timezone
+      date-sortable = "date +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with local timezone
+      date-sortable-utc = "date -u +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with UTC timezone
       t = "tmux attach";
       tmux = "systemctl --user status tmux.service";
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
@@ -46,6 +47,7 @@
       vpn = "doas protonvpn";
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
+      swaytree = "swaymsg -t get_tree | nvim -R";
     };
     shellAliases = {
       nnn = "n";
