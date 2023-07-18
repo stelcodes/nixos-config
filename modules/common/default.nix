@@ -205,20 +205,20 @@
               }
               succeed() {
                 echo "New generation created 🥳" | tee -a "$LOG_FILE";
-                ln -sf "$LOG_FILE" "$LOG_LINK";
                 echo "" > "$STATUS_FILE";
                 mpv ${self.success-alert} || true;
               }
               fail() {
                 echo "Something went wrong 🤔" | tee -a "$LOG_FILE";
-                ln -sf "$LOG_FILE" "$LOG_LINK";
                 echo "" > "$STATUS_FILE";
                 mpv ${self.failure-alert} || true;
                 exit 1;
               }
 
-              mkdir -p "$LOG_DIR"
               echo "" > "$STATUS_FILE"
+              mkdir -p "$LOG_DIR"
+              touch "$LOG_FILE"
+              ln -sf "$LOG_FILE" "$LOG_LINK";
               if rebuild; then succeed; else fail; fi
             '';
           };
