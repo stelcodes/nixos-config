@@ -57,8 +57,8 @@ vim.opt.hidden = true
 vim.opt.encoding = 'utf-8'
 -- The encoding written to file
 vim.opt.fileencoding = 'utf-8'
--- Enable the mouse
-vim.opt.mouse = 'a'
+-- Disable the mouse
+vim.opt.mouse = ''
 -- Insert 2 spaces for a tab
 vim.opt.tabstop = 2
 -- Change the number of space characters inserted for indentation
