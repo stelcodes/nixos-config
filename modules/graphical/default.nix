@@ -136,6 +136,80 @@
         };
       };
 
+      chromium = {
+        enable = true;
+        extensions = [
+          "gighmmpiobklfepjocnamgkkbiglidom" # adblock
+        ];
+        # MANUAL SETTINGS:
+        # chrome://settings/appearance
+        #   Enable 'Use GTK'
+        #   Enable 'Use system title bar and borders'
+        # chrome://settings/syncSetup
+        #   Disable 'Make searches and browsing better'
+        # chrome://settings/searchEngines
+        #   Enable DuckDuckGo default browser
+        extraOpts = {
+          AdvancedProtectionAllowed = false;
+          AutofillAddressEnabled = false;
+          AutofillCreditCardEnabled = false;
+          BackgroundModeEnabled = false;
+          BatterySaverModeAvailability = 2;
+          BlockThirdPartyCookies = true;
+          BrowserNetworkTimeQueriesEnabled = false;
+          BrowserSignin = 0;
+          DefaultBrowserSettingEnabled = false;
+          DefaultClipboardSetting = 2;
+          DefaultCookiesSetting = 4;
+          DefaultFileSystemReadGuardSetting = 2;
+          DefaultFileSystemWriteGuardSetting = 2;
+          DefaultGeolocationSetting = 2;
+          DefaultLocalFontsSetting = 2;
+          DefaultNotificationsSetting = 2;
+          DefaultPopupsSetting = 2;
+          # DefaultSearchProviderEnabled = true;
+          # DefaultSearchProviderName = "DuckDuckGo";
+          # DefaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
+          DefaultSensorsSetting = 2;
+          DefaultSerialGuardSetting = 2;
+          DefaultThirdPartyStoragePartitioningSetting = 2;
+          DefaultWebBluetoothGuardSetting = 2;
+          DefaultWebHidGuardSetting = 2;
+          DefaultWebUsbGuardSetting = 2;
+          DefaultWindowManagementSetting = 2;
+          DNSInterceptionChecksEnabled = false;
+          DnsOverHttpsMode = "automatic";
+          EnableMediaRouter = false;
+          EnterpriseRealTimeUrlCheckMode = 0;
+          HardwareAccelerationModeEnabled = true;
+          HighEfficiencyModeEnabled = true;
+          HttpsOnlyMode = "force_enabled";
+          HomepageIsNewTabPage = true;
+          MediaRecommendationsEnabled = false;
+          MetricsReportingEnabled = false;
+          NTPCardsVisible = false;
+          NTPCustomBackgroundEnabled = true;
+          PasswordLeakDetectionEnabled = false;
+          PasswordManagerEnabled = false;
+          PromotionalTabsEnabled = false;
+          PaymentMethodQueryEnabled = false;
+          SafeBrowsingProtectionLevel = 0;
+          ScreenCaptureAllowed = false;
+          SearchSuggestEnabled = false;
+          ShoppingListEnabled = false;
+          SpellcheckEnabled = false;
+          SyncDisabled = true;
+          # https://chromeenterprise.google/policies/#URLBlocklist
+          URLBlocklist = [
+            "news.ycombinator.com"
+            "reddit.com"
+            "youtube.com"
+            "tmz.com"
+          ];
+          UserAgentReduction = 2;
+        };
+      };
+
       thunar = {
         enable = true;
         plugins = [

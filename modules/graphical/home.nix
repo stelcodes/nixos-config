@@ -46,7 +46,8 @@
       pkgs.calibre
       pkgs.gimp-with-plugins
       pkgs.qbittorrent
-      pkgs.ungoogled-chromium
+      # pkgs.ungoogled-chromium
+      pkgs.chromium
       pkgs.gnome.gnome-disk-utility
       pkgs.spotify
       pkgs.libimobiledevice # For iphone hotspot tethering
