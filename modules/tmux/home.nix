@@ -112,7 +112,7 @@ in
       set -sg escape-time 10
       set -g focus-events on
       set -g renumber-windows on
-      set -g update-environment "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK"
+      set -g update-environment "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK DISPLAY"
       set -g status on
       set -g status-interval 1
       set -sa terminal-features ',foot:RGB'
