@@ -192,16 +192,33 @@
           };
           rebuild = super.writeShellApplication {
             name = "rebuild";
-            runtimeInputs = with self; [ coreutils nixos-rebuild mpv ];
+            runtimeInputs = with super; [ coreutils nixos-rebuild mpv ];
             text = ''
-              STATUS_FILE=/tmp/nixos-rebuild.status
-              LOG_FILE=/tmp/nixos-rebuild.log
+              LOG_DIR="$HOME/tmp/rebuild"
+              STATUS_FILE="$LOG_DIR/status"
+              LOG_FILE="$LOG_DIR/$(date +%Y-%m-%dT%H:%M:%S%Z)"
+              LOG_LINK="$LOG_DIR/latest"
+              CONFIG_DIR="$HOME/nixos-config"
 
-              rebuild() { /run/wrappers/bin/doas nixos-rebuild switch --flake "$HOME/nixos-config#" 2>&1 | tee $LOG_FILE; }
-              succeed() { echo "new generation created 🥳" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${self.success-alert} || true; }
-              fail() { echo "something went wrong 🤔" | tee -a $LOG_FILE; echo "" > $STATUS_FILE; mpv ${self.failure-alert} || true; exit 1; }
+              rebuild() {
+                /run/wrappers/bin/doas nixos-rebuild switch --flake "$CONFIG_DIR#" 2>&1 | tee "$LOG_FILE";
+              }
+              succeed() {
+                echo "New generation created 🥳" | tee -a "$LOG_FILE";
+                ln -sf "$LOG_FILE" "$LOG_LINK";
+                echo "" > "$STATUS_FILE";
+                mpv ${self.success-alert} || true;
+              }
+              fail() {
+                echo "Something went wrong 🤔" | tee -a "$LOG_FILE";
+                ln -sf "$LOG_FILE" "$LOG_LINK";
+                echo "" > "$STATUS_FILE";
+                mpv ${self.failure-alert} || true;
+                exit 1;
+              }
 
-              echo "" > $STATUS_FILE
+              mkdir -p "$LOG_DIR"
+              echo "" > "$STATUS_FILE"
               if rebuild; then succeed; else fail; fi
             '';
           };
