@@ -123,6 +123,24 @@
         POMO_BREAK_TIME=5
       '';
     };
+    "gajim/theme/nord.css".text = ''
+      .gajim-outgoing-nickname {
+          color: rgb(180, 142, 173)
+      }
+      .gajim-incoming-nickname {
+          color: rgb(235, 203, 139)
+      }
+      .gajim-url {
+          color: rgb(94, 129, 172)
+      }
+      .gajim-status-online {
+          color: rgb(163, 190, 140)
+      }
+      .gajim-status-away {
+          color: rgb(191, 97, 106)
+      }
+    '';
+
   };
 
   systemd.user.services.pomo-notify = {
