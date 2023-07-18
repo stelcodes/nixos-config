@@ -70,6 +70,7 @@
       pkgs.swayimg
       pkgs.gnome.eog
       pkgs.gajim
+      pkgs.toggle-keepassxc
     ];
   };
 
