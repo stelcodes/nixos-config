@@ -273,7 +273,14 @@
 
   programs.waybar = {
     enable = true;
-    style = builtins.readFile ./waybar.css;
+    style = ''
+      @define-color barBackground ${theme.bg};
+      @define-color modeBackground ${theme.bg1};
+      @define-color border ${theme.bg3};
+      @define-color warning ${theme.red};
+      @define-color charging ${theme.green};
+      ${builtins.readFile ./waybar.css}
+    '';
     # Stopped working when switching between Cinnamon and Sway
     # [error] Bar need to run under Wayland
     # GTK4 get_default_display was saying it was still X11
