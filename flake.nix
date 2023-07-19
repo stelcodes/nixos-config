@@ -35,6 +35,7 @@
         overlays = [ ];
       };
       themes = (import ./misc/themes.nix) pkgs;
+      theme = themes.everforest;
     in
     {
       nixosConfigurations = {
@@ -45,9 +46,8 @@
         framework = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs user;
+            inherit inputs user theme;
             hostName = "framework";
-            theme = themes.nord;
           };
           modules = [
             ./hosts/framework
@@ -56,9 +56,8 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit inputs user;
+                inherit inputs user theme;
                 hostName = "framework";
-                theme = themes.nord;
                 mainMonitor = "eDP-1";
               };
               home-manager.users.${user} = {
