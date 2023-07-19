@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, theme, ... }: {
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -87,25 +87,6 @@
           config = builtins.readFile ./telescope-nvim-config.lua;
         }
 
-        {
-          plugin = pkgs.vimPlugins.nordic-nvim;
-          type = "lua";
-          config = ''
-            require('nordic').colorscheme {
-              underline_option = 'none',
-              italic = false,
-              italic_comments = false,
-              minimal_mode = true,
-              alternate_backgrounds = false
-            }
-            -- No support for linux console colors currently
-            -- Fallback to decent builtin colorscheme
-            if vim.fn.getenv('TERM') == 'linux' then
-              vim.cmd 'colorscheme industry'
-            end
-          '';
-        }
-
         pkgs.vimPlugins.vim-nix
 
         {
@@ -162,7 +143,7 @@
             require('lualine').setup {
               options = {
                 icons_enabled = true,
-                theme = nord,
+                theme = "${theme.name}",
                 component_separators = { left = "", right = ""},
                 section_separators = { left = "", right = ""},
                 disabled_filetypes = {},
@@ -287,24 +268,16 @@
           plugin = pkgs.vimPlugins.vim-better-whitespace;
           type = "lua";
           config = ''
-            vim.g["better_whitespace_guicolor"] = "#94545d"
+            vim.g["better_whitespace_guicolor"] = "${theme.red}"
             vim.g["better_whitespace_filetypes_blacklist"] = {
               "", "diff", "git", "gitcommit", "unite", "qf", "help", "fugitive"
             }
           '';
         }
 
-        {
-          plugin = pkgs.vimPlugins.everforest;
-          type = "lua";
-          config = ''
-            vim.g["everforest_background"] = "medium"
-            vim.g["everforest_better_performance"] = 0
-          '';
-        }
-
         pkgs.vimPlugins.playground
 
+        theme.neovimPlugin
       ];
   };
 }
