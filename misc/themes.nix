@@ -60,10 +60,12 @@
     black = "#222730";
     # swayBorder = "#616e88";
 
-    gtkTheme = "Nordic";
+    gtkThemeName = "Nordic";
     gtkThemePackage = pkgs.nordic;
-    gtkIconTheme = "Nordzy";
-    gtkIconThemePackage = pkgs.nordzy-icon-theme;
+    iconThemeName = "Nordzy";
+    iconThemePackage = pkgs.nordzy-icon-theme;
+    cursorThemeName = "Nordzy-cursors";
+    cursorThemePackage = pkgs.nordzy-cursor-theme;
 
     neovimPlugin = {
       plugin = pkgs.vimPlugins.nordic-nvim;
@@ -146,11 +148,12 @@
 
     black = "#15191c";
 
-    # gtkTheme = "Nordic";
-    # gtkThemePackage = pkgs.nordic;
-    # gtkIconTheme = "Nordzy";
-    # gtkIconThemePackage = pkgs.nordzy-icon-theme;
-    #
+    gtkThemeName = "Everforest-Dark-BL";
+    gtkThemePackage = pkgs.callPackage ../packages/everforest-gtk-theme.nix { };
+    iconThemeName = "Everforest-Dark";
+    iconThemePackage = gtkThemePackage;
+    cursorThemeName = "Nordzy-cursors";
+    cursorThemePackage = pkgs.nordzy-cursor-theme;
 
     neovimPlugin = {
       plugin = pkgs.vimPlugins.everforest;
