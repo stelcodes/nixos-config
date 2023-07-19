@@ -99,6 +99,8 @@
           "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
           "${modifier}+less" = "focus parent";
           "${modifier}+greater" = "focus child";
+          "${modifier}+semicolon" = "layout toggle split tabbed stacking";
+          "${modifier}+apostrophe" = "split toggle";
           "${modifier}+backslash" = "exec ${pkgs.cycle-sway-scale}/bin/cycle-sway-scale";
           "${modifier}+bar" = "exec ${pkgs.toggle-service}/bin/toggle-service wlsunset";
           "${modifier}+v" = "exec ${pkgs.toggle-keepassxc}/bin/toggle-keepassxc";
