@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, theme, ... }: {
 
   home.packages = [
     pkgs.swaylock
@@ -57,25 +57,25 @@
       bars = [ ];
       colors = {
         focused = {
-          background = "#2e3440";
-          border = "#616e88";
-          childBorder = "#616e88";
-          indicator = "#a3be8c";
-          text = "#eceff4";
+          background = theme.bg;
+          border = theme.bg3;
+          childBorder = theme.bg3;
+          indicator = theme.green;
+          text = theme.fg;
         };
         unfocused = {
-          background = "#222730";
-          border = "#2e3440";
-          childBorder = "#2e3440";
-          indicator = "#616e88";
-          text = "#eceff4";
+          background = theme.black;
+          border = theme.bg;
+          childBorder = theme.bg;
+          indicator = theme.bg3;
+          text = theme.fg;
         };
         focusedInactive = {
-          background = "#222730";
-          border = "#2e3440";
-          childBorder = "#2e3440";
-          indicator = "#616e88";
-          text = "#eceff4";
+          background = theme.black;
+          border = theme.bg;
+          childBorder = theme.bg;
+          indicator = theme.bg3;
+          text = theme.fg;
         };
       };
       window = {
@@ -148,7 +148,7 @@
         # Framework screen
         "BOE 0x095F Unknown" = {
           scale = "1.5";
-          position = "0 1080";
+          position = "0 0";
         };
         # Epson projector
         "Seiko Epson Corporation EPSON PJ 0x00000101" = {
@@ -237,11 +237,8 @@
       extraConfig = ''
         sort=-time
         layer=overlay
-        background-color=#2e3440
         width=300
         height=110
-        border-size=2
-        border-color=#88c0d0
         border-radius=5
         icons=1
         max-icon-size=64
@@ -249,16 +246,16 @@
         ignore-timeout=1
         padding=14
         margin=20
+        background-color=${theme.bg}
 
         [urgency=low]
-        border-color=#81a1c1
+        border-color=${theme.blue}
 
         [urgency=normal]
-        border-color=#88c0d0
+        border-color=${theme.cyan}
 
         [urgency=high]
-        border-color=#bf616a
-        default-timeout=0
+        border-color=${theme.red}
       '';
     };
   };
@@ -266,7 +263,7 @@
   programs.swaylock = {
     enable = true;
     settings = {
-      color = "2e3440";
+      color = theme.bgx;
       font-size = 24;
       indicator-idle-visible = false;
       indicator-radius = 100;
