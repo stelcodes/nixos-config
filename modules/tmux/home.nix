@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, theme, ... }:
 let
   pluginDeps = with pkgs; [
     # tmux-resurrect
@@ -122,20 +122,20 @@ in
       # APPEARANCE
 
       set -g status-justify left
-      set -g status-style bg=black,fg=white
-      set -g pane-border-style bg=default,fg=brightblack
-      set -g pane-active-border-style bg=default,fg=blue
+      set -g status-style bg=${theme.bg1},fg=${theme.fg}
+      set -g pane-border-style bg=default,fg=${theme.bg}
+      set -g pane-active-border-style bg=default,fg=${theme.blue}
       set -g display-panes-colour black
-      set -g display-panes-active-colour brightblack
-      set -g clock-mode-colour cyan
-      set -g message-style bg=brightblack,fg=cyan
-      set -g message-command-style bg=brightblack,fg=cyan
-      set -g status-left "#[fg=black,bg=cyan,bold] #S "
+      set -g display-panes-active-colour black
+      set -g clock-mode-colour '${theme.tmuxPrimary}'
+      set -g message-style bg=${theme.bg},fg=${theme.tmuxPrimary}
+      set -g message-command-style bg=${theme.bg},fg=${theme.tmuxPrimary}
+      set -g status-left "#[fg=${theme.bg},bg=${theme.tmuxPrimary},bold] #S "
       set -g status-left-length 25
-      set -g status-right "#{?client_prefix,#[fg=black#,bg=cyan] M-a ,}#[fg=white,bg=brightblack] %I:%M %p #{?pane_in_mode,#[fg=black#,bg=yellow#,bold],#[fg=black#,bg=cyan#,bold]} #H "
+      set -g status-right "#{?client_prefix,#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}] M-a ,}#[fg=${theme.bg4},bg=${theme.bg2}] %I:%M %p #{?pane_in_mode,#[fg=${theme.bg}#,bg=${theme.tmuxSecondary}#,bold],#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}#,bold]} #H "
       set -g status-right-length 50
-      set -g window-status-format "#[fg=white,bg=black] #I #W #F "
-      set -g window-status-current-format "#[fg=white,bg=brightblack] #I #W #F "
+      set -g window-status-format "#[fg=${theme.bg4},bg=${theme.bg1}] #I #W #F "
+      set -g window-status-current-format "#[fg=${theme.bg4},bg=${theme.bg2}] #I #W #F "
       set -g window-status-separator ""
     '';
   };
