@@ -79,7 +79,7 @@
         };
       };
       window = {
-        hideEdgeBorders = "none";
+        hideEdgeBorders = "smart";
         border = 1;
       };
       workspaceLayout = "tabbed";
@@ -144,7 +144,7 @@
         };
       };
       output = {
-        "*" = { bg = "#2e3440 solid_color"; };
+        "*" = { bg = "${theme.bg} solid_color"; };
         # Framework screen
         "BOE 0x095F Unknown" = {
           scale = "1.5";
@@ -219,7 +219,7 @@
     };
 
     wlsunset = {
-      enable = true;
+      # enable = true;
       latitude = "38";
       longitude = "-124";
       temperature = {
