@@ -4,8 +4,7 @@
   # s/\v(\w+): "(\w+)"/\1 = "#\2";
 
   nord = rec {
-    name = "Nord";
-    slug = "nord";
+    name = "nord";
 
     base00 = "#2E3440";
     base01 = "#3B4252";
@@ -66,19 +65,37 @@
     gtkIconTheme = "Nordzy";
     gtkIconThemePackage = pkgs.nordzy-icon-theme;
 
-    neovimColorscheme = "nordic";
-    lualineTheme = "nord";
+    neovimPlugin = {
+      plugin = pkgs.vimPlugins.nordic-nvim;
+      type = "lua";
+      config = ''
+        require('nordic').colorscheme {
+          underline_option = 'none',
+          italic = false,
+          italic_comments = false,
+          minimal_mode = true,
+          alternate_backgrounds = false
+        }
+        vim.cmd 'colorscheme nordic'
+      '';
+    };
+
     markdownPreviewCSS = builtins.readFile ./markdown-preview-nvim-nord-theme.css;
+
+    tmuxPrimary = cyan;
+    tmuxSecondary = yellow;
 
   };
 
   everforest = rec {
-    name = "Everforest";
-    slug = "everforest";
+    name = "everforest";
 
-    base00 = "#2f383e";
-    base01 = "#374247";
-    base02 = "#4a555b";
+    base00 = "#272e33";
+    # original base00 = "#2f383e";
+    base01 = "#2e383c";
+    # original base01 = "#374247";
+    base02 = "#414b50";
+    # original base02 = "#4a555b";
     base03 = "#859289";
     base04 = "#9da9a0";
     base05 = "#d3c6aa";
@@ -127,14 +144,25 @@
     magentax = builtins.substring 1 6 magenta;
     alt2x = builtins.substring 1 6 alt2;
 
-    black = "#222730";
+    black = "#15191c";
 
     # gtkTheme = "Nordic";
     # gtkThemePackage = pkgs.nordic;
     # gtkIconTheme = "Nordzy";
     # gtkIconThemePackage = pkgs.nordzy-icon-theme;
     #
-    # neovimColorscheme = "nordic";
-    # lualineTheme = "nord";
+
+    neovimPlugin = {
+      plugin = pkgs.vimPlugins.everforest;
+      type = "lua";
+      config = ''
+        vim.g["everforest_background"] = "hard"
+        vim.g["everforest_better_performance"] = 0
+        vim.cmd 'colorscheme everforest'
+      '';
+    };
+
+    tmuxPrimary = green;
+    tmuxSecondary = red;
   };
 }
