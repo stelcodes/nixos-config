@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, theme, ... }: {
 
   gtk = {
     enable = true;
@@ -7,25 +7,20 @@
       size = 10;
     };
     theme = {
-      package = pkgs.nordic;
-      name = "Nordic";
+      name = theme.gtkThemeName;
+      package = theme.gtkThemePackage;
     };
     iconTheme = {
-      package = pkgs.nordzy-icon-theme;
-      name = "Nordzy";
+      name = theme.iconThemeName;
+      package = theme.iconThemePackage;
     };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-      gtk-theme-name = "Nordic";
-      gtk-icon-theme-name = "Nordzy";
-      gtk-cursor-theme-name = "Nordzy-cursors";
-    };
+    # gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
 
   home = {
     sessionVariables = {
       # For gnome calculator, probably nautilus too
-      GTK_THEME = "Nordic";
+      GTK_THEME = theme.gtkThemeName;
       # Wayland-specific stuff
       SDL_VIDEODRIVER = "wayland";
       QT_QPA_PLATFORM = "wayland";
@@ -36,8 +31,8 @@
       GDK_DPI_SCALE = -1;
     };
     pointerCursor = {
-      package = pkgs.nordzy-cursor-theme;
-      name = "Nordzy-cursors";
+      package = theme.cursorThemePackage;
+      name = theme.cursorThemeName;
       # Sway seems unaffected by this size and defaults to 24
       size = 24;
       gtk.enable = true;
@@ -86,7 +81,7 @@
     # https://wiki.archlinux.org/title/Dolphin#Mismatched_folder_view_background_colors
     kdeglobals.text = ''
       [Colors:View]
-      BackgroundNormal=#2e3440
+      BackgroundNormal=${theme.bg}
     '';
     "wofi/config".text = "allow_images=true";
     "wofi/style.css".source = ../../misc/wofi.css;
