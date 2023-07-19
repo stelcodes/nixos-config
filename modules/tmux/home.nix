@@ -135,7 +135,7 @@ in
       set -g status-right "#{?client_prefix,#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}] M-a ,}#[fg=${theme.bg4},bg=${theme.bg2}] %I:%M %p #{?pane_in_mode,#[fg=${theme.bg}#,bg=${theme.tmuxSecondary}#,bold],#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}#,bold]} #H "
       set -g status-right-length 50
       set -g window-status-format "#[fg=${theme.bg4},bg=${theme.bg1}] #I #W #F "
-      set -g window-status-current-format "#[fg=${theme.bg4},bg=${theme.bg2}] #I #W #F "
+      set -g window-status-current-format "#[fg=${theme.fg},bg=${theme.bg2}] #I #W #F "
       set -g window-status-separator ""
     '';
   };
