@@ -37,7 +37,14 @@
     pkgs.lsp-plugins
     inputs.nix-alien.packages.x86_64-linux.nix-alien
     pkgs.graillon-free
+    # pkgs.davinci-resolve not working
+    pkgs.yabridge
+    pkgs.yabridgectl
+    pkgs.wineWowPackages.stagingFull
+    pkgs._86Box
   ];
+
+  virtualisation.virtualbox.host.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
