@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, user, ... }: {
+{ pkgs, lib, config, inputs, user, theme, ... }: {
   config = {
     boot.tmp.cleanOnBoot = true;
 
@@ -29,25 +29,23 @@
 
     console = {
       useXkbConfig = true;
-      # https://terminal.sexy - JSON Scheme export
-      # Nord terminal.app theme
-      colors = [
-        "2d3241"
-        "b14a56"
-        "92b477"
-        "e6c274"
-        "6d8eb5"
-        "a5789e"
-        "75b3c7"
-        "dfe3ed"
-        "3b4358"
-        "b14a56"
-        "92b477"
-        "e6c274"
-        "6d8eb5"
-        "a5789e"
-        "7cafad"
-        "e7ebf1"
+      colors = with theme; [
+        bgx
+        redx
+        greenx
+        yellowx
+        bluex
+        magentax
+        cyanx
+        fgx
+        bg1x
+        redx
+        greenx
+        yellowx
+        bluex
+        magentax
+        cyanx
+        fgx
       ];
     };
 
