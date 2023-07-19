@@ -1,5 +1,48 @@
-{ pkgs, ... }: {
+{ pkgs, theme, ... }: {
   home.packages = [ pkgs.starship ];
+  xdg.configFile."fish/themes/base16.theme" = {
+    onChange = "${pkgs.fish}/bin/fish -c 'echo y | fish_config theme save base16'";
+    text = ''
+      fish_color_autosuggestion ${theme.bg3x}
+      fish_color_cancel -r
+      fish_color_command ${theme.bluex}
+      fish_color_comment ${theme.bg2x}
+      fish_color_cwd ${theme.greenx}
+      # fish_color_cwd_root ${theme.redx}
+      fish_color_end ${theme.bg3x}
+      fish_color_error ${theme.redx}
+      # fish_color_escape 00a6b2
+      fish_color_history_current --bold
+      fish_color_host normal
+      fish_color_host_remote ${theme.yellowx}
+      fish_color_keyword ${theme.bluex}
+      # fish_color_match --background=brblue
+      fish_color_normal normal
+      fish_color_operator ${theme.yellowx}
+      fish_color_option ${theme.cyanx}
+      fish_color_param ${theme.cyanx}
+      fish_color_quote ${theme.greenx}
+      fish_color_redirection ${theme.magentax}
+      # fish_color_search_match 'bryellow'  '--background=brblack'
+      fish_color_selection 'white'  '--bold'  '--background=brblack'
+      # fish_color_status red
+      # fish_color_user brgreen
+      fish_color_valid_path --underline
+      fish_pager_color_background
+      fish_pager_color_completion normal
+      fish_pager_color_description 'yellow'
+      fish_pager_color_prefix 'normal'  '--bold'  '--underline'
+      fish_pager_color_progress 'brwhite'  '--background=cyan'
+      fish_pager_color_secondary_background
+      fish_pager_color_secondary_completion
+      fish_pager_color_secondary_description
+      fish_pager_color_secondary_prefix
+      fish_pager_color_selected_background --background=brblack
+      fish_pager_color_selected_completion
+      fish_pager_color_selected_description
+      fish_pager_color_selected_prefix
+    '';
+  };
   programs.fish = {
     enable = true;
     interactiveShellInit = ''

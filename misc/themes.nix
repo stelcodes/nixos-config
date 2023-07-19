@@ -24,7 +24,6 @@
     base0E = "#B48EAD";
     base0F = "#5E81AC";
 
-
     bg = base00;
     bg1 = base01;
     bg2 = base02;
@@ -42,46 +41,22 @@
     magenta = base0E;
     alt2 = base0F;
 
-    xdg.configFile."fish/themes/base16.theme" = ''
-      fish_color_autosuggestion ${bg3}
-      fish_color_cancel -r
-      fish_color_command ${blue}
-      fish_color_comment ${bg2}
-      # fish_color_cwd green
-      # fish_color_cwd_root red
-      fish_color_end ${bg3}
-      fish_color_error ${red}
-      # fish_color_escape 00a6b2
-      fish_color_history_current --bold
-      # fish_color_host normal
-      # fish_color_host_remote yellow
-      fish_color_keyword ${blue}
-      # fish_color_match --background=brblue
-      fish_color_normal normal
-      fish_color_operator ${yellow}
-      fish_color_option ${cyan}
-      fish_color_param ${cyan}
-      fish_color_quote ${green}
-      fish_color_redirection ${magenta}
-      # fish_color_search_match 'bryellow'  '--background=brblack'
-      fish_color_selection 'white'  '--bold'  '--background=brblack'
-      # fish_color_status red
-      # fish_color_user brgreen
-      fish_color_valid_path --underline
-      # fish_pager_color_background
-      # fish_pager_color_completion normal
-      # fish_pager_color_description 'B3A06D'  'yellow'
-      # fish_pager_color_prefix 'normal'  '--bold'  '--underline'
-      # fish_pager_color_progress 'brwhite'  '--background=cyan'
-      # fish_pager_color_secondary_background
-      # fish_pager_color_secondary_completion
-      # fish_pager_color_secondary_description
-      # fish_pager_color_secondary_prefix
-      # fish_pager_color_selected_background --background=brblack
-      # fish_pager_color_selected_completion
-      # fish_pager_color_selected_description
-      # fish_pager_color_selected_prefix
-    '';
+    bgx = builtins.substring 1 6 bg;
+    bg1x = builtins.substring 1 6 bg1;
+    bg2x = builtins.substring 1 6 bg2;
+    bg3x = builtins.substring 1 6 bg3;
+    bg4x = builtins.substring 1 6 bg4;
+    fgx = builtins.substring 1 6 fg;
+    fg1x = builtins.substring 1 6 fg1;
+    alt1x = builtins.substring 1 6 alt1;
+    redx = builtins.substring 1 6 red;
+    orangex = builtins.substring 1 6 orange;
+    yellowx = builtins.substring 1 6 yellow;
+    greenx = builtins.substring 1 6 green;
+    cyanx = builtins.substring 1 6 cyan;
+    bluex = builtins.substring 1 6 blue;
+    magentax = builtins.substring 1 6 magenta;
+    alt2x = builtins.substring 1 6 alt2;
 
     black = "#222730";
     # swayBorder = "#616e88";
@@ -135,15 +110,31 @@
     magenta = base09;
     alt2 = base0F;
 
+    bgx = builtins.substring 1 6 bg;
+    bg1x = builtins.substring 1 6 bg1;
+    bg2x = builtins.substring 1 6 bg2;
+    bg3x = builtins.substring 1 6 bg3;
+    bg4x = builtins.substring 1 6 bg4;
+    fgx = builtins.substring 1 6 fg;
+    fg1x = builtins.substring 1 6 fg1;
+    alt1x = builtins.substring 1 6 alt1;
+    redx = builtins.substring 1 6 red;
+    orangex = builtins.substring 1 6 orange;
+    yellowx = builtins.substring 1 6 yellow;
+    greenx = builtins.substring 1 6 green;
+    cyanx = builtins.substring 1 6 cyan;
+    bluex = builtins.substring 1 6 blue;
+    magentax = builtins.substring 1 6 magenta;
+    alt2x = builtins.substring 1 6 alt2;
+
     black = "#222730";
 
-    gtkTheme = "Nordic";
-    gtkThemePackage = pkgs.nordic;
-    gtkIconTheme = "Nordzy";
-    gtkIconThemePackage = pkgs.nordzy-icon-theme;
-
-    neovimColorscheme = "nordic";
-    lualineTheme = "nord";
+    # gtkTheme = "Nordic";
+    # gtkThemePackage = pkgs.nordic;
+    # gtkIconTheme = "Nordzy";
+    # gtkIconThemePackage = pkgs.nordzy-icon-theme;
+    #
+    # neovimColorscheme = "nordic";
+    # lualineTheme = "nord";
   };
 }
-

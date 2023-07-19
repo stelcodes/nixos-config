@@ -29,6 +29,12 @@
       # Variables that can be used in the config files.
       user = "stel";
       system = "x86_64-linux";
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [ ];
+      };
+      themes = (import ./misc/themes.nix) pkgs;
     in
     {
       nixosConfigurations = {
@@ -41,6 +47,7 @@
           specialArgs = {
             inherit inputs user;
             hostName = "framework";
+            theme = themes.nord;
           };
           modules = [
             ./hosts/framework
@@ -51,6 +58,7 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs user;
                 hostName = "framework";
+                theme = themes.nord;
                 mainMonitor = "eDP-1";
               };
               home-manager.users.${user} = {
