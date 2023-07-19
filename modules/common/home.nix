@@ -1,4 +1,4 @@
-{ pkgs, user, inputs, ... }: {
+{ pkgs, user, inputs, theme, ... }: {
 
   imports = [
     inputs.nix-index-database.hmModules.nix-index
@@ -68,12 +68,42 @@
         prompt-prev=none
         prompt-next=none
 
-
         [text-bindings]
         \x03 = Control+Shift+c
         \x16 = Control+Shift+v
 
-        ${builtins.readFile ../../misc/foot-nord-theme.ini}
+        [cursor]
+        color = ${theme.bgx} ${theme.bg4x}
+
+        [colors]
+        foreground = ${theme.fgx}
+        background = ${theme.bgx}
+        selection-foreground = ${theme.bg4x}
+        selection-background = ${theme.bg2x}
+        regular0 = ${theme.bg3x}
+        regular1 = ${theme.redx}
+        regular2 = ${theme.greenx}
+        regular3 = ${theme.yellowx}
+        regular4 = ${theme.bluex}
+        regular5 = ${theme.magentax}
+        regular6 = ${theme.cyanx}
+        regular7 = ${theme.fgx}
+        bright0 = ${theme.bg3x}
+        bright1 = ${theme.redx}
+        bright2 = ${theme.greenx}
+        bright3 = ${theme.yellowx}
+        bright4 = ${theme.bluex}
+        bright5 = ${theme.magentax}
+        bright6 = ${theme.cyanx}
+        bright7 = ${theme.fgx}
+        dim0 = ${theme.bg3x}
+        dim1 = ${theme.redx}
+        dim2 = ${theme.greenx}
+        dim3 = ${theme.yellowx}
+        dim4 = ${theme.bluex}
+        dim5 = ${theme.magentax}
+        dim6 = ${theme.cyanx}
+        dim7 = ${theme.fgx}
       '';
     };
     mimeApps = {
