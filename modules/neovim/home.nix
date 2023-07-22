@@ -49,11 +49,8 @@
         };
       in
       [
-
-        # {
-        #  plugin = hydropump-nvim;
-        #  config = "colorscheme hydropump";
-        # }
+        # Theme plugin should go first because it sets local vars like lualine_theme
+        theme.neovimPlugin
 
         pkgs.vimPlugins.vim-fugitive
         {
@@ -134,16 +131,10 @@
           plugin = pkgs.vimPlugins.lualine-nvim;
           type = "lua";
           config = ''
-            -- switch nord theme normal bg colors
-            local nord = require('lualine.themes.nord')
-            local tmp = nord.normal.b.bg
-            nord.normal.b.bg = nord.normal.c.bg
-            nord.normal.c.bg = tmp
-
             require('lualine').setup {
               options = {
                 icons_enabled = true,
-                theme = "${theme.name}",
+                theme = lualine_theme or 'auto',
                 component_separators = { left = "", right = ""},
                 section_separators = { left = "", right = ""},
                 disabled_filetypes = {},
@@ -276,8 +267,6 @@
         }
 
         pkgs.vimPlugins.playground
-
-        theme.neovimPlugin
       ];
   };
 }

@@ -79,6 +79,12 @@
           alternate_backgrounds = false
         }
         vim.cmd 'colorscheme nordic'
+
+        -- switch lualine nord theme normal bg colors
+        local lualine_theme = require('lualine.themes.nord')
+        local tmp = nord.normal.b.bg
+        lualine_theme.normal.b.bg = nord.normal.c.bg
+        lualine_theme.normal.c.bg = tmp
       '';
     };
 
@@ -162,6 +168,7 @@
         vim.g["everforest_background"] = "hard"
         vim.g["everforest_better_performance"] = 0
         vim.cmd 'colorscheme everforest'
+        local lualine_theme = require('lualine.themes.everforest')
       '';
     };
 
