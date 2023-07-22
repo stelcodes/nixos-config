@@ -175,4 +175,88 @@
     tmuxPrimary = green;
     tmuxSecondary = red;
   };
+
+  rose-pine = rec {
+
+    name = "rose-pine";
+
+    base00 = "#191724";
+    base01 = "#1f1d2e";
+    base02 = "#26233a";
+    base03 = "#6e6a86";
+    base04 = "#908caa";
+    base05 = "#e0def4";
+    base06 = "#e0def4";
+    base07 = "#524f67";
+    base08 = "#eb6f92";
+    base09 = "#f6c177";
+    base0A = "#ebbcba";
+    base0B = "#31748f";
+    base0C = "#9ccfd8";
+    base0D = "#c4a7e7";
+    base0E = "#f6c177";
+    base0F = "#524f67";
+
+    bg = base00;
+    bg1 = base01;
+    bg2 = base02;
+    bg3 = base03;
+    bg4 = base04;
+    fg = base05;
+    fg1 = base06;
+    alt1 = base07;
+    red = base08;
+    yellow = base09;
+    green = base0A;
+    blue = base0B;
+    cyan = base0C;
+    magenta = base0D;
+    orange = base0E;
+    alt2 = base0F;
+
+    bgx = builtins.substring 1 6 bg;
+    bg1x = builtins.substring 1 6 bg1;
+    bg2x = builtins.substring 1 6 bg2;
+    bg3x = builtins.substring 1 6 bg3;
+    bg4x = builtins.substring 1 6 bg4;
+    fgx = builtins.substring 1 6 fg;
+    fg1x = builtins.substring 1 6 fg1;
+    alt1x = builtins.substring 1 6 alt1;
+    redx = builtins.substring 1 6 red;
+    orangex = builtins.substring 1 6 orange;
+    yellowx = builtins.substring 1 6 yellow;
+    greenx = builtins.substring 1 6 green;
+    cyanx = builtins.substring 1 6 cyan;
+    bluex = builtins.substring 1 6 blue;
+    magentax = builtins.substring 1 6 magenta;
+    alt2x = builtins.substring 1 6 alt2;
+
+    black = "#222730";
+    # swayBorder = "#616e88";
+
+    gtkThemeName = "RosePine-Main-BL";
+    gtkThemePackage = pkgs.callPackage ../packages/rose-pine-gtk-theme.nix { };
+    iconThemeName = "Rose-Pine";
+    iconThemePackage = gtkThemePackage;
+    cursorThemeName = "Nordzy-cursors";
+    cursorThemePackage = pkgs.nordzy-cursor-theme;
+
+    neovimPlugin = {
+      plugin = pkgs.vimPlugins.rose-pine;
+      type = "lua";
+      config = ''
+        require('rose-pine').setup {
+          variant = 'main',
+        }
+        vim.cmd 'colorscheme rose-pine'
+        local lualine_theme = require('lualine.themes.rose-pine')
+      '';
+    };
+
+    # markdownPreviewCSS = builtins.readFile ./markdown-preview-nvim-nord-theme.css;
+
+    tmuxPrimary = green;
+    tmuxSecondary = cyan;
+
+  };
 }
