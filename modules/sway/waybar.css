@@ -27,7 +27,11 @@ window {
     background: rgba(0, 0, 0, 0.2);
 }
 
-#workspaces button.focused {
+#workspaces button.current_output.visible:not(.focused) {
+    background-color: @bgTwo;
+}
+
+#workspaces button.current_output.visible.focused {
     border: 1px solid @bgThree;
     border-top: none;
     padding: 5px 8px;

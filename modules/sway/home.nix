@@ -276,6 +276,7 @@
     style = ''
       @define-color bg ${theme.bg};
       @define-color bgOne ${theme.bg1};
+      @define-color bgTwo ${theme.bg2};
       @define-color bgThree ${theme.bg3};
       @define-color red ${theme.red};
       ${builtins.readFile ./waybar.css}
