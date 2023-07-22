@@ -132,7 +132,7 @@
       # The ordering *does* matter so the value should be a list, not a set.
       input = {
         "type:keyboard" = {
-          xkb_options = "caps:escape";
+          xkb_options = "caps:escape,altwin:swap_alt_win";
           xkb_layout = "us";
         };
         "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
@@ -164,13 +164,11 @@
       ];
     };
     extraConfig = ''
+      # Any future keyboard xkb_options overrides need to go here
       bindgesture swipe:4:right workspace prev
       bindgesture swipe:4:left workspace next
       bindgesture swipe:3:right focus left
       bindgesture swipe:3:left focus right
-      # I have to put this in extraConfig because it needs to be after the type:keyboard rule
-      # and config.input only accepts unordered attribute set atm
-      input "1:1:AT_Translated_Set_2_keyboard" xkb_options caps:escape,altwin:swap_alt_win
       bindswitch lid:off output * power off
       for_window [app_id=org.gnome.Calculator] floating enable
       for_window [class=REAPER] floating enable
