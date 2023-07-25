@@ -94,6 +94,7 @@
           "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log tail -n +1 -F $HOME/tmp/rebuild/latest";
           "${modifier}+Shift+c" = "exec rebuild";
           "${modifier}+backspace" = "exec firefox";
+          "${modifier}+Shift+backspace" = "exec firefox --private-window";
           "${modifier}+o" = "output eDP-1 toggle";
           "${modifier}+n" = "exec makoctl dismiss --all";
           "${modifier}+Shift+o" = "output eDP-1 power toggle";
