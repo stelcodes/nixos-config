@@ -241,11 +241,6 @@
           };
           bitwig-studio = super.callPackage ../../packages/bitwig5.nix { };
           graillon-free = super.callPackage ../../packages/graillon.nix { };
-          toggle-keepassxc = self.writeBabashkaScript {
-            name = "toggle-keepassxc";
-            source = ../../misc/toggle-keepassxc.clj;
-            runtimeInputs = [ super.sway ];
-          };
           toggle-sway-window = self.writeBabashkaScript {
             name = "toggle-sway-window";
             source = ../../misc/toggle-sway-window.clj;
