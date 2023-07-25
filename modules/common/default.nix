@@ -246,6 +246,11 @@
             source = ../../misc/toggle-keepassxc.clj;
             runtimeInputs = [ super.sway ];
           };
+          toggle-sway-window = self.writeBabashkaScript {
+            name = "toggle-sway-window";
+            source = ../../misc/toggle-sway-window.clj;
+            runtimeInputs = [ super.sway ];
+          };
         })
       ];
     };
