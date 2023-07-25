@@ -89,7 +89,9 @@
           "${modifier}+tab" = "focus next";
           "${modifier}+Shift+tab" = "focus prev";
           "${modifier}+grave" = "exec wofi-emoji";
-          "${modifier}+c" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
+          "${modifier}+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
+          "${modifier}+Shift+r" = "mode resize";
+          "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log tail -n +1 -F $HOME/tmp/rebuild/latest";
           "${modifier}+Shift+c" = "exec rebuild";
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+o" = "output eDP-1 toggle";
@@ -103,7 +105,7 @@
           "${modifier}+apostrophe" = "split toggle";
           "${modifier}+backslash" = "exec ${pkgs.cycle-sway-scale}/bin/cycle-sway-scale";
           "${modifier}+bar" = "exec ${pkgs.toggle-service}/bin/toggle-service wlsunset";
-          "${modifier}+v" = "exec ${pkgs.toggle-keepassxc}/bin/toggle-keepassxc";
+          "${modifier}+v" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
           XF86MonBrightnessDown = "exec brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec brightnessctl set +5%";
           XF86AudioPrev = "exec playerctl previous";
