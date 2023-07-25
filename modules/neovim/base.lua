@@ -9,6 +9,18 @@ SearchWord = function()
   vim.api.nvim_input('viwy/<c-r>\"<cr>N')
 end
 
+ToggleParedit = function()
+  if vim.g.paredit_mode == 0 then
+    vim.g.paredit_mode = 1
+    print("paredit on")
+  else
+    vim.g.paredit_mode = 0
+    print("paredit off")
+  end
+  -- Sometimes paredit seems to not get turned back on, this is a workaround
+  vim.cmd 'edit'
+end
+
 ----------------------------------------------------------------------------------
 -- OPTIONS
 
@@ -218,6 +230,7 @@ vim.keymap.set('t', '<c-q>', 'q')
 vim.keymap.set('n', '<f10>', ':echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>')
 -- Toggle spell
 vim.keymap.set('n', '<c-s>', ':set spell!<cr>')
+vim.keymap.set('n', '<c-p>', ToggleParedit)
 
 ---------------------------------------------------------------------------------
 -- EVENT BASED COMMANDS
