@@ -31,6 +31,6 @@ writeTextFile {
     export PATH="${lib.makeBinPath runtimeInputs}:$PATH"
   '' + ''
 
-    ${babashka}/bin/bb ${sourceFile}
+    ${babashka}/bin/bb ${sourceFile} "$@"
   '';
 }
