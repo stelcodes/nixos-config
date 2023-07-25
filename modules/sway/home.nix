@@ -172,6 +172,8 @@
       bindgesture swipe:3:right focus left
       bindgesture swipe:3:left focus right
       bindswitch lid:off output * power off
+      # Middle-click on a window kills it
+      bindsym --whole-window button2 kill
       for_window [app_id=org.gnome.Calculator] floating enable
       for_window [class=REAPER] floating enable
       for_window [app_id=nmtui] floating enable
