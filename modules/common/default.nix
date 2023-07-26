@@ -1,13 +1,15 @@
-{ pkgs, lib, config, inputs, user, theme, ... }: {
+{ pkgs, lib, config, inputs, user, theme, hostName, ... }: {
   config = {
     boot.tmp.cleanOnBoot = true;
 
     # Enable networking
-    networking.networkmanager.enable = true;
-    networking.hosts."127.0.0.1" = [ "lh" ];
-    networking.hosts."104.236.219.156" = [ "nube1" ];
-    networking.hosts."167.99.122.78" = [ "morado1" ];
-    networking.hosts."192.168.0.25" = [ "macmini" ];
+    networking = {
+      hostName = hostName;
+      networkmanager.enable = true;
+      hosts = {
+        "127.0.0.1" = [ "lh" ];
+      };
+    };
 
     # Set your time zone.
     time.timeZone = "America/Los_Angeles";

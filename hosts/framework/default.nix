@@ -53,7 +53,6 @@
   # Fix brightness keys not working
   boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
 
-  networking.hostName = hostName;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
 
