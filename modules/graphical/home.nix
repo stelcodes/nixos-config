@@ -1,5 +1,9 @@
 { pkgs, lib, theme, ... }: {
 
+  imports = [
+    ../sway/home.nix
+  ];
+
   gtk = {
     enable = true;
     font = {
