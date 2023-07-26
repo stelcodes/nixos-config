@@ -79,7 +79,10 @@
       shell = pkgs.fish;
     };
 
-    programs.fish.enable = lib.mkDefault true;
+    programs = {
+      fish.enable = true;
+      nix-ld.enable = true;
+    };
 
     environment.systemPackages =
       with pkgs; [
