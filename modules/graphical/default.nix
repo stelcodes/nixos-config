@@ -1,4 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
+  imports = [
+    inputs.musnix.nixosModules.musnix
+  ];
 
   config = {
 

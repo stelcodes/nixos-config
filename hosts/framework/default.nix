@@ -5,7 +5,6 @@
     ../../modules/common
     ../../modules/graphical
     ../../modules/laptop
-    inputs.musnix.nixosModules.musnix
   ];
 
   # https://github.com/musnix/musnix
