@@ -159,7 +159,7 @@
           };
           tmux-snapshot = super.writeShellApplication {
             name = "tmux-snapshot";
-            runtimeInputs = [ self.coreutils-full self.procps self.hostname self.gnused self.tmux ];
+            runtimeInputs = [ self.coreutils-full self.procps self.hostname self.gnused self.tmux self.gnugrep self.gnutar self.zip ];
             text = ''
               if tmux has-session; then
                 echo "tmux is running, saving snapshot..."
