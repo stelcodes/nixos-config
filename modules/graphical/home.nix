@@ -101,7 +101,7 @@
                 ${pkgs.mpv}/bin/mpv ${pkgs.pomo-alert} || sleep 10
                 if ${pkgs.procps}/bin/pgrep sway &> /dev/null; then
                   echo "Sway detected"
-                  { ${pkgs.swaylock}/bin/swaylock; ${pkgs.pomo}/bin/pomo start; } &
+                  { ${pkgs.swaylock}/bin/swaylock; test -f "$POMO_FILE" && ${pkgs.pomo}/bin/pomo start; } &
                 fi
             elif [[ $block_type -eq 1 ]]; then
                 echo "End of break period"

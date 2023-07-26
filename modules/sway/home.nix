@@ -201,7 +201,7 @@
         }
         {
           event = "after-resume";
-          command = "${pkgs.pomo}/bin/pomo start; ${pkgs.sway}/bin/swaymsg 'output * power on'";
+          command = "test -f $HOME/.local/share/pomo && ${pkgs.pomo}/bin/pomo start; ${pkgs.sway}/bin/swaymsg 'output * power on'";
         }
       ];
       timeouts = [
