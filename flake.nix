@@ -83,7 +83,7 @@
               inherit inputs user theme hostName;
             };
             modules = [
-              ./hosts/meshify
+              ./hosts/${hostName}
               inputs.home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
@@ -92,7 +92,7 @@
                   inherit inputs user theme hostName;
                 };
                 home-manager.users.${user} = {
-                  imports = [ ./hosts/framework/home.nix ];
+                  imports = [ ./hosts/${hostName}/home.nix ];
                 };
               }
             ];
