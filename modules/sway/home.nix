@@ -209,11 +209,13 @@
           timeout = 900;
           command = let app = pkgs.writeShellApplication {
             name = "swayidle-timeout";
-            runtimeInputs = [ pkgs.systemd pkgs.playerctl pkgs.coreutils-full pkgs.acpi ];
+            runtimeInputs = [ pkgs.systemd pkgs.playerctl pkgs.gnugrep pkgs.acpi ];
             text = ''
               if playerctl status | grep -q "Playing" || acpi --ac-adapter | grep -q "on-line"; then
+                echo "Restarting..."
                 systemctl --restart swayidle.service
               else
+                echo "Suspending..."
                 systemctl suspend-then-hibernate
               fi
             '';
