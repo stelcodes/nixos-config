@@ -1,6 +1,9 @@
 { pkgs, user, inputs, theme, ... }: {
 
   imports = [
+    ../fish/home.nix
+    ../neovim/home.nix
+    ../tmux/home.nix
     inputs.nix-index-database.hmModules.nix-index
   ];
 
