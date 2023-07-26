@@ -27,7 +27,6 @@
     pkgs.ffmpeg_6
     pkgs.bitwig-studio
     pkgs.lsp-plugins
-    inputs.nix-alien.packages.x86_64-linux.nix-alien
     pkgs.graillon-free
     # pkgs.davinci-resolve not working
     pkgs.yabridge

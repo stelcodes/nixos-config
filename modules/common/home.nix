@@ -234,6 +234,7 @@
       pkgs.truecolor-test
       pkgs.rebuild
       pkgs.toggle-service
+      inputs.nix-alien.packages.x86_64-linux.nix-alien
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
