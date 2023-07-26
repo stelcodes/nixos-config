@@ -249,7 +249,7 @@
       NNN_PLUG = "p:preview-tui;d:dragdrop";
       NNN_FCOLORS = "030304030705020801030301";
       NNN_FIFO = "/tmp/nnn.fifo";
-      NNN_BATTHEME = "Nord";
+      NNN_BATTHEME = "base16";
       NNN_BATSTYLE = "plain";
     };
   };
@@ -265,7 +265,7 @@
     bat = {
       enable = true;
       config = {
-        theme = "Nord";
+        theme = "base16";
         paging = "always";
         style = "plain";
       };
