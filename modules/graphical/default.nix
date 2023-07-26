@@ -245,7 +245,7 @@
         autorun = false;
         layout = pkgs.lib.mkDefault "us";
         xkbVariant = pkgs.lib.mkDefault "";
-        xkbOptions = pkgs.lib.mkDefault "caps:swapescape";
+        xkbOptions = pkgs.lib.mkDefault "caps:escape,altwin:swap_alt_win";
         libinput.enable = true;
         # I can't for the love of god get a decent multi-desktop setup with sway
         # It's just too damn hard and I'm giving up forever

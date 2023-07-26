@@ -8,8 +8,6 @@
     inputs.musnix.nixosModules.musnix
   ];
 
-  services.xserver.xkbOptions = "caps:escape,altwin:swap_alt_win";
-
   # https://github.com/musnix/musnix
   musnix = {
     enable = true;
