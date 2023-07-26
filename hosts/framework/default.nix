@@ -20,8 +20,6 @@
 
   # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
   environment.systemPackages = [
-    pkgs.qpwgraph
-    pkgs.reaper
     pkgs.autotalent
     pkgs.talentedhack
     pkgs.distrho

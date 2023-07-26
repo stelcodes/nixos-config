@@ -66,6 +66,7 @@
       pkgs.swayimg
       pkgs.gnome.eog
       pkgs.gajim
+      pkgs.qpwgraph
     ];
   };
 
