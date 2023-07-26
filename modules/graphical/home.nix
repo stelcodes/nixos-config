@@ -60,7 +60,6 @@
       pkgs.protonvpn-cli
       pkgs.signal-desktop
       pkgs.slack
-      pkgs.zoom-us
       pkgs.gnome-feeds
       pkgs.gnome.dconf-editor
       pkgs.jellyfin-media-player
