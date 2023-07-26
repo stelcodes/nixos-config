@@ -71,6 +71,35 @@
 
 
         ########################################################################
+        # desktop fractal meshify 2 w ryzen 5600x
+        ########################################################################
+        meshify =
+          let
+            hostName = "meshify";
+          in
+          inputs.nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs user theme hostName;
+            };
+            modules = [
+              ./hosts/meshify
+              inputs.home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = {
+                  inherit inputs user theme hostName;
+                };
+                home-manager.users.${user} = {
+                  imports = [ ./hosts/framework/home.nix ];
+                };
+              }
+            ];
+          };
+
+
+        ########################################################################
         # macbook laptop i7-4650U
         ########################################################################
         macbook = inputs.nixpkgs.lib.nixosSystem {
