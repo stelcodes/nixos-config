@@ -218,8 +218,8 @@
                 exit 1;
               }
 
-              echo "" > "$STATUS_FILE"
               mkdir -p "$LOG_DIR"
+              echo "" > "$STATUS_FILE"
               touch "$LOG_FILE"
               ln -sf "$LOG_FILE" "$LOG_LINK";
               if rebuild; then succeed; else fail; fi
