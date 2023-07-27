@@ -238,6 +238,7 @@
       pkgs.rebuild
       pkgs.toggle-service
       inputs.nix-alien.packages.x86_64-linux.nix-alien
+      pkgs.acpi
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
