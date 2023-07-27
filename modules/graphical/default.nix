@@ -123,6 +123,12 @@
           OfferToSaveLogins = false;
           OverrideFirstRunPage = "";
           PasswordManagerEnabled = false;
+          Permissions = {
+            Notifications = {
+              BlockNewRequests = true;
+              Locked = true;
+            };
+          };
           WebsiteFilter = {
             Block = [
               "*://news.ycombinator.com/*"
