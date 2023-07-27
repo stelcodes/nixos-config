@@ -2,6 +2,13 @@
 
   config = {
 
+    powerManagement = {
+      enable = lib.mkDefault true;
+      # Run powertop --calibrate at first
+      # powertop --auto-run will run at boot
+      powertop.enable = lib.mkDefault true;
+    };
+
     systemd = {
       # Hibernate after 45 minutes of sleep instead of waiting til battery runs out
       sleep.extraConfig = "HibernateDelaySec=45m";
