@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
 
   src = fetchzip {
     url = "https://www.auburnsounds.com/downloads/Graillon-FREE-${version}.zip";
-    hash = "sha256-ZFeiInMrX1cOuWet4z61LmV1DlZ+3WKLNY4ZEMK2IG4=";
+    hash = "sha256-tLRKiRRETiOJ48XDyHwOvXfQViVf9FkltCsQMDU5/rI=";
     stripRoot = true;
     postFetch = ''
       rm -r $out/Mac $out/Windows $out/Linux/Linux-64b-LV2-FREE $out/Linux/Linux-64b-VST2-FREE
