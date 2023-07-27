@@ -60,7 +60,7 @@
 
     security.doas.enable = true;
     security.doas.extraRules = [{
-      users = [ "stel" ];
+      users = [ user ];
       keepEnv = true;
       noPass = true;
       # persist = true;
