@@ -7,22 +7,7 @@
       sleep.extraConfig = "HibernateDelaySec=45m";
     };
 
-    powerManagement = {
-      enable = true;
-      powertop.enable = true;
-      # powertop --auto-run will run at boot
-      # Run powertop --calibrate at first
-      # Maybe switch to services.tlp if I need configuration
-    };
-
     services = {
-
-      logind.extraConfig = ''
-        # Don’t shutdown when power button is short-pressed
-        HandlePowerKey=hibernate
-        InhibitDelayMaxSec=10
-      '';
-      logind.lidSwitch = "suspend-then-hibernate";
 
       cron = {
         enable = true;

@@ -118,8 +118,28 @@
         ranger
       ];
 
-    # Nice to have, required for gnome-disks to work
-    services.udisks2.enable = true;
+    services = {
+
+      # Nice to have, required for gnome-disks to work
+      udisks2.enable = true;
+
+      logind = {
+        lidSwitch = "suspend-then-hibernate";
+        extraConfig = ''
+          # Don’t shutdown when power button is short-pressed
+          HandlePowerKey=hibernate
+          InhibitDelayMaxSec=10
+        '';
+      };
+
+    };
+
+    powerManagement = {
+      enable = lib.mkDefault true;
+      # Run powertop --calibrate at first
+      # powertop --auto-run will run at boot
+      powertop.enable = lib.mkDefault true;
+    };
 
     nixpkgs = {
       config = {
