@@ -1,4 +1,9 @@
-{ pkgs, theme, ... }: {
+{ pkgs, theme, ... }:
+let
+  viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
+  modifier = "Mod4";
+in
+{
 
   home.packages = [
     pkgs.swaylock
@@ -24,176 +29,172 @@
     pkgs.foot
   ];
 
-  wayland.windowManager.sway =
-    let
-      modifier = "Mod4";
-    in
-    {
-      enable = true;
-      wrapperFeatures.gtk = true;
-      extraSessionCommands = ''
-        export SDL_VIDEODRIVER=wayland
-        # needs qt5.qtwayland in systemPackages
-        export QT_QPA_PLATFORM=wayland
-        export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-        # Fix for some Java AWT applications (e.g. Android Studio),
-        # use this if they aren't displayed properly:
-        export _JAVA_AWT_WM_NONREPARENTING=1
-        export MOZ_ENABLE_WAYLAND=1
-        # Automatically add electron/chromium wayland flags
-        export NIXOS_OZONE_WL=1
-        # Fix for GTK scale issues when also using Cinnamon
-        # export GDK_SCALE=1
-        export GDK_DPI_SCALE=-1
-        # Forgot what graphical program is being run from systemd user service
-        # Could use systemd.user.extraConfig = '''DefaultEnvironment="GDK_DPI_SCALE=-1"'''
-        ${pkgs.systemd}/bin/systemctl --user import-environment GDK_DPI_SCALE
-      '';
-      config = {
-        terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach; fish'";
-        menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
-        modifier = modifier;
-        fonts = {
-          names = [ "FiraMono Nerd Font" ];
-          style = "Regular";
-          size = 8.0;
-        };
-        bars = [ ];
-        colors = {
-          focused = {
-            background = theme.bg;
-            border = theme.bg3;
-            childBorder = theme.bg3;
-            indicator = theme.green;
-            text = theme.fg;
-          };
-          unfocused = {
-            background = theme.black;
-            border = theme.bg;
-            childBorder = theme.bg;
-            indicator = theme.bg3;
-            text = theme.fg;
-          };
-          focusedInactive = {
-            background = theme.black;
-            border = theme.bg;
-            childBorder = theme.bg;
-            indicator = theme.bg3;
-            text = theme.fg;
-          };
-        };
-        window = {
-          hideEdgeBorders = "smart";
-          border = 1;
-        };
-        workspaceLayout = "tabbed";
-        keybindings =
-          pkgs.lib.mkOptionDefault {
-            # Use "Shift" to properly override defaults
-            "${modifier}+tab" = "focus next";
-            "${modifier}+Shift+tab" = "focus prev";
-            "${modifier}+grave" = "exec wofi-emoji";
-            "${modifier}+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
-            "${modifier}+Shift+r" = "mode resize";
-            "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log tail -n +1 -F $HOME/tmp/rebuild/latest";
-            "${modifier}+Shift+c" = "exec rebuild";
-            "${modifier}+backspace" = "exec firefox";
-            "${modifier}+Shift+backspace" = "exec firefox --private-window";
-            "${modifier}+n" = "exec makoctl dismiss --all";
-            "${modifier}+i" = "exec doas protonvpn connect --fastest";
-            "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
-            "${modifier}+less" = "focus parent";
-            "${modifier}+greater" = "focus child";
-            "${modifier}+semicolon" = "layout toggle split tabbed stacking";
-            "${modifier}+apostrophe" = "split toggle";
-            "${modifier}+backslash" = "exec ${pkgs.cycle-sway-scale}/bin/cycle-sway-scale";
-            "${modifier}+bar" = "exec ${pkgs.toggle-service}/bin/toggle-service wlsunset";
-            "${modifier}+v" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
-            XF86MonBrightnessDown = "exec brightnessctl set 5%-";
-            XF86MonBrightnessUp = "exec brightnessctl set +5%";
-            XF86AudioPrev = "exec playerctl previous";
-            XF86AudioPlay = "exec playerctl play-pause";
-            XF86AudioNext = "exec playerctl next";
-            XF86AudioMute = "exec pamixer --toggle-mute";
-            XF86AudioLowerVolume = "exec pamixer --decrease 5";
-            XF86AudioRaiseVolume = "exec pamixer --increase 5";
-            Print = ''
-              exec mkdir -p $XDG_PICTURES_DIR/screenshots && \
-              slurp | grim -g - $XDG_PICTURES_DIR/screenshots/grim:$(date -u +%Y-%m-%dT%H:%M:%SZ).png
-            '';
-          };
-        keycodebindings = {
-          # Use xev to get keycodes, libinput gives wrong codes for some reason
-          "212" = "exec rebuild"; # f4
-          "237" = "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
-          "238" = "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
-        };
-        modes = pkgs.lib.mkOptionDefault {
-          resize = {
-            "r" = "resize set width 80 ppt height 90 ppt, move position center";
-          };
-        };
-        # There's a big problem with how home-manager handles the input and output values
-        # The ordering *does* matter so the value should be a list, not a set.
-        input = {
-          "type:keyboard" = {
-            xkb_options = "caps:escape,altwin:swap_alt_win";
-            xkb_layout = "us";
-          };
-          "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
-            xkb_variant = "mac";
-          };
-          "type:touchpad" = {
-            natural_scroll = "enabled";
-            dwt = "enabled";
-            tap = "enabled";
-            tap_button_map = "lrm";
-          };
-        };
-        output = {
-          "*" = { bg = "${theme.bg} solid_color"; };
-          # Framework screen
-          "BOE 0x095F Unknown" = {
-            scale = "1.5";
-            position = "0 0";
-          };
-          # Epson projector
-          "Seiko Epson Corporation EPSON PJ 0x00000101" = {
-            position = "0 0";
-          };
-        };
-        startup = [
-          # Stopped working when switching between Cinnamon and Sway (see waybar config)
-          { command = "systemctl --user is-active waybar || systemctl --user restart waybar"; always = true; }
-          # { command = "pgrep waybar || waybar"; always = true; }
-        ];
+  wayland.windowManager.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+    extraSessionCommands = ''
+      export SDL_VIDEODRIVER=wayland
+      # needs qt5.qtwayland in systemPackages
+      export QT_QPA_PLATFORM=wayland
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      # Fix for some Java AWT applications (e.g. Android Studio),
+      # use this if they aren't displayed properly:
+      export _JAVA_AWT_WM_NONREPARENTING=1
+      export MOZ_ENABLE_WAYLAND=1
+      # Automatically add electron/chromium wayland flags
+      export NIXOS_OZONE_WL=1
+      # Fix for GTK scale issues when also using Cinnamon
+      # export GDK_SCALE=1
+      export GDK_DPI_SCALE=-1
+      # Forgot what graphical program is being run from systemd user service
+      # Could use systemd.user.extraConfig = '''DefaultEnvironment="GDK_DPI_SCALE=-1"'''
+      ${pkgs.systemd}/bin/systemctl --user import-environment GDK_DPI_SCALE
+    '';
+    config = {
+      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach; fish'";
+      menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
+      modifier = modifier;
+      fonts = {
+        names = [ "FiraMono Nerd Font" ];
+        style = "Regular";
+        size = 8.0;
       };
-      extraConfig = ''
-        # Any future keyboard xkb_options overrides need to go here
-        bindgesture swipe:4:right workspace prev
-        bindgesture swipe:4:left workspace next
-        bindgesture swipe:3:right focus left
-        bindgesture swipe:3:left focus right
-        bindswitch lid:off output * power off
-        # Middle-click on a window kills it
-        bindsym --whole-window button2 kill
-        bindsym --locked ${modifier}+o output eDP-1 toggle
-        bindsym --locked ${modifier}+Shift+o output eDP-1 power toggle
-        bindsym --locked ${modifier}+delete exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
-        for_window [app_id=org.gnome.Calculator] floating enable
-        for_window [class=REAPER] floating enable
-        for_window [app_id=nmtui] floating enable
-        for_window [app_id=qalculate-gtk] floating enable
-        for_window [app_id=\.?blueman-manager(-wrapped)?] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=nixos_rebuild_log] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=htop] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=org.rncbc.qpwgraph] floating enable
-        # Workaround for Bitwig moving itself to current workspace when scale changes
-        for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
-      '';
+      bars = [ ];
+      colors = {
+        focused = {
+          background = theme.bg;
+          border = theme.bg3;
+          childBorder = theme.bg3;
+          indicator = theme.green;
+          text = theme.fg;
+        };
+        unfocused = {
+          background = theme.black;
+          border = theme.bg;
+          childBorder = theme.bg;
+          indicator = theme.bg3;
+          text = theme.fg;
+        };
+        focusedInactive = {
+          background = theme.black;
+          border = theme.bg;
+          childBorder = theme.bg;
+          indicator = theme.bg3;
+          text = theme.fg;
+        };
+      };
+      window = {
+        hideEdgeBorders = "smart";
+        border = 1;
+      };
+      workspaceLayout = "tabbed";
+      keybindings =
+        pkgs.lib.mkOptionDefault {
+          # Use "Shift" to properly override defaults
+          "${modifier}+tab" = "focus next";
+          "${modifier}+Shift+tab" = "focus prev";
+          "${modifier}+grave" = "exec wofi-emoji";
+          "${modifier}+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
+          "${modifier}+Shift+r" = "mode resize";
+          "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
+          "${modifier}+Shift+c" = "exec rebuild";
+          "${modifier}+backspace" = "exec firefox";
+          "${modifier}+Shift+backspace" = "exec firefox --private-window";
+          "${modifier}+n" = "exec makoctl dismiss --all";
+          "${modifier}+i" = "exec doas protonvpn connect --fastest";
+          "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
+          "${modifier}+less" = "focus parent";
+          "${modifier}+greater" = "focus child";
+          "${modifier}+semicolon" = "layout toggle split tabbed stacking";
+          "${modifier}+apostrophe" = "split toggle";
+          "${modifier}+backslash" = "exec ${pkgs.cycle-sway-scale}/bin/cycle-sway-scale";
+          "${modifier}+bar" = "exec ${pkgs.toggle-service}/bin/toggle-service wlsunset";
+          "${modifier}+v" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
+          XF86MonBrightnessDown = "exec brightnessctl set 5%-";
+          XF86MonBrightnessUp = "exec brightnessctl set +5%";
+          XF86AudioPrev = "exec playerctl previous";
+          XF86AudioPlay = "exec playerctl play-pause";
+          XF86AudioNext = "exec playerctl next";
+          XF86AudioMute = "exec pamixer --toggle-mute";
+          XF86AudioLowerVolume = "exec pamixer --decrease 5";
+          XF86AudioRaiseVolume = "exec pamixer --increase 5";
+          Print = ''
+            exec mkdir -p $XDG_PICTURES_DIR/screenshots && \
+            slurp | grim -g - $XDG_PICTURES_DIR/screenshots/grim:$(date -u +%Y-%m-%dT%H:%M:%SZ).png
+          '';
+        };
+      keycodebindings = {
+        # Use xev to get keycodes, libinput gives wrong codes for some reason
+        "212" = "exec rebuild"; # f4
+        "237" = "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
+        "238" = "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
+      };
+      modes = pkgs.lib.mkOptionDefault {
+        resize = {
+          "r" = "resize set width 80 ppt height 90 ppt, move position center";
+        };
+      };
+      # There's a big problem with how home-manager handles the input and output values
+      # The ordering *does* matter so the value should be a list, not a set.
+      input = {
+        "type:keyboard" = {
+          xkb_options = "caps:escape,altwin:swap_alt_win";
+          xkb_layout = "us";
+        };
+        "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
+          xkb_variant = "mac";
+        };
+        "type:touchpad" = {
+          natural_scroll = "enabled";
+          dwt = "enabled";
+          tap = "enabled";
+          tap_button_map = "lrm";
+        };
+      };
+      output = {
+        "*" = { bg = "${theme.bg} solid_color"; };
+        # Framework screen
+        "BOE 0x095F Unknown" = {
+          scale = "1.5";
+          position = "0 0";
+        };
+        # Epson projector
+        "Seiko Epson Corporation EPSON PJ 0x00000101" = {
+          position = "0 0";
+        };
+      };
+      startup = [
+        # Stopped working when switching between Cinnamon and Sway (see waybar config)
+        { command = "systemctl --user is-active waybar || systemctl --user restart waybar"; always = true; }
+        # { command = "pgrep waybar || waybar"; always = true; }
+      ];
     };
+    extraConfig = ''
+      # Any future keyboard xkb_options overrides need to go here
+      bindgesture swipe:4:right workspace prev
+      bindgesture swipe:4:left workspace next
+      bindgesture swipe:3:right focus left
+      bindgesture swipe:3:left focus right
+      bindswitch lid:off output * power off
+      # Middle-click on a window kills it
+      bindsym --whole-window button2 kill
+      bindsym --locked ${modifier}+o output eDP-1 toggle
+      bindsym --locked ${modifier}+Shift+o output eDP-1 power toggle
+      bindsym --locked ${modifier}+delete exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
+      for_window [app_id=org.gnome.Calculator] floating enable
+      for_window [class=REAPER] floating enable
+      for_window [app_id=nmtui] floating enable
+      for_window [app_id=qalculate-gtk] floating enable
+      for_window [app_id=\.?blueman-manager(-wrapped)?] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=nixos_rebuild_log] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=htop] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
+      for_window [app_id=org.rncbc.qpwgraph] floating enable
+      # Workaround for Bitwig moving itself to current workspace when scale changes
+      for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
+    '';
+  };
 
   services = {
     swayidle = {
@@ -330,7 +331,7 @@
         interval = 2;
         exec-if = "test -f $HOME/tmp/rebuild/status";
         exec = "echo \"$(< $HOME/tmp/rebuild/status)\"";
-        on-click = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F $HOME/tmp/rebuild/latest";
+        on-click = viewRebuildLogCmd;
       };
       "sway/workspaces" = {
         disable-scroll = true;
