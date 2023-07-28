@@ -82,8 +82,8 @@
 
         -- switch lualine nord theme normal bg colors
         local lualine_theme = require('lualine.themes.nord')
-        local tmp = nord.normal.b.bg
-        lualine_theme.normal.b.bg = nord.normal.c.bg
+        local tmp = lualine_theme.normal.b.bg
+        lualine_theme.normal.b.bg = lualine_theme.normal.c.bg
         lualine_theme.normal.c.bg = tmp
       '';
     };
