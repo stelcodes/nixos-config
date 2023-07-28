@@ -2,9 +2,9 @@
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
-    enableUpdateCheck = true;
-    enableExtensionUpdateCheck = true;
-    mutableExtensionsDir = true;
+    enableUpdateCheck = false;
+    enableExtensionUpdateCheck = false;
+    mutableExtensionsDir = false;
     userSettings = {
       "files.autoSave" = "afterDelay";
       "workbench.colorTheme" = theme.vscode.themeName;
