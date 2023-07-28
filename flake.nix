@@ -26,11 +26,21 @@
   # Function that tells my flake which to use and what do what to do with the dependencies.
   outputs = inputs:
     let
-      mkComputer = { system, user, themeName, hostName, ... }:
+      mkComputer = { system, user, themeName, hostName, type, ... }:
         let
           pkgs = import inputs.nixpkgs { inherit system; };
           themes = import ./misc/themes.nix pkgs;
           theme = themes.${themeName};
+          extraNixosModules = {
+            server = [ ];
+            desktop = [ ./modules/graphical ];
+            laptop = [ ./modules/graphical ./modules/laptop ];
+          };
+          extraHmModules = {
+            server = [ ];
+            desktop = [ ./modules/graphical/home.nix ];
+            laptop = [ ./modules/graphical/home.nix ];
+          };
         in
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
@@ -39,6 +49,8 @@
           };
           modules = [
             ./hosts/${hostName}
+            ./hosts/${hostName}/hardware-configuration.nix
+            ./modules/common
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -47,10 +59,13 @@
                 inherit inputs user theme hostName;
               };
               home-manager.users.${user} = {
-                imports = [ ./hosts/${hostName}/home.nix ];
+                imports = [
+                  ./modules/common/home.nix
+                  ./hosts/${hostName}/home.nix
+                ] ++ extraHmModules.${type};
               };
             }
-          ];
+          ] ++ extraNixosModules.${type};
         };
     in
     {
@@ -63,6 +78,7 @@
           hostName = "framework";
           system = "x86_64-linux";
           themeName = "everforest";
+          type = "laptop";
           user = "stel";
         };
 
@@ -73,6 +89,7 @@
           hostName = "meshify";
           system = "x86_64-linux";
           themeName = "everforest";
+          type = "desktop";
           user = "stel";
         };
 
@@ -84,6 +101,7 @@
           hostName = "meshify";
           system = "x86_64-linux";
           themeName = "everforest";
+          type = "laptop";
           user = "stel";
         };
 
