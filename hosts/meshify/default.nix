@@ -1,11 +1,5 @@
 { pkgs, ... }: {
 
-  imports = [
-    ./hardware-configuration.nix
-    ../../modules/common
-    ../../modules/graphical
-  ];
-
   musnix.enable = true;
 
   # Bootloader.

@@ -1,12 +1,5 @@
 { pkgs, ... }: {
 
-  imports = [
-    ./hardware-configuration.nix
-    ../../modules/common
-    ../../modules/graphical
-    ../../modules/laptop
-  ];
-
   # https://github.com/musnix/musnix
   musnix = {
     enable = true;
