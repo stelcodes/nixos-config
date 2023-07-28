@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, theme, ... }: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
@@ -7,7 +7,7 @@
     mutableExtensionsDir = true;
     userSettings = {
       "files.autoSave" = "afterDelay";
-      "workbench.colorTheme" = "Nord";
+      "workbench.colorTheme" = theme.vscode.themeName;
       # Fixes issue of caps lock escape not working
       "keyboard.dispatch" = "keyCode";
       "vim.useSystemClipboard" = true;
@@ -16,8 +16,8 @@
       "editor.renderWhitespace" = "trailing";
     };
     extensions = [
+      theme.vscode.extension
       pkgs.vscode-extensions.vscodevim.vim
-      pkgs.vscode-extensions.arcticicestudio.nord-visual-studio-code
       pkgs.vscode-extensions.bbenoist.nix
       pkgs.vscode-extensions.bungcip.better-toml
       pkgs.vscode-extensions.betterthantomorrow.calva

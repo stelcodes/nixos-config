@@ -93,6 +93,11 @@
     tmuxPrimary = cyan;
     tmuxSecondary = yellow;
 
+    vscode = {
+      extension = pkgs.vscode-extensions.arcticicestudio.nord-visual-studio-code;
+      themeName = "Nord";
+    };
+
   };
 
   everforest = rec {
@@ -174,6 +179,18 @@
 
     tmuxPrimary = green;
     tmuxSecondary = red;
+
+    vscode = {
+      extension = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+        mktplcRef = {
+          name = "everforest";
+          publisher = "sainnhe";
+          version = "0.3.0";
+          sha256 = "sha256-nZirzVvM160ZTpBLTimL2X35sIGy5j2LQOok7a2Yc7U=";
+        };
+      };
+      themeName = "Everforest Dark";
+    };
   };
 
   rose-pine = rec {
@@ -257,6 +274,7 @@
 
     tmuxPrimary = green;
     tmuxSecondary = cyan;
+
 
   };
 }
