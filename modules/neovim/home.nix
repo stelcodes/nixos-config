@@ -267,6 +267,21 @@
         }
 
         pkgs.vimPlugins.playground
+
+        {
+          plugin = pkgs.vimPlugins.nvim-bqf;
+          type = "lua";
+          config = ''
+            require('bqf').setup {
+              auto_enable = true,
+              auto_resize_height = true,
+              preview = {
+                win_height = 20,
+                winblend = 0,
+              },
+            }
+          '';
+        }
       ];
   };
 }
