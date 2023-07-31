@@ -68,6 +68,7 @@
       pkgs.gnome.eog
       pkgs.gajim
       pkgs.qpwgraph
+      pkgs.audacious # Use QT_QPA_PLATFORM=xcb to adjust plugin windows (Wayland QT issues)
     ];
   };
 
