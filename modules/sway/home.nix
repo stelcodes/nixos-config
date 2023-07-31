@@ -313,7 +313,7 @@ in
         "network#2"
         "cpu"
         "backlight"
-        "pulseaudio"
+        "wireplumber"
         "bluetooth"
         "battery"
         "idle_inhibitor"
@@ -388,12 +388,15 @@ in
         format-disconnected = "";
         on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
       };
-      pulseaudio = {
-        format = "{volume} {icon}";
-        format-bluetooth = "{volume} {icon} ";
-        format-muted = "{volume} ";
-        format-icons = { default = [ "" "" ]; };
+      wireplumber = {
+        format = "{node_name} {volume} {icon}";
+        format-muted = "{volume}  ";
+        format-icons = { default = [ " " " " ]; };
         on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+        on-click-right = "${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
+        on-click-middle = "${pkgs.helvum}/bin/helvum";
+        max-volume = 100;
+        scroll-step = 5;
       };
       clock = {
         format = "{:%a %b %d %I:%M %p} 󱛡";
