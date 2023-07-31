@@ -90,6 +90,7 @@
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       swaytree = "swaymsg -t get_tree | nvim -R";
+      nixrepl = "nix repl --file '<nixpkgs/nixos>'";
     };
     shellAliases = {
       nnn = "n";
