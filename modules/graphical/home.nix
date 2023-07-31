@@ -51,7 +51,6 @@
       pkgs.spotify
       pkgs.libimobiledevice # For iphone hotspot tethering
       pkgs.obsidian
-      pkgs.discord
       pkgs.pavucontrol
       pkgs.tor-browser-bundle-bin # tor-browser not working 4/16/23
       pkgs.vlc
@@ -59,7 +58,6 @@
       pkgs.appimage-run
       pkgs.protonvpn-cli
       pkgs.signal-desktop
-      pkgs.slack
       pkgs.gnome-feeds
       pkgs.gnome.dconf-editor
       pkgs.jellyfin-media-player
