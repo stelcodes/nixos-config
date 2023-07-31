@@ -7,5 +7,6 @@
     pkgs.musescore
     pkgs.bitwig-studio
     pkgs.graillon-free
+    pkgs.mixxx
   ];
 }
