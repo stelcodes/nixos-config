@@ -81,8 +81,8 @@
       dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor,selfpromo,outro' --remux-video 'mkv'";
       dl-video-best = "${dl-video} --format best";
       dl-video-1080 = "${dl-video} --format 'worstvideo[height=1080]+bestaudio / best[height<=1080]'";
-      dl-video-1080-playlist = "${dl-video-1080} --output '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s'";
-      dl-music = "${dl-base} --format 'bestaudio' --output \"$HOME/music/library/%(album_artist,artist,uploader,webpage_url)s/%(album,track,title|unknown album)s/%(track_number|0)s %(track,title,webpage_url)s.%(ext)s\"";
+      dl-video-1080-playlist = "${dl-video-1080} --output '%(playlist)s/%(playlist_index).2d - %(title)s.%(ext)s'";
+      dl-music = "${dl-base} --format 'bestaudio' --output \"$HOME/music/library/%(album_artist,artist,uploader,webpage_url)s/%(album,track,title|unknown album)s/%(track_number|00).2d - %(track,title,webpage_url)s.%(ext)s\"";
       dl-music-yt = "${dl-base} --format 'bestaudio' --extract-audio --audio-format opus";
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
