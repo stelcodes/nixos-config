@@ -1,0 +1,151 @@
+{
+  "policies": {
+    "DNSOverHTTPS": {
+      "Enabled": true,
+      "Locked": true
+    },
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DisableSetDesktopBackground": true,
+    "DisableTelemetry": true,
+    "DisplayBookmarksToolbar": "newtab",
+    "DontCheckDefaultBrowser": true,
+    "EnableTrackingProtection": {
+      "Cryptomining": true,
+      "EmailTracking": true,
+      "Exceptions": [],
+      "Fingerprinting": true,
+      "Locked": true,
+      "Value": true
+    },
+    "ExtensionSettings": {
+      "@testpilot-containers": {
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi",
+        "installation_mode": "normal_installed"
+      },
+      "addon@darkreader.org": {
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi",
+        "installation_mode": "normal_installed"
+      },
+      "queryamoid@kaply.com": {
+        "install_url": "https://github.com/mkaply/queryamoid/releases/download/v0.1/query_amo_addon_id-0.1-fx.xpi",
+        "installation_mode": "normal_installed"
+      },
+      "uBlock0@raymondhill.net": {
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi",
+        "installation_mode": "normal_installed"
+      },
+      "vimium-c@gdh1995.cn": {
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/vimium-c/latest.xpi",
+        "installation_mode": "normal_installed"
+      },
+      "{73a6fe31-595d-460b-a920-fcc0f8843232}": {
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/noscript/latest.xpi",
+        "installation_mode": "normal_installed"
+      }
+    },
+    "HardwareAcceleration": true,
+    "Homepage": {
+      "Locked": false,
+      "StartPage": "none",
+      "URL": "chrome://browser/content/blanktab.html"
+    },
+    "ManagedBookmarks": [
+      {
+        "name": "Printing",
+        "url": "localhost:631"
+      },
+      {
+        "name": "Firefox Policies",
+        "url": "mozilla.github.io/policy-templates"
+      },
+      {
+        "name": "Jellyfin",
+        "url": "macmini:8096"
+      }
+    ],
+    "ManualAppUpdateOnly": true,
+    "NewTabPage": false,
+    "NoDefaultBookmarks": true,
+    "OfferToSaveLogins": false,
+    "OverrideFirstRunPage": "",
+    "PasswordManagerEnabled": false,
+    "Permissions": {
+      "Notifications": {
+        "BlockNewRequests": true,
+        "Locked": true
+      }
+    },
+    "Preferences": {
+      "browser.chrome.toolbar_tips": {
+        "Status": "locked",
+        "Value": false
+      },
+      "browser.fullscreen.autohide": {
+        "Status": "locked",
+        "Value": false
+      },
+      "browser.tabs.insertAfterCurrent": {
+        "Status": "locked",
+        "Value": true
+      },
+      "browser.uidensity": {
+        "Status": "locked",
+        "Value": 1
+      },
+      "browser.urlbar.suggest.calculator": {
+        "Status": "locked",
+        "Value": true
+      },
+      "browser.urlbar.suggest.engines": {
+        "Status": "locked",
+        "Value": false
+      },
+      "browser.urlbar.suggest.quicksuggest.nonsponsored": {
+        "Status": "locked",
+        "Value": false
+      },
+      "browser.urlbar.suggest.quicksuggest.sponsored": {
+        "Status": "locked",
+        "Value": false
+      },
+      "browser.urlbar.suggest.searches": {
+        "Status": "locked",
+        "Value": false
+      },
+      "browser.urlbar.suggest.topsites": {
+        "Status": "locked",
+        "Value": false
+      },
+      "dom.security.https_only_mode": {
+        "Status": "locked",
+        "Value": true
+      },
+      "font.name.monospace.x-western": {
+        "Status": "locked",
+        "Value": "FiraMono Nerd Font"
+      },
+      "font.size.monospace.x-western": {
+        "Status": "locked",
+        "Value": 16
+      },
+      "media.ffmpeg.vaapi.enabled": {
+        "Status": "locked",
+        "Value": true
+      }
+    },
+    "WebsiteFilter": {
+      "Block": [
+        "*://news.ycombinator.com/*",
+        "*://*.youtube.com/*",
+        "*://*.reddit.com/",
+        "*://*.reddit.com/?*",
+        "*://*.reddit.com/r/popular",
+        "*://*.reddit.com/r/popular?*",
+        "*://*.reddit.com/r/popular/*",
+        "*://*.tmz.com/*"
+      ],
+      "Exceptions": []
+    }
+  }
+}
