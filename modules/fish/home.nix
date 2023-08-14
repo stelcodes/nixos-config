@@ -91,6 +91,7 @@
       rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       swaytree = "swaymsg -t get_tree | nvim -R";
       nixrepl = "nix repl --file '<nixpkgs/nixos>'";
+      nixsize = "nix path-info --closure-size --human-readable --recursive";
     };
     shellAliases = {
       nnn = "n";
