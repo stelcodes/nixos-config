@@ -89,33 +89,20 @@
     environment.systemPackages =
       with pkgs; [
         vim
-        # CORE UTILS
         bat
         htop
-        procs
         trash-cli
         fd
         neofetch
-        httpie
         wget
         ripgrep
         tealdeer
         unzip
-        restic
-        exa
-        just
-        fcp
-        # PRINTING
-        hplip
-        # CODING
         git
-        nixfmt
         nix-prefetch-github
-        sqlite
         dua
         croc
         yt-dlp
-        ranger
       ];
 
     services = {
