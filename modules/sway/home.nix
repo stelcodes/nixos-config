@@ -368,8 +368,8 @@ in
         format = "{percentage_used} ";
       };
       bluetooth = {
-        format = "BT ";
-        format-on = "BT 󰂲";
+        format = "";
+        format-on = "󰂲";
         on-click = "${pkgs.blueman}/bin/blueman-manager";
       };
       "network#1" = {
@@ -378,7 +378,8 @@ in
         # format = "{ifname}";
         # format-ethernet = "{ifname} ";
         format-disconnected = "";
-        format-wifi = "{essid} {signalStrength} ";
+        format-wifi = "{essid} ";
+        tooltip-format = "freq: {frequency} strength: {signalStrength}";
         on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
       };
       "network#2" = {
