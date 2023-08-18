@@ -51,13 +51,6 @@
       ];
     };
 
-    xdg = {
-      portal = {
-        enable = true;
-        wlr.enable = true;
-      };
-    };
-
     security.doas.enable = true;
     security.doas.extraRules = [{
       users = [ user ];
