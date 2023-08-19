@@ -164,9 +164,11 @@ in
         };
       };
       startup = [
-        # Stopped working when switching between Cinnamon and Sway (see waybar config)
-        { command = "systemctl --user is-active waybar || systemctl --user restart waybar"; always = true; }
-        # { command = "pgrep waybar || waybar"; always = true; }
+        # Import sway-related environment variables into systemd user services
+        { command = "${pkgs.systemd}/bin/systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK DISPLAY"; }
+        # Restart tmux so all shell environments contain sway-related environment variables
+        { command = "${pkgs.systemd}/bin/systemctl --user restart tmux.service"; }
+        { command = "${pkgs.systemd}/bin/systemctl --user is-active waybar || ${pkgs.systemd}/bin/systemctl --user restart waybar"; always = true; }
       ];
     };
     extraConfig = ''
