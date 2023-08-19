@@ -38,7 +38,7 @@ window {
 }
 
 #workspaces button.urgent {
-    background-color: @wred;
+    background-color: @red;
 }
 
 #mode {
