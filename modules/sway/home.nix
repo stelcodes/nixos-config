@@ -176,8 +176,8 @@ in
       bindgesture swipe:3:right focus left
       bindgesture swipe:3:left focus right
       bindswitch lid:off output * power off
-      # Middle-click on a window kills it
-      bindsym --whole-window button2 kill
+      # Middle-click on a window title bar kills it
+      bindsym button2 kill
       bindsym --locked ${modifier}+o output eDP-1 toggle
       bindsym --locked ${modifier}+Shift+o output eDP-1 power toggle
       bindsym --locked ${modifier}+delete exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
