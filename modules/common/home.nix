@@ -241,6 +241,8 @@
         "audio/x-wavpack" = [ "audacious.desktop" ];
         "audio/x-xm" = [ "audacious.desktop" ];
         "x-content/audio-cdda" = [ "audacious.desktop" ];
+        "text/markdown" = [ "neovim.desktop" ];
+        "text/plain" = [ "neovim.desktop" ];
       };
     };
   };

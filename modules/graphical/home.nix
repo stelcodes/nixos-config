@@ -79,6 +79,21 @@
     style.name = "gtk2";
   };
 
+  xdg.desktopEntries = {
+    neovim = {
+      name = "Neovim";
+      genericName = "Text Editor";
+      exec = let app = pkgs.writeShellScript "neovim-inside-foot" ''
+        # Killing foot from sway results in non-zero exit code which triggers
+        # xdg-mime to use next valid entry, so we must always exit successfully
+        ${pkgs.foot}/bin/foot nvim "$1" || true
+      ''; in "${app} %U";
+      terminal = false;
+      categories = [ "Utility" "TextEditor" ];
+      mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
+    };
+  };
+
   xdg.configFile = {
     # https://wiki.archlinux.org/title/Dolphin#Mismatched_folder_view_background_colors
     kdeglobals.text = ''
