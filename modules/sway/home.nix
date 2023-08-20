@@ -234,15 +234,15 @@ in
     };
 
     wlsunset = {
-      # enable = true;
+      enable = true;
+      # Using a bogus target name so wlsunset will not start automatically
+      systemdTarget = "null.target";
       latitude = "38";
       longitude = "-124";
       temperature = {
         day = 6500;
-        night = 3000;
+        night = 4000;
       };
-      gamma = "0.85";
-      systemdTarget = "sway-session.target";
     };
 
     mako = {
