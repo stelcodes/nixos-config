@@ -94,8 +94,8 @@ in
           "${modifier}+tab" = "focus next";
           "${modifier}+Shift+tab" = "focus prev";
           "${modifier}+grave" = "exec wofi-emoji";
-          "${modifier}+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
-          "${modifier}+Shift+r" = "mode resize";
+          "${modifier}+Shift+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
+          "${modifier}+r" = "mode resize";
           "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
           "${modifier}+Shift+c" = "exec rebuild";
           "${modifier}+backspace" = "exec firefox";
