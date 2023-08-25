@@ -110,6 +110,7 @@ in
           "${modifier}+backslash" = "exec ${pkgs.cycle-sway-scale}/bin/cycle-sway-scale";
           "${modifier}+bar" = "exec ${pkgs.toggle-service}/bin/toggle-service wlsunset";
           "${modifier}+v" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
+          "${modifier}+delete" = "exec ${pkgs.swaylock}/bin/swaylock";
           XF86MonBrightnessDown = "exec brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec brightnessctl set +5%";
           XF86AudioPrev = "exec playerctl previous";
@@ -182,7 +183,7 @@ in
       bindsym button2 kill
       bindsym --locked ${modifier}+o output eDP-1 toggle
       bindsym --locked ${modifier}+Shift+o output eDP-1 power toggle
-      bindsym --locked ${modifier}+delete exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
+      bindsym --locked ${modifier}+Shift+delete exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
       for_window [app_id=org.gnome.Calculator] floating enable
       for_window [class=REAPER] floating enable
       for_window [app_id=nmtui] floating enable
