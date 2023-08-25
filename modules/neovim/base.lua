@@ -220,7 +220,8 @@ vim.keymap.set('n', '<c-n>', ':let @/=""<cr>')
 vim.keymap.set('i', '<c-n>', ':let @/=""<cr>')
 -- Open Git Fugitive, make it full window in a new tab positioned before other tabs
 -- This could be improved bc right now it clobbers existing window arrangements in the tab
-vim.keymap.set('n', '<c-g>', ':Git<cr>:only<cr>')
+vim.keymap.set('n', '<c-g>', '<cmd>Git<cr>')
+vim.keymap.set('n', '<c-o>', '<cmd>only<cr>')
 -- Remap visual block mode because I use <c-v> for paste
 vim.keymap.set('n', '<c-b>', '<c-v>')
 -- Make terminal mode easy to exit
