@@ -90,8 +90,10 @@
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       swaytree = "swaymsg -t get_tree | nvim -R";
-      nixrepl = "nix repl --file '<nixpkgs/nixos>'";
+      nixrepl = "nix repl --expr \"(builtins.getFlake (toString $HOME/nixos-config)).nixosConfigurations.$hostname\"";
       nixsize = "nix path-info --closure-size --human-readable --recursive";
+      play = "audacious --enqueue-to-temp";
+      notes = "cd ~/documents/journal && nvim";
     };
     shellAliases = {
       nnn = "n";
