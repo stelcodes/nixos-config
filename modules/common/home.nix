@@ -366,12 +366,44 @@
     nnn = {
       enable = true;
       package = pkgs.nnn.override { withNerdIcons = true; };
-      plugins.src = (pkgs.fetchFromGitHub {
-        owner = "jarun";
-        repo = "nnn";
-        rev = "v4.8";
-        sha256 = "QbKW2wjhUNej3zoX18LdeUHqjNLYhEKyvPH2MXzp/iQ=";
-      }) + "/plugins";
+      extraPackages = [
+        pkgs.ffmpegthumbnailer
+        pkgs.mediainfo
+        pkgs.sxiv
+        pkgs.dragon
+      ];
+      plugins = {
+        mappings = {
+          p = "preview-tui";
+          d = "dragdrop";
+          v = "-!env";
+          e = "-enqueue";
+          E = "-enqueue-all";
+        };
+        src =
+          let
+            upstream = pkgs.fetchFromGitHub {
+              owner = "jarun";
+              repo = "nnn";
+              rev = "v4.8";
+              sha256 = "QbKW2wjhUNej3zoX18LdeUHqjNLYhEKyvPH2MXzp/iQ=";
+            };
+            enqueue = pkgs.writeShellApplication {
+              name = "enqueue";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
+              text = builtins.readFile ./enqueue.sh;
+            };
+            enqueue-all = pkgs.writeShellApplication {
+              name = "enqueue-all";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
+              text = builtins.readFile ./enqueue-all.sh;
+            };
+          in
+          pkgs.symlinkJoin {
+            name = "nnn-plugins";
+            paths = [ "${upstream}/plugins" "${enqueue}/bin" "${enqueue-all}/bin" ];
+          };
+      };
     };
 
     starship.enable = true;
