@@ -43,28 +43,35 @@ window {
 
 #mode {
     background-color: @bgOne;
+    padding: 0 10px;
+}
+
+#tray {
+    padding: 0 10px;
 }
 
 #idle_inhibitor,
 #battery,
-#bluetooth,
 #backlight,
 #cpu,
 #network,
 #custom-rebuild,
 #clock,
 #custom-pomo,
-#custom-media,
-#tray,
-#mode,
 #disk,
 #memory,
 #temperature,
-#pulseaudio,
-#mpd {
-    padding-right: 14px;
-    padding-left: 6px;
+#wireplumber,
+#mpd
+{
+    padding: 0 10px;
     margin: 0;
+}
+
+#bluetooth,
+#custom-swayidle
+{
+    padding: 0 10px 0 0;
 }
 
 #window,

@@ -304,7 +304,7 @@ in
       position = "bottom";
       height = 20;
       modules-left = [ "sway/workspaces" "sway/mode" "tray" ];
-      modules-center = [ "clock" "custom/pomo" ];
+      modules-center = [ "clock" "custom/pomo" "custom/swayidle" ];
       modules-right = [
         "custom/rebuild"
         "network#1"
@@ -314,7 +314,6 @@ in
         "wireplumber"
         "bluetooth"
         "battery"
-        "idle_inhibitor"
       ];
       "custom/pomo" = {
         format = "{} 󱎫";
@@ -330,6 +329,16 @@ in
         exec-if = "test -f $HOME/tmp/rebuild/status";
         exec = "echo \"$(< $HOME/tmp/rebuild/status)\"";
         on-click = viewRebuildLogCmd;
+      };
+      "custom/swayidle" = {
+        format = "{}";
+        max-length = 2;
+        interval = 2;
+        # 󱥑 󱥐 octahedron
+        # 󰦞 󰦝 shield
+        # 󱓣 󰜗 snowflake
+        exec = "if ${pkgs.systemd}/bin/systemctl --user is-active swayidle.service >/dev/null; then echo '󰜗'; else echo '󱓣'; fi";
+        on-click = "${pkgs.toggle-service}/bin/toggle-service swayidle";
       };
       "sway/workspaces" = {
         disable-scroll = true;
@@ -389,8 +398,8 @@ in
       };
       wireplumber = {
         format = "{node_name} {volume} {icon}";
-        format-muted = "{volume}  ";
-        format-icons = { default = [ " " " " ]; };
+        format-muted = "{volume} ";
+        format-icons = { default = [ "" "" ]; };
         on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
         on-click-right = "${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
         on-click-middle = "${pkgs.helvum}/bin/helvum";
