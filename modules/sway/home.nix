@@ -124,12 +124,6 @@ in
             slurp | grim -g - $XDG_PICTURES_DIR/screenshots/grim:$(date -u +%Y-%m-%dT%H:%M:%SZ).png
           '';
         };
-      keycodebindings = {
-        # Use xev to get keycodes, libinput gives wrong codes for some reason
-        "212" = "exec rebuild"; # f4
-        "237" = "exec brightnessctl --device='smc::kbd_backlight' set 10%-"; # f5
-        "238" = "exec brightnessctl --device='smc::kbd_backlight' set +10%"; # f6
-      };
       modes = pkgs.lib.mkOptionDefault {
         resize = {
           "r" = "resize set width 80 ppt height 90 ppt, move position center";
@@ -194,6 +188,7 @@ in
       for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
       for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
       for_window [app_id=org.rncbc.qpwgraph] floating enable
+      for_window [app_id="org.qbit.*" title="^\[[Bb]itsearch.*"] floating disable
       # Workaround for Bitwig moving itself to current workspace when scale changes
       for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
     '';
