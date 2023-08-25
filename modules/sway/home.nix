@@ -192,6 +192,33 @@ in
       # Workaround for Bitwig moving itself to current workspace when scale changes
       for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
     '';
+    swaynag = {
+      enable = true;
+      settings = {
+        warning = rec {
+          background = theme.bgx;
+          button-background = theme.bg1x;
+          details-background = theme.bg1x;
+          text = theme.fgx;
+          button-text = theme.fgx;
+          border = theme.bg2x;
+          border-bottom = theme.bg3x;
+          border-bottom-size = 3;
+          button-border-size = 1;
+        };
+        error = rec {
+          background = theme.bgx;
+          button-background = theme.bg1x;
+          details-background = theme.bg1x;
+          text = theme.fgx;
+          button-text = theme.fgx;
+          border = theme.bg2x;
+          border-bottom = theme.redx;
+          border-bottom-size = 3;
+          button-border-size = 1;
+        };
+      };
+    };
   };
 
   services = {
