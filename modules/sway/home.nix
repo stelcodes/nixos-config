@@ -290,7 +290,7 @@ in
         border-color=${theme.blue}
 
         [urgency=normal]
-        border-color=${theme.cyan}
+        border-color=${theme.bg3}
 
         [urgency=high]
         border-color=${theme.red}
