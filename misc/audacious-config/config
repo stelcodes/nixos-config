@@ -1,0 +1,17 @@
+
+[audacious]
+resume_playback_on_startup=FALSE
+
+[audgui]
+filesel_path=/home/stel/music/playlists
+
+[pipewire]
+volume_left=100
+volume_right=100
+
+[qtui]
+column_widths=25,25,275,306,50,256,175,25,100,25,75,275,275,275,75,275,175
+entry_count_visible=TRUE
+player_height=1031
+player_width=1920
+playlist_tabs_visible=2
