@@ -221,6 +221,19 @@ in
     };
   };
 
+  systemd.user.services = {
+    swayidle.Service.ExecStop = let app = pkgs.writeShellApplication {
+      name = "swayidle-cleanup";
+      runtimeInputs = [ pkgs.coreutils ];
+      text = ''
+        BLOCKFILE="$HOME/.local/share/idle-sleep-block"
+        if test -f "$BLOCKFILE"; then
+          rm "$BLOCKFILE"
+        fi
+      '';
+    }; in "${app}/bin/swayidle-cleanup";
+  };
+
   services = {
     swayidle = {
       enable = true;
