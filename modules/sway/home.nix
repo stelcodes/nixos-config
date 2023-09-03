@@ -242,8 +242,11 @@ in
             name = "swayidle-timeout";
             runtimeInputs = [ pkgs.systemd pkgs.playerctl pkgs.gnugrep pkgs.acpi ];
             text = ''
-              if playerctl status | grep -q "Playing" || acpi --ac-adapter | grep -q "on-line"; then
-                echo "Restarting..."
+              if test -f "$HOME/.local/share/idle-sleep-block"; then
+                echo "Restarting service because of user's idle-sleep-block file"
+                systemctl --restart swayidle.service
+              elif playerctl status | grep -q "Playing" || acpi --ac-adapter | grep -q "on-line"; then
+                echo "Restarting service because "
                 systemctl --restart swayidle.service
               else
                 echo "Suspending..."
@@ -364,8 +367,19 @@ in
         # 󱥑 󱥐 octahedron
         # 󰦞 󰦝 shield
         # 󱓣 󰜗 snowflake
-        exec = "if ${pkgs.systemd}/bin/systemctl --user is-active swayidle.service >/dev/null; then echo '󰜗'; else echo '󱓣'; fi";
-        on-click = "${pkgs.toggle-service}/bin/toggle-service swayidle";
+        exec = "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣'; else echo '󰜗'; fi";
+        on-click = let app = pkgs.writeShellApplication {
+          name = "toggle-idle-sleep-lock";
+          runtimeInputs = [ pkgs.coreutils ];
+          text = ''
+            BLOCKFILE="$HOME/.local/share/idle-sleep-block"
+            if test -f "$BLOCKFILE"; then
+              rm "$BLOCKFILE"
+            else
+              touch "$BLOCKFILE"
+            fi
+          '';
+        }; in "${app}/bin/toggle-idle-sleep-lock";
       };
       "sway/workspaces" = {
         disable-scroll = true;
