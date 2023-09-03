@@ -6,21 +6,19 @@
 
 (defmacro debug [sym] `(do (println ~(keyword sym)) (pp/pprint ~sym) (println)))
 
-(defn set-output-scale [scale]
-  (p/sh ["swaymsg" "output" "eDP-1" "scale" scale]))
-
 (def outputs
   (-> (p/sh ["swaymsg" "-t" "get_outputs"])
       :out
       (json/parse-string true)))
 
-(debug outputs)
+(def focused-output (some #(when (:focused %) %) outputs))
 
-(def current-scale (:scale (some #(when (= "eDP-1" (:name %)) %) outputs)))
+(debug focused-output)
 
-(debug current-scale)
+(defn set-output-scale [scale]
+  (p/sh ["swaymsg" "output" "-" "scale" scale]))
 
-(cond (== 1 current-scale) (set-output-scale 1.5)
+(cond (== 1 (:scale focused-output)) (set-output-scale 1.5)
       ;; (== 1.5 current-scale) (set-output-scale 2)
-      :else (set-output-scale 1))
+      :else (set-output-scale 1.0))
 
