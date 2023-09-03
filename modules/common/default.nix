@@ -67,7 +67,7 @@
     users.users.${user} = {
       initialPassword = "password";
       isNormalUser = true;
-      extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" ];
+      extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
       ];
