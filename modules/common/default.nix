@@ -244,6 +244,12 @@
             source = ../../misc/toggle-sway-window.clj;
             runtimeInputs = [ super.sway ];
           };
+          mixxx = super.symlinkJoin {
+            name = "mixxx-wayland";
+            paths = [ super.mixxx ];
+            buildInputs = [ super.makeWrapper ];
+            postBuild = "wrapProgram $out/bin/mixxx --add-flags '-platform xcb'";
+          };
         })
       ];
     };
