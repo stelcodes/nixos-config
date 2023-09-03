@@ -84,6 +84,7 @@
       dl-video-1080-playlist = "${dl-video-1080} --output '%(playlist)s/%(playlist_index).2d - %(title)s.%(ext)s'";
       dl-music = "${dl-base} --format 'bestaudio' --output \"$HOME/music/library/%(album_artist,artist,uploader,webpage_url)s/%(album,track,title|unknown album)s/%(track_number|00).2d - %(track,title,webpage_url)s.%(ext)s\"";
       dl-music-yt = "${dl-base} --format 'bestaudio' --extract-audio --audio-format opus";
+      dl-yarn = "${dl-base} --extract-audio --audio-format flac --output \"$HOME/music/samples/yarn/$(read).%(ext)s\"";
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
       vpn = "doas protonvpn";
@@ -94,6 +95,7 @@
       nixsize = "nix path-info --closure-size --human-readable --recursive";
       play = "audacious --enqueue-to-temp";
       notes = "cd ~/documents/journal && nvim";
+      strip-exec-permissions = "if test \"$(read -P 'Are you sure: ')\" = 'y'; fd -0 --type x | xargs -0 chmod -vc a-x; else; echo 'Aborting'; end";
     };
     shellAliases = {
       nnn = "n";
