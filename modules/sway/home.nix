@@ -356,6 +356,7 @@ in
         "backlight"
         "wireplumber"
         "bluetooth"
+        "custom/wlsunset"
         "battery"
       ];
       "custom/pomo" = {
@@ -393,6 +394,11 @@ in
             fi
           '';
         }; in "${app}/bin/toggle-idle-sleep-lock";
+      };
+      "custom/wlsunset" = {
+        exec = "if ${pkgs.systemd}/bin/systemctl --user --quiet is-active wlsunset.service; then echo ''; else echo ''; fi";
+        interval = 2;
+        on-click = "${pkgs.toggle-service}/bin/toggle-service wlsunset";
       };
       "sway/workspaces" = {
         disable-scroll = true;
