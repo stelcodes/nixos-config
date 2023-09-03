@@ -284,7 +284,6 @@
       PAGER = "less --chop-long-lines --RAW-CONTROL-CHARS";
       MANPAGER = "nvim +Man!";
       NNN_TRASH = "1";
-      NNN_PLUG = "p:preview-tui;d:dragdrop";
       NNN_FCOLORS = "030304030705020801030301";
       NNN_FIFO = "/tmp/nnn.fifo";
       NNN_BATTHEME = "base16";
@@ -367,10 +366,19 @@
       enable = true;
       package = pkgs.nnn.override { withNerdIcons = true; };
       extraPackages = [
+        # I could put some of these in graphical module, wait kind of like all of them actually
         pkgs.ffmpegthumbnailer
+        pkgs.ffmpeg
+        pkgs.imgcat
         pkgs.mediainfo
-        pkgs.sxiv
         pkgs.dragon
+        pkgs.coreutils-full
+        pkgs.gnused
+        pkgs.gawk
+        pkgs.findutils
+        pkgs.fzf
+        pkgs.viu
+        pkgs.xdg-utils
       ];
       plugins = {
         mappings = {
