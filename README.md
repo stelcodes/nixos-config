@@ -9,3 +9,5 @@ https://github.com/Xe/nixos-configs
 https://github.com/MatthiasBenaets/nixos-config
 
 https://git.2li.ch/Nebucatnetzer/nixos
+
+https://github.com/emmanuelrosa/erosanix
