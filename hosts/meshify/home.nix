@@ -8,5 +8,8 @@
     pkgs.bitwig-studio
     pkgs.graillon-free
     pkgs.mixxx
+    pkgs.kodi-wayland
+    pkgs.audacity
+    pkgs.ffmpeg
   ];
 }
