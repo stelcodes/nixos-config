@@ -81,7 +81,7 @@
             # https://github.com/mkaply/queryamoid/releases/tag/v0.1
             "queryamoid@kaply.com" = {
               installation_mode = "normal_installed";
-              install_url = "https://github.com/mkaply/queryamoid/releases/download/v0.1/query_amo_addon_id-0.1-fx.xpi";
+              install_url = "https://github.com/mkaply/queryamoid/releases/download/v0.2/query_amo_addon_id-0.2-fx.xpi";
             };
             "uBlock0@raymondhill.net" = {
               installation_mode = "normal_installed";
