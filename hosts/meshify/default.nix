@@ -8,15 +8,21 @@
 
   services.protonvpn = {
     enable = true;
-    autostart = true;
+    autostart = false;
+    killswitch = true;
     interface = {
       privateKeyFile = "/root/secrets/protonvpn";
-      dns.enable = true;
     };
     endpoint = {
       publicKey = "89W7M9F4cBOiyB2Txdg+PQd4H4p45pKqERLY0GmVsTg=";
       ip = "185.159.158.159";
     };
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ ];
+    allowedUDPPorts = [ ];
   };
 
   # Bootloader.
