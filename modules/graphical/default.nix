@@ -66,7 +66,6 @@
           DisplayBookmarksToolbar = "newtab";
           DontCheckDefaultBrowser = true;
           DNSOverHTTPS = {
-            # Solves my protonvpn reconnect dns issue
             Enabled = true;
             Locked = true;
           };

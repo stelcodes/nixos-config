@@ -87,7 +87,6 @@
       dl-yarn = "${dl-base} --extract-audio --audio-format flac --output \"$HOME/music/samples/yarn/$(read).%(ext)s\"";
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
-      vpn = "doas protonvpn";
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       swaytree = "swaymsg -t get_tree | nvim -R";

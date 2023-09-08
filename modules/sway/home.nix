@@ -101,7 +101,6 @@ in
           "${modifier}+backspace" = "exec firefox";
           "${modifier}+Shift+backspace" = "exec firefox --private-window";
           "${modifier}+n" = "exec makoctl dismiss --all";
-          "${modifier}+i" = "exec doas protonvpn connect --fastest";
           "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
           "${modifier}+less" = "focus parent";
           "${modifier}+greater" = "focus child";

@@ -56,7 +56,6 @@
       pkgs.vlc
       pkgs.mpv
       pkgs.appimage-run
-      pkgs.protonvpn-cli
       pkgs.signal-desktop
       pkgs.gnome-feeds
       pkgs.gnome.dconf-editor
