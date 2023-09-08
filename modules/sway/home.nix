@@ -163,6 +163,7 @@ in
         # Restart tmux so all shell environments contain sway-related environment variables
         { command = "${pkgs.systemd}/bin/systemctl --user restart tmux.service"; }
         { command = "${pkgs.systemd}/bin/systemctl --user is-active waybar || ${pkgs.systemd}/bin/systemctl --user restart waybar"; always = true; }
+        { command = "${pkgs.obsidian}/bin/obsidian"; }
       ];
     };
     extraConfig = ''
@@ -190,6 +191,7 @@ in
       for_window [app_id="org.qbit.*" title="^\[[Bb]itsearch.*"] floating disable
       # Workaround for Bitwig moving itself to current workspace when scale changes
       for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
+      for_window [app_id=obsidian] move container to workspace 3
     '';
     swaynag = {
       enable = true;
