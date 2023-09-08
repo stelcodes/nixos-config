@@ -96,6 +96,7 @@
       play = "audacious --enqueue-to-temp";
       notes = "cd ~/documents/journal && nvim";
       strip-exec-permissions = "if test \"$(read -P 'Are you sure: ')\" = 'y'; fd -0 --type x | xargs -0 chmod -vc a-x; else; echo 'Aborting'; end";
+      sway = "exec systemd-cat --identifier=sway sway";
     };
     shellAliases = {
       nnn = "n";
