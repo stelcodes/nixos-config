@@ -31,7 +31,7 @@ tele.setup {
     },
     mappings = {
       -- I use ctrl-v in terminal for paste so use ctrl-f for vsplit
-      n = { ['<c-f>'] = actions.file_vsplit }
+      n = { ['<c-X>'] = actions.file_vsplit }
     },
     show_untracked = false, -- For git_files command
     layout_strategy = 'flex',
