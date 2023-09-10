@@ -82,20 +82,15 @@
     environment.systemPackages =
       with pkgs; [
         vim
+        neovim
         bat
         htop
         trash-cli
         fd
-        neofetch
-        wget
         ripgrep
         tealdeer
         unzip
         git
-        nix-prefetch-github
-        dua
-        croc
-        yt-dlp
       ];
 
     services = {

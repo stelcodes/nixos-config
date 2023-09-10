@@ -272,6 +272,9 @@
       pkgs.toggle-service
       inputs.nix-alien.packages.x86_64-linux.nix-alien
       pkgs.acpi
+      pkgs.dua
+      pkgs.croc
+      pkgs.yt-dlp
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
