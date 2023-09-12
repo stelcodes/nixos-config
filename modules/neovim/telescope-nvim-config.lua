@@ -29,10 +29,6 @@ tele.setup {
       '%.pdf$', '%.db$', '%.opus$', '%.mp3$', '%.wav$', '%.git/', '%.clj%-kondo/%.cache/', '%.lsp/', '%.cpcache/',
       '%target/'
     },
-    mappings = {
-      -- I use ctrl-v in terminal for paste so use ctrl-f for vsplit
-      n = { ['<c-X>'] = actions.file_vsplit }
-    },
     show_untracked = false, -- For git_files command
     layout_strategy = 'flex',
     layout_config = {
@@ -87,6 +83,7 @@ vim.keymap.set('n', '<leader>fb', browser.file_browser)
 vim.keymap.set('n', '<leader>fr', find_files_from_root)
 vim.keymap.set('n', '<leader>fn', browse_notes)
 vim.keymap.set('n', '<leader>r', function() builtin.live_grep {hidden = true} end)
+vim.keymap.set('n', '<leader>R', function() builtin.live_grep {hidden = true, additional_args = {"--files-with-matches"}} end)
 vim.keymap.set('n', '<leader>d', builtin.diagnostics)
 vim.keymap.set('n', '<leader>p', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)

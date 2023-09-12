@@ -156,7 +156,7 @@ vim.keymap.set('x', '<leader>', '<Nop>')
 vim.keymap.set('n', 'Y', 'viwy')
 vim.keymap.set('n', 'U', SearchWord)
 -- Start substition of text in first register
-vim.keymap.set('n', 'R', SubstituteYanked)
+vim.keymap.set('n', '<c-f>', SubstituteYanked)
 
 -- WINDOWS
 -- Navigate windows by direction
@@ -204,10 +204,9 @@ vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
 
 -- QUICKFIX
-vim.keymap.set('n', 'q', '<nop>') -- I don't use vim macros atm
-vim.keymap.set('n', 'qq', ':copen<cr>')
-vim.keymap.set('n', 'qw', ':cclose<cr>')
-vim.keymap.set('n', 'qe', ':.cc<cr>')
+vim.keymap.set('n', 'q', '<cmd>copen<cr>')
+vim.keymap.set('n', 'Q', '<cmd>cclose<cr>')
+-- vim.keymap.set('n', 'M', '<cmd>normal! q') -- start macro
 
 -- OTHER STUFF
 -- Copy relative path of file
@@ -225,8 +224,7 @@ vim.keymap.set('n', '<c-o>', '<cmd>only<cr>')
 -- Remap visual block mode because I use <c-v> for paste
 vim.keymap.set('n', '<c-b>', '<c-v>')
 -- Make terminal mode easy to exit
-vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
-vim.keymap.set('t', '<c-q>', 'q')
+vim.keymap.set('t', '<c-\\><esc>', '<c-\\><c-n>')
 --Debugging syntax highlighting
 vim.keymap.set('n', '<f10>', ':echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>')
 -- Toggle spell
