@@ -191,7 +191,7 @@
               CONFIG_DIR="$HOME/nixos-config"
 
               rebuild() {
-                /run/wrappers/bin/doas nixos-rebuild switch --flake "$CONFIG_DIR#" 2>&1 | tee "$LOG_FILE";
+                /run/wrappers/bin/doas nixos-rebuild --option eval-cache false switch --flake "$CONFIG_DIR#" 2>&1 | tee "$LOG_FILE";
               }
               succeed() {
                 echo "New generation created 🥳" | tee -a "$LOG_FILE";
