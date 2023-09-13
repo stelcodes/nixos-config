@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nix-index-database.follows = "nix-index-database";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   # Function that tells my flake which to use and what do what to do with the dependencies.
@@ -45,7 +50,7 @@
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs user theme hostName;
+            inherit inputs user theme hostName system;
           };
           modules = [
             ./hosts/${hostName}
@@ -56,7 +61,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit inputs user theme hostName;
+                inherit inputs user theme hostName system;
               };
               home-manager.users.${user} = {
                 imports = [

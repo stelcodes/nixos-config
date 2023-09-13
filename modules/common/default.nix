@@ -1,4 +1,9 @@
-{ pkgs, lib, config, inputs, user, theme, hostName, ... }: {
+{ pkgs, lib, config, inputs, user, theme, hostName, system, ... }: {
+
+  imports = [
+    inputs.agenix.nixosModules.default
+  ];
+
   config = {
     boot.tmp.cleanOnBoot = true;
 
@@ -91,6 +96,7 @@
         tealdeer
         unzip
         git
+        inputs.agenix.packages.${system}.default
       ];
 
     services = {
