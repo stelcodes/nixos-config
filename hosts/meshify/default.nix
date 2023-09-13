@@ -1,23 +1,8 @@
 { pkgs, ... }: {
 
-  imports = [ ../../modules/protonvpn ];
-
   musnix.enable = true;
 
   programs.k3b.enable = true;
-
-  services.protonvpn = {
-    enable = true;
-    autostart = false;
-    killswitch = true;
-    interface = {
-      privateKeyFile = "/root/secrets/protonvpn";
-    };
-    endpoint = {
-      publicKey = "89W7M9F4cBOiyB2Txdg+PQd4H4p45pKqERLY0GmVsTg=";
-      ip = "185.159.158.159";
-    };
-  };
 
   networking.firewall = {
     enable = true;
