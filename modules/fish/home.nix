@@ -97,6 +97,7 @@
       strip-exec-permissions = "if test \"$(read -P 'Are you sure: ')\" = 'y'; fd -0 --type x | xargs -0 chmod -vc a-x; else; echo 'Aborting'; end";
       sway = "exec systemd-cat --identifier=sway sway";
       u = "udisksctl";
+      wg-killswitch-disable = "if test \"$(read -P 'Disable wg-killswitch? ')\" = 'y'; doas iptables --flush wg-killswitch; doas ip6tables --flush wg-killswitch; else; false; end";
     };
     shellAliases = {
       nnn = "n";
