@@ -122,6 +122,8 @@ let
 in
 {
 
+  # TODO: create assertion that wireguard interface names are 15 chars or less
+
   options = {
     networking.vpnConnections = mkOption {
       description = mdDoc "Wireguard interfaces.";
