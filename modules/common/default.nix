@@ -1,6 +1,7 @@
 { pkgs, lib, config, inputs, user, theme, hostName, system, ... }: {
 
   imports = [
+    ../vpn
     inputs.agenix.nixosModules.default
   ];
 

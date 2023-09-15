@@ -86,6 +86,8 @@ let
   generate-wg-quick = interfaceName: interfaceCfg:
     let
       chain = "wg-killswitch";
+      # Maybe I could allow LAN traffic?
+      # --match iprange ! --dst-range 192.168.0.0-192.168.0.255 (for ipv4 addresses only)
       enableKillswitch = cmd: ''
         ${cmd} --new-chain ${chain} || true
         ${cmd} --insert ${chain} ! --out-interface ${interfaceName} --match mark ! --mark $(wg show ${interfaceName} fwmark) --match addrtype ! --dst-type LOCAL -j DROP
