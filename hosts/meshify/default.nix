@@ -1,8 +1,41 @@
-{ pkgs, ... }: {
+{ pkgs, config, lib, ... }: {
 
   musnix.enable = true;
 
   programs.k3b.enable = true;
+
+  age.secrets = {
+    pvpn-fast-private-key.file = ../../secrets/meshify/wg/pvpn-fast/private-key.age;
+    pvpn-fast-public-key.file = ../../secrets/meshify/wg/pvpn-fast/public-key.age;
+    pvpn-fast-endpoint.file = ../../secrets/meshify/wg/pvpn-fast/endpoint.age;
+    pvpn-secure-private-key.file = ../../secrets/meshify/wg/pvpn-secure/private-key.age;
+    pvpn-secure-public-key.file = ../../secrets/meshify/wg/pvpn-secure/public-key.age;
+    pvpn-secure-endpoint.file = ../../secrets/meshify/wg/pvpn-secure/endpoint.age;
+  };
+
+  networking.vpnConnections = {
+    pvpn-fast = {
+      enable = true;
+      autostart = true;
+      killswitch = true;
+      privateKeyFile = builtins.toString config.age.secrets.pvpn-fast-private-key.path;
+      endpoint = {
+        # Requires two rebuilds which is annoying but works!
+        publicKey = lib.fileContents config.age.secrets.pvpn-fast-public-key.path;
+        ip = lib.fileContents config.age.secrets.pvpn-fast-endpoint.path;
+      };
+    };
+    pvpn-secure = {
+      enable = true;
+      autostart = false;
+      killswitch = true;
+      privateKeyFile = builtins.toString config.age.secrets.pvpn-secure-private-key.path;
+      endpoint = {
+        publicKey = lib.fileContents config.age.secrets.pvpn-secure-public-key.path;
+        ip = lib.fileContents config.age.secrets.pvpn-secure-endpoint.path;
+      };
+    };
+  };
 
   networking.firewall = {
     enable = true;
