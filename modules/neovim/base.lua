@@ -170,13 +170,22 @@ vim.keymap.set('n', '<c-x>', '<cmd>split %<cr>')
 
 -- TABS
 -- Navigate tabs
-vim.keymap.set('n', 'T', '<cmd>tabprevious<cr>')
-vim.keymap.set('n', 't', '<cmd>tabnext<cr>')
+vim.keymap.set('n', 'T', '<cmd>tabnext<cr>')
+vim.keymap.set('n', 't', '<cmd>tabnext #<cr>')
 -- Move tabs
 vim.keymap.set('n', '<c-left>', '<cmd>tabmove -1<cr>')
 vim.keymap.set('n', '<c-right>', '<cmd>tabmove +1<cr>')
 -- Open new tab with clone of current buffer
 vim.keymap.set('n', '<c-t>', function() vim.cmd "tab split" end)
+vim.keymap.set('n', '<leader>1', '<cmd>tabnext 1<cr>')
+vim.keymap.set('n', '<leader>2', '<cmd>tabnext 2<cr>')
+vim.keymap.set('n', '<leader>3', '<cmd>tabnext 3<cr>')
+vim.keymap.set('n', '<leader>4', '<cmd>tabnext 4<cr>')
+vim.keymap.set('n', '<leader>5', '<cmd>tabnext 5<cr>')
+vim.keymap.set('n', '<leader>6', '<cmd>tabnext 6<cr>')
+vim.keymap.set('n', '<leader>7', '<cmd>tabnext 7<cr>')
+vim.keymap.set('n', '<leader>8', '<cmd>tabnext 8<cr>')
+vim.keymap.set('n', '<leader>9', '<cmd>tabnext 9<cr>')
 
 -- SCROLLING
 -- tab moves cursor 10 lines down, shift-tab 10 lines up
