@@ -355,9 +355,9 @@ in
         "network#2"
         "cpu"
         "backlight"
+        "custom/wlsunset"
         "wireplumber"
         "bluetooth"
-        "custom/wlsunset"
         "battery"
       ];
       "custom/pomo" = {
