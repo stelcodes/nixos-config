@@ -206,7 +206,8 @@
               CONFIG_DIR="$HOME/nixos-config"
 
               rebuild() {
-                /run/wrappers/bin/doas nixos-rebuild --option eval-cache false switch --flake "$CONFIG_DIR#" 2>&1 | tee "$LOG_FILE";
+                # Using --impure because reading from a <agenix-secret>.path requires it
+                /run/wrappers/bin/doas nixos-rebuild --impure --option eval-cache false switch --flake "$CONFIG_DIR#" 2>&1 | tee "$LOG_FILE";
               }
               succeed() {
                 echo "New generation created 🥳" | tee -a "$LOG_FILE";
