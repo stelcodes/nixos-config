@@ -63,6 +63,20 @@
       }
     },
     "flake-utils": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "id": "flake-utils",
+        "type": "indirect"
+      }
+    },
+    "flake-utils_2": {
       "inputs": {
         "systems": "systems"
       },
@@ -100,6 +114,32 @@
         "type": "github"
       }
     },
+    "manix": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "home-manager": [
+          "home-manager"
+        ],
+        "naersk": "naersk",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1670185987,
+        "narHash": "sha256-5uYIXMxw4ulZp6FlW1y01o01BxXkVHFGAhXkgaQB1VA=",
+        "owner": "kulabun",
+        "repo": "manix",
+        "rev": "dfb3bb1164fb6b6c61597c9cb10110cc45e1203d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kulabun",
+        "repo": "manix",
+        "rev": "dfb3bb1164fb6b6c61597c9cb10110cc45e1203d",
+        "type": "github"
+      }
+    },
     "musnix": {
       "inputs": {
         "nixpkgs": [
@@ -120,10 +160,31 @@
         "type": "github"
       }
     },
+    "naersk": {
+      "inputs": {
+        "nixpkgs": [
+          "manix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1662220400,
+        "narHash": "sha256-9o2OGQqu4xyLZP9K6kNe1pTHnyPz0Wr3raGYnr9AIgY=",
+        "owner": "nix-community",
+        "repo": "naersk",
+        "rev": "6944160c19cb591eb85bbf9b2f2768a935623ed3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "naersk",
+        "type": "github"
+      }
+    },
     "nix-alien": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "flake-utils": "flake-utils",
+        "flake-utils": "flake-utils_2",
         "nix-index-database": [
           "nix-index-database"
         ],
@@ -185,6 +246,7 @@
       "inputs": {
         "agenix": "agenix",
         "home-manager": "home-manager",
+        "manix": "manix",
         "musnix": "musnix",
         "nix-alien": "nix-alien",
         "nix-index-database": "nix-index-database",

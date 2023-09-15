@@ -26,6 +26,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    manix = {
+      # Fork with crucial fixes, upstream seems abandoned
+      url = "github:kulabun/manix/dfb3bb1164fb6b6c61597c9cb10110cc45e1203d";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   # Function that tells my flake which to use and what do what to do with the dependencies.

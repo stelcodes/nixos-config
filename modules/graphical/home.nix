@@ -1,4 +1,4 @@
-{ pkgs, lib, theme, ... }: {
+{ pkgs, inputs, lib, theme, system, ... }: {
 
   imports = [
     ../sway/home.nix
@@ -68,6 +68,7 @@
       pkgs.gajim
       pkgs.qpwgraph
       pkgs.audacious # Use QT_QPA_PLATFORM=xcb to adjust plugin windows (Wayland QT issues)
+      inputs.manix.packages.${system}.manix
     ];
   };
 
