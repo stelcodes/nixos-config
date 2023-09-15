@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, config, ... }: {
 
   # https://github.com/musnix/musnix
   musnix = {
@@ -8,6 +8,11 @@
     # soundcardPciId = "00:1f.3";
   };
 
+  age.secrets = {
+    pvpn-fast-private-key.file = ../../secrets/framework/wg/pvpn-fast/private-key.age;
+    pvpn-fast-public-key.file = ../../secrets/framework/wg/pvpn-fast/public-key.age;
+    pvpn-fast-endpoint.file = ../../secrets/framework/wg/pvpn-fast/endpoint.age;
+  };
   powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
 
   # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
