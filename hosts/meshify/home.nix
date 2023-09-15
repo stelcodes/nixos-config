@@ -11,5 +11,6 @@
     pkgs.kodi-wayland
     pkgs.audacity
     pkgs.ffmpeg
+    pkgs.fractal
   ];
 }
