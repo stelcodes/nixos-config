@@ -260,6 +260,20 @@
             buildInputs = [ super.makeWrapper ];
             postBuild = "wrapProgram $out/bin/mixxx --add-flags '-platform xcb'";
           };
+          check-newline = super.writeShellApplication {
+            name = "check-newline";
+            runtimeInputs = [ pkgs.coreutils ];
+            text = ''
+              filename="$1"
+              if [ ! -s "$filename" ]; then
+                echo "$filename is empty"
+              elif [ -z "$(tail -c 1 <"$filename")" ]; then
+                echo "$filename ends with a newline or with a null byte"
+              else
+                echo "$filename does not end with a newline nor with a null byte"
+              fi
+            '';
+          };
         })
       ];
     };

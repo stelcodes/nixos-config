@@ -275,6 +275,7 @@
       pkgs.dua
       pkgs.croc
       pkgs.yt-dlp
+      pkgs.check-newline
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
