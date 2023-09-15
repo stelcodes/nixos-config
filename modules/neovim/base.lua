@@ -160,12 +160,11 @@ vim.keymap.set('n', '<c-f>', SubstituteYanked)
 
 -- WINDOWS
 -- Navigate windows by direction
-vim.keymap.set('n', '<c-j>', '<C-w>j')
-vim.keymap.set('n', '<c-k>', '<C-w>k')
-vim.keymap.set('n', '<c-h>', '<c-w>h')
-vim.keymap.set('n', '<c-l>', '<c-w>l')
--- Delete current buffer, also avoid Ex mode
-vim.keymap.set('n', '<c-q>', '<cmd>wq<cr>')
+vim.keymap.set('n', '<c-j>', '<cmd>wincmd j<cr>')
+vim.keymap.set('n', '<c-k>', '<cmd>wincmd k<cr>')
+vim.keymap.set('n', '<c-h>', '<cmd>wincmd h<cr>')
+vim.keymap.set('n', '<c-l>', '<cmd>wincmd l<cr>')
+vim.keymap.set('n', '<c-q>', '<cmd>wincmd q<cr>')
 
 vim.keymap.set('n', '<c-x>', '<cmd>split %<cr>')
 
