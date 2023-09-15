@@ -233,21 +233,6 @@ vim.keymap.set('n', '<c-p>', ToggleParedit)
 ---------------------------------------------------------------------------------
 -- EVENT BASED COMMANDS
 
-vim.cmd [[
-augroup init
-  " Remove all autocommands to prevent duplicates on config reload
-  autocmd!
-  " Update a buffer if it has changed when a FocusGained or BufEnter event happens
-  autocmd FocusGained,BufEnter * checktime
-  " Wrap text for certain filetypes
-  autocmd FileType markdown setlocal wrap
-  " Option sort_by = 'tabs' isn't working. This is a workaround.
-  " autocmd TabNew * BufferLineSortByTabs
-  " Keep gitsigns line indicators up to date
-  " autocmd FocusGained,BufEnter * Gitsigns refresh
-augroup END
-]]
-
 vim.filetype.add({
   extension = {
     age = 'age',
@@ -261,3 +246,16 @@ vim.api.nvim_create_autocmd('FileType', {
   group = general,
   command = 'setlocal noendofline nofixendofline',
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  group = general,
+  command = 'setlocal wrap',
+})
+
+vim.api.nvim_create_autocmd({'FocusGained', 'BufEnter'}, {
+  pattern = '*',
+  group = general,
+  command = 'checktime',
+})
+
