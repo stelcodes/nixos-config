@@ -7,11 +7,11 @@ in
 {
   # For all systems use `builtins.attrValues systems`
 
-  "meshify/wg/protonvpn-fast/private-key.age".publicKeys = [ systems.meshify ];
-  "meshify/wg/protonvpn-fast/public-key.age".publicKeys = [ systems.meshify ];
-  "meshify/wg/protonvpn-fast/endpoint.age".publicKeys = [ systems.meshify ];
+  "meshify/wg/pvpn-fast/private-key.age".publicKeys = [ systems.meshify ];
+  "meshify/wg/pvpn-fast/public-key.age".publicKeys = [ systems.meshify ];
+  "meshify/wg/pvpn-fast/endpoint.age".publicKeys = [ systems.meshify ];
 
-  "meshify/wg/protonvpn-secure/private-key.age".publicKeys = [ systems.meshify ];
-  "meshify/wg/protonvpn-secure/public-key.age".publicKeys = [ systems.meshify ];
-  "meshify/wg/protonvpn-secure/endpoint.age".publicKeys = [ systems.meshify ];
+  "meshify/wg/pvpn-secure/private-key.age".publicKeys = [ systems.meshify ];
+  "meshify/wg/pvpn-secure/public-key.age".publicKeys = [ systems.meshify ];
+  "meshify/wg/pvpn-secure/endpoint.age".publicKeys = [ systems.meshify ];
 }
