@@ -84,7 +84,7 @@ vim.opt.updatetime = 300
 -- Wait forever for mappings
 vim.opt.timeout = false
 -- Copy paste between vim and everything else
-vim.opt.clipboard='unnamedplus'
+vim.opt.clipboard = 'unnamedplus'
 -- Display long lines as just one line
 vim.opt.wrap = false
 -- Makes popup menu smaller
@@ -117,7 +117,7 @@ vim.opt.linebreak = true
 -- Have dark background by default
 vim.opt.bg = 'dark'
 -- Allow left/right scrolling to jump lines
-vim.opt.whichwrap='h,l'
+vim.opt.whichwrap = 'h,l'
 -- keep cursor centered vertically while scrolling
 vim.opt.scrolloff = 999
 -- make minimum width for number column smallest value so it doesn't take up much room
@@ -136,7 +136,7 @@ vim.opt.swapfile = false
 ----------------------------------------------------------------------------------------
 -- GLOBALS
 
-vim.g['clojure_fuzzy_indent_patterns'] = {'^with', '^def', '^let', '^try', '^do'}
+vim.g['clojure_fuzzy_indent_patterns'] = { '^with', '^def', '^let', '^try', '^do' }
 vim.g['clojure_align_multiline_strings'] = 0
 vim.g['clojure_align_subforms'] = 1
 -- Number of lines formatting will affect by default, 0 is no limit
@@ -165,8 +165,7 @@ vim.keymap.set('n', '<c-k>', '<C-w>k')
 vim.keymap.set('n', '<c-h>', '<c-w>h')
 vim.keymap.set('n', '<c-l>', '<c-w>l')
 -- Delete current buffer, also avoid Ex mode
-vim.keymap.set('n', '<c-q>', '<cmd>bd<cr>')
-vim.keymap.set('t', '<c-q>', '<esc><cmd>bd!<cr>')
+vim.keymap.set('n', '<c-q>', '<cmd>wq<cr>')
 
 vim.keymap.set('n', '<c-x>', '<cmd>split %<cr>')
 
@@ -226,7 +225,8 @@ vim.keymap.set('n', '<c-b>', '<c-v>')
 -- Make terminal mode easy to exit
 vim.keymap.set('t', '<c-\\><esc>', '<c-\\><c-n>')
 --Debugging syntax highlighting
-vim.keymap.set('n', '<f10>', ':echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>')
+vim.keymap.set('n', '<f10>',
+  ':echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>')
 -- Toggle spell
 vim.keymap.set('n', '<c-s>', ':set spell!<cr>')
 vim.keymap.set('n', '<c-p>', ToggleParedit)
@@ -249,3 +249,16 @@ augroup init
 augroup END
 ]]
 
+vim.filetype.add({
+  extension = {
+    age = 'age',
+  },
+})
+
+local general = vim.api.nvim_create_augroup('general', { clear = true })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'age',
+  group = general,
+  command = 'setlocal noendofline nofixendofline',
+})
