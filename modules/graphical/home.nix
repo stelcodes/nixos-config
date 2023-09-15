@@ -114,7 +114,7 @@
             if [[ $block_type -eq 0 ]]; then
                 echo "End of work period"
                 send_msg 'End of a work period. Locking Screen!'
-                ${pkgs.playerctl}/bin/playerctl --all-players stop
+                ${pkgs.playerctl}/bin/playerctl --all-players pause
                 ${pkgs.mpv}/bin/mpv ${pkgs.pomo-alert} || sleep 10
                 if ${pkgs.procps}/bin/pgrep sway &> /dev/null; then
                   echo "Sway detected"
