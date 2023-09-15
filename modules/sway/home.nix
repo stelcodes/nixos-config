@@ -275,8 +275,7 @@ in
 
     wlsunset = {
       enable = true;
-      # Using a bogus target name so wlsunset will not start automatically
-      systemdTarget = "null.target";
+      systemdTarget = "sway-session.target";
       latitude = "38";
       longitude = "-124";
       temperature = {
