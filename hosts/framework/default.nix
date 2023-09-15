@@ -13,6 +13,20 @@
     pvpn-fast-public-key.file = ../../secrets/framework/wg/pvpn-fast/public-key.age;
     pvpn-fast-endpoint.file = ../../secrets/framework/wg/pvpn-fast/endpoint.age;
   };
+
+  networking.vpnConnections = {
+    pvpn-fast = {
+      enable = true;
+      autostart = true;
+      killswitch = true;
+      privateKeyFile = builtins.toString config.age.secrets.pvpn-fast-private-key.path;
+      endpoint = {
+        publicKey = lib.fileContents config.age.secrets.pvpn-fast-public-key.path;
+        ip = lib.fileContents config.age.secrets.pvpn-fast-endpoint.path;
+      };
+    };
+  };
+
   powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
 
   # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
