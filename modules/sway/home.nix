@@ -451,7 +451,7 @@ in
       };
       "network#2" = {
         max-length = 60;
-        interface = "proton*";
+        interface = "pvpn*";
         format = "";
         format-disconnected = "";
         on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
