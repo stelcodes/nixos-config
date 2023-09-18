@@ -391,6 +391,7 @@
           v = "-!env";
           e = "-enqueue";
           E = "-enqueue-all";
+          n = "-nvim-clean";
         };
         src =
           let
@@ -410,10 +411,15 @@
               runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
               text = builtins.readFile ./enqueue-all.sh;
             };
+            nvim-clean = pkgs.writeShellApplication {
+              name = "nvim-clean";
+              runtimeInputs = [ pkgs.neovim ];
+              text = builtins.readFile ./nvim-clean.sh;
+            };
           in
           pkgs.symlinkJoin {
             name = "nnn-plugins";
-            paths = [ "${upstream}/plugins" "${enqueue}/bin" "${enqueue-all}/bin" ];
+            paths = [ "${upstream}/plugins" "${enqueue}/bin" "${enqueue-all}/bin" "${nvim-clean}/bin" ];
           };
       };
     };
