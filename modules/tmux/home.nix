@@ -49,7 +49,7 @@ in
     baseIndex = 1;
     keyMode = "vi";
     prefix = "M-a";
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
     secureSocket = false;
     plugins = [
       pkgs.tmuxPlugins.yank
