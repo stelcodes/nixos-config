@@ -36,6 +36,11 @@
       url = "github:polygon/gpt4all-nix/d80a923ea94c5ef46f507b6a4557093ad9086ef6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # I'm using the nixpkgs version atm because the flake has messy dependencies
+    # telescope-manix = {
+    #   url = "github:MrcJkb/telescope-manix/392a883dec9d8ccfb1da3e10d1101ae34e627b97";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   # Function that tells my flake which to use and what do what to do with the dependencies.

@@ -3,6 +3,7 @@ local tele = require('telescope')
 local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
 local browser = tele.extensions.file_browser
+local manix = tele.extensions.manix
 
 local find_files_from_root = function()
   builtin.find_files {
@@ -78,6 +79,7 @@ tele.setup {
 }
 tele.load_extension('ui-select')
 tele.load_extension('file_browser')
+tele.load_extension('manix')
 vim.keymap.set('n', '<leader>ff', builtin.find_files)
 vim.keymap.set('n', '<leader>fb', browser.file_browser)
 vim.keymap.set('n', '<leader>fr', find_files_from_root)
@@ -87,8 +89,9 @@ vim.keymap.set('n', '<leader>R', function() builtin.live_grep {hidden = true, ad
 vim.keymap.set('n', '<leader>d', builtin.diagnostics)
 vim.keymap.set('n', '<leader>p', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)
+vim.keymap.set('n', '<leader>M', manix.manix)
 vim.keymap.set('n', '<leader>c', builtin.commands)
-vim.keymap.set('n', '<leader>o', function() builtin.colorscheme {enable_preview = true} end)
+vim.keymap.set('n', '<leader>C', function() builtin.colorscheme {enable_preview = true} end)
 vim.keymap.set('n', '<leader>h', builtin.help_tags)
 vim.keymap.set('n', '<leader>b', builtin.buffers)
 vim.keymap.set('n', '<leader>B', builtin.current_buffer_fuzzy_find)

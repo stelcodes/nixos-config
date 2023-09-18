@@ -282,6 +282,9 @@
             }
           '';
         }
+
+        pkgs.vimPlugins.telescope-manix
+
       ];
   };
 }
