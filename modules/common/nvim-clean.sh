@@ -3,16 +3,9 @@
 SEL=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 
 if [ -s "$SEL" ]; then
-  RTP=""
-  for x in $(<"$SEL"); do
-    RTP="$RTP:$x"
+  EXTRA_ARGS=""
+  for PLUGIN_DIR in $(<"$SEL"); do
+    EXTRA_ARGS="$EXTRA_ARGS --cmd 'set runtimepath^=$PLUGIN_DIR'"
   done
-  # Clear selection
-  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
-      printf "-" > "$NNN_PIPE"
-  fi
-  nvim --clean --cmd "set rtp^=$RTP"
-else
-  nvim --clean
+  echo "$EXTRA_ARGS" | xargs nvim --clean
 fi
-

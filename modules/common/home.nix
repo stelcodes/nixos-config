@@ -413,7 +413,7 @@
             };
             nvim-clean = pkgs.writeShellApplication {
               name = "nvim-clean";
-              runtimeInputs = [ pkgs.neovim ];
+              runtimeInputs = [ pkgs.neovim-unwrapped pkgs.coreutils-full ];
               text = builtins.readFile ./nvim-clean.sh;
             };
           in
