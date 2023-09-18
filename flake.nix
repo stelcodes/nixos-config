@@ -32,6 +32,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    gpt4all-nix = {
+      url = "github:polygon/gpt4all-nix/d80a923ea94c5ef46f507b6a4557093ad9086ef6";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # Function that tells my flake which to use and what do what to do with the dependencies.

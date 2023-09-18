@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, system, ... }: {
   imports = [
     ../../modules/vscode/home.nix
   ];
@@ -12,5 +12,6 @@
     pkgs.audacity
     pkgs.ffmpeg
     pkgs.fractal
+    inputs.gpt4all-nix.packages.${system}.default
   ];
 }
