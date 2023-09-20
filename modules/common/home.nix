@@ -67,7 +67,7 @@
         font-decrease=Control+minus
         font-reset=Control+equal
         spawn-terminal=none
-        show-urls-launch=Control+u
+        show-urls-launch=Control+slash
         prompt-prev=none
         prompt-next=none
 
