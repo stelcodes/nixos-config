@@ -79,7 +79,7 @@
           initialPassword = "password";
           isNormalUser = true;
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list
-          extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" ];
+          extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "multimedia" ];
           openssh.authorizedKeys.keys = [
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
           ];
