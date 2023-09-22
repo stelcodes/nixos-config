@@ -1,7 +1,7 @@
-{ ... }: {
+{ pkgs, ... }: {
 
   home = {
-    stateVersion = "23.05";
+    stateVersion = "23.11";
     packages = [
       pkgs.vscodium
     ];

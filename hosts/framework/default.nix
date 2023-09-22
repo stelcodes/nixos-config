@@ -68,6 +68,6 @@
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
 
 }
