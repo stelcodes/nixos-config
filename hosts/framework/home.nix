@@ -1,7 +1,9 @@
 { ... }: {
-  imports = [
-    ../../modules/vscode/home.nix
-  ];
 
-  home.stateVersion = "23.05";
+  home = {
+    stateVersion = "23.05";
+    packages = [
+      pkgs.vscodium
+    ];
+  };
 }
