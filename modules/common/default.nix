@@ -85,20 +85,20 @@
       nix-ld.enable = true;
     };
 
-    environment.systemPackages =
-      with pkgs; [
-        vim
-        neovim
-        bat
-        htop
-        trash-cli
-        fd
-        ripgrep
-        tealdeer
-        unzip
-        git
-        inputs.agenix.packages.${system}.default
-      ];
+    environment.systemPackages = [
+      pkgs.vim
+      pkgs.neovim
+      pkgs.bat
+      pkgs.htop
+      pkgs.trash-cli
+      pkgs.fd
+      pkgs.ripgrep
+      pkgs.tealdeer
+      pkgs.unzip
+      pkgs.git
+      pkgs.wireguard-tools
+      inputs.agenix.packages.${system}.default
+    ];
 
     services = {
 
