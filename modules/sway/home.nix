@@ -233,6 +233,19 @@ in
         fi
       '';
     }; in "${app}/bin/swayidle-cleanup";
+
+    polkit-gnome = {
+      Unit = {
+        Description = "GNOME polkit authentication agent";
+      };
+      Service = {
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "always";
+      };
+      Install = {
+        WantedBy = [ "sway-session.target" ];
+      };
+    };
   };
 
   services = {
