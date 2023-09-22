@@ -73,7 +73,8 @@
     users.users.${user} = {
       initialPassword = "password";
       isNormalUser = true;
-      extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" ];
+      # https://wiki.archlinux.org/title/Users_and_groups#Group_list
+      extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "optical" "floppy" "storage" "disk" "scanner" ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
       ];
