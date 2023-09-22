@@ -282,6 +282,23 @@
         "type": "github"
       }
     },
+    "nnn-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1693110313,
+        "narHash": "sha256-g19uI36HyzTF2YUQKFP4DE2ZBsArGryVHhX79Y0XzhU=",
+        "owner": "jarun",
+        "repo": "nnn",
+        "rev": "33126ee813ed92726aa66295b9771ffe93e7ff0a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jarun",
+        "ref": "v4.9",
+        "repo": "nnn",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -291,7 +308,8 @@
         "musnix": "musnix",
         "nix-alien": "nix-alien",
         "nix-index-database": "nix-index-database",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nnn-src": "nnn-src"
       }
     },
     "systems": {

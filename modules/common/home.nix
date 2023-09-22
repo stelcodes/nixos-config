@@ -159,7 +159,9 @@
 
       nnn = {
         enable = true;
-        package = pkgs.nnn.override { withNerdIcons = true; };
+        package = (pkgs.nnn.override { withNerdIcons = true; }).overrideAttrs (finalAttrs: previousAttrs: {
+          patches = [ "${inputs.nnn-src}/patches/gitstatus/mainline.diff" ];
+        });
         extraPackages = [
           pkgs.coreutils-full
           pkgs.gnused
@@ -183,17 +185,9 @@
             })
           ];
           src =
-            let
-              upstream = pkgs.fetchFromGitHub {
-                owner = "jarun";
-                repo = "nnn";
-                rev = "v4.8";
-                sha256 = "QbKW2wjhUNej3zoX18LdeUHqjNLYhEKyvPH2MXzp/iQ=";
-              };
-            in
             pkgs.symlinkJoin {
               name = "nnn-plugins";
-              paths = [ "${upstream}/plugins" ] ++ map (script: "${script}/bin") config.programs.nnn.plugins.scripts;
+              paths = [ "${inputs.nnn-src}/plugins" ] ++ map (script: "${script}/bin") config.programs.nnn.plugins.scripts;
             };
         };
       };

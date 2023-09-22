@@ -36,6 +36,13 @@
       url = "github:polygon/gpt4all-nix/d80a923ea94c5ef46f507b6a4557093ad9086ef6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nnn-src = {
+      type = "github";
+      owner = "jarun";
+      repo = "nnn";
+      ref = "v4.9";
+      flake = false;
+    };
     # I'm using the nixpkgs version atm because the flake has messy dependencies
     # telescope-manix = {
     #   url = "github:MrcJkb/telescope-manix/392a883dec9d8ccfb1da3e10d1101ae34e627b97";
