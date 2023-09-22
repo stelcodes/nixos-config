@@ -4,6 +4,10 @@
     ./hardware-configuration.nix
   ];
 
+  services = {
+    xserver.xkbOptions = "caps:escape";
+  };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

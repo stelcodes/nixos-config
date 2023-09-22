@@ -1,4 +1,4 @@
-{ pkgs, theme, ... }:
+{ pkgs, lib, theme, ... }:
 let
   viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
   modifier = "Mod4";
@@ -132,7 +132,7 @@ in
       # The ordering *does* matter so the value should be a list, not a set.
       input = {
         "type:keyboard" = {
-          xkb_options = "caps:escape,altwin:swap_alt_win";
+          xkb_options = lib.mkDefault "caps:escape,altwin:swap_alt_win";
           xkb_layout = "us";
         };
         "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
