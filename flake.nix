@@ -125,7 +125,7 @@
         # macbook laptop i7-4650U
         ########################################################################
         macbook = mkComputer {
-          hostName = "meshify";
+          hostName = "macbook";
           system = "x86_64-linux";
           themeName = "everforest";
           type = "laptop";
