@@ -98,6 +98,7 @@
       themeName = "Nord";
     };
 
+    btop = "nord";
   };
 
   everforest = rec {
@@ -191,6 +192,8 @@
       };
       themeName = "Everforest Dark";
     };
+
+    btop = "everforest-dark-hard";
   };
 
   rose-pine = rec {
@@ -275,6 +278,7 @@
     tmuxPrimary = green;
     tmuxSecondary = cyan;
 
+    btop = "tokyo-storm";
 
   };
 }

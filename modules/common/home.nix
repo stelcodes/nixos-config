@@ -17,28 +17,33 @@
   config = {
     systemd.user.startServices = true;
 
-      xdg = {
-        userDirs = {
-          enable = true;
-          createDirectories = true;
-          desktop = "$HOME/desktop";
-          documents = "$HOME/documents";
-          download = "$HOME/downloads";
-          music = "$HOME/music";
-          pictures = "$HOME/pictures";
-          publicShare = "$HOME/public";
-          templates = "$HOME/template";
-          videos = "$HOME/videos";
-        };
-        configFile = {
-          "starship.toml".source = ../../misc/starship.toml;
-          "systemd/user.conf".text = ''
-            [Manager]
-            DefaultTimeoutStopSec=10
-            DefaultTimeoutAbortSec=10
-          '';
-        };
+    xdg = {
+      userDirs = {
+        enable = true;
+        createDirectories = true;
+        desktop = "$HOME/desktop";
+        documents = "$HOME/documents";
+        download = "$HOME/downloads";
+        music = "$HOME/music";
+        pictures = "$HOME/pictures";
+        publicShare = "$HOME/public";
+        templates = "$HOME/template";
+        videos = "$HOME/videos";
       };
+      configFile = {
+        "starship.toml".source = ../../misc/starship.toml;
+        "systemd/user.conf".text = ''
+          [Manager]
+          DefaultTimeoutStopSec=10
+          DefaultTimeoutAbortSec=10
+        '';
+        # https://github.com/aristocratos/btop#configurability
+        "btop/btop.conf".text = ''
+          color_theme = "${theme.btop}"
+          vim_keys = True
+        '';
+      };
+    };
 
     home = {
       username = "${user}";
