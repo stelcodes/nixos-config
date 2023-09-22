@@ -2,6 +2,20 @@
 let
   viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
   modifier = "Mod4";
+  # Sway does not support input or output identifier pattern matching so in order to apply settings for every
+  # Apple keyboard, I have to create a new rule for each Apple keyboard I use.
+  appleKeyboardIdentifiers = [
+    "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad"
+  ];
+  appleKeyboardConfig = lib.strings.concatMapStrings
+    (id: ''
+      input "${id}" {
+        xkb_layout us
+        xkb_options caps:escape
+        xkb_variant mac
+      }
+    '')
+    appleKeyboardIdentifiers;
 in
 {
 
@@ -132,11 +146,8 @@ in
       # The ordering *does* matter so the value should be a list, not a set.
       input = {
         "type:keyboard" = {
-          xkb_options = lib.mkDefault "caps:escape,altwin:swap_alt_win";
+          xkb_options = "caps:escape,altwin:swap_alt_win";
           xkb_layout = "us";
-        };
-        "1452:657:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" = {
-          xkb_variant = "mac";
         };
         "type:touchpad" = {
           natural_scroll = "enabled";
@@ -167,6 +178,7 @@ in
       ];
     };
     extraConfig = ''
+      ${appleKeyboardConfig}
       # Any future keyboard xkb_options overrides need to go here
       bindgesture swipe:4:right workspace prev
       bindgesture swipe:4:left workspace next
