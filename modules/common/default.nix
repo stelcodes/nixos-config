@@ -90,7 +90,7 @@
       pkgs.vim
       pkgs.neovim
       pkgs.bat
-      pkgs.htop
+      pkgs.btop
       pkgs.trash-cli
       pkgs.fd
       pkgs.ripgrep
