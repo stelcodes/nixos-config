@@ -385,4 +385,35 @@
     };
   };
 
+  programs = {
+    nnn = {
+      extraPackages = [
+        pkgs.ffmpeg
+        pkgs.ffmpegthumbnailer
+        pkgs.dragon
+        pkgs.mediainfo
+      ];
+      plugins = {
+        mappings = {
+          d = "dragdrop";
+          e = "-enqueue";
+          E = "-enqueue-all";
+        };
+        scripts = [
+          (pkgs.writeShellApplication {
+            name = "enqueue";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
+            text = builtins.readFile ./enqueue.sh;
+          })
+          (pkgs.writeShellApplication {
+            name = "enqueue-all";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
+            text = builtins.readFile ./enqueue-all.sh;
+          })
+
+        ];
+      };
+    };
+  };
+
 }
