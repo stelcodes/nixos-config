@@ -68,17 +68,24 @@
     # security.acme.email = "stel@stel.codes";
     # security.acme.acceptTerms = true;
 
-    users.mutableUsers = true;
-    # Don't forget to set a password with ‘passwd’.
-    users.users.${user} = {
-      initialPassword = "password";
-      isNormalUser = true;
-      # https://wiki.archlinux.org/title/Users_and_groups#Group_list
-      extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "optical" "floppy" "storage" "disk" "scanner" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
-      ];
-      shell = pkgs.fish;
+    users = {
+      mutableUsers = true;
+      groups = {
+        multimedia = { };
+      };
+      # Don't forget to set a password with ‘passwd’.
+      users = {
+        ${user} = {
+          initialPassword = "password";
+          isNormalUser = true;
+          # https://wiki.archlinux.org/title/Users_and_groups#Group_list
+          extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" ];
+          openssh.authorizedKeys.keys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
+          ];
+          shell = pkgs.fish;
+        };
+      };
     };
 
     programs = {
