@@ -3,6 +3,8 @@
     ../../modules/vscode/home.nix
   ];
 
+  home.stateVersion = "23.05";
+
   home.packages = [
     pkgs.musescore
     pkgs.bitwig-studio

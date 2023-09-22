@@ -248,7 +248,6 @@
   };
 
   home = {
-    stateVersion = "23.05";
 
     username = "${user}";
     homeDirectory = "/home/${user}";
