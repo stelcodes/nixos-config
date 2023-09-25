@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, user, theme, hostName, system, ... }: {
+{ pkgs, lib, config, inputs, adminName, theme, hostName, system, ... }: {
 
   imports = [
     ../vpn
@@ -59,7 +59,7 @@
 
     security.doas.enable = true;
     security.doas.extraRules = [{
-      users = [ user ];
+      users = [ adminName ];
       keepEnv = true;
       noPass = true;
       # persist = true;
@@ -75,7 +75,7 @@
       };
       # Don't forget to set a password with ‘passwd’.
       users = {
-        ${user} = {
+        ${adminName} = {
           initialPassword = "password";
           isNormalUser = true;
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list

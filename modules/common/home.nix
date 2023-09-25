@@ -1,4 +1,4 @@
-{ pkgs, lib, user, inputs, theme, config, ... }: {
+{ pkgs, lib, adminName, inputs, theme, config, ... }: {
 
   imports = [
     ../fish/home.nix
@@ -46,8 +46,8 @@
     };
 
     home = {
-      username = "${user}";
-      homeDirectory = "/home/${user}";
+      username = "${adminName}";
+      homeDirectory = "/home/${adminName}";
 
       packages = [
         pkgs.htop

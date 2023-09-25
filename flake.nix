@@ -53,7 +53,7 @@
   # Function that tells my flake which to use and what do what to do with the dependencies.
   outputs = inputs:
     let
-      mkComputer = { system, user, themeName, hostName, type, ... }:
+      mkComputer = { system, adminName, themeName, hostName, type, ... }:
         let
           pkgs = import inputs.nixpkgs { inherit system; };
           themes = import ./misc/themes.nix pkgs;
@@ -72,7 +72,7 @@
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs user theme hostName system;
+            inherit inputs adminName theme hostName system;
           };
           modules = [
             ./hosts/${hostName}
@@ -83,9 +83,9 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit inputs user theme hostName system;
+                inherit inputs adminName theme hostName system;
               };
-              home-manager.users.${user} = {
+              home-manager.users.${adminName} = {
                 imports = [
                   ./modules/common/home.nix
                   ./hosts/${hostName}/home.nix
@@ -106,7 +106,7 @@
           system = "x86_64-linux";
           themeName = "everforest";
           type = "laptop";
-          user = "stel";
+          adminName = "stel";
         };
 
         ########################################################################
@@ -117,7 +117,7 @@
           system = "x86_64-linux";
           themeName = "everforest";
           type = "desktop";
-          user = "stel";
+          adminName = "stel";
         };
 
 
@@ -129,9 +129,17 @@
           system = "x86_64-linux";
           themeName = "everforest";
           type = "laptop";
-          user = "stel";
+          adminName = "stel";
         };
 
       };
+
+      # homeConfigurations = {
+      #   macos = inputs.home-manager.lib.homeManagerConfiguration {
+      #     system = "";
+      #     username = "stel";
+      #     homeDirectory = "";
+      #   };
+      # };
     };
 }
