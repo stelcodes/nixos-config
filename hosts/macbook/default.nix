@@ -6,6 +6,10 @@
 
   services = {
     xserver.xkbOptions = "caps:escape";
+    syncthing = {
+      enable = true;
+      selectedFolders = [ "default" ];
+    };
   };
 
   # Bootloader.
