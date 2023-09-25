@@ -1,5 +1,12 @@
 { pkgs, lib, config, ... }: {
 
+  services = {
+    syncthing = {
+      enable = true;
+      selectedFolders = [ "default" ];
+    };
+  };
+
   # https://github.com/musnix/musnix
   musnix = {
     enable = true;
