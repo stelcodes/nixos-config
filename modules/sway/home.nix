@@ -1,4 +1,4 @@
-{ pkgs, lib, theme, ... }:
+{ pkgs, lib, theme, adminName, hostName, ... }:
 let
   viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
   modifier = "Mod4";
@@ -259,6 +259,20 @@ in
         WantedBy = [ "sway-session.target" ];
       };
     };
+
+    syncthing-tray = {
+      Unit = {
+        Description = "Simple tray for syncthing file sync service";
+      };
+      Service = {
+        ExecStart = "${pkgs.syncthing-tray}/bin/syncthing-tray -api 'st:${adminName}@${hostName}'";
+        Restart = "always";
+      };
+      Install = {
+        WantedBy = [ "sway-session.target" ];
+      };
+    };
+
   };
 
   services = {
