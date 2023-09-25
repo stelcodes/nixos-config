@@ -9,18 +9,21 @@ let
       maxAge = "31536000"; # Keep versions for up to a year
     };
   };
-  allFolders = {
-    default = {
-      versioning = staggeredVersioning;
-      path = "${dataDir}/default";
-    };
-  };
   allDevices = {
     framework = {
       id = "G5Q3Q2S-6UCPWME-FPX4RSD-3AWNHAV-36BCGNE-HQ6NEV2-2LWC2MA-DUVQDQZ";
     };
     macbook = {
       id = "JUABVAR-HLJXGIQ-4OZHN2G-P3WJ64R-D77NR74-SOIIEEC-IL53S4S-BO6R7QE";
+    };
+  };
+  allOtherDevices = builtins.removeAttrs allDevices [ hostName ];
+  allOtherDevicesNames = builtins.attrNames allOtherDevices;
+  allFolders = {
+    default = {
+      versioning = staggeredVersioning;
+      path = "${dataDir}/default";
+      devices = allOtherDevicesNames;
     };
   };
 in
@@ -51,7 +54,7 @@ in
             password = "unixsocketsarebetter";
           };
           folders = lib.getAttrs cfg.selectedFolders allFolders;
-          devices = builtins.removeAttrs allDevices [ hostName ];
+          devices = allOtherDevices;
         };
       };
     };
