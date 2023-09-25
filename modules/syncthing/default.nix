@@ -2,6 +2,7 @@
 let
   cfg = config.services.syncthing;
   dataDir = "/home/${adminName}/sync";
+  secretKey = "st:${adminName}@${hostName}";
   staggeredVersioning = {
     type = "staggered";
     params = {
@@ -51,7 +52,8 @@ in
           };
           gui = {
             user = adminName;
-            password = "unixsocketsarebetter";
+            password = secretKey;
+            apikey = secretKey;
           };
           folders = lib.getAttrs cfg.selectedFolders allFolders;
           devices = allOtherDevices;
