@@ -50,7 +50,7 @@
       homeDirectory = "/home/${adminName}";
 
       packages = [
-        pkgs.htop
+        pkgs.btop
         pkgs.trash-cli
         pkgs.fd
         pkgs.neofetch
