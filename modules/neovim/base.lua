@@ -171,7 +171,11 @@ vim.keymap.set('n', '<c-x>', '<cmd>split %<cr>')
 -- TABS
 -- Navigate tabs
 vim.keymap.set('n', 'T', '<cmd>tabnext<cr>')
-vim.keymap.set('n', 't', '<cmd>tabnext #<cr>')
+-- vim.keymap.set('n', 't', '<cmd>tabnext #<cr>')
+vim.keymap.set('n', 't', function()
+  local ok, _ = pcall(vim.cmd, 'tabnext #')
+  if not ok then vim.cmd 'tabnext' end
+end)
 -- Move tabs
 vim.keymap.set('n', '<c-left>', '<cmd>tabmove -1<cr>')
 vim.keymap.set('n', '<c-right>', '<cmd>tabmove +1<cr>')
@@ -262,9 +266,8 @@ vim.api.nvim_create_autocmd('FileType', {
   command = 'setlocal wrap',
 })
 
-vim.api.nvim_create_autocmd({'FocusGained', 'BufEnter'}, {
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
   pattern = '*',
   group = general,
   command = 'checktime',
 })
-
