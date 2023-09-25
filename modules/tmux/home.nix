@@ -50,13 +50,32 @@ in
     keyMode = "vi";
     prefix = "M-a";
     terminal = "tmux-256color";
-    secureSocket = false;
+    secureSocket = false; # Careful, this will mess with tmux-resurrect
     plugins = [
       pkgs.tmuxPlugins.yank
+      # Got this kinda working but honestly tmux-thumbs is fine, it just has this annoying issue: https://github.com/fcsonline/tmux-thumbs/issues/129
+      # {
+      #   plugin = pkgs.tmuxPlugins.fingers.overrideAttrs (prev: {
+      #     postInstall = prev.postInstall + ''
+      #       sed -i 's/mkdir -p $THIS_CURRENT_DIR\/.cache//g' $target/tmux-fingers.tmux
+      #     '';
+      #   });
+      #   extraConfig = ''
+      #     set -g @fingers-main-action 'tmux set-buffer -- {} && test -n "$SWAYSOCK" && echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
+      #     set -g @fingers-hint-format "#[fg=${theme.yellow},bold]%s"
+      #   '';
+      # }
       {
         plugin = pkgs.tmuxPlugins.tmux-thumbs;
         extraConfig = ''
-          set -g @thumbs-command 'echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
+          set -g @thumbs-command 'tmux set-buffer -- {} && test -n "$SWAYSOCK" && echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
+          set -g @thumbs-fg-color '${theme.bg2}'
+          set -g @thumbs-bg-color '${theme.yellow}'
+          set -g @thumbs-select-fg-color '${theme.bg2}'
+          set -g @thumbs-select-bg-color '${theme.red}'
+          set -g @thumbs-hint-fg-color '${theme.blue}'
+          set -g @thumbs-hint-bg-color '${theme.bg2}'
+          set -g @thumbs-position right
         '';
       }
       {
@@ -81,13 +100,13 @@ in
       bind -n M-Q kill-pane
       bind -n M-s choose-tree -s
       bind -n M-S switch-client -l
-      bind -n M-f copy-mode
+      bind -n M-f thumbs-pick
+      bind -n M-c copy-mode
       bind -n M-w new-window -a -c "#{pane_current_path}"
       bind -n M-W select-window -l
       bind -n M-t command-prompt 'new-session -s %%'
       bind -n M-r command-prompt 'rename-session %%'
-      bind -n M-c source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
-      bind -n M-C run-shell -b rebuild
+      bind -n M-R source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
       bind -n M-x split-window -v -c "#{pane_current_path}"
       bind -n M-v split-window -h -c "#{pane_current_path}"
       bind -n M-< swap-window -d -t -1
@@ -137,6 +156,7 @@ in
       set -g window-status-format "#[fg=${theme.bg4},bg=${theme.bg1}] #I #W #F "
       set -g window-status-current-format "#[fg=${theme.fg},bg=${theme.bg2}] #I #W #F "
       set -g window-status-separator ""
+      set -g mode-style "fg=${theme.fg},bg=${theme.bg2}"
     '';
   };
 }
