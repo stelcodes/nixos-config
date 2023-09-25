@@ -2,6 +2,7 @@
 
   imports = [
     ../vpn
+    ../syncthing
     inputs.agenix.nixosModules.default
   ];
 
