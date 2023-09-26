@@ -87,9 +87,13 @@
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
             };
-            "vimium-c@gdh1995.cn" = {
+            # "vimium-c@gdh1995.cn" = {
+            #   installation_mode = "normal_installed";
+            #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-c/latest.xpi";
+            # };
+            "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
               installation_mode = "normal_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-c/latest.xpi";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
             };
             "addon@darkreader.org" = {
               # brightness 35, contrast -5
