@@ -112,9 +112,11 @@
             StartPage = "none";
           };
           ManagedBookmarks = [
+            { toplevel_name = "Default"; }
             { name = "Printing"; url = "localhost:631"; }
-            { name = "Firefox Policies"; url = "mozilla.github.io/policy-templates"; }
+            { name = "Syncthing"; url = "localhost:8384"; }
             { name = "Jellyfin"; url = "macmini:8096"; }
+            { name = "Firefox Policies"; url = "mozilla.github.io/policy-templates"; }
           ];
           ManualAppUpdateOnly = true;
           NewTabPage = false;
