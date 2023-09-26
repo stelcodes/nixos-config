@@ -16,22 +16,7 @@
   };
 
   age.secrets = {
-    pvpn-fast-private-key.file = ../../secrets/framework/wg/pvpn-fast/private-key.age;
-    pvpn-fast-public-key.file = ../../secrets/framework/wg/pvpn-fast/public-key.age;
-    pvpn-fast-endpoint.file = ../../secrets/framework/wg/pvpn-fast/endpoint.age;
-  };
-
-  networking.vpnConnections = {
-    pvpn-fast = {
-      enable = true;
-      autostart = true;
-      killswitch = true;
-      privateKeyFile = builtins.toString config.age.secrets.pvpn-fast-private-key.path;
-      endpoint = {
-        publicKey = lib.fileContents config.age.secrets.pvpn-fast-public-key.path;
-        ip = lib.fileContents config.age.secrets.pvpn-fast-endpoint.path;
-      };
-    };
+    framework-pvpn-fast-wg-quick-config.file = ../../secrets/framework-pvpn-fast-wg-quick-config.age;
   };
 
   powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
@@ -72,8 +57,18 @@
   # Fix brightness keys not working
   boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
 
-  networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.allowedUDPPorts = [ ];
+  networking = {
+    firewall = {
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
+    };
+    wg-quick.interfaces = {
+      pvpn-fast = {
+        configFile = config.age.secrets.framework-pvpn-fast-wg-quick-config.path;
+        autostart = true;
+      };
+    };
+  };
 
   system.stateVersion = "23.11";
 
