@@ -16,6 +16,8 @@ in
   "meshify/wg/pvpn-secure/public-key.age".publicKeys = [ systems.meshify ];
   "meshify/wg/pvpn-secure/endpoint.age".publicKeys = [ systems.meshify ];
 
-
   "framework-pvpn-fast-wg-quick-config.age".publicKeys = [ systems.framework ];
+
+  "admin-password.age".publicKeys = builtins.attrValues systems;
+  "root-password.age".publicKeys = builtins.attrValues systems;
 }

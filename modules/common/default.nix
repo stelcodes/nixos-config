@@ -69,15 +69,24 @@
     # security.acme.email = "stel@stel.codes";
     # security.acme.acceptTerms = true;
 
+    age.secrets = {
+      root-password.file = ../../secrets/root-password.age;
+      admin-password.file = ../../secrets/admin-password.age;
+    };
+
     users = {
-      mutableUsers = true;
       groups = {
         multimedia = { };
       };
-      # Don't forget to set a password with ‘passwd’.
+      mutableUsers = false;
       users = {
+        root = {
+          hashedPasswordFile = config.age.secrets.root-password.path;
+        };
         ${adminName} = {
-          initialPassword = "password";
+          # https://unix.stackexchange.com/a/81248
+          # Generate sha512 password hash with: openssl passwd -6
+          hashedPasswordFile = config.age.secrets.admin-password.path;
           isNormalUser = true;
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list
           extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "multimedia" ];
