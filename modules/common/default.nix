@@ -96,20 +96,27 @@
       nix-ld.enable = true;
     };
 
-    environment.systemPackages = [
-      pkgs.vim
-      pkgs.neovim
-      pkgs.bat
-      pkgs.btop
-      pkgs.trash-cli
-      pkgs.fd
-      pkgs.ripgrep
-      pkgs.tealdeer
-      pkgs.unzip
-      pkgs.git
-      pkgs.wireguard-tools
-      inputs.agenix.packages.${system}.default
-    ];
+    environment = {
+      systemPackages = [
+        pkgs.vim
+        pkgs.neovim
+        pkgs.bat
+        pkgs.btop
+        pkgs.trash-cli
+        pkgs.fd
+        pkgs.ripgrep
+        pkgs.tealdeer
+        pkgs.unzip
+        pkgs.git
+        pkgs.wireguard-tools
+        inputs.agenix.packages.${system}.default
+      ];
+      etc = {
+        # https://www.reddit.com/r/NixOS/comments/16t2njf/small_trick_for_people_using_nixos_with_flakes
+        # Useful for seeing exactly what source flake generated this NixOS system generation
+        "nixos-generation-source".source = ../..;
+      };
+    };
 
     services = {
 
@@ -317,6 +324,18 @@
       cpu.intel.updateMicrocode = true;
       cpu.amd.updateMicrocode = true;
     };
+
+    # I could do this to only create generations tied to specific commits but
+    # then I couldn't rebuild from a dirty git repo.
+    # system.nixos.label =
+    #   let
+    #     # Tag each generation with Git hash
+    #     system.configurationRevision =
+    #       if (inputs.self ? rev)
+    #       then inputs.self.shortRev
+    #       else throw "Refusing to build from a dirty Git tree!";
+    #   in
+    #   "GitRev.${config.system.configurationRevision}.Rel.${config.system.nixos.release}";
 
   };
 }

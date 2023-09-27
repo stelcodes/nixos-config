@@ -89,6 +89,10 @@
         NNN_BATTHEME = "base16";
         NNN_BATSTYLE = "plain";
       };
+
+      file = {
+        ".hm-generation-source".source = ../..;
+      };
     };
 
     programs = {
