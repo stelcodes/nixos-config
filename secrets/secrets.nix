@@ -1,9 +1,14 @@
 let
-  users = { };
+  users = {
+    stel-framework = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGl9G7SYvJy8+u2AF+Mlez6bwhrNfKclWo9mK6mwtNgJ";
+  };
   systems = {
     meshify = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHnPEH3EdHpXZxp4yfD2/psm1m8dbHSGnQ95NLPf6S5g";
     framework = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPv1nZsr+fdrSgtCOrYfsR0c+a3iOdaPJQHEWpZ44xXJ";
   };
+  allSystems = builtins.attrValues systems;
+  allUsers = builtins.attrValues users;
+  allEntities = allSystems ++ allUsers;
 in
 {
   # For all systems use `builtins.attrValues systems`
@@ -18,6 +23,6 @@ in
 
   "framework-pvpn-fast-wg-quick-config.age".publicKeys = [ systems.framework ];
 
-  "admin-password.age".publicKeys = builtins.attrValues systems;
-  "root-password.age".publicKeys = builtins.attrValues systems;
+  "admin-password.age".publicKeys = allEntities;
+  "root-password.age".publicKeys = allEntities;
 }
