@@ -35,11 +35,12 @@ in
   options = {
     services.syncthing.selectedFolders = lib.mkOption {
       description = "Folders to sync with syncthing";
-      type = lib.types.listOf (lib.types.enum (builtins.attrNames allFolders));
+      type = lib.types.either (lib.types.enum [ "all" ]) (lib.types.listOf (lib.types.enum (builtins.attrNames allFolders)));
       default = [ ];
     };
   };
   config = {
+    users.users.${adminName}.packages = [ pkgs.syncthing ];
     services = {
       syncthing = {
         openDefaultPorts = true;
@@ -50,6 +51,7 @@ in
         guiAddress = "127.0.0.1:8384";
         settings = {
           options = {
+            # urSeen and urAccepted don't seem to stop the popup but they are absolutely the right settings
             urSeen = 3;
             urAccepted = -1;
           };
@@ -58,7 +60,7 @@ in
             password = secretKey;
             apikey = secretKey;
           };
-          folders = lib.getAttrs cfg.selectedFolders allFolders;
+          folders = if (cfg.selectedFolders == "all") then allFolders else lib.getAttrs cfg.selectedFolders allFolders;
           devices = allOtherDevices;
         };
       };
