@@ -4,6 +4,13 @@
 
   programs.k3b.enable = true;
 
+  services = {
+    syncthing = {
+      enable = true;
+      selectedFolders = [ "default" ];
+    };
+  };
+
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ ];

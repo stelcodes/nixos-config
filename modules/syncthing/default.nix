@@ -17,6 +17,9 @@ let
     macbook = {
       id = "JUABVAR-HLJXGIQ-4OZHN2G-P3WJ64R-D77NR74-SOIIEEC-IL53S4S-BO6R7QE";
     };
+    meshify = {
+      id = "HXMLVPE-DYRLXGQ-ZYBP7UK-G5AWL4U-B27PDUB-7EQHQY4-SZLROKY-4P54XQV";
+    };
   };
   allOtherDevices = builtins.removeAttrs allDevices [ hostName ];
   allOtherDevicesNames = builtins.attrNames allOtherDevices;
