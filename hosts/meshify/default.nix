@@ -1,5 +1,9 @@
 { pkgs, config, lib, ... }: {
 
+  age.secrets = {
+    meshify-pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
+  };
+
   musnix.enable = true;
 
   programs.k3b.enable = true;
@@ -11,10 +15,18 @@
     };
   };
 
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ ];
-    allowedUDPPorts = [ ];
+  networking = {
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
+    };
+    wg-quick.interfaces = {
+      pvpn-fast = {
+        configFile = config.age.secrets.meshify-pvpn-fast-wg-quick-config.path;
+        autostart = true;
+      };
+    };
   };
 
   # Bootloader.
