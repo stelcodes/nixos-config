@@ -1,4 +1,15 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, adminName, ... }: {
+
+  age.secrets = {
+    root-password.file = ../../secrets/root-password.age;
+    admin-password.file = ../../secrets/admin-password.age;
+    framework-pvpn-fast-wg-quick-config.file = ../../secrets/framework-pvpn-fast-wg-quick-config.age;
+  };
+
+  users.users = {
+    root.hashedPasswordFile = config.age.secrets.root-password.path;
+    ${adminName}.hashedPasswordFile = config.age.secrets.admin-password.path;
+  };
 
   services = {
     syncthing = {
@@ -13,10 +24,6 @@
     # Audio starts with beeps and squeaks when soundcard latency is
     # reduced so it's disabled for now (might be driver issue)
     # soundcardPciId = "00:1f.3";
-  };
-
-  age.secrets = {
-    framework-pvpn-fast-wg-quick-config.file = ../../secrets/framework-pvpn-fast-wg-quick-config.age;
   };
 
   powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";

@@ -1,8 +1,18 @@
-{ hostName, ... }: {
+{ hostName, adminName, config, ... }: {
 
   imports = [
     ./hardware-configuration.nix
   ];
+
+  age.secrets = {
+    root-password.file = ../../secrets/root-password.age;
+    admin-password.file = ../../secrets/admin-password.age;
+  };
+
+  users.users = {
+    root.hashedPasswordFile = config.age.secrets.root-password.path;
+    ${adminName}.hashedPasswordFile = config.age.secrets.admin-password.path;
+  };
 
   services = {
     xserver.xkbOptions = "caps:escape";
