@@ -105,7 +105,6 @@
     functions = {
       nnn-rsync = builtins.readFile ./nnn-rsync.fish;
       n = builtins.readFile ./n.fish;
-      agenix-create-wg-secrets = builtins.readFile ./agenix-create-wg-secrets.fish;
     };
   };
 }

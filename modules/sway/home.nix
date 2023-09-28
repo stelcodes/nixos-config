@@ -37,6 +37,7 @@ in
     pkgs.slurp
     pkgs.pamixer
     pkgs.wofi-emoji
+    pkgs.wtype
     pkgs.libnotify
     pkgs.pomo
     pkgs.wdisplays
