@@ -28,7 +28,6 @@ in
     pkgs.wev
     pkgs.keepassxc
     pkgs.font-manager
-    pkgs.gnome3.seahorse
     pkgs.wl-clipboard
     pkgs.wofi
     pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
