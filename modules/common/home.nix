@@ -201,7 +201,8 @@
         };
       };
 
-      starship.enable = true;
+      # I prefer having starship enabled via NixOS options because all users get the prompt, including root
+      starship.enable = false;
 
       bash.enable = true;
 

@@ -93,6 +93,10 @@
 
     programs = {
       fish.enable = true;
+      starship = {
+        enable = true;
+        settings = builtins.fromTOML (builtins.readFile ../../misc/starship.toml);
+      };
       nix-ld.enable = true;
     };
 
