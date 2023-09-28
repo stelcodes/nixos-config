@@ -175,6 +175,7 @@ in
         { command = "${pkgs.systemd}/bin/systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK DISPLAY"; }
         # Restart tmux so all shell environments contain sway-related environment variables
         { command = "${pkgs.systemd}/bin/systemctl --user restart tmux.service"; }
+        { command = "${pkgs.systemd}/bin/systemctl is-active syncthing.service && ${pkgs.systemd}/bin/systemctl --user start syncthing-tray.service"; always = true; }
         { command = "${pkgs.systemd}/bin/systemctl --user is-active waybar || ${pkgs.systemd}/bin/systemctl --user restart waybar"; always = true; }
         { command = "${pkgs.obsidian}/bin/obsidian"; }
       ];
@@ -268,9 +269,6 @@ in
       Service = {
         ExecStart = "${pkgs.syncthing-tray}/bin/syncthing-tray -api 'st:${adminName}@${hostName}'";
         Restart = "always";
-      };
-      Install = {
-        WantedBy = [ "sway-session.target" ];
       };
     };
 
