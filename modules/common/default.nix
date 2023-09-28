@@ -1,7 +1,6 @@
 { pkgs, lib, config, inputs, adminName, theme, hostName, system, ... }: {
 
   imports = [
-    ../vpn
     ../syncthing
     inputs.agenix.nixosModules.default
   ];
