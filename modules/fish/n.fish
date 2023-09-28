@@ -7,9 +7,9 @@ set -x NNN_TMPFILE $(mktemp)
 set -x NNN_SEL $(mktemp)
 
 if test "$TERM_PROGRAM" = "tmux"
-  command nnn -eauUAP p $argv
+  command nnn -eauUAGP p $argv
 else
-  command nnn -eauUA $argv
+  command nnn -eauUAG $argv
 end
 
 if test -e "$NNN_TMPFILE"
