@@ -15,7 +15,7 @@
 
       services.hibernate-critical-battery = {
         description = "hibernates system when battery gets critically low";
-        startAt = "*-*-* *:*:00";
+        startAt = "*-*-* *:0/2:00";
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "oneshot";
