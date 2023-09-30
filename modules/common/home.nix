@@ -130,6 +130,7 @@
           "*.#"
           "/.lsp"
           "/.clj-kondo"
+          "/result"
         ];
         delta.enable = true;
         extraConfig = {
