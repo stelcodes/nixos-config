@@ -2,7 +2,8 @@
   description = "My Personal NixOS System Flake Configuration";
 
   inputs = {
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; }; # Nix Packages
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
     home-manager = {
       # User Package Management
       url = "github:nix-community/home-manager";
@@ -100,6 +101,25 @@
         };
     in
     {
+      nixosModules = {
+        nixos-generate-formats = { config, ... }: {
+          imports = [ inputs.nixos-generators.nixosModules.all-formats ];
+          nixpkgs.hostPlatform = "x86_64-linux"; # Maybe don't need this?
+          formatConfigs = {
+            plasma-installer-iso = { modulesPath, ... }: {
+              formatAttr = "isoImage";
+              fileExtension = ".iso";
+              imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma5.nix" ];
+            };
+            gnome-installer-iso = { modulesPath, ... }: {
+              formatAttr = "isoImage";
+              fileExtension = ".iso";
+              imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix" ];
+            };
+          };
+        };
+      };
+
       nixosConfigurations = {
 
         ########################################################################
@@ -136,14 +156,24 @@
           adminName = "stel";
         };
 
+        # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso
+        # nix build .#nixosConfigurations.installer-base.config.formats.plasma-installer-iso
+        installer-base = inputs.nixpkgs-stable.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            inputs.self.nixosModules.nixos-generate-formats
+            ({ pkgs, config, ... }: {
+              nixpkgs.config.allowUnfree = true;
+              environment.systemPackages = [ pkgs.git pkgs.neovim ];
+              boot = {
+                kernelModules = [ "wl" ];
+                extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+              };
+            })
+          ];
+        };
+
       };
 
-      # homeConfigurations = {
-      #   macos = inputs.home-manager.lib.homeManagerConfiguration {
-      #     system = "";
-      #     username = "stel";
-      #     homeDirectory = "";
-      #   };
-      # };
     };
 }
