@@ -125,6 +125,7 @@ in
           "${modifier}+v" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
           "${modifier}+delete" = "exec ${pkgs.swaylock}/bin/swaylock";
           "${modifier}+b" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id .blueman-manager-wrapped -- ${pkgs.blueman}/bin/blueman-manager";
+          "${modifier}+m" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id system_monitor -- ${pkgs.foot}/bin/foot --app-id=system_monitor ${pkgs.btop}/bin/btop";
           XF86MonBrightnessDown = "exec brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec brightnessctl set +5%";
           XF86AudioPrev = "exec playerctl previous";
