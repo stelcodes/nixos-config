@@ -21,6 +21,16 @@ ToggleParedit = function()
   vim.cmd 'edit'
 end
 
+ToggleNumbers = function()
+  if vim.o.number or vim.o.relativenumber then
+    vim.o.number = false
+    vim.o.relativenumber = false
+  else
+    vim.o.number = true
+    vim.o.relativenumber = true
+  end
+end
+
 ----------------------------------------------------------------------------------
 -- OPTIONS
 
@@ -96,8 +106,8 @@ vim.opt.ruler = true
 -- More space for displaying messages
 vim.opt.cmdheight = 2
 -- Line numbers
-vim.opt.number = false
-vim.opt.relativenumber = false
+vim.opt.number = true
+vim.opt.relativenumber = true
 -- Enable highlighting of the current line
 vim.opt.cursorline = false
 -- Always show tabs
@@ -119,7 +129,7 @@ vim.opt.bg = 'dark'
 -- Allow left/right scrolling to jump lines
 vim.opt.whichwrap = 'h,l'
 -- keep cursor centered vertically while scrolling
-vim.opt.scrolloff = 999
+vim.opt.scrolloff = 10
 -- make minimum width for number column smallest value so it doesn't take up much room
 vim.opt.numberwidth = 1
 -- write to file often
@@ -192,9 +202,9 @@ vim.keymap.set('n', '<leader>8', '<cmd>tabnext 8<cr>')
 vim.keymap.set('n', '<leader>9', '<cmd>tabnext 9<cr>')
 
 -- SCROLLING
--- tab moves cursor 10 lines down, shift-tab 10 lines up
-vim.keymap.set('n', '<tab>', '10j')
-vim.keymap.set('n', '<s-tab>', '10k')
+-- Moves cursor 10 lines down or up
+vim.keymap.set('n', 'J', '10j') -- I can still join lines in visual mode
+vim.keymap.set('n', 'K', '10k')
 -- move through wrapped lines visually
 vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
@@ -208,8 +218,8 @@ vim.keymap.set('n', 'Q', '<nop>')
 
 -- SELECTIONS
 -- Text manipulation
-vim.keymap.set('x', 'K', ':move \'<-2<CR>gv-gv')
-vim.keymap.set('x', 'J', ':move \'>+1<CR>gv-gv')
+vim.keymap.set('x', '<c-up>', ':move \'<-2<CR>gv-gv')
+vim.keymap.set('x', '<c-down>', ':move \'>+1<CR>gv-gv')
 -- Keeps selection active when indenting so you can do it multiple times quickly
 vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
@@ -226,14 +236,12 @@ vim.keymap.set('n', 'f', ':let @+=expand("%")<cr>:echo expand("%")<cr>')
 vim.keymap.set('n', 'F', ':let @+=expand("%:p")<cr>:echo expand("%:p")<cr>')
 -- Clear search highlighting
 -- <c-/> doesn't work in tmux for some reason
-vim.keymap.set('n', '<c-n>', ':let @/=""<cr>')
-vim.keymap.set('i', '<c-n>', ':let @/=""<cr>')
+vim.keymap.set('n', '<c-,>', ':let @/=""<cr>')
+vim.keymap.set('i', '<c-,>', ':let @/=""<cr>')
 -- Open Git Fugitive, make it full window in a new tab positioned before other tabs
 -- This could be improved bc right now it clobbers existing window arrangements in the tab
 vim.keymap.set('n', '<c-g>', '<cmd>Git<cr>')
 vim.keymap.set('n', '<c-o>', '<cmd>only<cr>')
--- Remap visual block mode because I use <c-v> for paste
-vim.keymap.set('n', '<c-b>', '<c-v>')
 -- Make terminal mode easy to exit
 vim.keymap.set('t', '<c-\\><esc>', '<c-\\><c-n>')
 --Debugging syntax highlighting
@@ -242,6 +250,7 @@ vim.keymap.set('n', '<f10>',
 -- Toggle spell
 vim.keymap.set('n', '<c-s>', ':set spell!<cr>')
 vim.keymap.set('n', '<c-p>', ToggleParedit)
+vim.keymap.set('n', '<c-n>', ToggleNumbers)
 
 ---------------------------------------------------------------------------------
 -- EVENT BASED COMMANDS

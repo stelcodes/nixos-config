@@ -65,6 +65,7 @@
               ['do-comment'] = {'^%(comment[%s%c]', '(do '}
             }
             vim.g['conjure#eval#result_register'] = '*'
+            vim.g['conjure#mapping#doc_word'] = '<localleader>K'
           '';
         }
         {
