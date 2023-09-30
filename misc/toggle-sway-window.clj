@@ -13,7 +13,7 @@
    :exec-args {:floating true
                :kill false
                :width 80
-               :height 90}
+               :height 80}
    :validate {:id string?
               :floating boolean?
               :kill boolean?
