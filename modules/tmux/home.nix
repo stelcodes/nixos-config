@@ -31,7 +31,7 @@ in
         # Most of these are for tmux-resurrect save.sh and restore.sh
         "PATH=${pkgs.lib.makeBinPath pluginDeps}"
       ];
-      ExecStart = "${pkgs.tmux}/bin/tmux new-session -d";
+      ExecStart = "${pkgs.tmux}/bin/tmux new-session -d -s config 'cd ~/nixos-config; nvim;'";
       ExecStop = [
         "${pkgs.tmux-snapshot}/bin/tmux-snapshot"
         "${pkgs.tmux}/bin/tmux kill-server"
