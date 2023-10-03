@@ -76,9 +76,13 @@
             vim.g['paredit_matchlines'] = 500
           '';
         }
+
         pkgs.vimPlugins.plenary-nvim
         stel-telescope-file-browser-nvim
         pkgs.vimPlugins.telescope-ui-select-nvim
+        pkgs.vimPlugins.telescope-fzf-native-nvim
+        pkgs.vimPlugins.telescope-manix
+
         {
           plugin = pkgs.vimPlugins.telescope-nvim;
           type = "lua";
@@ -290,8 +294,6 @@
             }
           '';
         }
-
-        pkgs.vimPlugins.telescope-manix
 
         {
           plugin = pkgs.vimPlugins.nvim-cmp;

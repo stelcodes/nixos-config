@@ -74,19 +74,27 @@ tele.setup {
           ['.'] = browser.actions.toggle_hidden
         }
       }
+    },
+    fzf = {
+      fuzzy = true,                   -- false will only do exact matching
+      override_generic_sorter = true, -- override the generic sorter
+      override_file_sorter = true,    -- override the file sorter
+      case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
     }
   }
 }
 tele.load_extension('ui-select')
 tele.load_extension('file_browser')
 tele.load_extension('manix')
+tele.load_extension('fzf')
 vim.keymap.set('n', '<leader>ff', builtin.find_files)
 vim.keymap.set('n', '<leader>fb', browser.file_browser)
 vim.keymap.set('n', '<leader>fr', find_files_from_root)
 vim.keymap.set('n', '<leader>fn', browse_notes)
 vim.keymap.set('n', '<leader>r', builtin.resume)
 vim.keymap.set('n', '<leader>sf', function() builtin.live_grep { hidden = true } end)
-vim.keymap.set('n', '<leader>sF', function() builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } } end)
+vim.keymap.set('n', '<leader>sF',
+  function() builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } } end)
 vim.keymap.set('n', '<leader>ds', builtin.diagnostics)
 vim.keymap.set('n', '<leader>p', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)
