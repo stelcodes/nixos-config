@@ -53,8 +53,6 @@ vim.opt.autoindent = true
 
 vim.opt.backspace = 'indent,eol,start'
 
-vim.opt.complete = '.,w,b,u,t'
-
 vim.opt.smarttab = true
 
 vim.opt.nrformats = 'bin,hex'
@@ -153,6 +151,9 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 -- turn swapfiles off
 vim.opt.swapfile = false
+-- Completion
+vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
+-- vim.opt.shortmess:append "c"
 
 ----------------------------------------------------------------------------------------
 -- GLOBALS

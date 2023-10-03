@@ -293,6 +293,16 @@
 
         pkgs.vimPlugins.telescope-manix
 
+        {
+          plugin = pkgs.vimPlugins.nvim-cmp;
+          type = "lua";
+          config = builtins.readFile ./nvim-cmp-config.lua;
+        }
+        pkgs.vimPlugins.lspkind-nvim
+        pkgs.vimPlugins.luasnip
+        pkgs.vimPlugins.cmp-nvim-lua
+        pkgs.vimPlugins.cmp-nvim-lsp
+
       ];
   };
 }
