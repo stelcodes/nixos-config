@@ -2,8 +2,58 @@
 local tele = require('telescope')
 local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
-local browser = tele.extensions.file_browser
+local action_state = require('telescope.actions.state')
+local Path = require('plenary.path')
+local fb = tele.extensions.file_browser
+local fb_utils = require('telescope._extensions.file_browser.utils')
 local manix = tele.extensions.manix
+
+local fb_trash = function(prompt_bufnr)
+  local current_picker = action_state.get_current_picker(prompt_bufnr)
+  local finder = current_picker.finder
+  if vim.fn.executable "trash" ~= 1 then
+    vim.notify "Cannot locate a valid trash executable!"
+    return
+  end
+  local selections = fb_utils.get_selected_files(prompt_bufnr, true)
+  if vim.tbl_isempty(selections) then
+    vim.notify "No selection to be trashed!"
+    return
+  end
+  for _, sel in ipairs(selections) do
+    if sel:is_dir() then
+      local abs = sel:absolute()
+      if finder.files and Path:new(finder.path):parent():absolute() == abs then
+        vim.notify "Parent folder cannot be trashed!"
+        return
+      end
+      if not finder.files and Path:new(finder.cwd):absolute() == abs then
+        vim.notify "Current folder cannot be trashed!"
+        return
+      end
+    end
+  end
+  vim.ui.input({ prompt = "Trash selections [y/N]: " }, function(input)
+    vim.cmd [[ redraw ]] -- redraw to clear out vim.ui.prompt to avoid hit-enter prompt
+    if input and input:lower() == "y" then
+      for _, p in ipairs(selections) do
+        local is_dir = p:is_dir()
+        local result = vim.fn.system("trash -- " .. p:absolute())
+        if vim.v.shell_error ~= 0 then
+          vim.notify(result)
+          break
+        else
+          if is_dir then
+            fb_utils.delete_dir_buf(p:absolute())
+          else
+            fb_utils.delete_buf(p:absolute())
+          end
+        end
+      end
+    end
+    current_picker:refresh(current_picker.finder)
+  end)
+end
 
 local find_files_from_root = function()
   builtin.find_files {
@@ -14,7 +64,7 @@ local find_files_from_root = function()
   }
 end
 local browse_notes = function()
-  browser.file_browser {
+  fb.file_browser {
     hidden = false,
     respect_gitignore = false,
     path = '/home/stel/sync/notes'
@@ -63,15 +113,14 @@ tele.setup {
       initial_mode = "normal",
       mappings = {
         n = {
-          h = browser.actions.goto_parent_dir,
+          h = fb.actions.goto_parent_dir,
           l = actions.select_default,
-          d = browser.actions.trash,
+          d = fb_trash,
           -- to match nnn
-          n = browser.actions.create,
-          -- x = trash_browser_selection,
-          x = browser.actions.trash,
+          n = fb.actions.create,
+          x = fb_trash,
           t = actions.file_tab,
-          ['.'] = browser.actions.toggle_hidden
+          ['.'] = fb.actions.toggle_hidden
         }
       }
     },
@@ -88,7 +137,7 @@ tele.load_extension('file_browser')
 tele.load_extension('manix')
 tele.load_extension('fzf')
 vim.keymap.set('n', '<leader>ff', builtin.find_files)
-vim.keymap.set('n', '<leader>fb', browser.file_browser)
+vim.keymap.set('n', '<leader>fb', fb.file_browser)
 vim.keymap.set('n', '<leader>fr', find_files_from_root)
 vim.keymap.set('n', '<leader>fn', browse_notes)
 vim.keymap.set('n', '<leader>r', builtin.resume)

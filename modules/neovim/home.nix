@@ -36,17 +36,6 @@
           };
         };
 
-
-        stel-telescope-file-browser-nvim = pkgs.vimUtils.buildVimPlugin {
-          pname = "stel-telescope-file-browser-nvim";
-          version = "1.0";
-          src = pkgs.fetchFromGitHub {
-            owner = "stelcodes";
-            repo = "telescope-file-browser.nvim";
-            rev = "6ef20dd9e03a30bd116d872aefbceb277b6a3855";
-            sha256 = "MRoCpqfyVB3G7XNYzQYlIR+Guip2dhuttfIY1Wol76s=";
-          };
-        };
       in
       [
         # Theme plugin should go first because it sets local vars like lualine_theme
@@ -78,11 +67,10 @@
         }
 
         pkgs.vimPlugins.plenary-nvim
-        stel-telescope-file-browser-nvim
+        pkgs.vimPlugins.telescope-file-browser-nvim
         pkgs.vimPlugins.telescope-ui-select-nvim
         pkgs.vimPlugins.telescope-fzf-native-nvim
         pkgs.vimPlugins.telescope-manix
-
         {
           plugin = pkgs.vimPlugins.telescope-nvim;
           type = "lua";
