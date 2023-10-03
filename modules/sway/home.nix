@@ -41,6 +41,7 @@ in
     pkgs.pomo
     pkgs.wdisplays
     pkgs.foot
+    pkgs.swappy
   ];
 
   wayland.windowManager.sway = {
@@ -134,10 +135,15 @@ in
           XF86AudioMute = "exec pamixer --toggle-mute";
           XF86AudioLowerVolume = "exec pamixer --decrease 5";
           XF86AudioRaiseVolume = "exec pamixer --increase 5";
-          Print = ''
-            exec mkdir -p $XDG_PICTURES_DIR/screenshots && \
-            slurp | grim -g - $XDG_PICTURES_DIR/screenshots/grim:$(date -u +%Y-%m-%dT%H:%M:%SZ).png
-          '';
+          Print = let app = pkgs.writeShellApplication {
+            name = "sway-screenshot";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.sway pkgs.jq pkgs.grim pkgs.swappy ];
+            text = ''
+              mkdir -p "$XDG_PICTURES_DIR/screenshots"
+              current_output=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+              grim -o "$current_output" - | swappy -f -
+            '';
+          }; in "exec ${app}/bin/sway-screenshot";
         };
       modes = pkgs.lib.mkOptionDefault {
         resize = {

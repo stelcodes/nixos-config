@@ -114,6 +114,7 @@
         pkgs.wireguard-tools
         inputs.agenix.packages.${system}.default
         pkgs.wg-killswitch
+        pkgs.jq
       ];
       etc = {
         # https://www.reddit.com/r/NixOS/comments/16t2njf/small_trick_for_people_using_nixos_with_flakes
