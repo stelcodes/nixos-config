@@ -177,7 +177,21 @@ vim.keymap.set('x', '<leader>', '<Nop>')
 vim.keymap.set('n', 'Y', 'viwy')
 vim.keymap.set({ 'n', 'x' }, '<leader>ss', SearchSelection)
 vim.keymap.set({ 'n', 'x' }, '<leader>sr', SearchReplace)
-vim.keymap.set({ 'n', 'x' }, '<leader>sc', SearchClear)
+vim.keymap.set({ 'n', 'x' }, '<leader><leader>', SearchClear)
+
+-- BUFFERS
+vim.keymap.set('n', '<leader>bb', '<c-^>') -- buffer back
+vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>')
+vim.keymap.set('n', '<leader>bn', '<cmd>bn<cr>')
+vim.keymap.set('n', '<leader>bp', '<cmd>bp<cr>')
+vim.keymap.set('n', '<leader>bf', '<cmd>bf<cr>')
+vim.keymap.set('n', '<leader>bl', '<cmd>bl<cr>')
+
+-- DIAGNOSTICS
+vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>dk', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<leader>dj', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist)
 
 -- WINDOWS
 -- Navigate windows by direction
@@ -186,7 +200,6 @@ vim.keymap.set('n', '<c-k>', '<cmd>wincmd k<cr>')
 vim.keymap.set('n', '<c-h>', '<cmd>wincmd h<cr>')
 vim.keymap.set('n', '<c-l>', '<cmd>wincmd l<cr>')
 vim.keymap.set('n', '<c-q>', '<cmd>wincmd q<cr>')
-
 vim.keymap.set('n', '<c-x>', '<cmd>split %<cr>')
 
 -- TABS
@@ -229,8 +242,8 @@ vim.keymap.set('n', 'Q', '<nop>')
 
 -- SELECTIONS
 -- Text manipulation
-vim.keymap.set('x', '<c-up>', ':move \'<-2<CR>gv-gv')
-vim.keymap.set('x', '<c-down>', ':move \'>+1<CR>gv-gv')
+vim.keymap.set('x', '<c-k>', ':move \'<-2<CR>gv-gv')
+vim.keymap.set('x', '<c-j>', ':move \'>+1<CR>gv-gv')
 -- Keeps selection active when indenting so you can do it multiple times quickly
 vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
