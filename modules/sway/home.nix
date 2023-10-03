@@ -135,6 +135,14 @@ in
           XF86AudioMute = "exec pamixer --toggle-mute";
           XF86AudioLowerVolume = "exec pamixer --decrease 5";
           XF86AudioRaiseVolume = "exec pamixer --increase 5";
+          "${modifier}+Print" = let app = pkgs.writeShellApplication {
+            name = "sway-screenshot-selection";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.slurp pkgs.grim pkgs.swappy ];
+            text = ''
+              mkdir -p "$XDG_PICTURES_DIR/screenshots"
+              grim -g "$(slurp)" - | swappy -f -
+            '';
+          }; in "exec ${app}/bin/sway-screenshot-selection";
           Print = let app = pkgs.writeShellApplication {
             name = "sway-screenshot";
             runtimeInputs = [ pkgs.coreutils-full pkgs.sway pkgs.jq pkgs.grim pkgs.swappy ];
