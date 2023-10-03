@@ -105,7 +105,7 @@
         pkgs.neovim
         pkgs.bat
         pkgs.btop
-        pkgs.trash-cli
+        pkgs.trashy
         pkgs.fd
         pkgs.ripgrep
         pkgs.tealdeer

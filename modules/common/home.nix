@@ -51,7 +51,7 @@
 
       packages = [
         pkgs.btop
-        pkgs.trash-cli
+        pkgs.trashy
         pkgs.fd
         pkgs.neofetch
         pkgs.httpie
