@@ -10,7 +10,7 @@ local find_files_from_root = function()
     hidden = true,
     no_ignore = true,
     no_ignore_parent = true,
-    search_dirs = {'/etc', '/home', '/usr'}
+    search_dirs = { '/etc', '/home', '/usr' }
   }
 end
 local browse_notes = function()
@@ -21,7 +21,7 @@ local browse_notes = function()
   }
 end
 local git_status = function()
-  builtin.git_status({ default_text = vim.fn.expand('%:t'), initial_mode = "normal"})
+  builtin.git_status({ default_text = vim.fn.expand('%:t'), initial_mode = "normal" })
 end
 
 tele.setup {
@@ -33,8 +33,8 @@ tele.setup {
     show_untracked = false, -- For git_files command
     layout_strategy = 'flex',
     layout_config = {
-      height=0.99,
-      width=0.95,
+      height = 0.99,
+      width = 0.95,
       flex = {
         flip_columns = 160,
         flip_lines = 20,
@@ -84,14 +84,15 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files)
 vim.keymap.set('n', '<leader>fb', browser.file_browser)
 vim.keymap.set('n', '<leader>fr', find_files_from_root)
 vim.keymap.set('n', '<leader>fn', browse_notes)
-vim.keymap.set('n', '<leader>r', function() builtin.live_grep {hidden = true} end)
-vim.keymap.set('n', '<leader>R', function() builtin.live_grep {hidden = true, additional_args = {"--files-with-matches"}} end)
+vim.keymap.set('n', '<leader>r', builtin.resume)
+vim.keymap.set('n', '<leader>sf', function() builtin.live_grep { hidden = true } end)
+vim.keymap.set('n', '<leader>sF', function() builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } } end)
 vim.keymap.set('n', '<leader>d', builtin.diagnostics)
 vim.keymap.set('n', '<leader>p', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)
 vim.keymap.set('n', '<leader>M', manix.manix)
 vim.keymap.set('n', '<leader>c', builtin.commands)
-vim.keymap.set('n', '<leader>C', function() builtin.colorscheme {enable_preview = true} end)
+vim.keymap.set('n', '<leader>C', function() builtin.colorscheme { enable_preview = true } end)
 vim.keymap.set('n', '<leader>h', builtin.help_tags)
 vim.keymap.set('n', '<leader>b', builtin.buffers)
 vim.keymap.set('n', '<leader>B', builtin.current_buffer_fuzzy_find)

@@ -1,12 +1,23 @@
 -----------------------------------------------------------------------------
 -- GLOBAL FUNCTIONS
 
-SubstituteYanked = function()
-  vim.api.nvim_input(':%s/<c-r>\"//gc<left><left><left>')
+SearchReplace = function()
+  vim.cmd('noau normal! "vy"')
+  -- TODO: Sanitize / and ? chars in Lua via vim.fn.getreg('v')
+  -- Substitute with verynomagic contents of register v, with multiple matches on each line,
+  -- and put cursor in replacement text position
+  vim.api.nvim_input(':%s/\\V<c-r>v//gc<left><left><left>')
 end
 
-SearchWord = function()
-  vim.api.nvim_input('viwy/<c-r>\"<cr>N')
+SearchSelection = function()
+  vim.cmd('noau normal! "vy"')
+  -- TODO: Sanitize / and ? chars in Lua via vim.fn.getreg('v')
+  -- Search with verynomagic contents of register v, begin, skip back to last match
+  vim.api.nvim_input('/\\V<c-r>v<cr>N')
+end
+
+SearchClear = function()
+  vim.fn.setreg("/", "")
 end
 
 ToggleParedit = function()
@@ -164,9 +175,9 @@ vim.keymap.set('x', '<leader>', '<Nop>')
 -- TEXT MANIPULATION
 -- Yank word under cursor
 vim.keymap.set('n', 'Y', 'viwy')
-vim.keymap.set('n', 'U', SearchWord)
--- Start substition of text in first register
-vim.keymap.set('n', '<c-f>', SubstituteYanked)
+vim.keymap.set({ 'n', 'x' }, '<leader>ss', SearchSelection)
+vim.keymap.set({ 'n', 'x' }, '<leader>sr', SearchReplace)
+vim.keymap.set({ 'n', 'x' }, '<leader>sc', SearchClear)
 
 -- WINDOWS
 -- Navigate windows by direction
