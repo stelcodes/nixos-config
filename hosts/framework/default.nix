@@ -43,9 +43,11 @@
     pkgs.yabridgectl
     pkgs.wineWowPackages.stagingFull
     pkgs._86Box
+    pkgs.virt-manager # https://nixos.wiki/wiki/Virt-manager
   ];
 
   virtualisation.virtualbox.host.enable = true;
+  virtualisation.libvirtd.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
