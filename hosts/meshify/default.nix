@@ -16,6 +16,11 @@
   programs.k3b.enable = true;
 
   services = {
+    jellyfin = {
+      enable = false;
+      group = "multimedia";
+      openFirewall = true;
+    };
     syncthing = {
       enable = true;
       selectedFolders = [ "default" ];
