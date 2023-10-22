@@ -11,7 +11,14 @@ local manix = tele.extensions.manix
 local fb_trash = function(prompt_bufnr)
   local current_picker = action_state.get_current_picker(prompt_bufnr)
   local finder = current_picker.finder
-  if vim.fn.executable "trash" ~= 1 then
+  local trash_cmd
+  if vim.fn.executable("trash-put") == 1 then
+    trash_cmd = { "trash-put" }
+  elseif vim.fn.executable("gio") == 1 then
+    trash_cmd = { "gio", "trash" }
+  elseif vim.fn.executable("trash") == 1 and string.find(vim.fn.system("trash --version"), "^trashy") then
+    trash_cmd = { "trash", "put" }
+  else
     vim.notify "Cannot locate a valid trash executable!"
     return
   end
@@ -38,7 +45,9 @@ local fb_trash = function(prompt_bufnr)
     if input and input:lower() == "y" then
       for _, p in ipairs(selections) do
         local is_dir = p:is_dir()
-        local result = vim.fn.system("trash -- " .. p:absolute())
+        local cmd = trash_cmd
+        table.insert(cmd, p:absolute())
+        local result = vim.fn.system(table.concat(cmd, " "))
         if vim.v.shell_error ~= 0 then
           vim.notify(result)
           break
