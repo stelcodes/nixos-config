@@ -90,14 +90,16 @@
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       swaytree = "swaymsg -t get_tree | nvim -R";
-      nixrepl = "nix repl --expr \"(builtins.getFlake (toString $HOME/nixos-config)).nixosConfigurations.$hostname\"";
-      nixsize = "nix path-info --closure-size --human-readable --recursive";
+      nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/nixos-config)).nixosConfigurations.$hostname\"";
+      nix-pkg-size = "nix path-info --closure-size --human-readable --recursive";
       play = "audacious --enqueue-to-temp";
       notes = "cd ~/documents/journal && nvim";
       strip-exec-permissions = "if test \"$(read -P 'Are you sure: ')\" = 'y'; fd -0 --type x | xargs -0 chmod -vc a-x; else; echo 'Aborting'; end";
       sway = "exec systemd-cat --identifier=sway sway";
       u = "udisksctl";
       wg-killswitch-disable = "if test \"$(read -P 'Disable wg-killswitch? ')\" = 'y'; doas iptables --flush wg-killswitch; doas ip6tables --flush wg-killswitch; else; false; end";
+      nix-shell-nixpkgs = "nix shell --file .";
+      nix-shell-default = "nix shell --impure --include nixpkgs=flake:nixpkgs --expr 'with import <nixpkgs> {}; { default = callPackage ./default.nix {}; }' default";
     };
     shellAliases = {
       nnn = "n";
