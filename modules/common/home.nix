@@ -74,8 +74,6 @@
         pkgs.check-newline
       ];
 
-      sessionPath = [ "$HOME/.local/bin" ];
-
       sessionVariables = {
         SUCCESS_ALERT = "${pkgs.success-alert}";
         FAILURE_ALERT = "${pkgs.failure-alert}";
