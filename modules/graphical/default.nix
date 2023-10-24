@@ -137,12 +137,7 @@
           WebsiteFilter = {
             Block = [
               "*://news.ycombinator.com/*"
-              "*://*.youtube.com/*"
-              "*://*.reddit.com/"
-              "*://*.reddit.com/?*"
-              "*://*.reddit.com/r/popular"
-              "*://*.reddit.com/r/popular?*"
-              "*://*.reddit.com/r/popular/*"
+              "*://*.reddit.com/*"
               "*://*.tmz.com/*"
             ];
             Exceptions = [ ];
