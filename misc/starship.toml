@@ -37,3 +37,6 @@ disabled = true
 [shell]
 disabled = false
 style = "blue"
+
+[nix_shell]
+heuristic = true
