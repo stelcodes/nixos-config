@@ -159,6 +159,13 @@ self: super: {
         "$cmd" --flush "$chain" >/dev/null 2>&1 || true
       }
 
+      ensureRoot() {
+        if [ "$(id -u)" -ne 0 ]; then
+          echo "Command must be run as root, aborting"
+          exit 1
+        fi
+      }
+
       usage() {
         echo "Usage:"
         echo "wg-killswitch enable <interface>"
@@ -169,6 +176,7 @@ self: super: {
 
       arg1="''${1:-""}"
       arg2="''${2:-""}"
+      ensureRoot
 
       if [ "$arg1" = "enable" ] && [ -n "$arg2" ]; then
         name="$arg2"
