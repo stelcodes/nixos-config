@@ -114,7 +114,6 @@ self: super: {
       fi
     '';
   };
-  bitwig-studio = super.callPackage ./bitwig5.nix { };
   graillon-free = super.callPackage ./graillon.nix { };
   toggle-sway-window = self.writeBabashkaScript {
     name = "toggle-sway-window";
