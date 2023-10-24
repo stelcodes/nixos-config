@@ -11,7 +11,7 @@ let
     (id: ''
       input "${id}" {
         xkb_layout us
-        xkb_options caps:escape
+        xkb_options caps:escape_shifted_capslock
         xkb_variant mac
       }
     '')
@@ -162,7 +162,8 @@ in
       # The ordering *does* matter so the value should be a list, not a set.
       input = {
         "type:keyboard" = {
-          xkb_options = "caps:escape,altwin:swap_alt_win";
+          # man xkeyboard-config
+          xkb_options = "caps:escape_shifted_capslock,altwin:swap_alt_win";
           xkb_layout = "us";
         };
         "type:touchpad" = {

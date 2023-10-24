@@ -15,7 +15,7 @@
   };
 
   services = {
-    xserver.xkbOptions = "caps:escape";
+    xserver.xkbOptions = "caps:escape_shifted_capslock";
     syncthing = {
       enable = true;
       selectedFolders = [ "default" ];
