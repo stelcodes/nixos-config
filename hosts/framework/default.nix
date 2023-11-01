@@ -30,19 +30,6 @@
 
   # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
   environment.systemPackages = [
-    pkgs.autotalent
-    pkgs.talentedhack
-    pkgs.distrho
-    pkgs.musescore
-    pkgs.ffmpeg_6
-    pkgs.bitwig-studio
-    pkgs.lsp-plugins
-    pkgs.graillon-free
-    # pkgs.davinci-resolve not working
-    pkgs.yabridge
-    pkgs.yabridgectl
-    pkgs.wineWowPackages.stagingFull
-    pkgs._86Box
     pkgs.virt-manager # https://nixos.wiki/wiki/Virt-manager
   ];
 
