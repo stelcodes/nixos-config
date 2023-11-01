@@ -101,7 +101,7 @@ in
       bind -n M-s choose-tree -s
       bind -n M-S switch-client -l
       bind -n M-f thumbs-pick
-      bind -n M-c copy-mode
+      bind -n M-space copy-mode
       bind -n M-w new-window -a -c "#{pane_current_path}"
       bind -n M-W select-window -l
       bind -n M-t command-prompt 'new-session -s %%'
