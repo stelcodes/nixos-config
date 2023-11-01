@@ -28,13 +28,7 @@
 
   powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
 
-  # https://www.kvraudio.com/plugins/instruments/effects/linux/free/most-popular
-  environment.systemPackages = [
-    pkgs.virt-manager # https://nixos.wiki/wiki/Virt-manager
-  ];
-
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.libvirtd.enable = true;
+  virtualisation.hostMachineDefaults.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

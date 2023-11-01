@@ -1,9 +1,44 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, config, lib, ... }:
+let
+  virtHost = config.virtualisation.hostMachineDefaults.enable;
+in
+{
   imports = [
     inputs.musnix.nixosModules.musnix
   ];
 
+
+  options = {
+    virtualisation.hostMachineDefaults = {
+      enable = lib.mkEnableOption "virtualisation defaults for graphical machines";
+    };
+  };
+
   config = {
+
+    environment.systemPackages = lib.mkIf virtHost [
+      pkgs.virt-manager
+      pkgs.virt-viewer
+      pkgs.spice
+      pkgs.spice-gtk
+      pkgs.spice-protocol
+      pkgs.win-virtio
+      pkgs.win-spice
+      pkgs.gnome.adwaita-icon-theme
+    ];
+
+    virtualisation = lib.mkIf virtHost {
+      libvirtd = {
+        enable = true;
+        qemu = {
+          swtpm.enable = true;
+          ovmf.enable = true;
+          ovmf.packages = [ pkgs.OVMFFull.fd ];
+        };
+      };
+      spiceUSBRedirection.enable = true;
+    };
+
 
     sound.enable = true;
 
@@ -276,6 +311,7 @@
       gvfs.enable = true;
       tumbler.enable = true;
 
+      spice-vdagentd.enable = lib.mkIf virtHost true;
     };
 
     fonts = {
