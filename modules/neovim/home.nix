@@ -293,6 +293,8 @@
         pkgs.vimPlugins.cmp-nvim-lua
         pkgs.vimPlugins.cmp-nvim-lsp
 
+        pkgs.vimPlugins.vim-just
+
       ];
   };
 }
