@@ -178,7 +178,7 @@ vim.keymap.set('x', '<leader>', '<Nop>')
 vim.keymap.set('n', 'Y', 'viwy')
 vim.keymap.set({ 'n', 'x' }, '<leader>ss', SearchSelection)
 vim.keymap.set({ 'n', 'x' }, '<leader>sr', SearchReplace)
-vim.keymap.set({ 'n', 'x' }, '<leader><leader>', SearchClear)
+vim.keymap.set({ 'n', 'x' }, '<leader>/', SearchClear)
 
 -- BUFFERS
 vim.keymap.set('n', '<leader>bb', '<c-^>') -- buffer back
@@ -259,10 +259,6 @@ vim.keymap.set('n', 'Q', '<cmd>cclose<cr>')
 vim.keymap.set('n', 'f', ':let @+=expand("%")<cr>:echo expand("%")<cr>')
 -- Copy absolute path of file
 vim.keymap.set('n', 'F', ':let @+=expand("%:p")<cr>:echo expand("%:p")<cr>')
--- Clear search highlighting
--- <c-/> doesn't work in tmux for some reason
-vim.keymap.set('n', '<c-,>', ':let @/=""<cr>')
-vim.keymap.set('i', '<c-,>', ':let @/=""<cr>')
 -- Open Git Fugitive, make it full window in a new tab positioned before other tabs
 -- This could be improved bc right now it clobbers existing window arrangements in the tab
 vim.keymap.set('n', '<c-g>', '<cmd>Git<cr>')
