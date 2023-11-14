@@ -86,6 +86,7 @@
         NNN_FIFO = "/tmp/nnn.fifo";
         NNN_BATTHEME = "base16";
         NNN_BATSTYLE = "plain";
+        BAT_THEME = "base16";
       };
 
       file = {
