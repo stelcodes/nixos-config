@@ -181,6 +181,9 @@
           pkgs.viu
           pkgs.xdg-utils
         ];
+        bookmarks = {
+          m = "/run/media/${adminName}";
+        };
         plugins = {
           mappings = {
             p = "preview-tui";
