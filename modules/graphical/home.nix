@@ -384,6 +384,7 @@
       "audio/x-wav" = [ "audacious.desktop" ];
       "audio/x-wavpack" = [ "audacious.desktop" ];
       "audio/x-xm" = [ "audacious.desktop" ];
+      "audio/x-opus+ogg" = [ "audacious.desktop" ];
       "x-content/audio-cdda" = [ "audacious.desktop" ];
       "text/markdown" = [ "neovim.desktop" ];
       "text/plain" = [ "neovim.desktop" ];
