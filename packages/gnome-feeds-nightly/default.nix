@@ -29,8 +29,8 @@ python3.pkgs.buildPythonApplication rec {
     domain = "gitlab.gnome.org";
     owner = "World";
     repo = "gfeeds";
-    rev = "c196af0a45fa97ef2555f9504c61ac0b76e63147";
-    sha256 = "sha256-XKwRFjz4ocH01mj8KshLGmGxbm/uvDiyYRf65KL0UFw=";
+    rev = "bc93c0b4b51c1670cbe0ff80d37014bfd058747f";
+    sha256 = "sha256-nrhrHyFEh2IAO2MfUamcqA2j5WSjHQeHcpnFW/hlX7k=";
   };
 
   format = "other";
