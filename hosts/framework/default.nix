@@ -1,4 +1,9 @@
-{ pkgs, lib, config, adminName, ... }: {
+{ pkgs, lib, config, adminName, inputs, ... }: {
+
+  imports = [
+    # See https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
+    inputs.nixos-hardware.nixosModules.framework-12th-gen-intel
+  ];
 
   age.secrets = {
     root-password.file = ../../secrets/root-password.age;
