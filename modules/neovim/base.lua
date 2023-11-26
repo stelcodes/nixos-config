@@ -181,17 +181,12 @@ vim.keymap.set({ 'n', 'x' }, '<leader>sr', SearchReplace)
 vim.keymap.set({ 'n', 'x' }, '<leader>/', SearchClear)
 
 -- BUFFERS
-vim.keymap.set('n', '<leader>bb', '<c-^>') -- buffer back
-vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>')
-vim.keymap.set('n', '<leader>bn', '<cmd>bn<cr>')
-vim.keymap.set('n', '<leader>bp', '<cmd>bp<cr>')
-vim.keymap.set('n', '<leader>bf', '<cmd>bf<cr>')
-vim.keymap.set('n', '<leader>bl', '<cmd>bl<cr>')
+-- <c-^> is buffer back
 
 -- DIAGNOSTICS
-vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>dk', vim.diagnostic.goto_prev)
-vim.keymap.set('n', '<leader>dj', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>dh', vim.diagnostic.open_float) -- diagnostic hover
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist)
 
 -- WINDOWS
@@ -253,6 +248,9 @@ vim.keymap.set('x', '<', '<gv')
 vim.keymap.set('n', 'q', '<cmd>copen<cr>')
 vim.keymap.set('n', 'Q', '<cmd>cclose<cr>')
 -- vim.keymap.set('n', 'M', '<cmd>normal! q') -- start macro
+
+-- MARKS
+vim.keymap.set('n', '<c-m>', '<cmd>delmarks A-Z0-9<cr>') -- delete all marks
 
 -- OTHER STUFF
 -- Copy relative path of file

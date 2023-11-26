@@ -145,23 +145,23 @@ tele.load_extension('ui-select')
 tele.load_extension('file_browser')
 tele.load_extension('manix')
 tele.load_extension('fzf')
-vim.keymap.set('n', '<leader>ff', builtin.find_files)
-vim.keymap.set('n', '<leader>fb', fb.file_browser)
-vim.keymap.set('n', '<leader>fr', find_files_from_root)
-vim.keymap.set('n', '<leader>fn', browse_notes)
-vim.keymap.set('n', '<leader>r', builtin.resume)
-vim.keymap.set('n', '<leader>sf', function() builtin.live_grep { hidden = true } end)
-vim.keymap.set('n', '<leader>sF',
+vim.keymap.set('n', '<leader><leader>', builtin.resume)
+vim.keymap.set('n', '<leader>fd', builtin.find_files) -- files directory
+vim.keymap.set('n', '<leader>fb', fb.file_browser) -- files browser
+vim.keymap.set('n', '<leader>fr', find_files_from_root) -- files root
+vim.keymap.set('n', '<leader>fn', browse_notes) -- files notes
+vim.keymap.set('n', '<leader>sd', function() builtin.live_grep { hidden = true } end) -- search directory
+vim.keymap.set('n', '<leader>sD', -- search directory with max 1 match per file
   function() builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } } end)
-vim.keymap.set('n', '<leader>ds', builtin.diagnostics)
-vim.keymap.set('n', '<leader>p', builtin.registers)
+vim.keymap.set('n', '<leader>sb', builtin.current_buffer_fuzzy_find) -- search buffer
+vim.keymap.set('n', '<leader>dd', builtin.diagnostics) -- diagnostics directory
+vim.keymap.set('n', '<leader>r', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)
 vim.keymap.set('n', '<leader>M', manix.manix)
 vim.keymap.set('n', '<leader>c', builtin.commands)
 vim.keymap.set('n', '<leader>C', function() builtin.colorscheme { enable_preview = true } end)
 vim.keymap.set('n', '<leader>h', builtin.help_tags)
-vim.keymap.set('n', '<leader>bs', builtin.buffers)
-vim.keymap.set('n', '<leader>sb', builtin.current_buffer_fuzzy_find)
+vim.keymap.set('n', '<leader>b', builtin.buffers) -- buffer active
 vim.keymap.set('n', '<leader>k', builtin.keymaps)
 vim.keymap.set('n', '<leader>t', builtin.builtin)
 vim.keymap.set('n', '<leader>gc', builtin.git_bcommits)
