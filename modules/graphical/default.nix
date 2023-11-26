@@ -130,11 +130,11 @@ in
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
             };
-            "addon@darkreader.org" = {
-              # brightness 35, contrast -5
-              installation_mode = "normal_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
-            };
+            # "addon@darkreader.org" = {
+            #   # brightness 35, contrast -5
+            #   installation_mode = "normal_installed";
+            #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
+            # };
             "{73a6fe31-595d-460b-a920-fcc0f8843232}" = {
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/noscript/latest.xpi";
@@ -246,7 +246,7 @@ in
           # https://chromeenterprise.google/policies/#URLBlocklist
           URLBlocklist = [
             "news.ycombinator.com"
-            "reddit.com"
+            # "reddit.com"
             "youtube.com"
             "tmz.com"
           ];
