@@ -46,7 +46,7 @@
         magentax
         cyanx
         fgx
-        bg1x
+        bg3x # for comments and autosuggestion to pop out
         redx
         greenx
         yellowx

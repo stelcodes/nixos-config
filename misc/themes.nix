@@ -1,6 +1,7 @@
 { pkgs, ... }: {
 
   # https://github.com/tinted-theming/base16-schemes
+  # https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
   # s/\v(\w+): "(\w+)"/\1 = "#\2";
 
   nord = rec {

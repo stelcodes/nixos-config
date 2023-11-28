@@ -3,26 +3,26 @@
   xdg.configFile."fish/themes/base16.theme" = {
     onChange = "${pkgs.fish}/bin/fish -c 'echo y | fish_config theme save base16'";
     text = ''
-      fish_color_autosuggestion ${theme.bg3x}
+      fish_color_autosuggestion brblack
       fish_color_cancel -r
-      fish_color_command ${theme.bluex}
-      fish_color_comment ${theme.bg2x}
-      fish_color_cwd ${theme.greenx}
-      # fish_color_cwd_root ${theme.redx}
-      fish_color_end ${theme.bg3x}
-      fish_color_error ${theme.redx}
-      # fish_color_escape 00a6b2
+      fish_color_command blue
+      fish_color_comment brblack
+      fish_color_cwd green
+      fish_color_cwd_root red
+      fish_color_end brblack
+      fish_color_error red
+      fish_color_escape yellow
       fish_color_history_current --bold
       fish_color_host normal
-      fish_color_host_remote ${theme.yellowx}
-      fish_color_keyword ${theme.bluex}
+      fish_color_host_remote yellow
+      fish_color_keyword blue
       # fish_color_match --background=brblue
       fish_color_normal normal
-      fish_color_operator ${theme.yellowx}
-      fish_color_option ${theme.cyanx}
-      fish_color_param ${theme.cyanx}
-      fish_color_quote ${theme.greenx}
-      fish_color_redirection ${theme.magentax}
+      fish_color_operator yellow
+      fish_color_option cyan
+      fish_color_param cyan
+      fish_color_quote green
+      fish_color_redirection magenta
       # fish_color_search_match 'bryellow'  '--background=brblack'
       fish_color_selection 'white'  '--bold'  '--background=brblack'
       # fish_color_status red
