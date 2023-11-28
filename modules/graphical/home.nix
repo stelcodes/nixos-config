@@ -410,14 +410,14 @@
       extraPackages = [
         pkgs.ffmpeg
         pkgs.ffmpegthumbnailer
-        pkgs.dragon
+        pkgs.xdragon
         pkgs.mediainfo
       ];
       plugins = {
         mappings = {
           d = "dragdrop";
-          e = "-enqueue";
-          E = "-enqueue-all";
+          q = "-enqueue";
+          Q = "-enqueue-all";
         };
         scripts = [
           (pkgs.writeShellApplication {
