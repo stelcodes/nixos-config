@@ -134,6 +134,7 @@ in
       set -g update-environment "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK DISPLAY"
       set -g status on
       set -g status-interval 1
+      set -g history-limit 8000
       set -sa terminal-features ',foot:RGB'
       setenv -g COLORTERM truecolor
 
