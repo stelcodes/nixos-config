@@ -186,15 +186,75 @@
         };
         plugins = {
           mappings = {
-            p = "preview-tui";
-            v = "-!env";
+            w = "preview-tui";
+            e = "-!env";
             n = "-nvim-clean";
+            r = "rename-with-vimv";
+            x = "delete-with-dua";
+            p = "copy-with-rsync";
           };
           scripts = [
             (pkgs.writeShellApplication {
               name = "nvim-clean";
               runtimeInputs = [ pkgs.neovim-unwrapped pkgs.coreutils-full ];
               text = builtins.readFile ./nvim-clean.sh;
+            })
+            (pkgs.writeShellApplication {
+              name = "rename-with-vimv";
+              runtimeInputs = [ pkgs.vimv-rs ];
+              text = ''
+                # Rename files with vimv-rs
+                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                if [ -s "$SEL" ]; then
+                  xargs --null vimv < "$SEL"
+                else
+                  vimv
+                fi
+              '';
+            })
+            (pkgs.writeShellApplication {
+              name = "delete-with-dua";
+              runtimeInputs = [ pkgs.dua ];
+              text = "dua --stay-on-filesystem interactive";
+            })
+            (pkgs.writeShellApplication {
+              name = "copy-with-rsync";
+              runtimeInputs = [ pkgs.rsync pkgs.findutils pkgs.coreutils-full ];
+              text = ''
+                # Copy files with rsync
+
+                clear_sel() {
+                  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
+                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                if [ -s "$SEL" ]; then
+                  echo "=========================================================================="
+                  echo "SELECTIONS:"
+                  while IFS= read -rd $'\0' ITEM || [ "$ITEM" ] ; do
+                    WARNING=""
+                    if [ -e "./$(basename "$ITEM")" ]; then
+                      WARNING=" \033[0;33mWARNING: ALREADY EXISTS IN DEST\033[0m"
+                    fi
+                    echo -e "$ITEM$WARNING"
+                  done < "$SEL"
+                  echo
+                  echo "DESTINATION:"
+                  echo "$PWD"
+                  echo
+                  read -rp 'Are you sure? '
+                  if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
+                    xargs --null -I {} rsync --archive --verbose --human-readable --progress --one-file-system --delete {} "$PWD" < "$SEL" && clear_sel
+                  else
+                    echo "Aborting operation..."
+                  fi
+                else
+                  echo "A selection is required"
+                fi
+                echo
+              '';
             })
           ];
           src =
