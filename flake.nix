@@ -1,4 +1,7 @@
 {
+  # https://nixos-and-flakes.thiscute.world
+  # https://www.nixhub.io/
+
   description = "My Personal NixOS System Flake Configuration";
 
   inputs = {
