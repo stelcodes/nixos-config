@@ -192,6 +192,7 @@
             r = "rename-with-vimv";
             x = "delete-with-dua";
             p = "copy-with-rsync";
+            P = "copy-with-rsync-include-list";
           };
           scripts = [
             (pkgs.writeShellApplication {
@@ -256,6 +257,65 @@
                 echo
               '';
             })
+
+
+            (pkgs.writeShellApplication {
+              name = "copy-with-rsync-include-list";
+              runtimeInputs = [ pkgs.rsync pkgs.findutils pkgs.coreutils-full ];
+              text = ''
+                # Copy files with rsync
+
+                clear_sel() {
+                  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
+                TMPFILE="$(mktemp)"
+                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                SRC=""
+
+                if [ -s "$SEL" ]; then
+                  echo "=========================================================================="
+                  while IFS= read -rd $'\0' ITEM || [ "$ITEM" ] ; do
+                    if [ -z "$SRC" ]; then
+                      SRC="$ITEM"
+                      if [ ! -d "$SRC" ]; then
+                        printf "ERROR: First selection '%s' is not a directory" "$SRC"
+                        exit 1
+                      fi
+                    else
+                      if [[ "$ITEM" == "$SRC"* ]]; then
+                        printf "%s\n" "''${ITEM:''${#SRC}}" >> "$TMPFILE"
+                      else
+                        printf "ERROR: '%s' is not in directory '%s'" "$ITEM" "$SRC"
+                        exit 1
+                      fi
+                    fi
+                  done < "$SEL"
+                  echo "SOURCE:"
+                  echo "$SRC"
+                  echo
+                  echo "FILES FROM:"
+                  cat "$TMPFILE"
+                  echo
+                  echo "DESTINATION:"
+                  echo "$PWD"
+                  echo
+                  read -rp 'Are you sure? '
+                  if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
+                    # rsync -rltxvh --files-from="$TMPFILE" "$SRC" "$PWD" && clear_sel
+                    rsync --archive --recursive --verbose --human-readable --progress --one-file-system --files-from="$TMPFILE" "$SRC" "$PWD" && clear_sel
+                  else
+                    echo "Aborting operation..."
+                  fi
+                else
+                  echo "A selection is required"
+                fi
+                echo
+              '';
+            })
+
           ];
           src =
             pkgs.symlinkJoin {
