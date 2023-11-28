@@ -116,6 +116,7 @@
         pkgs.wg-killswitch
         pkgs.jq
         pkgs.eza
+        pkgs.vimv-rs
       ];
       etc = {
         # https://www.reddit.com/r/NixOS/comments/16t2njf/small_trick_for_people_using_nixos_with_flakes
