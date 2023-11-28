@@ -37,10 +37,11 @@
     wg-quick.interfaces = {
       pvpn-fast = {
         configFile = config.age.secrets.meshify-pvpn-fast-wg-quick-config.path;
-        autostart = true;
+        autostart = false;
       };
       pvpn-sc = {
         configFile = config.age.secrets.meshify-pvpn-sc-wg-quick-config.path;
+        autostart = false;
       };
     };
   };
