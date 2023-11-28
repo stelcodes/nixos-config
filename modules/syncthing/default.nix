@@ -43,11 +43,10 @@ in
     users.users.${adminName}.packages = [ pkgs.syncthing ];
     services = {
       syncthing = {
+        inherit dataDir;
         openDefaultPorts = true;
         user = adminName;
         configDir = "/home/${adminName}/.config/syncthing";
-        # Ughhhhh I wish the NixOS syncthing module supported unix sockets
-        # guiAddress = "/tmp/st.sock";
         guiAddress = "127.0.0.1:8384";
         settings = {
           options = {
