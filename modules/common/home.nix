@@ -246,7 +246,7 @@
                   echo
                   read -rp 'Are you sure? '
                   if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
-                    xargs --null -I {} rsync --archive --verbose --human-readable --progress --one-file-system --delete {} "$PWD" < "$SEL" && clear_sel
+                    xargs --null -I {} rsync --archive --verbose --human-readable --progress --one-file-system {} "$PWD" < "$SEL" && clear_sel
                   else
                     echo "Aborting operation..."
                   fi
