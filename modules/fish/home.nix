@@ -105,7 +105,6 @@
       nnn = "n";
     };
     functions = {
-      nnn-rsync = builtins.readFile ./nnn-rsync.fish;
       n = builtins.readFile ./n.fish;
     };
   };
