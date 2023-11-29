@@ -50,9 +50,9 @@
       pkgs.gnome.gnome-disk-utility
       pkgs.spotify
       pkgs.libimobiledevice # For iphone hotspot tethering
-      pkgs.obsidian
+      pkgs.obsidian # rm -rf ~/.config/obsidian/GPUCache every major update
       pkgs.pavucontrol
-      pkgs.tor-browser-bundle-bin # tor-browser not working 4/16/23
+      pkgs.tor-browser-bundle-bin
       pkgs.vlc
       pkgs.mpv
       pkgs.appimage-run
