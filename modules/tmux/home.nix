@@ -135,7 +135,7 @@ in
       set -g status on
       set -g status-interval 1
       set -g history-limit 8000
-      set -sa terminal-features ',foot:RGB'
+      set -sa terminal-features ',foot:RGB,xterm-256color:RGB'
       setenv -g COLORTERM truecolor
 
       #########################################################################
