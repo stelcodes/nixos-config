@@ -286,7 +286,7 @@ in
       # Configure keymap in X11
       xserver = {
         enable = true;
-        autorun = false;
+        autorun = lib.mkDefault false;
         layout = pkgs.lib.mkDefault "us";
         xkbVariant = pkgs.lib.mkDefault "";
         xkbOptions = pkgs.lib.mkDefault "caps:escape_shifted_capslock,altwin:swap_alt_win";
