@@ -10,7 +10,7 @@ set -x NNN_SEL $(mktemp)
 # if test "$TERM_PROGRAM" = "tmux"
 #   command nnn -eauUAGP p $argv
 
-command nnn -eauUAG $argv
+command nnn -oeauUAG $argv
 
 if test -e "$NNN_TMPFILE"
     cd $(string sub --start 5 --end -1 < $NNN_TMPFILE)
