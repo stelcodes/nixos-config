@@ -1,48 +1,51 @@
 { pkgs, theme, ... }:
 let
-  pluginDeps = with pkgs; [
-    # tmux-resurrect
-    coreutils-full
-    hostname
-    gnused
-    gawk
-    gnugrep
-    gzip
-    gnutar
-    procps
-    which
-    tmux
-    # tmux-yank
-    xsel
-    wl-clipboard
-    # testing
-    bash
-  ];
+  # pluginDeps = with pkgs; [
+  #   # tmux-resurrect
+  #   coreutils-full
+  #   hostname
+  #   gnused
+  #   gawk
+  #   gnugrep
+  #   gzip
+  #   gnutar
+  #   procps
+  #   which
+  #   tmux
+  #   # tmux-yank
+  #   xsel
+  #   wl-clipboard
+  #   # testing
+  #   bash
+  # ];
 in
 {
-  systemd.user.services.tmux = {
-    Unit = {
-      Description = "tmux default session";
-    };
-    Service = {
-      Type = "forking";
-      Environment = [
-        # Must include implicit deps for all tmux plugins and commands run with "run-shell"
-        # Most of these are for tmux-resurrect save.sh and restore.sh
-        "PATH=${pkgs.lib.makeBinPath pluginDeps}"
-      ];
-      ExecStart = "${pkgs.tmux}/bin/tmux new-session -d -s config 'cd ~/nixos-config; nvim;'";
-      ExecStop = [
-        "${pkgs.tmux-snapshot}/bin/tmux-snapshot"
-        "${pkgs.tmux}/bin/tmux kill-server"
-      ];
-      Restart = "always";
-      RestartSec = 2;
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
-  };
+  # I'm not starting tmux as a systemd service anymore because of environment variable mismatch between
+  # this service and the rest of the system.
+
+  # systemd.user.services.tmux = {
+  #   Unit = {
+  #     Description = "tmux default session";
+  #   };
+  #   Service = {
+  #     Type = "forking";
+  #     Environment = [
+  #       # Must include implicit deps for all tmux plugins and commands run with "run-shell"
+  #       # Most of these are for tmux-resurrect save.sh and restore.sh
+  #       "PATH=${pkgs.lib.makeBinPath pluginDeps}"
+  #     ];
+  #     ExecStart = "${pkgs.tmux}/bin/tmux new-session -d -s config 'cd ~/nixos-config; nvim;'";
+  #     ExecStop = [
+  #       "${pkgs.tmux-snapshot}/bin/tmux-snapshot"
+  #       "${pkgs.tmux}/bin/tmux kill-server"
+  #     ];
+  #     Restart = "always";
+  #     RestartSec = 2;
+  #   };
+  #   Install = {
+  #     WantedBy = [ "default.target" ];
+  #   };
+  # };
 
   programs.tmux = {
     enable = true;
@@ -135,7 +138,7 @@ in
       set -g status on
       set -g status-interval 1
       set -g history-limit 8000
-      set -sa terminal-features ',foot:RGB,xterm-256color:RGB'
+      set -sa terminal-features ',foot:RGB,xterm-256color:RGB,tmux-256color:RGB'
       setenv -g COLORTERM truecolor
 
       #########################################################################

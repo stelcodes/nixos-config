@@ -66,7 +66,7 @@ in
       ${pkgs.systemd}/bin/systemctl --user import-environment GDK_DPI_SCALE
     '';
     config = {
-      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach; fish'";
+      terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
       menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
       modifier = modifier;
       fonts = {
@@ -188,8 +188,8 @@ in
       startup = [
         # Import sway-related environment variables into systemd user services
         { command = "${pkgs.systemd}/bin/systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK DISPLAY"; }
-        # Restart tmux so all shell environments contain sway-related environment variables
-        { command = "${pkgs.systemd}/bin/systemctl --user restart tmux.service"; }
+        # Kill tmux so all shell environments contain sway-related environment variables
+        { command = "${pkgs.tmux}/bin/tmux kill-server"; }
         { command = "${pkgs.systemd}/bin/systemctl is-active syncthing.service && ${pkgs.systemd}/bin/systemctl --user start syncthing-tray.service"; always = true; }
         { command = "${pkgs.systemd}/bin/systemctl --user is-active waybar || ${pkgs.systemd}/bin/systemctl --user restart waybar"; always = true; }
         { command = "${pkgs.obsidian}/bin/obsidian"; }

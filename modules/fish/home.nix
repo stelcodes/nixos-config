@@ -74,8 +74,7 @@
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
       date-sortable = "date +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with local timezone
       date-sortable-utc = "date -u +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with UTC timezone
-      t = "tmux attach";
-      tmux = "systemctl --user status tmux.service";
+      t = "tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"";
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
       dl-base = "yt-dlp --embed-metadata --embed-thumbnail --progress";
       dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor,selfpromo,outro' --remux-video 'mkv'";
