@@ -400,8 +400,13 @@ in
       layer = "top";
       position = "bottom";
       height = 20;
-      modules-left = [ "sway/workspaces" "sway/mode" "tray" ];
-      modules-center = [ "clock" "custom/pomo" "custom/swayidle" ];
+      modules-left = [
+        "sway/workspaces"
+        "tray"
+        "custom/pomo"
+        "custom/swayidle"
+      ];
+      modules-center = [ "sway/mode" ];
       modules-right = [
         "custom/rebuild"
         "network#1"
@@ -412,6 +417,7 @@ in
         "wireplumber"
         "bluetooth"
         "battery"
+        "clock"
       ];
       "custom/pomo" = {
         format = "{} 󱎫";
@@ -421,11 +427,10 @@ in
         on-click-right = "${pkgs.pomo}/bin/pomo stop";
       };
       "custom/rebuild" = {
-        format = "rebuild: {}";
+        format = "{}";
         max-length = 25;
         interval = 2;
-        exec-if = "test -f $HOME/tmp/rebuild/status";
-        exec = "echo \"$(< $HOME/tmp/rebuild/status)\"";
+        exec = "if test -f \"$HOME/tmp/rebuild/status\"; then echo \"$(< $HOME/tmp/rebuild/status)\"; else echo ; fi";
         on-click = viewRebuildLogCmd;
       };
       "custom/swayidle" = {
@@ -453,6 +458,10 @@ in
         exec = "if ${pkgs.systemd}/bin/systemctl --user --quiet is-active wlsunset.service; then echo ''; else echo ''; fi";
         interval = 2;
         on-click = "${pkgs.toggle-service}/bin/toggle-service wlsunset";
+        # This doesn't actually work because the only way to have dynamic tooltips is to use json mode
+        # tooltip-format = "${pkgs.writers.writeFish "wlsunset-temp" ''
+        #   journalctl --user -ex --unit wlsunset.service | tail | string match --regex "\d{4} K" | tail -1
+        # ''}";
       };
       "sway/workspaces" = {
         disable-scroll = true;
@@ -499,14 +508,15 @@ in
         # format = "{ifname}";
         # format-ethernet = "{ifname} ";
         format-disconnected = "";
-        format-wifi = "{essid} ";
-        tooltip-format = "freq: {frequency} strength: {signalStrength}";
+        format-wifi = "";
+        tooltip-format = "{essid} {frequency}GHz {signalStrength}%";
         on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
       };
       "network#2" = {
         max-length = 60;
         interface = "pvpn*";
         format = "";
+        tooltip-format = "{essid}";
         format-disconnected = "";
         on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
       };
@@ -521,8 +531,8 @@ in
         scroll-step = 5;
       };
       clock = {
-        format = "{:%a %b %d %I:%M %p} 󱛡";
-        format-alt = "{:week %U day %j} 󱛡";
+        format = "{:%I:%M %p} 󱛡";
+        format-alt = "{:%a %b %d} 󱛡";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
       };
       battery = {

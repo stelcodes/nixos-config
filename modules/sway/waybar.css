@@ -42,7 +42,6 @@ window {
 }
 
 #mode {
-    background-color: @bgOne;
     padding: 0 10px;
 }
 
