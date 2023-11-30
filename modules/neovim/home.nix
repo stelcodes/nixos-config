@@ -36,6 +36,17 @@
           };
         };
 
+        nnn-nvim = pkgs.vimUtils.buildVimPlugin {
+          pname = "nnn-nvim";
+          version = "unstable-2023-11-30";
+          src = pkgs.fetchFromGitHub {
+            owner = "luukvbaal";
+            repo = "nnn.nvim";
+            rev = "4616ec65eb0370af548e356c3ec542c1b167b415";
+            sha256 = "iJTN1g5uoS6yj0CZ6Q5wsCAVYVim5zl4ObwVyLtJkQ0=";
+          };
+        };
+
       in
       [
         # Theme plugin should go first because it sets local vars like lualine_theme
@@ -294,6 +305,63 @@
         pkgs.vimPlugins.cmp-nvim-lsp
 
         pkgs.vimPlugins.vim-just
+
+        {
+          plugin = nnn-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            require("nnn").setup{
+              explorer = {
+                cmd = "nnn -ouAG",       -- command override (-F1 flag is implied, -a flag is invalid!)
+                width = 24,        -- width of the vertical split
+                side = "topleft",  -- or "botright", location of the explorer window
+                session = "",      -- or "global" / "local" / "shared"
+                tabs = true,       -- separate nnn instance per tab
+                fullscreen = false, -- whether to fullscreen explorer window when current tab is empty
+              },
+              picker = {
+                cmd = "tmux new-session nnn -ouAGP w",       -- command override (-p flag is implied)
+                style = {
+                  width = 0.9,     -- percentage relative to terminal size when < 1, absolute otherwise
+                  height = 0.8,    -- ^
+                  xoffset = 0.5,   -- ^
+                  yoffset = 0.5,   -- ^
+                  border = "single"-- border decoration for example "rounded"(:h nvim_open_win)
+                },
+                session = "",      -- or "global" / "local" / "shared"
+                tabs = true,       -- separate nnn instance per tab
+                fullscreen = false, -- whether to fullscreen picker window when current tab is empty
+              },
+              auto_open = {
+                setup = nil,       -- or "explorer" / "picker", auto open on setup function
+                tabpage = nil,     -- or "explorer" / "picker", auto open when opening new tabpage
+                empty = false,     -- only auto open on empty buffer
+                ft_ignore = {      -- dont auto open for these filetypes
+                  "gitcommit",
+                }
+              },
+              auto_close = false,  -- close tabpage/nvim when nnn is last window
+              replace_netrw = nil, -- or "explorer" / "picker"
+              mappings = {
+                { "<C-t>", builtin.open_in_tab },       -- open file(s) in tab
+                { "<C-x>", builtin.open_in_split },     -- open file(s) in split
+                { "<C-v>", builtin.open_in_vsplit },    -- open file(s) in vertical split
+              },       -- table containing mappings, see below
+              windownav = {        -- window movement mappings to navigate out of nnn
+                left = "<C-h>",
+                right = "<C-l>",
+                next = "<C-w>w",
+                prev = "<C-w>W",
+              },
+              buflisted = false,   -- whether or not nnn buffers show up in the bufferlist
+              quitcd = nil,        -- or "cd" / tcd" / "lcd", command to run on quitcd file if found
+              offset = true,      -- whether or not to write position offset to tmpfile(for use in preview-tui)
+            }
+            vim.keymap.set("n", "<leader>n", "<cmd>NnnExplorer %:p:h<cr>")
+            vim.keymap.set("n", "<leader>fe", "<cmd>NnnExplorer<cr>")
+            vim.keymap.set("n", "<leader>fp", "<cmd>NnnPicker<cr>")
+          '';
+        }
 
       ];
   };
