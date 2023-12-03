@@ -391,9 +391,6 @@
       ExecStart = "${pkgs.pomo}/bin/pomo notify";
       Restart = "always";
     };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
   };
 
   programs = {
