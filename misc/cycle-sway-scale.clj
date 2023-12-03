@@ -18,7 +18,11 @@
 (defn set-output-scale [scale]
   (p/sh ["swaymsg" "output" "-" "scale" scale]))
 
-(cond (== 1 (:scale focused-output)) (set-output-scale 1.5)
-      ;; (== 1.5 current-scale) (set-output-scale 2)
+(def current-scale (-> focused-output :scale (* 10) Math/round (/ 10) double))
+
+(debug current-scale)
+
+(cond (= 1.0 current-scale) (set-output-scale 1.7)
+      ;; (= 1. current-scale) (set-output-scale 2.0)
       :else (set-output-scale 1.0))
 
