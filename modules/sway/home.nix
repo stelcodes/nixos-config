@@ -177,7 +177,7 @@ in
         "*" = { bg = "${theme.bg} solid_color"; };
         # Framework screen
         "BOE 0x095F Unknown" = {
-          scale = "1.8";
+          scale = "1.6";
           position = "0 0";
         };
         # Epson projector
