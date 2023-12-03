@@ -23,16 +23,7 @@
 
   home = {
     sessionVariables = {
-      # For gnome calculator, probably nautilus too
-      GTK_THEME = theme.gtkThemeName;
-      # Wayland-specific stuff
-      SDL_VIDEODRIVER = "wayland";
-      QT_QPA_PLATFORM = "wayland";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
-      _JAVA_AWT_WM_NONREPARENTING = 1;
-      MOZ_ENABLE_WAYLAND = 1;
-      NIXOS_OZONE_WL = 1;
-      GDK_DPI_SCALE = -1;
+      GTK_THEME = theme.gtkThemeName; # For gnome calculator and nautilus on sway
     };
     pointerCursor = {
       package = theme.cursorThemePackage;
