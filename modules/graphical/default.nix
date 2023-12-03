@@ -16,7 +16,12 @@ in
 
   config = {
 
-    environment.systemPackages = lib.mkIf virtHost [
+    environment.systemPackages = [
+      pkgs.xclip # Allows neovim to copy to system clipboard
+      pkgs.glib # Fixes weird issue with cinnamon-settings not finding gsettings executable
+      pkgs.sox # For cinnamon battery panel widget
+      pkgs.gnome.zenity # For cinnamon battery panel widget
+    ] ++ (if virtHost then [
       pkgs.virt-manager
       pkgs.virt-viewer
       pkgs.spice
@@ -24,8 +29,8 @@ in
       pkgs.spice-protocol
       pkgs.win-virtio
       pkgs.win-spice
-      pkgs.gnome.adwaita-icon-theme
-    ];
+      pkgs.gnome.adwaita-icon-theme # Do I need this?
+    ] else [ ]);
 
     virtualisation = lib.mkIf virtHost {
       libvirtd = {
@@ -286,11 +291,12 @@ in
       # Configure keymap in X11
       xserver = {
         enable = true;
-        autorun = lib.mkDefault false;
+        autorun = lib.mkDefault true;
         layout = pkgs.lib.mkDefault "us";
         xkbVariant = pkgs.lib.mkDefault "";
         xkbOptions = pkgs.lib.mkDefault "caps:escape_shifted_capslock,altwin:swap_alt_win";
         libinput.enable = true;
+        desktopManager.cinnamon.enable = true;
         # I can't for the love of god get a decent multi-desktop setup with sway
         # It's just too damn hard and I'm giving up forever
         # displayManager.startx.enable = true;
@@ -331,12 +337,6 @@ in
     };
 
     specialisation = {
-      cinnamon.configuration = {
-        services.xserver = {
-          autorun = true;
-          desktopManager.cinnamon.enable = true;
-        };
-      };
       # gnome.configuration = {
       #   environment.gnome.excludePackages = with pkgs; [
       #     gnome-tour
