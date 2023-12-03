@@ -424,11 +424,106 @@
     };
   };
 
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
+  dconf.settings =
+    with lib.hm.gvariant;
+    let bind = x: mkArray type.string [ x ];
+    in
+    {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = [ "qemu:///system" ];
+        uris = [ "qemu:///system" ];
+      };
+      "org/cinnamon" = {
+        alttab-switcher-delay = mkInt32 0;
+        hotcorner-layout = mkArray type.string [
+          "expo:true:0"
+          ":false:0"
+          ":false:0"
+          ":false:0"
+        ];
+      };
+      # "org/cinnamon/theme" = {
+      #   name = "Nordic";
+      # };
+      "org/cinnamon/sounds" = {
+        notification-enabled = false;
+      };
+      "org/cinnamon/desktop/keybindings/wm" = {
+        close = bind "<Shift><Super>q";
+        move-to-workspace-left = bind "<Shift><Super>h";
+        move-to-workspace-right = bind "<Shift><Super>l";
+        switch-to-workspace-left = bind "<Super>h";
+        switch-to-workspace-right = bind "<Super>l";
+        switch-windows = bind "<Super>Tab";
+        # toggle-fullscreen = bind "<Super>Space";
+        toggle-fullscreen = bind "<Super>f";
+        show-desktop = bind "<Super>x";
+      };
+      "org/cinnamon/desktop/keybindings/media-keys" = {
+        logout = bind "<Shift><Super>e";
+        terminal = bind "<Super>Return";
+        www = bind "<Super>BackSpace";
+        screensaver = bind "<Super>Delete";
+      };
+      "org/cinnamon/desktop/wm/preferences" = {
+        # titlebar-font = "FiraMono Nerd Font Medium 10";
+      };
+      "org/cinnamon/desktop/interface" = {
+        cursor-size = "24";
+        cursor-theme = "Bibata-Original-Classic";
+        font-name = "Ubuntu 10";
+        # font-name = "FiraMono Nerd Font 11";
+        gtk-theme = theme.gtkThemeName;
+        icon-theme = theme.iconThemeName;
+      };
+
+      "org/gnome/terminal/legacy/profiles:" = {
+        # Put IDs of other profiles if you have some already.
+        list = [ "903204a8-2d64-461c-a67d-4fbd5654c266" ];
+
+        # Set the default profile to it.
+        default = "903204a8-2d64-461c-a67d-4fbd5654c266";
+      };
+
+      "org/gnome/terminal/legacy/profiles:/:903204a8-2d64-461c-a67d-4fbd5654c266" = {
+        background-color = theme.bg;
+        bold-color = theme.fg;
+        bold-color-same-as-fg = true;
+        cursor-background-color = theme.bg4;
+        cursor-colors-set = true;
+        cursor-foreground-color = theme.bg;
+        foreground-color = theme.fg;
+        highlight-background-color = theme.bg2;
+        highlight-colors-set = true;
+        highlight-foreground-color = theme.bg4;
+        palette = [
+          theme.bg3
+          theme.red
+          theme.green
+          theme.yellow
+          theme.blue
+          theme.magenta
+          theme.cyan
+          theme.fg
+          theme.bg3
+          theme.red
+          theme.green
+          theme.yellow
+          theme.blue
+          theme.magenta
+          theme.cyan
+          theme.fg
+        ];
+        use-theme-background = false;
+        use-theme-colors = false;
+        use-theme-transparency = false;
+        use-transparent-background = false;
+        visible-name = theme.name;
+        custom-command = "tmux";
+        font = "FiraMono Nerd Font 14";
+      };
+
+
     };
-  };
 
 }
