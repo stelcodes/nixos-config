@@ -29,7 +29,7 @@
       package = theme.cursorThemePackage;
       name = theme.cursorThemeName;
       # Sway seems unaffected by this size and defaults to 24
-      size = 24;
+      size = 48;
       gtk.enable = true;
     };
     packages = [
