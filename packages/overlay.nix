@@ -124,7 +124,9 @@ self: super: {
     name = "mixxx-wayland";
     paths = [ super.mixxx ];
     buildInputs = [ super.makeWrapper ];
-    postBuild = "wrapProgram $out/bin/mixxx --add-flags '-platform xcb'";
+    postBuild = ''
+      wrapProgram $out/bin/mixxx --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+-platform xcb}}"
+    '';
   };
   check-newline = super.writeShellApplication {
     name = "check-newline";
