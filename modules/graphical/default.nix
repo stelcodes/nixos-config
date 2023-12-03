@@ -247,7 +247,7 @@ in
           URLBlocklist = [
             "news.ycombinator.com"
             # "reddit.com"
-            "youtube.com"
+            # "youtube.com"
             "tmz.com"
           ];
           UserAgentReduction = 2;
