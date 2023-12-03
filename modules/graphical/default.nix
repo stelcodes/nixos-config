@@ -330,5 +330,61 @@ in
       };
     };
 
+    specialisation = {
+      cinnamon.configuration = {
+        services.xserver = {
+          autorun = true;
+          desktopManager.cinnamon.enable = true;
+        };
+      };
+      # gnome.configuration = {
+      #   environment.gnome.excludePackages = with pkgs; [
+      #     gnome-tour
+      #     gnome-user-docs
+      #     orca
+      #     baobab
+      #     epiphany
+      #     gnome.gnome-backgrounds
+      #     gnome.gnome-color-manager
+      #     gnome.gnome-themes-extra
+      #     gnome.gnome-shell-extensions
+      #     gnome.yelp
+      #     gnome.cheese
+      #     gnome.gnome-contacts
+      #     gnome.gnome-music
+      #     gnome.gnome-system-monitor
+      #     gnome-text-editor
+      #     gnome.gnome-clocks
+      #     gnome.gnome-weather
+      #     gnome.gnome-maps
+      #     gnome.simple-scan
+      #     gnome.gnome-characters
+      #     gnome-connections
+      #     gnome.gnome-logs
+      #     gnome.totem
+      #     gnome.geary
+      #     gnome-photos
+      #     gnome.gnome-calendar
+      #   ];
+      #   services.xserver = {
+      #     autorun = true;
+      #     desktopManager.gnome.enable = true;
+      #   };
+      # };
+      # plasma.configuration = {
+      #   # environment.plasma5.excludePackages = [ ];
+      #   services = {
+      #     gnome.gnome-keyring.enable = lib.mkForce false;
+      #     xserver = {
+      #       autorun = true;
+      #       desktopManager.plasma5 = {
+      #         enable = true;
+      #         # useQtScaling = true;
+      #       };
+      #     };
+      #   };
+      # };
+    };
+
   };
 }
