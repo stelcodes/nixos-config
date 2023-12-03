@@ -54,7 +54,6 @@
       pkgs.cycle-pulse-sink
       pkgs.cycle-sway-scale
       pkgs.qalculate-gtk
-      pkgs.swayimg
       pkgs.gnome.eog
       pkgs.gajim
       pkgs.qpwgraph
@@ -433,6 +432,7 @@
         autoconnect = [ "qemu:///system" ];
         uris = [ "qemu:///system" ];
       };
+      # dconf dump /org/cinnamon/ | dconf2nix | nvim -R
       "org/cinnamon" = {
         alttab-switcher-delay = mkInt32 0;
         hotcorner-layout = mkArray type.string [
@@ -442,9 +442,6 @@
           ":false:0"
         ];
       };
-      # "org/cinnamon/theme" = {
-      #   name = "Nordic";
-      # };
       "org/cinnamon/sounds" = {
         notification-enabled = false;
       };
@@ -454,10 +451,13 @@
         move-to-workspace-right = bind "<Shift><Super>l";
         switch-to-workspace-left = bind "<Super>h";
         switch-to-workspace-right = bind "<Super>l";
+        switch-to-workspace-up = bind "<Super>k";
+        switch-to-workspace-down = bind "<Super>j";
         switch-windows = bind "<Super>Tab";
         # toggle-fullscreen = bind "<Super>Space";
         toggle-fullscreen = bind "<Super>f";
         show-desktop = bind "<Super>x";
+        toggle-maximized = bind "<Super>m";
       };
       "org/cinnamon/desktop/keybindings/media-keys" = {
         logout = bind "<Shift><Super>e";
@@ -475,6 +475,19 @@
         # font-name = "FiraMono Nerd Font 11";
         gtk-theme = theme.gtkThemeName;
         icon-theme = theme.iconThemeName;
+      };
+
+      "org/cinnamon/desktop/background" = {
+        picture-uri = "file://${theme.wallpaper}";
+      };
+
+      "org/gnome/terminal/legacy" = {
+        default-show-menubar = false;
+      };
+
+      "org/gnome/terminal/legacy/keybindings" = {
+        copy = "<Primary>c";
+        paste = "<Primary>v";
       };
 
       "org/gnome/terminal/legacy/profiles:" = {
@@ -519,7 +532,7 @@
         use-theme-transparency = false;
         use-transparent-background = false;
         visible-name = theme.name;
-        custom-command = "tmux";
+        custom-command = "sh -c 'tmux attach || tmux new-session -s config -c $HOME/nixos-config; fish'";
         font = "FiraMono Nerd Font 14";
       };
 
