@@ -24,7 +24,8 @@
       {
         plugin = pkgs.tmuxPlugins.tmux-thumbs;
         extraConfig = ''
-          set -g @thumbs-command 'tmux set-buffer -- {} && test -n "$SWAYSOCK" && echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
+          # Try to copy to every clipboard just to keep the command string simple
+          set -g @thumbs-command 'tmux set-buffer -- {}; echo -n {} | ${pkgs.xclip}/bin/xclip; echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
           set -g @thumbs-fg-color '${theme.bg2}'
           set -g @thumbs-bg-color '${theme.yellow}'
           set -g @thumbs-select-fg-color '${theme.bg2}'
