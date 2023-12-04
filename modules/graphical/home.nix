@@ -539,4 +539,17 @@
 
     };
 
+    services = {
+      redshift = {
+        enable = true;
+        latitude = 38.0;
+        longitude = -124.0;
+        temperature = {
+          day = 5500;
+          night = 3000;
+        };
+        tray = true;
+      };
+    };
+
 }
