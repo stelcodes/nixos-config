@@ -19,6 +19,14 @@
       package = theme.iconThemePackage;
     };
     # gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk3.extraCss = ''
+      /* shrink ssd titlebars */
+      .default-decoration {
+          min-height: 0; /* let the entry and button drive the titlebar size */
+          padding-top: 5px;
+          padding-bottom: 5px;
+      }
+    '';
   };
 
   home = {
@@ -530,6 +538,7 @@
         visible-name = theme.name;
         custom-command = "sh -c 'tmux attach || tmux new-session -s config -c $HOME/nixos-config; fish'";
         font = "FiraMono Nerd Font 14";
+        scrollbar-policy = "never";
       };
 
 
