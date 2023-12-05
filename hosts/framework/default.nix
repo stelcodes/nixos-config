@@ -23,6 +23,10 @@
     };
   };
 
+  programs.steam = {
+    enable = true;
+  };
+
   # https://github.com/musnix/musnix
   musnix = {
     enable = true;

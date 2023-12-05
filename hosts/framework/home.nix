@@ -1,6 +1,9 @@
 { pkgs, ... }: {
 
   home = {
+    sessionVariables = {
+      STEAM_FORCE_DESKTOPUI_SCALING = 2;
+    };
     stateVersion = "23.11";
     packages = [
       pkgs.vscodium
