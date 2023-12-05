@@ -373,6 +373,7 @@
       "x-content/audio-cdda" = [ "audacious.desktop" ];
       "text/markdown" = [ "neovim.desktop" ];
       "text/plain" = [ "neovim.desktop" ];
+      "application/x-zerosize" = [ "neovim.desktop" ]; # empty files
     };
   };
 
