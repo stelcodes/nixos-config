@@ -73,10 +73,14 @@
     neovim = {
       name = "Neovim";
       genericName = "Text Editor";
-      exec = let app = pkgs.writeShellScript "neovim-inside-foot" ''
+      exec = let app = pkgs.writeShellScript "neovim-terminal" ''
         # Killing foot from sway results in non-zero exit code which triggers
         # xdg-mime to use next valid entry, so we must always exit successfully
-        ${pkgs.foot}/bin/foot nvim "$1" || true
+        if [ "$SWAYSOCK" ]; then
+          ${pkgs.foot}/bin/foot -- nvim "$1" || true
+        else
+          ${pkgs.gnome.gnome-terminal}/bin/gnome-terminal -- nvim "$1" || true
+        fi
       ''; in "${app} %U";
       terminal = false;
       categories = [ "Utility" "TextEditor" ];
