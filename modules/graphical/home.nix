@@ -471,6 +471,7 @@
       };
       "org/cinnamon/desktop/wm/preferences" = {
         # titlebar-font = "FiraMono Nerd Font Medium 10";
+        num-workspaces = 9;
       };
       "org/cinnamon/desktop/interface" = {
         cursor-size = "24";
