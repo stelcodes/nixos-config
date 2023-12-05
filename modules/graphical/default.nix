@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, lib, ... }:
+{ pkgs, inputs, config, lib, adminName, ... }:
 let
   virtHost = config.virtualisation.hostMachineDefaults.enable;
 in
@@ -372,11 +372,17 @@ in
       #   };
       # };
       # plasma.configuration = {
+      #   # X11 apps in Plasma wayland with fractional scaling are either blurry (global scaling) or scaled very small (app scaling)
+      #   # So plasma X11 is the only option for fractional scaling and I like cinnamon better
       #   # environment.plasma5.excludePackages = [ ];
+      #   home-manager.users.${adminName} = {
+      #     qt.enable = lib.mkForce false;
+      #   };
       #   services = {
       #     gnome.gnome-keyring.enable = lib.mkForce false;
       #     xserver = {
       #       autorun = true;
+      #       desktopManager.cinnamon.enable = lib.mkForce false;
       #       desktopManager.plasma5 = {
       #         enable = true;
       #         # useQtScaling = true;
