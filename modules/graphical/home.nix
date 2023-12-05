@@ -208,19 +208,19 @@
     };
     "gajim/theme/nord.css".text = ''
       .gajim-outgoing-nickname {
-          color: rgb(180, 142, 173)
+          color: ${theme.magenta};
       }
       .gajim-incoming-nickname {
-          color: rgb(235, 203, 139)
+          color: ${theme.yellow};
       }
       .gajim-url {
-          color: rgb(94, 129, 172)
+          color: ${theme.blue};
       }
       .gajim-status-online {
-          color: rgb(163, 190, 140)
+          color: ${theme.green};
       }
       .gajim-status-away {
-          color: rgb(191, 97, 106)
+          color: ${theme.red};
       }
     '';
     "swappy/config".text = ''
