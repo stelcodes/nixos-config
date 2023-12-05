@@ -94,11 +94,7 @@
       hwdec=auto-safe
       vo=gpu
       profile=gpu-hq
-      gpu-context=wayland
-    '';
-    "electron-flags.conf".text = ''
-      --enable-features=WaylandWindowDecorations
-      --ozone-platform-hint=auto
+      # gpu-context=wayland
     '';
     "ranger/rc.conf".text = ''
       set preview_images true
@@ -167,11 +163,6 @@
       dim5 = ${theme.magentax}
       dim6 = ${theme.cyanx}
       dim7 = ${theme.fgx}
-    '';
-    # https://wiki.archlinux.org/title/Dolphin#Mismatched_folder_view_background_colors
-    kdeglobals.text = ''
-      [Colors:View]
-      BackgroundNormal=${theme.bg}
     '';
     "wofi/config".text = "allow_images=true";
     "wofi/style.css".source = ../../misc/wofi.css;
