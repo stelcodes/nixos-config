@@ -291,19 +291,15 @@ in
       # Configure keymap in X11
       xserver = {
         enable = true;
-        autorun = lib.mkDefault true;
+        autorun = lib.mkDefault false;
         layout = pkgs.lib.mkDefault "us";
         xkbVariant = pkgs.lib.mkDefault "";
         xkbOptions = pkgs.lib.mkDefault "caps:escape_shifted_capslock,altwin:swap_alt_win";
         libinput.enable = true;
-        desktopManager.cinnamon.enable = true;
-        # I can't for the love of god get a decent multi-desktop setup with sway
-        # It's just too damn hard and I'm giving up forever
-        # displayManager.startx.enable = true;
         # desktopManager.cinnamon.enable = true;
       };
 
-      # getty.autologinUser = "stel";
+      getty.autologinUser = adminName;
 
       # Enable iOS devices to automatically connect
       # Use idevice* commands like ideviceinfo

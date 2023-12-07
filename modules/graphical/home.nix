@@ -37,7 +37,7 @@
       package = theme.cursorThemePackage;
       name = theme.cursorThemeName;
       # Sway seems unaffected by this size and defaults to 24
-      size = 48;
+      size = 24;
       gtk.enable = true;
     };
     packages = [
@@ -541,13 +541,11 @@
         font = "FiraMono Nerd Font 14";
         scrollbar-policy = "never";
       };
-
-
     };
 
   services = {
     redshift = {
-      enable = true;
+      enable = false;
       latitude = 38.0;
       longitude = -124.0;
       temperature = {
