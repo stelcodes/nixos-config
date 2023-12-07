@@ -106,6 +106,16 @@ in
       keybindings =
         pkgs.lib.mkOptionDefault {
           # Use "Shift" to properly override defaults
+          "${modifier}+Shift+h" = "workspace prev";
+          "${modifier}+Shift+l" = "workspace next";
+          "${modifier}+Left" = "move left";
+          "${modifier}+Right" = "move right";
+          "${modifier}+Up" = "move up";
+          "${modifier}+Down" = "move down";
+          "${modifier}+Shift+Left" = "focus output left";
+          "${modifier}+Shift+Right" = "focus output right";
+          "${modifier}+Shift+Up" = "focus output up";
+          "${modifier}+Shift+Down" = "focus output down";
           "${modifier}+tab" = "focus next";
           "${modifier}+Shift+tab" = "focus prev";
           "${modifier}+grave" = "exec wofi-emoji";
@@ -174,7 +184,7 @@ in
         };
       };
       output = {
-        "*" = { bg = "${theme.bg} solid_color"; };
+        "*" = { background = "${theme.wallpaper} fill ${theme.bg}"; };
         # Framework screen
         "BOE 0x095F Unknown" = {
           scale = "1.6";
@@ -373,6 +383,7 @@ in
     enable = true;
     settings = {
       color = theme.bgx;
+      image = theme.wallpaper;
       font-size = 24;
       indicator-idle-visible = false;
       indicator-radius = 100;
