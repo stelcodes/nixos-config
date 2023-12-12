@@ -2,12 +2,15 @@
   # https://nixos-and-flakes.thiscute.world
   # https://www.nixhub.io/
   # https://docs.kernel.org/admin-guide/kernel-parameters.html
+  # https://nixpk.gs/pr-tracker.html
+  # nix-repl> :lf .
+  # nix-repl> pkgs = import inputs.nixpkgs { system = builtins.currentSystem; }
 
   description = "My Personal NixOS System Flake Configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       # User Package Management
       url = "github:nix-community/home-manager/release-23.11";
@@ -66,43 +69,14 @@
       mkComputer = { system, adminName, themeName, hostName, type, ... }:
         let
           pkgs = import inputs.nixpkgs { inherit system; };
-          themes = import ./misc/themes.nix pkgs;
-          theme = themes.${themeName};
-          extraNixosModules = {
-            server = [ ];
-            desktop = [ ./modules/graphical ];
-            laptop = [ ./modules/graphical ./modules/laptop ];
-          };
-          extraHmModules = {
-            server = [ ];
-            desktop = [ ./modules/graphical/home.nix ];
-            laptop = [ ./modules/graphical/home.nix ];
-          };
+          theme = (import ./misc/themes.nix pkgs).${themeName};
         in
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs adminName theme hostName system;
+            inherit inputs adminName theme hostName system type;
           };
-          modules = [
-            ./hosts/${hostName}
-            ./hosts/${hostName}/hardware-configuration.nix
-            ./modules/common
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs adminName theme hostName system;
-              };
-              home-manager.users.${adminName} = {
-                imports = [
-                  ./modules/common/home.nix
-                  ./hosts/${hostName}/home.nix
-                ] ++ extraHmModules.${type};
-              };
-            }
-          ] ++ extraNixosModules.${type};
+          modules = [ ./modules/common ];
         };
     in
     {

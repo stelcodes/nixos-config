@@ -4,7 +4,6 @@ let
 in
 {
   imports = [
-    inputs.musnix.nixosModules.musnix
   ];
 
 

@@ -13,3 +13,5 @@ https://git.2li.ch/Nebucatnetzer/nixos
 https://github.com/emmanuelrosa/erosanix
 
 https://github.com/LongerHV/nixos-configuration
+
+https://github.com/TLATER/dotfiles

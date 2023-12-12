@@ -1,12 +1,28 @@
-{ pkgs, lib, config, inputs, adminName, theme, hostName, system, ... }: {
+{ pkgs, lib, config, inputs, adminName, theme, hostName, system, type, ... }: {
 
-  imports = [
-    ../syncthing
-    inputs.agenix.nixosModules.default
-  ];
+  imports =
+    let
+      extraNixosModules = {
+        server = [ ];
+        desktop = [ ../graphical ];
+        laptop = [ ../graphical ../laptop ];
+      };
+    in
+    [
+      inputs.home-manager.nixosModules.home-manager
+      inputs.agenix.nixosModules.default
+      inputs.musnix.nixosModules.musnix
+      ../syncthing
+      ../../hosts/${hostName}
+      ../../hosts/${hostName}/hardware-configuration.nix
+    ] ++ extraNixosModules.${type};
 
   config = {
-    boot.tmp.cleanOnBoot = true;
+
+    boot = {
+      tmp.cleanOnBoot = true;
+      kernelPackages = pkgs.linuxPackages_6_1;
+    };
 
     # Enable networking
     networking = {
@@ -172,15 +188,19 @@
         dates = "weekly";
         options = "--delete-older-than 30d";
       };
-      settings.auto-optimise-store = true;
+      settings = {
+        auto-optimise-store = true;
+        experimental-features = [ "nix-command" "flakes" ];
+      };
       package = pkgs.nixFlakes; # Enable nixFlakes on system
-      registry.nixpkgs.flake = inputs.nixpkgs;
       extraOptions = ''
-        experimental-features = nix-command flakes
         keep-outputs          = true
         keep-derivations      = true
         warn-dirty            = false
       '';
+      # Make the nixpkgs flake input be used for various nix commands
+      nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+      registry.nixpkgs.flake = inputs.nixpkgs;
     };
 
     systemd.extraConfig = ''
@@ -193,6 +213,29 @@
       enableRedistributableFirmware = true;
       cpu.intel.updateMicrocode = true;
       cpu.amd.updateMicrocode = true;
+    };
+
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      extraSpecialArgs = {
+        inherit inputs adminName theme hostName system;
+        nixos-config = config;
+      };
+      users.${adminName} = {
+        imports =
+          let
+            extraHmModules = {
+              server = [ ];
+              desktop = [ ../graphical/home.nix ];
+              laptop = [ ../graphical/home.nix ];
+            };
+          in
+          [
+            ./home.nix
+            ../../hosts/${hostName}/home.nix
+          ] ++ extraHmModules.${type};
+      };
     };
 
     # I could do this to only create generations tied to specific commits but
