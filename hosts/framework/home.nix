@@ -9,7 +9,7 @@
       pkgs.vscodium
       pkgs.audacity
       pkgs.mixxx
-      pkgs.bitwig-studio
+      pkgs.unstable.bitwig-studio
       pkgs.musescore
       pkgs.lsp-plugins
       pkgs.graillon-free

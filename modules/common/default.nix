@@ -149,15 +149,22 @@
 
     };
 
-    nixpkgs = {
-      config = {
-        allowInsecure = true;
-        allowUnfree = true;
+    nixpkgs =
+      let
+        config = {
+          allowInsecure = true;
+          allowUnfree = true;
+        };
+      in
+      {
+        inherit config;
+        overlays = [
+          (final: prev: {
+            unstable = import inputs.nixpkgs-unstable { inherit config; system = final.system; };
+          })
+          (import ../../packages/overlay.nix)
+        ];
       };
-      overlays = [
-        (import ../../packages/overlay.nix)
-      ];
-    };
 
     nix = {
       gc = {
