@@ -1,4 +1,4 @@
-{ pkgs, inputs, lib, theme, system, ... }: {
+{ pkgs, config, inputs, lib, system, ... }: {
 
   imports = [
     ../sway/home.nix
@@ -11,12 +11,12 @@
       size = 10;
     };
     theme = {
-      name = theme.gtkThemeName;
-      package = theme.gtkThemePackage;
+      name = config.theme.set.gtkThemeName;
+      package = config.theme.set.gtkThemePackage;
     };
     iconTheme = {
-      name = theme.iconThemeName;
-      package = theme.iconThemePackage;
+      name = config.theme.set.iconThemeName;
+      package = config.theme.set.iconThemePackage;
     };
     # gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
     gtk3.extraCss = ''
@@ -31,11 +31,11 @@
 
   home = {
     sessionVariables = {
-      GTK_THEME = theme.gtkThemeName; # For gnome calculator and nautilus on sway
+      GTK_THEME = config.theme.set.gtkThemeName; # For gnome calculator and nautilus on sway
     };
     pointerCursor = {
-      package = theme.cursorThemePackage;
-      name = theme.cursorThemeName;
+      package = config.theme.set.cursorThemePackage;
+      name = config.theme.set.cursorThemeName;
       # Sway seems unaffected by this size and defaults to 24
       size = 24;
       gtk.enable = true;
@@ -140,37 +140,37 @@
       \x16 = Control+Shift+v
 
       [cursor]
-      color = ${theme.bgx} ${theme.bg4x}
+      color = ${config.theme.set.bgx} ${config.theme.set.bg4x}
 
       [colors]
-      foreground = ${theme.fgx}
-      background = ${theme.bgx}
-      selection-foreground = ${theme.bg4x}
-      selection-background = ${theme.bg2x}
-      regular0 = ${theme.bg3x}
-      regular1 = ${theme.redx}
-      regular2 = ${theme.greenx}
-      regular3 = ${theme.yellowx}
-      regular4 = ${theme.bluex}
-      regular5 = ${theme.magentax}
-      regular6 = ${theme.cyanx}
-      regular7 = ${theme.fgx}
-      bright0 = ${theme.bg3x}
-      bright1 = ${theme.redx}
-      bright2 = ${theme.greenx}
-      bright3 = ${theme.yellowx}
-      bright4 = ${theme.bluex}
-      bright5 = ${theme.magentax}
-      bright6 = ${theme.cyanx}
-      bright7 = ${theme.fgx}
-      dim0 = ${theme.bg3x}
-      dim1 = ${theme.redx}
-      dim2 = ${theme.greenx}
-      dim3 = ${theme.yellowx}
-      dim4 = ${theme.bluex}
-      dim5 = ${theme.magentax}
-      dim6 = ${theme.cyanx}
-      dim7 = ${theme.fgx}
+      foreground = ${config.theme.set.fgx}
+      background = ${config.theme.set.bgx}
+      selection-foreground = ${config.theme.set.bg4x}
+      selection-background = ${config.theme.set.bg2x}
+      regular0 = ${config.theme.set.bg3x}
+      regular1 = ${config.theme.set.redx}
+      regular2 = ${config.theme.set.greenx}
+      regular3 = ${config.theme.set.yellowx}
+      regular4 = ${config.theme.set.bluex}
+      regular5 = ${config.theme.set.magentax}
+      regular6 = ${config.theme.set.cyanx}
+      regular7 = ${config.theme.set.fgx}
+      bright0 = ${config.theme.set.bg3x}
+      bright1 = ${config.theme.set.redx}
+      bright2 = ${config.theme.set.greenx}
+      bright3 = ${config.theme.set.yellowx}
+      bright4 = ${config.theme.set.bluex}
+      bright5 = ${config.theme.set.magentax}
+      bright6 = ${config.theme.set.cyanx}
+      bright7 = ${config.theme.set.fgx}
+      dim0 = ${config.theme.set.bg3x}
+      dim1 = ${config.theme.set.redx}
+      dim2 = ${config.theme.set.greenx}
+      dim3 = ${config.theme.set.yellowx}
+      dim4 = ${config.theme.set.bluex}
+      dim5 = ${config.theme.set.magentax}
+      dim6 = ${config.theme.set.cyanx}
+      dim7 = ${config.theme.set.fgx}
     '';
     "wofi/config".text = "allow_images=true";
     "wofi/style.css".source = ../../misc/wofi.css;
@@ -216,19 +216,19 @@
     };
     "gajim/theme/nord.css".text = ''
       .gajim-outgoing-nickname {
-          color: ${theme.magenta};
+          color: ${config.theme.set.magenta};
       }
       .gajim-incoming-nickname {
-          color: ${theme.yellow};
+          color: ${config.theme.set.yellow};
       }
       .gajim-url {
-          color: ${theme.blue};
+          color: ${config.theme.set.blue};
       }
       .gajim-status-online {
-          color: ${theme.green};
+          color: ${config.theme.set.green};
       }
       .gajim-status-away {
-          color: ${theme.red};
+          color: ${config.theme.set.red};
       }
     '';
     "swappy/config".text = ''
@@ -478,12 +478,12 @@
         cursor-theme = "Bibata-Original-Classic";
         font-name = "Ubuntu 10";
         # font-name = "FiraMono Nerd Font 11";
-        gtk-theme = theme.gtkThemeName;
-        icon-theme = theme.iconThemeName;
+        gtk-theme = config.theme.set.gtkThemeName;
+        icon-theme = config.theme.set.iconThemeName;
       };
 
       "org/cinnamon/desktop/background" = {
-        picture-uri = "file://${theme.wallpaper}";
+        picture-uri = "file://${config.theme.set.wallpaper}";
       };
 
       "org/gnome/terminal/legacy" = {
@@ -504,39 +504,39 @@
       };
 
       "org/gnome/terminal/legacy/profiles:/:903204a8-2d64-461c-a67d-4fbd5654c266" = {
-        background-color = theme.bg;
-        bold-color = theme.fg;
+        background-color = config.theme.set.bg;
+        bold-color = config.theme.set.fg;
         bold-color-same-as-fg = true;
-        cursor-background-color = theme.bg4;
+        cursor-background-color = config.theme.set.bg4;
         cursor-colors-set = true;
-        cursor-foreground-color = theme.bg;
-        foreground-color = theme.fg;
-        highlight-background-color = theme.bg2;
+        cursor-foreground-color = config.theme.set.bg;
+        foreground-color = config.theme.set.fg;
+        highlight-background-color = config.theme.set.bg2;
         highlight-colors-set = true;
-        highlight-foreground-color = theme.bg4;
-        palette = [
-          theme.bg3
-          theme.red
-          theme.green
-          theme.yellow
-          theme.blue
-          theme.magenta
-          theme.cyan
-          theme.fg
-          theme.bg3
-          theme.red
-          theme.green
-          theme.yellow
-          theme.blue
-          theme.magenta
-          theme.cyan
-          theme.fg
+        highlight-foreground-color = config.theme.set.bg4;
+        palette = with config.theme.set; [
+          bg3
+          red
+          green
+          yellow
+          blue
+          magenta
+          cyan
+          fg
+          bg3
+          red
+          green
+          yellow
+          blue
+          magenta
+          cyan
+          fg
         ];
         use-theme-background = false;
         use-theme-colors = false;
         use-theme-transparency = false;
         use-transparent-background = false;
-        visible-name = theme.name;
+        visible-name = config.theme.set.name;
         custom-command = "sh -c 'tmux attach || tmux new-session -s config -c $HOME/nixos-config; fish'";
         font = "FiraMono Nerd Font 14";
         scrollbar-policy = "never";

@@ -67,16 +67,12 @@
   outputs = inputs:
     let
       mkComputer = { system, adminName, themeName, hostName, type, ... }:
-        let
-          pkgs = import inputs.nixpkgs { inherit system; };
-          theme = (import ./misc/themes.nix pkgs).${themeName};
-        in
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs adminName theme hostName system type;
+            inherit inputs adminName hostName system type;
           };
-          modules = [ ./modules/common ];
+          modules = [ ./modules/common { theme.name = themeName; } ];
         };
     in
     {

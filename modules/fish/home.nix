@@ -1,4 +1,4 @@
-{ pkgs, theme, ... }: {
+{ pkgs, ... }: {
   home.packages = [ pkgs.starship ];
   xdg.configFile."fish/themes/base16.theme" = {
     onChange = "${pkgs.fish}/bin/fish -c 'echo y | fish_config theme save base16'";

@@ -1,4 +1,4 @@
-{ pkgs, lib, theme, adminName, hostName, ... }:
+{ pkgs, lib, config, adminName, hostName, ... }:
 let
   viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
   modifier = "Mod4";
@@ -77,25 +77,25 @@ in
       bars = [ ];
       colors = {
         focused = {
-          background = theme.bg;
-          border = theme.bg3;
-          childBorder = theme.bg3;
-          indicator = theme.green;
-          text = theme.fg;
+          background = config.theme.set.bg;
+          border = config.theme.set.bg3;
+          childBorder = config.theme.set.bg3;
+          indicator = config.theme.set.green;
+          text = config.theme.set.fg;
         };
         unfocused = {
-          background = theme.black;
-          border = theme.bg;
-          childBorder = theme.bg;
-          indicator = theme.bg3;
-          text = theme.fg;
+          background = config.theme.set.black;
+          border = config.theme.set.bg;
+          childBorder = config.theme.set.bg;
+          indicator = config.theme.set.bg3;
+          text = config.theme.set.fg;
         };
         focusedInactive = {
-          background = theme.black;
-          border = theme.bg;
-          childBorder = theme.bg;
-          indicator = theme.bg3;
-          text = theme.fg;
+          background = config.theme.set.black;
+          border = config.theme.set.bg;
+          childBorder = config.theme.set.bg;
+          indicator = config.theme.set.bg3;
+          text = config.theme.set.fg;
         };
       };
       window = {
@@ -184,7 +184,7 @@ in
         };
       };
       output = {
-        "*" = { background = "${theme.wallpaper} fill ${theme.bg}"; };
+        "*" = { background = "${config.theme.set.wallpaper} fill ${config.theme.set.bg}"; };
         # Framework screen
         "BOE 0x095F Unknown" = {
           scale = "1.6";
@@ -238,24 +238,24 @@ in
       enable = true;
       settings = {
         warning = rec {
-          background = theme.bgx;
-          button-background = theme.bg1x;
-          details-background = theme.bg1x;
-          text = theme.fgx;
-          button-text = theme.fgx;
-          border = theme.bg2x;
-          border-bottom = theme.bg3x;
+          background = config.theme.set.bgx;
+          button-background = config.theme.set.bg1x;
+          details-background = config.theme.set.bg1x;
+          text = config.theme.set.fgx;
+          button-text = config.theme.set.fgx;
+          border = config.theme.set.bg2x;
+          border-bottom = config.theme.set.bg3x;
           border-bottom-size = 3;
           button-border-size = 1;
         };
         error = rec {
-          background = theme.bgx;
-          button-background = theme.bg1x;
-          details-background = theme.bg1x;
-          text = theme.fgx;
-          button-text = theme.fgx;
-          border = theme.bg2x;
-          border-bottom = theme.redx;
+          background = config.theme.set.bgx;
+          button-background = config.theme.set.bg1x;
+          details-background = config.theme.set.bg1x;
+          text = config.theme.set.fgx;
+          button-text = config.theme.set.fgx;
+          border = config.theme.set.bg2x;
+          border-bottom = config.theme.set.redx;
           border-bottom-size = 3;
           button-border-size = 1;
         };
@@ -365,16 +365,16 @@ in
         ignore-timeout=1
         padding=14
         margin=20
-        background-color=${theme.bg}
+        background-color=${config.theme.set.bg}
 
         [urgency=low]
-        border-color=${theme.blue}
+        border-color=${config.theme.set.blue}
 
         [urgency=normal]
-        border-color=${theme.bg3}
+        border-color=${config.theme.set.bg3}
 
         [urgency=high]
-        border-color=${theme.red}
+        border-color=${config.theme.set.red}
       '';
     };
   };
@@ -382,8 +382,8 @@ in
   programs.swaylock = {
     enable = true;
     settings = {
-      color = theme.bgx;
-      image = theme.wallpaper;
+      color = config.theme.set.bgx;
+      image = config.theme.set.wallpaper;
       font-size = 24;
       indicator-idle-visible = false;
       indicator-radius = 100;
@@ -394,11 +394,11 @@ in
   programs.waybar = {
     enable = true;
     style = ''
-      @define-color bg ${theme.bg};
-      @define-color bgOne ${theme.bg1};
-      @define-color bgTwo ${theme.bg2};
-      @define-color bgThree ${theme.bg3};
-      @define-color red ${theme.red};
+      @define-color bg ${config.theme.set.bg};
+      @define-color bgOne ${config.theme.set.bg1};
+      @define-color bgTwo ${config.theme.set.bg2};
+      @define-color bgThree ${config.theme.set.bg3};
+      @define-color red ${config.theme.set.red};
       ${builtins.readFile ./waybar.css}
     '';
     # Stopped working when switching between Cinnamon and Sway

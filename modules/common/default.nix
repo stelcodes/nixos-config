@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, adminName, theme, hostName, system, type, ... }: {
+{ pkgs, lib, config, inputs, adminName, hostName, system, type, ... }: {
 
   imports =
     let
@@ -16,6 +16,17 @@
       ../../hosts/${hostName}
       ../../hosts/${hostName}/hardware-configuration.nix
     ] ++ extraNixosModules.${type};
+
+  options = {
+    theme.name = lib.mkOption {
+      type = lib.types.str;
+      default = "everforest";
+    };
+    theme.set = lib.mkOption {
+      type = lib.types.attrs;
+      default = (import ../../misc/themes.nix pkgs).${config.theme.name};
+    };
+  };
 
   config = {
 
@@ -53,7 +64,7 @@
 
     console = {
       useXkbConfig = true;
-      colors = with theme; [
+      colors = with config.theme.set; [
         bgx
         redx
         greenx
@@ -219,7 +230,7 @@
       useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {
-        inherit inputs adminName theme hostName system;
+        inherit inputs adminName hostName system;
         nixos-config = config;
       };
       users.${adminName} = {
@@ -234,6 +245,7 @@
           [
             ./home.nix
             ../../hosts/${hostName}/home.nix
+            { theme.name = config.theme.name; }
           ] ++ extraHmModules.${type};
       };
     };
