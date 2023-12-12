@@ -1,4 +1,8 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, systemConfig, ... }:
+let
+  theme = systemConfig.theme.set;
+in
+{
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -50,7 +54,7 @@
       in
       [
         # Theme plugin should go first because it sets local vars like lualine_theme
-        config.theme.set.neovimPlugin
+        theme.neovimPlugin
 
         pkgs.vimPlugins.vim-fugitive
         {
@@ -270,7 +274,7 @@
           plugin = pkgs.vimPlugins.vim-better-whitespace;
           type = "lua";
           config = ''
-            vim.g["better_whitespace_guicolor"] = "${config.theme.set.red}"
+            vim.g["better_whitespace_guicolor"] = "${theme.red}"
             vim.g["better_whitespace_filetypes_blacklist"] = {
               "", "diff", "git", "gitcommit", "unite", "qf", "help", "fugitive"
             }

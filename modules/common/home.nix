@@ -1,4 +1,4 @@
-{ pkgs, lib, adminName, inputs, config, ... }: {
+{ pkgs, lib, adminName, inputs, config, systemConfig, ... }: {
 
   imports = [
     ../fish/home.nix
@@ -8,14 +8,6 @@
   ];
 
   options = {
-    theme.name = lib.mkOption {
-      type = lib.types.str;
-      default = "everforest";
-    };
-    theme.set = lib.mkOption {
-      type = lib.types.attrs;
-      default = (import ../../misc/themes.nix pkgs).${config.theme.name};
-    };
     programs.nnn.plugins.scripts = lib.mkOption {
       default = [ ];
       type = lib.types.listOf lib.types.package;
@@ -51,7 +43,7 @@
         '';
         # https://github.com/aristocratos/btop#configurability
         "btop/btop.conf".text = ''
-          color_theme = "${config.theme.set.btop}"
+          color_theme = "${systemConfig.theme.set.btop}"
           vim_keys = True
         '';
       };

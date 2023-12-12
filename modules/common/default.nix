@@ -231,7 +231,7 @@
       useUserPackages = true;
       extraSpecialArgs = {
         inherit inputs adminName hostName system;
-        nixos-config = config;
+        systemConfig = config;
       };
       users.${adminName} = {
         imports =
@@ -245,7 +245,6 @@
           [
             ./home.nix
             ../../hosts/${hostName}/home.nix
-            { theme.name = config.theme.name; }
           ] ++ extraHmModules.${type};
       };
     };

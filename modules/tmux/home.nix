@@ -1,4 +1,7 @@
-{ pkgs, config, ... }:
+{ pkgs, config, systemConfig, ... }:
+let
+  theme = systemConfig.theme.set;
+in
 {
   programs.tmux = {
     enable = true;
@@ -18,7 +21,7 @@
       #   });
       #   extraConfig = ''
       #     set -g @fingers-main-action 'tmux set-buffer -- {} && test -n "$SWAYSOCK" && echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
-      #     set -g @fingers-hint-format "#[fg=${config.theme.set.yellow},bold]%s"
+      #     set -g @fingers-hint-format "#[fg=${theme.yellow},bold]%s"
       #   '';
       # }
       {
@@ -26,12 +29,12 @@
         extraConfig = ''
           # Try to copy to every clipboard just to keep the command string simple
           set -g @thumbs-command 'tmux set-buffer -- {}; echo -n {} | ${pkgs.xclip}/bin/xclip; echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
-          set -g @thumbs-fg-color '${config.theme.set.bg2}'
-          set -g @thumbs-bg-color '${config.theme.set.yellow}'
-          set -g @thumbs-select-fg-color '${config.theme.set.bg2}'
-          set -g @thumbs-select-bg-color '${config.theme.set.red}'
-          set -g @thumbs-hint-fg-color '${config.theme.set.blue}'
-          set -g @thumbs-hint-bg-color '${config.theme.set.bg2}'
+          set -g @thumbs-fg-color '${theme.bg2}'
+          set -g @thumbs-bg-color '${theme.yellow}'
+          set -g @thumbs-select-fg-color '${theme.bg2}'
+          set -g @thumbs-select-bg-color '${theme.red}'
+          set -g @thumbs-hint-fg-color '${theme.blue}'
+          set -g @thumbs-hint-bg-color '${theme.bg2}'
           set -g @thumbs-position right
         '';
       }
@@ -99,22 +102,22 @@
       # APPEARANCE
 
       set -g status-justify left
-      set -g status-style bg=${config.theme.set.bg1},fg=${config.theme.set.fg}
-      set -g pane-border-style bg=default,fg=${config.theme.set.bg}
-      set -g pane-active-border-style bg=default,fg=${config.theme.set.blue}
+      set -g status-style bg=${theme.bg1},fg=${theme.fg}
+      set -g pane-border-style bg=default,fg=${theme.bg}
+      set -g pane-active-border-style bg=default,fg=${theme.blue}
       set -g display-panes-colour black
       set -g display-panes-active-colour black
-      set -g clock-mode-colour '${config.theme.set.tmuxPrimary}'
-      set -g message-style bg=${config.theme.set.bg},fg=${config.theme.set.tmuxPrimary}
-      set -g message-command-style bg=${config.theme.set.bg},fg=${config.theme.set.tmuxPrimary}
-      set -g status-left "#[fg=${config.theme.set.bg},bg=${config.theme.set.tmuxPrimary},bold] #S "
+      set -g clock-mode-colour '${theme.tmuxPrimary}'
+      set -g message-style bg=${theme.bg},fg=${theme.tmuxPrimary}
+      set -g message-command-style bg=${theme.bg},fg=${theme.tmuxPrimary}
+      set -g status-left "#[fg=${theme.bg},bg=${theme.tmuxPrimary},bold] #S "
       set -g status-left-length 25
-      set -g status-right "#{?client_prefix,#[fg=${config.theme.set.bg}#,bg=${config.theme.set.tmuxPrimary}] M-a ,}#[fg=${config.theme.set.bg4},bg=${config.theme.set.bg2}] %I:%M %p #{?pane_in_mode,#[fg=${config.theme.set.bg}#,bg=${config.theme.set.tmuxSecondary}#,bold],#[fg=${config.theme.set.bg}#,bg=${config.theme.set.tmuxPrimary}#,bold]} #H "
+      set -g status-right "#{?client_prefix,#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}] M-a ,}#[fg=${theme.bg4},bg=${theme.bg2}] %I:%M %p #{?pane_in_mode,#[fg=${theme.bg}#,bg=${theme.tmuxSecondary}#,bold],#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}#,bold]} #H "
       set -g status-right-length 50
-      set -g window-status-format "#[fg=${config.theme.set.bg4},bg=${config.theme.set.bg1}] #I #W #F "
-      set -g window-status-current-format "#[fg=${config.theme.set.fg},bg=${config.theme.set.bg2}] #I #W #F "
+      set -g window-status-format "#[fg=${theme.bg4},bg=${theme.bg1}] #I #W #F "
+      set -g window-status-current-format "#[fg=${theme.fg},bg=${theme.bg2}] #I #W #F "
       set -g window-status-separator ""
-      set -g mode-style "fg=${config.theme.set.fg},bg=${config.theme.set.bg2}"
+      set -g mode-style "fg=${theme.fg},bg=${theme.bg2}"
     '';
   };
 }
