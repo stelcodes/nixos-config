@@ -1,8 +1,8 @@
-{ pkgs, lib, hostName, config, ... }:
+{ pkgs, lib, config, ... }:
 let
   cfg = config.services.syncthing;
   dataDir = "/home/${config.admin.username}/sync";
-  secretKey = "st:${config.admin.username}@${hostName}";
+  secretKey = "st:${config.admin.username}@${config.networking.hostName}";
   staggeredVersioning = {
     type = "staggered";
     params = {
@@ -21,7 +21,7 @@ let
       id = "HXMLVPE-DYRLXGQ-ZYBP7UK-G5AWL4U-B27PDUB-7EQHQY4-SZLROKY-4P54XQV";
     };
   };
-  allOtherDevices = builtins.removeAttrs allDevices [ hostName ];
+  allOtherDevices = builtins.removeAttrs allDevices [ config.networking.hostName ];
   allOtherDevicesNames = builtins.attrNames allOtherDevices;
   allFolders = {
     default = {

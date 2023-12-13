@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, hostName, type, ... }: {
+{ pkgs, lib, config, inputs, type, ... }: {
 
   imports =
     let
@@ -13,8 +13,6 @@
       inputs.agenix.nixosModules.default
       inputs.musnix.nixosModules.musnix
       ../syncthing
-      ../../hosts/${hostName}
-      ../../hosts/${hostName}/hardware-configuration.nix
     ] ++ extraNixosModules.${type};
 
   options = {
@@ -45,7 +43,6 @@
 
     # Enable networking
     networking = {
-      hostName = hostName;
       networkmanager.enable = true;
       hosts = {
         "127.0.0.1" = [ "lh" ];
@@ -238,7 +235,7 @@
       useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {
-        inherit inputs hostName;
+        inherit inputs;
         systemConfig = config;
       };
       users.${config.admin.username} = {
@@ -252,7 +249,7 @@
           in
           [
             ./home.nix
-            ../../hosts/${hostName}/home.nix
+            ../../hosts/${config.networking.hostName}/home.nix
           ] ++ extraHmModules.${type};
       };
     };

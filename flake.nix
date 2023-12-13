@@ -64,9 +64,14 @@
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs hostName type;
+            inherit inputs type;
           };
-          modules = [ ./modules/common ];
+          modules = [
+            { networking.hostName = hostName; }
+            ./modules/common
+            ./hosts/${hostName}
+            ./hosts/${hostName}/hardware-configuration.nix
+          ];
         };
     in
     {
