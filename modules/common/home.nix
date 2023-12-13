@@ -1,4 +1,4 @@
-{ pkgs, lib, adminName, inputs, config, systemConfig, ... }: {
+{ pkgs, lib, inputs, config, systemConfig, ... }: {
 
   imports = [
     ../fish/home.nix
@@ -50,8 +50,8 @@
     };
 
     home = {
-      username = "${adminName}";
-      homeDirectory = "/home/${adminName}";
+      username = "${systemConfig.admin.username}";
+      homeDirectory = "/home/${systemConfig.admin.username}";
 
       packages = [
         pkgs.btop
@@ -186,7 +186,7 @@
           pkgs.xdg-utils
         ];
         bookmarks = {
-          m = "/run/media/${adminName}";
+          m = "/run/media/${systemConfig.admin.username}";
         };
         plugins = {
           mappings = {

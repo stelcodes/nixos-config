@@ -1,8 +1,8 @@
-{ pkgs, lib, hostName, adminName, config, ... }:
+{ pkgs, lib, hostName, config, ... }:
 let
   cfg = config.services.syncthing;
-  dataDir = "/home/${adminName}/sync";
-  secretKey = "st:${adminName}@${hostName}";
+  dataDir = "/home/${config.admin.username}/sync";
+  secretKey = "st:${config.admin.username}@${hostName}";
   staggeredVersioning = {
     type = "staggered";
     params = {
@@ -40,13 +40,13 @@ in
     };
   };
   config = {
-    users.users.${adminName}.packages = [ pkgs.syncthing ];
+    users.users.${config.admin.username}.packages = [ pkgs.syncthing ];
     services = {
       syncthing = {
         inherit dataDir;
         openDefaultPorts = true;
-        user = adminName;
-        configDir = "/home/${adminName}/.config/syncthing";
+        user = config.admin.username;
+        configDir = "/home/${config.admin.username}/.config/syncthing";
         guiAddress = "127.0.0.1:8384";
         settings = {
           options = {
@@ -55,7 +55,7 @@ in
             urAccepted = -1;
           };
           gui = {
-            user = adminName;
+            user = config.admin.username;
             password = secretKey;
             apikey = secretKey;
           };

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, adminName, hostName, type, ... }: {
+{ pkgs, lib, config, inputs, hostName, type, ... }: {
 
   imports =
     let
@@ -18,6 +18,14 @@
     ] ++ extraNixosModules.${type};
 
   options = {
+    admin.username = lib.mkOption {
+      type = lib.types.str;
+      default = "stel";
+    };
+    admin.email = lib.mkOption {
+      type = lib.types.str;
+      default = "stel@stel.codes";
+    };
     theme.name = lib.mkOption {
       type = lib.types.str;
       default = "everforest";
@@ -86,7 +94,7 @@
 
     security.doas.enable = true;
     security.doas.extraRules = [{
-      users = [ adminName ];
+      users = [ config.admin.username ];
       keepEnv = true;
       noPass = true;
       # persist = true;
@@ -104,7 +112,7 @@
         root = {
           password = "password"; # Override with hashedPasswordFile (use mkpasswd)
         };
-        ${adminName} = {
+        ${config.admin.username} = {
           password = "password"; # Override with hashedPasswordFile (use mkpasswd)
           isNormalUser = true;
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list
@@ -230,10 +238,10 @@
       useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {
-        inherit inputs adminName hostName;
+        inherit inputs hostName;
         systemConfig = config;
       };
-      users.${adminName} = {
+      users.${config.admin.username} = {
         imports =
           let
             extraHmModules = {

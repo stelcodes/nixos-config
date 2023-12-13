@@ -66,11 +66,11 @@
   # Function that tells my flake which to use and what do what to do with the dependencies.
   outputs = inputs:
     let
-      mkComputer = { system, adminName, themeName, hostName, type, ... }:
+      mkComputer = { system, themeName, hostName, type, ... }:
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs adminName hostName type;
+            inherit inputs hostName type;
           };
           modules = [ ./modules/common { theme.name = themeName; } ];
         };
@@ -105,7 +105,6 @@
           system = "x86_64-linux";
           themeName = "everforest";
           type = "laptop";
-          adminName = "stel";
         };
 
         ########################################################################
@@ -116,7 +115,6 @@
           system = "x86_64-linux";
           themeName = "everforest";
           type = "desktop";
-          adminName = "stel";
         };
 
 
@@ -128,7 +126,6 @@
           system = "x86_64-linux";
           themeName = "everforest";
           type = "laptop";
-          adminName = "stel";
         };
 
         # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso

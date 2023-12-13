@@ -1,4 +1,4 @@
-{ pkgs, config, lib, adminName, ... }: {
+{ pkgs, config, lib, ... }: {
 
   age.secrets = {
     meshify-pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
@@ -9,7 +9,7 @@
 
   users.users = {
     root.hashedPasswordFile = config.age.secrets.root-password.path;
-    ${adminName}.hashedPasswordFile = config.age.secrets.admin-password.path;
+    ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
   };
 
   musnix.enable = true;

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, adminName, inputs, ... }: {
+{ pkgs, lib, config, inputs, ... }: {
 
   imports = [
     # See https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
@@ -13,7 +13,7 @@
 
   users.users = {
     root.hashedPasswordFile = config.age.secrets.root-password.path;
-    ${adminName}.hashedPasswordFile = config.age.secrets.admin-password.path;
+    ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
   };
 
   services = {
@@ -52,9 +52,9 @@
       networking.wg-quick.interfaces = lib.mkForce { };
       users.users = {
         # root.hashedPasswordFile = lib.mkForce (lib.toString ../../misc/password-hash.txt);
-        # ${adminName}.hashedPasswordFile = lib.mkForce (lib.toString ../../misc/password-hash.txt);
+        # ${config.admin.username}.hashedPasswordFile = lib.mkForce (lib.toString ../../misc/password-hash.txt);
         root.hashedPassword = lib.mkForce "$y$j9T$GAOQggBNWKTXXoCXQCGiw0$wVVmGFS2rI.9QDGe51MQHYcEr02FqHVJ1alHig9Y475";
-        ${adminName}.hashedPassword = lib.mkForce "$y$j9T$GAOQggBNWKTXXoCXQCGiw0$wVVmGFS2rI.9QDGe51MQHYcEr02FqHVJ1alHig9Y475";
+        ${config.admin.username}.hashedPassword = lib.mkForce "$y$j9T$GAOQggBNWKTXXoCXQCGiw0$wVVmGFS2rI.9QDGe51MQHYcEr02FqHVJ1alHig9Y475";
       };
     };
   };

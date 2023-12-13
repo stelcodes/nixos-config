@@ -1,4 +1,4 @@
-{ hostName, adminName, config, ... }: {
+{ hostName, config, ... }: {
 
   imports = [
     ./hardware-configuration.nix
@@ -11,7 +11,7 @@
 
   users.users = {
     root.hashedPasswordFile = config.age.secrets.root-password.path;
-    ${adminName}.hashedPasswordFile = config.age.secrets.admin-password.path;
+    ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
   };
 
   services = {
