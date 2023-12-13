@@ -6,7 +6,7 @@
     inputs.musnix.nixosModules.musnix
     ../syncthing
     ../graphical
-    ../laptop
+    ../battery
   ];
 
   options = {
@@ -15,7 +15,7 @@
         type = lib.types.bool;
         default = false;
       };
-      laptop = lib.mkOption {
+      battery = lib.mkOption {
         type = lib.types.bool;
         default = false;
       };

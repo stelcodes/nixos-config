@@ -97,7 +97,7 @@
           system = "x86_64-linux";
           profile = {
             graphical = true;
-            laptop = true;
+            battery = true;
           };
         };
         ########################################################################
@@ -118,7 +118,7 @@
           system = "x86_64-linux";
           profile = {
             graphical = true;
-            laptop = true;
+            battery = true;
           };
         };
         ########################################################################
