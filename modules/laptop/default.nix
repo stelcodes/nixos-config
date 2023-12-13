@@ -1,6 +1,6 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
 
-  config = {
+  config = lib.mkIf config.profile.laptop {
 
     powerManagement = {
       enable = lib.mkDefault true;

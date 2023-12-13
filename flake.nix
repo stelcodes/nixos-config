@@ -60,14 +60,12 @@
   # Function that tells my flake which to use and what do what to do with the dependencies.
   outputs = inputs:
     let
-      mkComputer = { system, hostName, type, ... }:
+      mkComputer = { system, hostName, profile ? { }, ... }:
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {
-            inherit inputs type;
-          };
+          specialArgs = { inherit inputs; };
           modules = [
-            { networking.hostName = hostName; }
+            { inherit profile; networking.hostName = hostName; }
             ./modules/common
             ./hosts/${hostName}
             ./hosts/${hostName}/hardware-configuration.nix
@@ -102,7 +100,10 @@
         framework = mkComputer {
           hostName = "framework";
           system = "x86_64-linux";
-          type = "laptop";
+          profile = {
+            graphical = true;
+            laptop = true;
+          };
         };
 
         ########################################################################
@@ -111,7 +112,9 @@
         meshify = mkComputer {
           hostName = "meshify";
           system = "x86_64-linux";
-          type = "desktop";
+          profile = {
+            graphical = true;
+          };
         };
 
 
@@ -121,7 +124,10 @@
         macbook = mkComputer {
           hostName = "macbook";
           system = "x86_64-linux";
-          type = "laptop";
+          profile = {
+            graphical = true;
+            laptop = true;
+          };
         };
 
         # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso

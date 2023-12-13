@@ -1,21 +1,25 @@
-{ pkgs, lib, config, inputs, type, ... }: {
+{ pkgs, lib, config, inputs, ... }: {
 
-  imports =
-    let
-      extraNixosModules = {
-        server = [ ];
-        desktop = [ ../graphical ];
-        laptop = [ ../graphical ../laptop ];
-      };
-    in
-    [
-      inputs.home-manager.nixosModules.home-manager
-      inputs.agenix.nixosModules.default
-      inputs.musnix.nixosModules.musnix
-      ../syncthing
-    ] ++ extraNixosModules.${type};
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.agenix.nixosModules.default
+    inputs.musnix.nixosModules.musnix
+    ../syncthing
+    ../graphical
+    ../laptop
+  ];
 
   options = {
+    profile = {
+      graphical = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
+      laptop = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
+    };
     admin.username = lib.mkOption {
       type = lib.types.str;
       default = "stel";
@@ -239,18 +243,10 @@
         systemConfig = config;
       };
       users.${config.admin.username} = {
-        imports =
-          let
-            extraHmModules = {
-              server = [ ];
-              desktop = [ ../graphical/home.nix ];
-              laptop = [ ../graphical/home.nix ];
-            };
-          in
-          [
-            ./home.nix
-            ../../hosts/${config.networking.hostName}/home.nix
-          ] ++ extraHmModules.${type};
+        imports = [
+          ./home.nix
+          ../../hosts/${config.networking.hostName}/home.nix
+        ];
       };
     };
 

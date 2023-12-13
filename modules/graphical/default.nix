@@ -3,17 +3,13 @@ let
   virtHost = config.virtualisation.hostMachineDefaults.enable;
 in
 {
-  imports = [
-  ];
-
-
   options = {
     virtualisation.hostMachineDefaults = {
       enable = lib.mkEnableOption "virtualisation defaults for graphical machines";
     };
   };
 
-  config = {
+  config = lib.mkIf config.profile.graphical {
 
     environment.systemPackages = [
       pkgs.xclip # Allows neovim to copy to system clipboard
