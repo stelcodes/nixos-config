@@ -66,13 +66,13 @@
   # Function that tells my flake which to use and what do what to do with the dependencies.
   outputs = inputs:
     let
-      mkComputer = { system, themeName, hostName, type, ... }:
+      mkComputer = { system, hostName, type, ... }:
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
             inherit inputs hostName type;
           };
-          modules = [ ./modules/common { theme.name = themeName; } ];
+          modules = [ ./modules/common ];
         };
     in
     {
@@ -103,7 +103,6 @@
         framework = mkComputer {
           hostName = "framework";
           system = "x86_64-linux";
-          themeName = "everforest";
           type = "laptop";
         };
 
@@ -113,7 +112,6 @@
         meshify = mkComputer {
           hostName = "meshify";
           system = "x86_64-linux";
-          themeName = "everforest";
           type = "desktop";
         };
 
@@ -124,7 +122,6 @@
         macbook = mkComputer {
           hostName = "macbook";
           system = "x86_64-linux";
-          themeName = "everforest";
           type = "laptop";
         };
 
