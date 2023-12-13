@@ -70,7 +70,7 @@
         inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs adminName hostName system type;
+            inherit inputs adminName hostName type;
           };
           modules = [ ./modules/common { theme.name = themeName; } ];
         };

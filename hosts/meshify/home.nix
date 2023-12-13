@@ -1,4 +1,4 @@
-{ pkgs, inputs, system, ... }: {
+{ pkgs, inputs, ... }: {
 
   home = {
     stateVersion = "23.05";
@@ -11,7 +11,7 @@
       pkgs.audacity
       pkgs.ffmpeg
       pkgs.fractal
-      inputs.gpt4all-nix.packages.${system}.default
+      inputs.gpt4all-nix.packages.${pkgs.system}.default
       pkgs.vscodium
     ];
   };

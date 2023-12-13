@@ -1,4 +1,4 @@
-{ pkgs, config, systemConfig, inputs, lib, system, ... }:
+{ pkgs, config, systemConfig, inputs, lib, ... }:
 let
   theme = systemConfig.theme.set;
 in
@@ -70,7 +70,7 @@ in
       pkgs.gajim
       pkgs.qpwgraph
       pkgs.audacious # Use QT_QPA_PLATFORM=xcb to adjust plugin windows (Wayland QT issues)
-      inputs.manix.packages.${system}.manix
+      inputs.manix.packages.${pkgs.system}.manix
     ];
   };
 

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, adminName, hostName, system, type, ... }: {
+{ pkgs, lib, config, inputs, adminName, hostName, type, ... }: {
 
   imports =
     let
@@ -139,7 +139,7 @@
         pkgs.unzip
         pkgs.git
         pkgs.wireguard-tools
-        inputs.agenix.packages.${system}.default
+        inputs.agenix.packages.${pkgs.system}.default
         pkgs.wg-killswitch
         pkgs.jq
         pkgs.eza
@@ -230,7 +230,7 @@
       useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {
-        inherit inputs adminName hostName system;
+        inherit inputs adminName hostName;
         systemConfig = config;
       };
       users.${adminName} = {
