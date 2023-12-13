@@ -35,12 +35,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    manix = {
-      # Fork with crucial fixes, upstream seems abandoned
-      url = "github:kulabun/manix/dfb3bb1164fb6b6c61597c9cb10110cc45e1203d";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
     gpt4all-nix = {
       url = "github:polygon/gpt4all-nix/d80a923ea94c5ef46f507b6a4557093ad9086ef6";
       inputs.nixpkgs.follows = "nixpkgs";
