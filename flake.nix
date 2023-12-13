@@ -46,11 +46,6 @@
       ref = "v4.9";
       flake = false;
     };
-    # I'm using the nixpkgs version atm because the flake has messy dependencies
-    # telescope-manix = {
-    #   url = "github:MrcJkb/telescope-manix/392a883dec9d8ccfb1da3e10d1101ae34e627b97";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,42 +53,42 @@
   };
 
   # Function that tells my flake which to use and what do what to do with the dependencies.
-  outputs = inputs:
-    let
-      mkComputer = { system, hostName, profile ? { }, ... }:
-        inputs.nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-            { inherit profile; networking.hostName = hostName; }
-            ./modules/common
-            ./hosts/${hostName}
-            ./hosts/${hostName}/hardware-configuration.nix
-          ];
-        };
-    in
-    {
-      nixosModules = {
-        nixos-generate-formats = { config, ... }: {
-          imports = [ inputs.nixos-generators.nixosModules.all-formats ];
-          nixpkgs.hostPlatform = "x86_64-linux"; # Maybe don't need this?
-          formatConfigs = {
-            plasma-installer-iso = { modulesPath, ... }: {
-              formatAttr = "isoImage";
-              fileExtension = ".iso";
-              imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma5.nix" ];
-            };
-            gnome-installer-iso = { modulesPath, ... }: {
-              formatAttr = "isoImage";
-              fileExtension = ".iso";
-              imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix" ];
-            };
+  outputs = inputs: {
+
+    nixosModules = {
+      nixos-generate-formats = { config, ... }: {
+        imports = [ inputs.nixos-generators.nixosModules.all-formats ];
+        nixpkgs.hostPlatform = "x86_64-linux"; # Maybe don't need this?
+        formatConfigs = {
+          plasma-installer-iso = { modulesPath, ... }: {
+            formatAttr = "isoImage";
+            fileExtension = ".iso";
+            imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma5.nix" ];
+          };
+          gnome-installer-iso = { modulesPath, ... }: {
+            formatAttr = "isoImage";
+            fileExtension = ".iso";
+            imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix" ];
           };
         };
       };
+    };
 
-      nixosConfigurations = {
-
+    nixosConfigurations =
+      let
+        mkComputer = { system, hostName, profile ? { }, ... }:
+          inputs.nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = { inherit inputs; };
+            modules = [
+              { inherit profile; networking.hostName = hostName; }
+              ./modules/common
+              ./hosts/${hostName}
+              ./hosts/${hostName}/hardware-configuration.nix
+            ];
+          };
+      in
+      {
         ########################################################################
         # framework laptop i5-1240P
         ########################################################################
@@ -105,7 +100,6 @@
             laptop = true;
           };
         };
-
         ########################################################################
         # desktop fractal meshify 2 w ryzen 5600x
         ########################################################################
@@ -116,8 +110,6 @@
             graphical = true;
           };
         };
-
-
         ########################################################################
         # macbook laptop i7-4650U
         ########################################################################
@@ -129,7 +121,9 @@
             laptop = true;
           };
         };
-
+        ########################################################################
+        # nixos installer iso
+        ########################################################################
         # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso
         # nix build .#nixosConfigurations.installer-base.config.formats.plasma-installer-iso
         installer-base = inputs.nixpkgs-stable.lib.nixosSystem {
@@ -149,5 +143,5 @@
 
       };
 
-    };
+  };
 }
