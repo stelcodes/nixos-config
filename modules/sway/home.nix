@@ -125,7 +125,8 @@ in
             "${modifier}+r" = "mode resize";
             "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
             "${modifier}+d" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id thunar -- ${pkgs.xfce.thunar}/bin/thunar";
-            "${modifier}+space" = "exec ${pkgs.wofi}/bin/wofi --show drun --width 800 --height 400 --term foot";
+            "${modifier}+space" = "exec ${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
+            "${modifier}+Shift+space" = "exec ${pkgs.wofi}/bin/wofi --show drun --width 800 --height 400 --term foot";
             "${modifier}+Shift+c" = "exec rebuild";
             "${modifier}+backspace" = "exec firefox";
             "${modifier}+Shift+backspace" = "exec firefox --private-window";
