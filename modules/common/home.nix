@@ -184,15 +184,21 @@
           pkgs.gawk
           pkgs.findutils
           pkgs.fzf
-          pkgs.viu
+          pkgs.libsixel
           pkgs.xdg-utils
         ];
         bookmarks = {
-          m = "/run/media/${systemConfig.admin.username}";
+          e = "/run/media"; # external
+          h = "/home/${systemConfig.admin.username}"; # home
+          m = "/home/${systemConfig.admin.username}/music";
+          d = "/home/${systemConfig.admin.username}/downloads";
+          t = "/home/${systemConfig.admin.username}/tmp";
+          n = "/home/${systemConfig.admin.username}/nixos-config";
+          c = "/home/${systemConfig.admin.username}/.config";
         };
         plugins = {
           mappings = {
-            w = "preview-tui";
+            t = "preview-tui";
             e = "-!env";
             n = "-nvim-clean";
             r = "rename-with-vimv";
