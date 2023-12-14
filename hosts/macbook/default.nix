@@ -1,9 +1,5 @@
 { config, ... }: {
 
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   age.secrets = {
     root-password.file = ../../secrets/root-password.age;
     admin-password.file = ../../secrets/admin-password.age;
