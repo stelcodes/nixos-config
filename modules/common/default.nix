@@ -19,6 +19,10 @@
         type = lib.types.bool;
         default = false;
       };
+      virtual = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
     };
     admin.username = lib.mkOption {
       type = lib.types.str;
@@ -162,6 +166,8 @@
     };
 
     services = {
+
+      fwupd.enable = lib.mkDefault (!config.profile.virtual);
 
       # Nice to have, required for gnome-disks to work
       udisks2.enable = true;
