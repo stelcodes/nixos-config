@@ -1,13 +1,4 @@
-{ pkgs, inputs, config, lib, ... }:
-let
-  virtHost = config.virtualisation.hostMachineDefaults.enable;
-in
-{
-  options = {
-    virtualisation.hostMachineDefaults = {
-      enable = lib.mkEnableOption "virtualisation defaults for graphical machines";
-    };
-  };
+{ pkgs, inputs, config, lib, ... }: {
 
   config = lib.mkIf config.profile.graphical {
 
@@ -16,7 +7,7 @@ in
       pkgs.glib # Fixes weird issue with cinnamon-settings not finding gsettings executable
       pkgs.sox # For cinnamon battery panel widget
       pkgs.gnome.zenity # For cinnamon battery panel widget
-    ] ++ (if virtHost then [
+    ] ++ (if config.profile.virtualHost then [
       pkgs.virt-manager
       pkgs.virt-viewer
       pkgs.spice
@@ -26,19 +17,6 @@ in
       pkgs.win-spice
       pkgs.gnome.adwaita-icon-theme # Do I need this?
     ] else [ ]);
-
-    virtualisation = lib.mkIf virtHost {
-      libvirtd = {
-        enable = true;
-        qemu = {
-          swtpm.enable = true;
-          ovmf.enable = true;
-          ovmf.packages = [ pkgs.OVMFFull.fd ];
-        };
-      };
-      spiceUSBRedirection.enable = true;
-    };
-
 
     sound.enable = true;
 
@@ -308,7 +286,7 @@ in
       gvfs.enable = true;
       tumbler.enable = true;
 
-      spice-vdagentd.enable = lib.mkIf virtHost true;
+      spice-vdagentd.enable = config.profile.virtualHost;
     };
 
     fonts = {

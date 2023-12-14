@@ -23,6 +23,10 @@
         type = lib.types.bool;
         default = false;
       };
+      virtualHost = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
     };
     admin.username = lib.mkOption {
       type = lib.types.str;
@@ -254,6 +258,18 @@
           ../../hosts/${config.networking.hostName}/home.nix
         ];
       };
+    };
+
+    virtualisation = lib.mkIf config.profile.virtualHost {
+      libvirtd = {
+        enable = true;
+        qemu = {
+          swtpm.enable = true;
+          ovmf.enable = true;
+          ovmf.packages = [ pkgs.OVMFFull.fd ];
+        };
+      };
+      spiceUSBRedirection.enable = true;
     };
 
     # I could do this to only create generations tied to specific commits but

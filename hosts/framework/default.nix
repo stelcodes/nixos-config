@@ -38,10 +38,9 @@
   powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
 
   virtualisation = {
-    hostMachineDefaults.enable = true;
     vmVariant = {
+      profile.virtualHost = lib.mkForce false;
       virtualisation = {
-        hostMachineDefaults.enable = lib.mkForce false;
         memorySize = 4096;
         cores = 4;
       };
