@@ -198,8 +198,18 @@
     nixpkgs =
       let
         config = {
-          allowInsecure = true;
-          allowUnfree = true;
+          permittedInsecurePackages = [
+            "electron-25.9.0"
+          ];
+          allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+            "obsidian"
+            "spotify"
+            "bitwig-studio"
+            "graillon"
+            "steam"
+            "steam-original"
+            "steam-run"
+          ];
         };
       in
       {
