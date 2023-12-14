@@ -176,7 +176,7 @@
       nnn = {
         enable = true;
         package = (pkgs.nnn.override { withNerdIcons = true; }).overrideAttrs (finalAttrs: previousAttrs: {
-          patches = [ "${inputs.nnn-src}/patches/gitstatus/mainline.diff" ];
+          patches = [ "${pkgs.nnn.src}/patches/gitstatus/mainline.diff" ];
         });
         extraPackages = [
           pkgs.coreutils-full
@@ -325,7 +325,7 @@
           src =
             pkgs.symlinkJoin {
               name = "nnn-plugins";
-              paths = [ "${inputs.nnn-src}/plugins" ] ++ map (script: "${script}/bin") config.programs.nnn.plugins.scripts;
+              paths = [ "${inputs.nnn-plugins}/plugins" ] ++ map (script: "${script}/bin") config.programs.nnn.plugins.scripts;
             };
         };
       };

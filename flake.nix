@@ -39,11 +39,11 @@
       url = "github:polygon/gpt4all-nix/d80a923ea94c5ef46f507b6a4557093ad9086ef6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nnn-src = {
+    nnn-plugins = {
       type = "github";
       owner = "jarun";
       repo = "nnn";
-      ref = "v4.9";
+      ref = "5595d93d29d2474338a9f601d713d395a07a6029";
       flake = false;
     };
     nixos-generators = {

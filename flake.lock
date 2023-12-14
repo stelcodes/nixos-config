@@ -305,19 +305,19 @@
         "type": "github"
       }
     },
-    "nnn-src": {
+    "nnn-plugins": {
       "flake": false,
       "locked": {
-        "lastModified": 1693110313,
-        "narHash": "sha256-g19uI36HyzTF2YUQKFP4DE2ZBsArGryVHhX79Y0XzhU=",
+        "lastModified": 1702044526,
+        "narHash": "sha256-56WWUQSTRNiY1CyvcZ4tIMBg5+P+YD+bJ9yri9fMzIk=",
         "owner": "jarun",
         "repo": "nnn",
-        "rev": "33126ee813ed92726aa66295b9771ffe93e7ff0a",
+        "rev": "5595d93d29d2474338a9f601d713d395a07a6029",
         "type": "github"
       },
       "original": {
         "owner": "jarun",
-        "ref": "v4.9",
+        "ref": "5595d93d29d2474338a9f601d713d395a07a6029",
         "repo": "nnn",
         "type": "github"
       }
@@ -334,7 +334,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nnn-src": "nnn-src"
+        "nnn-plugins": "nnn-plugins"
       }
     },
     "systems": {
