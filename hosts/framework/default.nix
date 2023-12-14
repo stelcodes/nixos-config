@@ -30,12 +30,19 @@
   # https://github.com/musnix/musnix
   musnix = {
     enable = true;
+    alsaSeq.enable = true;
+    ffado.enable = true;
+    kernel = {
+      # realtime = true; # Maybe this is pointless? https://github.com/musnix/musnix/issues/118
+      # packages = pkgs.linuxPackages_rt_6_1;
+    };
+    # rtirq.enable = true;
     # Audio starts with beeps and squeaks when soundcard latency is
     # reduced so it's disabled for now (might be driver issue)
-    # soundcardPciId = "00:1f.3";
+    soundcardPciId = "00:1f.3";
   };
 
-  powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
+  # powerManagement.cpuFreqGovernor = pkgs.lib.mkForce "powersave";
 
   virtualisation = {
     vmVariant = {
