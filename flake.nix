@@ -124,6 +124,16 @@
           };
         };
         ########################################################################
+        # digital ocean droplet
+        ########################################################################
+        kairi = mkComputer {
+          hostName = "kairi";
+          system = "x86_64-linux";
+          profile = {
+            minimal = true;
+          };
+        };
+        ########################################################################
         # nixos installer iso
         ########################################################################
         # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso
