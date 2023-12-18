@@ -16,6 +16,15 @@
       pkgs.yabridge
       pkgs.yabridgectl
       pkgs.wineWowPackages.stagingFull
+      pkgs.oxefmsynth
+      pkgs.surge
+      pkgs.surge-XT
+      pkgs.vital
+      pkgs.synthv1
+      pkgs.sorcer
+      pkgs.odin2
+      pkgs.adlplug
+      pkgs.opnplug
       # pkgs.davinci-resolve not working
     ];
   };

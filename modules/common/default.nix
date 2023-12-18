@@ -213,6 +213,7 @@
             "steam"
             "steam-original"
             "steam-run"
+            "vital"
           ];
         };
       in
