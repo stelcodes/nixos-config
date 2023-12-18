@@ -7,7 +7,7 @@
       pkgs.glib # Fixes weird issue with cinnamon-settings not finding gsettings executable
       pkgs.sox # For cinnamon battery panel widget
       pkgs.gnome.zenity # For cinnamon battery panel widget
-    ] ++ (if config.profile.virtualHost then [
+    ] ++ (lib.lists.optionals config.profile.virtualHost [
       pkgs.virt-manager
       pkgs.virt-viewer
       pkgs.spice
@@ -16,7 +16,7 @@
       pkgs.win-virtio
       pkgs.win-spice
       pkgs.gnome.adwaita-icon-theme # Do I need this?
-    ] else [ ]);
+    ]);
 
     sound.enable = true;
 
@@ -36,6 +36,7 @@
       };
       # Use pipewire instead of pulseaudio
       pulseaudio.enable = false;
+      xpadneo.enable = config.profile.gaming;
     };
 
     programs = {
@@ -44,6 +45,8 @@
       dconf.enable = true;
 
       sway.enable = true;
+
+      steam.enable = config.profile.gaming;
 
       firefox = {
         enable = true;
