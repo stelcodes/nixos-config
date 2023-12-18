@@ -99,6 +99,7 @@
             graphical = true;
             battery = true;
             virtualHost = true;
+            gaming = true;
           };
         };
         ########################################################################
