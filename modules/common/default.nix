@@ -31,6 +31,10 @@
         type = lib.types.bool;
         default = false;
       };
+      minimal = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
     };
     admin.username = lib.mkOption {
       type = lib.types.str;

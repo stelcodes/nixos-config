@@ -67,7 +67,6 @@
         pkgs.unzip
         pkgs.restic
         pkgs.nix-prefetch-github
-        pkgs.babashka
         pkgs.tmux-snapshot
         pkgs.truecolor-test
         pkgs.rebuild

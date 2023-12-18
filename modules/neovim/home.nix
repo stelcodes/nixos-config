@@ -1,4 +1,4 @@
-{ pkgs, config, systemConfig, ... }:
+{ pkgs, lib, config, systemConfig, ... }:
 let
   theme = systemConfig.theme.set;
 in
@@ -7,7 +7,7 @@ in
     enable = true;
     defaultEditor = true;
     extraLuaConfig = builtins.readFile ./base.lua;
-    extraPackages = [
+    extraPackages = lib.lists.optionals (!systemConfig.profile.minimal) [
       pkgs.clojure-lsp
       pkgs.rnix-lsp
       pkgs.pyright
@@ -106,33 +106,6 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-          type = "lua";
-          config = ''
-            require'nvim-treesitter.configs'.setup {
-              -- ensure_installed = "all",
-              highlight = {
-                enable = true,
-              },
-              indent = {
-                enable = true,
-              }
-            }
-            vim.opt.foldenable = false -- toggle with zi
-            vim.opt.foldmethod = 'expr'
-            vim.cmd 'set foldexpr=nvim_treesitter#foldexpr()'
-            -- This will work in future Neovim versions
-            -- https://www.reddit.com/r/neovim/comments/16xz3q9/treesitter_highlighted_folds_are_now_in_neovim
-            -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-            -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
-
-            -- Also Nix code will soon have support for embedded language injections with comments
-            -- https://github.com/nvim-treesitter/nvim-treesitter/pull/4658
-            -- Need version 2023-10-01 or later
-          '';
-        }
-
-        {
           plugin = pkgs.vimPlugins.comment-nvim;
           type = "lua";
           config = ''
@@ -226,12 +199,6 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.nvim-lspconfig;
-          type = "lua";
-          config = builtins.readFile ./nvim-lspconfig.lua;
-        }
-
-        {
           plugin = pkgs.vimPlugins.nvim-colorizer-lua;
           type = "lua";
           config = ''
@@ -255,19 +222,6 @@ in
               },
             }
           '';
-        }
-
-        {
-          plugin = pkgs.vimPlugins.markdown-preview-nvim;
-          config =
-            let
-              nordTheme = pkgs.writeTextFile {
-                name = "markdown-preview-nvim-nord-theme.css";
-                text = builtins.readFile ../../misc/markdown-preview-nvim-nord-theme.css;
-              }; in
-            ''
-              let g:mkdp_highlight_css = "${nordTheme}"
-            '';
         }
 
         {
@@ -367,6 +321,53 @@ in
           '';
         }
 
-      ];
+      ] ++ (lib.lists.optionals (!systemConfig.profile.minimal) [
+        {
+          plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+          type = "lua";
+          config = ''
+            require'nvim-treesitter.configs'.setup {
+              -- ensure_installed = "all",
+              highlight = {
+                enable = true,
+              },
+              indent = {
+                enable = true,
+              }
+            }
+            vim.opt.foldenable = false -- toggle with zi
+            vim.opt.foldmethod = 'expr'
+            vim.cmd 'set foldexpr=nvim_treesitter#foldexpr()'
+            -- This will work in future Neovim versions
+            -- https://www.reddit.com/r/neovim/comments/16xz3q9/treesitter_highlighted_folds_are_now_in_neovim
+            -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+
+            -- Also Nix code will soon have support for embedded language injections with comments
+            -- https://github.com/nvim-treesitter/nvim-treesitter/pull/4658
+            -- Need version 2023-10-01 or later
+          '';
+        }
+
+        {
+          plugin = pkgs.vimPlugins.nvim-lspconfig;
+          type = "lua";
+          config = builtins.readFile ./nvim-lspconfig.lua;
+        }
+
+        {
+          plugin = pkgs.vimPlugins.markdown-preview-nvim;
+          config =
+            let
+              nordTheme = pkgs.writeTextFile {
+                name = "markdown-preview-nvim-nord-theme.css";
+                text = builtins.readFile ../../misc/markdown-preview-nvim-nord-theme.css;
+              }; in
+            ''
+              let g:mkdp_highlight_css = "${nordTheme}"
+            '';
+        }
+
+      ]);
   };
 }
