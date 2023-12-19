@@ -57,10 +57,11 @@ in
         theme.neovimPlugin
 
         pkgs.vimPlugins.vim-fugitive
+
         {
           plugin = pkgs.vimPlugins.conjure;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             vim.g['conjure#mapping#prefix'] = ','
             vim.g['conjure#log#hud#width'] = 1
             vim.g['conjure#log#hud#height'] = 0.6
@@ -75,7 +76,7 @@ in
         {
           plugin = stel-paredit;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             vim.g['paredit_smartjump'] = 1
             vim.g['paredit_matchlines'] = 500
           '';
@@ -96,7 +97,7 @@ in
 
         {
           plugin = pkgs.vimPlugins.vim-auto-save;
-          config = "let g:auto_save = 1";
+          config = /* lua */ "let g:auto_save = 1";
         }
 
         {
@@ -108,7 +109,7 @@ in
         {
           plugin = pkgs.vimPlugins.comment-nvim;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             require('Comment').setup {}
             local ft = require('Comment.ft')
             ft.set('clojure', ';; %s')
@@ -118,7 +119,7 @@ in
         {
           plugin = pkgs.vimPlugins.lualine-nvim;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             require('lualine').setup {
               options = {
                 icons_enabled = true,
@@ -153,7 +154,7 @@ in
         {
           plugin = pkgs.vimPlugins.auto-session;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             vim.o.sessionoptions="buffers,curdir,folds,help,tabpages,winsize,winpos"
             require('auto-session').setup {
               auto_save_enabled = true,
@@ -167,7 +168,7 @@ in
         {
           plugin = pkgs.vimPlugins.bufferline-nvim;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             local buff = require('bufferline')
             buff.setup {
               options = {
@@ -187,7 +188,7 @@ in
         {
           plugin = pkgs.vimPlugins.vim-eunuch;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             local delete_eunuch_cmds = function()
               vim.cmd 'delcommand SudoEdit'
               vim.cmd 'delcommand SudoWrite'
@@ -201,7 +202,7 @@ in
         {
           plugin = pkgs.vimPlugins.nvim-colorizer-lua;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             require 'colorizer'.setup {
               user_default_options = {
                 RGB = true, -- #RGB hex codes
@@ -227,7 +228,7 @@ in
         {
           plugin = pkgs.vimPlugins.vim-better-whitespace;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             vim.g["better_whitespace_guicolor"] = "${theme.red}"
             vim.g["better_whitespace_filetypes_blacklist"] = {
               "", "diff", "git", "gitcommit", "unite", "qf", "help", "fugitive"
@@ -240,7 +241,7 @@ in
         {
           plugin = pkgs.vimPlugins.nvim-bqf;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             require('bqf').setup {
               auto_enable = true,
               auto_resize_height = true,
@@ -327,7 +328,7 @@ in
         {
           plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
           type = "lua";
-          config = ''
+          config = /* lua */ ''
             require'nvim-treesitter.configs'.setup {
               -- ensure_installed = "all",
               highlight = {
@@ -364,8 +365,9 @@ in
               nordTheme = pkgs.writeTextFile {
                 name = "markdown-preview-nvim-nord-theme.css";
                 text = builtins.readFile ../../misc/markdown-preview-nvim-nord-theme.css;
-              }; in
-            ''
+              };
+            in
+              /* lua */ ''
               let g:mkdp_highlight_css = "${nordTheme}"
             '';
         }
