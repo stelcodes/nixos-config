@@ -32,7 +32,7 @@
         type = lib.types.bool;
         default = false;
       };
-      minimal = lib.mkOption {
+      coding = lib.mkOption {
         type = lib.types.bool;
         default = false;
       };

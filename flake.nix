@@ -100,6 +100,7 @@
             battery = true;
             virtualHost = true;
             gaming = true;
+            coding = true;
           };
         };
         ########################################################################
@@ -137,7 +138,6 @@
           hostName = "kairi";
           system = "x86_64-linux";
           profile = {
-            minimal = true;
             server = true;
             virtual = true;
           };

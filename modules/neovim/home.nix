@@ -7,7 +7,7 @@ in
     enable = true;
     defaultEditor = true;
     extraLuaConfig = builtins.readFile ./base.lua;
-    extraPackages = lib.lists.optionals (!systemConfig.profile.minimal) [
+    extraPackages = lib.lists.optionals systemConfig.profile.coding [
       pkgs.clojure-lsp
       pkgs.rnix-lsp
       pkgs.pyright
@@ -321,7 +321,7 @@ in
           '';
         }
 
-      ] ++ (lib.lists.optionals (!systemConfig.profile.minimal) [
+      ] ++ (lib.lists.optionals systemConfig.profile.coding [
         {
           plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
           type = "lua";
