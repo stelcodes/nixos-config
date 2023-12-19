@@ -268,9 +268,9 @@
     };
 
     hardware = {
-      enableRedistributableFirmware = true;
-      cpu.intel.updateMicrocode = true;
-      cpu.amd.updateMicrocode = true;
+      enableRedistributableFirmware = (!config.profile.virtual);
+      cpu.intel.updateMicrocode = (!config.profile.virtual);
+      cpu.amd.updateMicrocode = (!config.profile.virtual);
     };
 
     home-manager = {
