@@ -245,8 +245,7 @@ vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
 
 -- QUICKFIX
-vim.keymap.set('n', 'q', '<cmd>copen<cr>')
-vim.keymap.set('n', 'Q', '<cmd>cclose<cr>')
+vim.keymap.set('n', '<leader>q', '<cmd>copen<cr>')
 -- vim.keymap.set('n', 'M', '<cmd>normal! q') -- start macro
 
 -- MARKS
