@@ -65,7 +65,7 @@ self: super: {
   };
   rebuild = super.writeShellApplication {
     name = "rebuild";
-    runtimeInputs = [ super.coreutils super.nixos-rebuild super.mpv ];
+    runtimeInputs = [ super.coreutils super.nixos-rebuild ]; # mpv is optional
     text = ''
       LOG_DIR="$HOME/tmp/rebuild"
       STATUS_FILE="$LOG_DIR/status"
