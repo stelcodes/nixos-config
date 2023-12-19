@@ -127,6 +127,7 @@ in
             "${modifier}+r" = "mode resize";
             "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
             "${modifier}+t" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id thunar -- ${pkgs.xfce.thunar}/bin/thunar";
+            "${modifier}+g" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id gnome-disks -- ${pkgs.gnome.gnome-disk-utility}/bin/gnome-disks";
             "${modifier}+Shift+d" = "exec ${pkgs.wofi}/bin/wofi --show drun --width 800 --height 400 --term foot";
             "${modifier}+Shift+c" = "exec rebuild";
             "${modifier}+backspace" = "exec firefox";
@@ -236,6 +237,7 @@ in
         for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.rncbc.qpwgraph] floating enable
         for_window [app_id=thunar] floating enable
+        for_window [app_id=gnome-disks] floating enable
         for_window [app_id="org.qbit.*" title="^\[[Bb]itsearch.*"] floating disable
         # Workaround for Bitwig moving itself to current workspace when scale changes
         for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
