@@ -268,6 +268,7 @@ in
           plugin = nnn-nvim;
           type = "lua";
           config = /* lua */ ''
+            local nnn_builtin = require("nnn").builtin
             require("nnn").setup{
               explorer = {
                 cmd = "nnn -ouAG",       -- command override (-F1 flag is implied, -a flag is invalid!)
@@ -301,9 +302,9 @@ in
               auto_close = false,  -- close tabpage/nvim when nnn is last window
               replace_netrw = nil, -- or "explorer" / "picker"
               mappings = {
-                { "<C-t>", builtin.open_in_tab },       -- open file(s) in tab
-                { "<C-x>", builtin.open_in_split },     -- open file(s) in split
-                { "<C-v>", builtin.open_in_vsplit },    -- open file(s) in vertical split
+                { "<C-t>", nnn_builtin.open_in_tab },       -- open file(s) in tab
+                { "<C-x>", nnn_builtin.open_in_split },     -- open file(s) in split
+                { "<C-v>", nnn_builtin.open_in_vsplit },    -- open file(s) in vertical split
               },       -- table containing mappings, see below
               windownav = {        -- window movement mappings to navigate out of nnn
                 left = "<C-h>",
@@ -316,6 +317,7 @@ in
               offset = true,      -- whether or not to write position offset to tmpfile(for use in preview-tui)
             }
             vim.keymap.set("n", "<leader>n", "<cmd>NnnExplorer %:p:h<cr>")
+            vim.keymap.set("n", "<leader>N", "<cmd>NnnPicker %:p:h<cr>")
             vim.keymap.set("n", "<leader>fe", "<cmd>NnnExplorer<cr>")
             vim.keymap.set("n", "<leader>fp", "<cmd>NnnPicker<cr>")
           '';
