@@ -190,6 +190,7 @@ vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist)
 
 -- WINDOWS
+vim.keymap.set('n', '<c-o>', '<cmd>only<cr>')
 -- Navigate windows by direction
 vim.keymap.set('n', '<c-j>', '<cmd>wincmd j<cr>')
 vim.keymap.set('n', '<c-k>', '<cmd>wincmd k<cr>')
@@ -256,10 +257,6 @@ vim.keymap.set('n', '<c-m>', '<cmd>delmarks A-Z0-9<cr>') -- delete all marks
 vim.keymap.set('n', 'f', ':let @+=expand("%")<cr>:echo expand("%")<cr>')
 -- Copy absolute path of file
 vim.keymap.set('n', 'F', ':let @+=expand("%:p")<cr>:echo expand("%:p")<cr>')
--- Open Git Fugitive, make it full window in a new tab positioned before other tabs
--- This could be improved bc right now it clobbers existing window arrangements in the tab
-vim.keymap.set('n', '<c-g>', '<cmd>Git<cr>')
-vim.keymap.set('n', '<c-o>', '<cmd>only<cr>')
 -- Make terminal mode easy to exit
 vim.keymap.set('t', '<c-\\><esc>', '<c-\\><c-n>')
 --Debugging syntax highlighting

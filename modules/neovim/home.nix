@@ -56,7 +56,14 @@ in
         # Theme plugin should go first because it sets local vars like lualine_theme
         theme.neovimPlugin
 
-        pkgs.vimPlugins.vim-fugitive
+        {
+          plugin = pkgs.vimPlugins.vim-fugitive;
+          type = "lua";
+          config = /* lua */ ''
+            vim.keymap.set('n', '<c-g>', '<cmd>Git<cr><c-w>H')
+            vim.keymap.set('n', '<leader>gD', '<cmd>Git difftool<cr>')
+          '';
+        }
 
         {
           plugin = pkgs.vimPlugins.conjure;
