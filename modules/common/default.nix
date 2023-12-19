@@ -4,6 +4,7 @@
     inputs.home-manager.nixosModules.home-manager
     inputs.agenix.nixosModules.default
     inputs.musnix.nixosModules.musnix
+    inputs.nixos-generators.nixosModules.all-formats
     ../syncthing
     ../graphical
     ../battery
