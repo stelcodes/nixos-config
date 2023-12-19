@@ -35,6 +35,10 @@
         type = lib.types.bool;
         default = false;
       };
+      server = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
     };
     admin.username = lib.mkOption {
       type = lib.types.str;
@@ -63,10 +67,20 @@
 
     # Enable networking
     networking = {
-      networkmanager.enable = true;
+      networkmanager.enable = (!config.profile.server); # Use networkd for servers
+      useNetworkd = config.profile.server;
       hosts = {
         "127.0.0.1" = [ "lh" ];
       };
+    };
+
+    systemd = {
+      network.enable = config.profile.server;
+      extraConfig = ''
+        [Manager]
+        DefaultTimeoutStopSec=10
+        DefaultTimeoutAbortSec=10
+      '';
     };
 
     # Set your time zone.
@@ -252,12 +266,6 @@
       nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
       registry.nixpkgs.flake = inputs.nixpkgs;
     };
-
-    systemd.extraConfig = ''
-      [Manager]
-      DefaultTimeoutStopSec=10
-      DefaultTimeoutAbortSec=10
-    '';
 
     hardware = {
       enableRedistributableFirmware = true;
