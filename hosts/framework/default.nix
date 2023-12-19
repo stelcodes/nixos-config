@@ -5,6 +5,17 @@
     inputs.nixos-hardware.nixosModules.framework-12th-gen-intel
   ];
 
+  profile = {
+    graphical = true;
+    battery = true;
+    virtualHost = true;
+  };
+
+  activities = {
+    coding = true;
+    gaming = true;
+  };
+
   age.secrets = {
     root-password.file = ../../secrets/root-password.age;
     admin-password.file = ../../secrets/admin-password.age;

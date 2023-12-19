@@ -24,10 +24,16 @@
         type = lib.types.bool;
         default = false;
       };
+      server = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
       virtualHost = lib.mkOption {
         type = lib.types.bool;
         default = false;
       };
+    };
+    activities = {
       gaming = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -36,7 +42,11 @@
         type = lib.types.bool;
         default = false;
       };
-      server = lib.mkOption {
+      djing = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+      };
+      musicMaking = lib.mkOption {
         type = lib.types.bool;
         default = false;
       };

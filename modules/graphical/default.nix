@@ -36,7 +36,7 @@
       };
       # Use pipewire instead of pulseaudio
       pulseaudio.enable = false;
-      xpadneo.enable = config.profile.gaming;
+      xpadneo.enable = config.activities.gaming;
     };
 
     programs = {
@@ -46,7 +46,7 @@
 
       sway.enable = true;
 
-      steam.enable = config.profile.gaming;
+      steam.enable = config.activities.gaming;
 
       firefox = {
         enable = true;

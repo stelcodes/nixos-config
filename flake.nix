@@ -95,13 +95,6 @@
         framework = mkComputer {
           hostName = "framework";
           system = "x86_64-linux";
-          profile = {
-            graphical = true;
-            battery = true;
-            virtualHost = true;
-            gaming = true;
-            coding = true;
-          };
         };
         ########################################################################
         # desktop fractal meshify 2 w ryzen 5600x
