@@ -52,7 +52,6 @@
     };
   };
 
-  # Function that tells my flake which to use and what do what to do with the dependencies.
   outputs = inputs: {
 
     nixosModules = {
@@ -76,12 +75,12 @@
 
     nixosConfigurations =
       let
-        mkComputer = { system, hostName, profile ? { }, ... }:
+        mkMachine = { system, hostName, ... }:
           inputs.nixpkgs.lib.nixosSystem {
             inherit system;
             specialArgs = { inherit inputs; };
             modules = [
-              { inherit profile; networking.hostName = hostName; }
+              { networking.hostName = hostName; }
               ./modules/common
               ./hosts/${hostName}
               ./hosts/${hostName}/hardware-configuration.nix
@@ -89,58 +88,27 @@
           };
       in
       {
-        ########################################################################
-        # framework laptop i5-1240P
-        ########################################################################
-        framework = mkComputer {
+        framework = mkMachine {
           hostName = "framework";
           system = "x86_64-linux";
         };
-        ########################################################################
-        # desktop fractal meshify 2 w ryzen 5600x
-        ########################################################################
-        meshify = mkComputer {
+        meshify = mkMachine {
           hostName = "meshify";
           system = "x86_64-linux";
-          profile = {
-            graphical = true;
-          };
         };
-        ########################################################################
-        # macbook laptop i7-4650U
-        ########################################################################
-        macbook = mkComputer {
+        macbook = mkMachine {
           hostName = "macbook";
           system = "x86_64-linux";
-          profile = {
-            graphical = true;
-            battery = true;
-          };
         };
-        ########################################################################
-        # digital ocean droplet
-        ########################################################################
-        # build vm image:
-        #   nixos-rebuild build-vm-with-bootloader --flake "$HOME/nixos-config#kairi"
-        # test ssh:
-        #   QEMU_NET_OPTS='hostfwd=tcp::2222-:22' <vm_start_script>
-        #   ssh stel@localhost -p 2222
-        # build droplet image:
-        #   nix build .#nixosConfigurations.kairi.config.formats.do
-        kairi = mkComputer {
+        kairi = mkMachine {
           hostName = "kairi";
           system = "x86_64-linux";
-          profile = {
-            server = true;
-            virtual = true;
-          };
         };
-        ########################################################################
-        # nixos installer iso
-        ########################################################################
-        # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso
-        # nix build .#nixosConfigurations.installer-base.config.formats.plasma-installer-iso
-        installer-base = inputs.nixpkgs-stable.lib.nixosSystem {
+        installer-base = inputs.nixpkgs.lib.nixosSystem {
+          # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso
+          # nix build .#nixosConfigurations.installer-base.config.formats.plasma-installer-iso
+          # nix build .#nixosConfigurations.installer-base.config.formats.install-iso
+          # ssh into virtual machine by getting ip address (ip a) and ssh@
           system = "x86_64-linux";
           modules = [
             inputs.self.nixosModules.nixos-generate-formats

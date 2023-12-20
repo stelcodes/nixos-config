@@ -1,5 +1,9 @@
 { pkgs, config, lib, ... }: {
 
+  profile = {
+    graphical = true;
+  };
+
   age.secrets = {
     meshify-pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
     meshify-pvpn-sc-wg-quick-config.file = ../../secrets/meshify-pvpn-sc-wg-quick-config.age;
