@@ -3,11 +3,11 @@
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.agenix.nixosModules.default
-    inputs.musnix.nixosModules.musnix
     inputs.nixos-generators.nixosModules.all-formats
     ../syncthing
     ../graphical
     ../battery
+    ../arts
   ];
 
   options = {
@@ -46,7 +46,7 @@
         type = lib.types.bool;
         default = false;
       };
-      musicMaking = lib.mkOption {
+      jamming = lib.mkOption {
         type = lib.types.bool;
         default = false;
       };
