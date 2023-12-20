@@ -106,6 +106,14 @@
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/noscript/latest.xpi";
             };
+            "myallychou@gmail.com" = {
+              installation_mode = "normal_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/youtube-recommended-videos/latest.xpi";
+            };
+            "{9063c2e9-e07c-4c2c-9646-cfe7ca8d0498}" = {
+              installation_mode = "normal_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/old-reddit-redirect/latest.xpi";
+            };
             "@testpilot-containers" = {
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
@@ -139,8 +147,6 @@
           WebsiteFilter = {
             Block = [
               "*://news.ycombinator.com/*"
-              "*://*.reddit.com/*"
-              "*://*.tmz.com/*"
             ];
             Exceptions = [ ];
           };
@@ -148,7 +154,7 @@
       };
 
       chromium = {
-        enable = true;
+        enable = false;
         extensions = [
           "gighmmpiobklfepjocnamgkkbiglidom" # adblock
         ];
@@ -211,12 +217,6 @@
           SpellcheckEnabled = false;
           SyncDisabled = true;
           # https://chromeenterprise.google/policies/#URLBlocklist
-          URLBlocklist = [
-            "news.ycombinator.com"
-            # "reddit.com"
-            # "youtube.com"
-            "tmz.com"
-          ];
           UserAgentReduction = 2;
         };
       };
