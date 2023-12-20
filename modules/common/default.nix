@@ -182,8 +182,6 @@
         pkgs.vim
         pkgs.neovim
         pkgs.bat
-        pkgs.btop
-        pkgs.trashy
         pkgs.fd
         pkgs.ripgrep
         pkgs.tealdeer
@@ -192,9 +190,7 @@
         pkgs.wireguard-tools
         inputs.agenix.packages.${pkgs.system}.default
         pkgs.wg-killswitch
-        pkgs.jq
         pkgs.eza
-        pkgs.vimv-rs
       ];
       etc = {
         # https://www.reddit.com/r/NixOS/comments/16t2njf/small_trick_for_people_using_nixos_with_flakes

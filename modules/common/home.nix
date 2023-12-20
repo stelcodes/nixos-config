@@ -60,24 +60,25 @@
         pkgs.trash-cli
         pkgs.fd
         pkgs.neofetch
-        pkgs.httpie
         pkgs.wget
         pkgs.ripgrep
         pkgs.tealdeer
         pkgs.unzip
-        pkgs.restic
-        pkgs.nix-prefetch-github
-        pkgs.tmux-snapshot
         pkgs.truecolor-test
         pkgs.rebuild
         pkgs.toggle-service
-        inputs.nix-alien.packages.x86_64-linux.nix-alien
-        pkgs.acpi
         pkgs.dua
-        pkgs.croc
-        pkgs.yt-dlp
+        pkgs.vimv-rs
+      ] ++ (lib.lists.optionals systemConfig.activities.coding [
+        pkgs.nix-prefetch-github
         pkgs.check-newline
-      ];
+        pkgs.doctl
+        pkgs.yt-dlp
+        pkgs.croc
+        pkgs.restic
+        pkgs.gh
+        inputs.nix-alien.packages.x86_64-linux.nix-alien
+      ]);
 
       sessionVariables = {
         SUCCESS_ALERT = "${pkgs.success-alert}";
