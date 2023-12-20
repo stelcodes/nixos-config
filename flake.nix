@@ -83,7 +83,6 @@
               { networking.hostName = hostName; }
               ./modules/common
               ./hosts/${hostName}
-              ./hosts/${hostName}/hardware-configuration.nix
             ];
           };
       in

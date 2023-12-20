@@ -3,6 +3,7 @@
   imports = [
     # See https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
     inputs.nixos-hardware.nixosModules.framework-12th-gen-intel
+    ./hardware-configuration.nix
   ];
 
   profile = {
@@ -79,6 +80,7 @@
   boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
 
   networking = {
+    hostName = "framework";
     firewall = {
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];

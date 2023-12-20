@@ -1,5 +1,9 @@
 { config, ... }: {
 
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
   profile = {
     graphical = true;
     battery = true;
