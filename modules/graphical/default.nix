@@ -2,12 +2,7 @@
 
   config = lib.mkIf config.profile.graphical {
 
-    environment.systemPackages = [
-      pkgs.xclip # Allows neovim to copy to system clipboard
-      pkgs.glib # Fixes weird issue with cinnamon-settings not finding gsettings executable
-      pkgs.sox # For cinnamon battery panel widget
-      pkgs.gnome.zenity # For cinnamon battery panel widget
-    ] ++ (lib.lists.optionals config.profile.virtualHost [
+    environment.systemPackages = lib.lists.optionals config.profile.virtualHost [
       pkgs.virt-manager
       pkgs.virt-viewer
       pkgs.spice
@@ -16,7 +11,7 @@
       pkgs.win-virtio
       pkgs.win-spice
       pkgs.gnome.adwaita-icon-theme # Do I need this?
-    ]);
+    ];
 
     sound.enable = true;
 
