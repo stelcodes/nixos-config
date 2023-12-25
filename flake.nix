@@ -55,16 +55,15 @@
   outputs = inputs: {
 
     nixosModules = {
-      nixos-generate-formats = { config, ... }: {
+      generators-custom-formats = { config, ... }: {
         imports = [ inputs.nixos-generators.nixosModules.all-formats ];
-        nixpkgs.hostPlatform = "x86_64-linux"; # Maybe don't need this?
         formatConfigs = {
-          plasma-installer-iso = { modulesPath, ... }: {
+          install-iso-plasma = { modulesPath, ... }: {
             formatAttr = "isoImage";
             fileExtension = ".iso";
             imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma5.nix" ];
           };
-          gnome-installer-iso = { modulesPath, ... }: {
+          install-iso-gnome = { modulesPath, ... }: {
             formatAttr = "isoImage";
             fileExtension = ".iso";
             imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix" ];
@@ -87,30 +86,39 @@
           };
       in
       {
+        # 12th gen intel framework laptop
         framework = mkMachine {
           hostName = "framework";
           system = "x86_64-linux";
         };
+        # desktop tower
         meshify = mkMachine {
           hostName = "meshify";
           system = "x86_64-linux";
         };
+        # 2013 macbook air
         macbook = mkMachine {
           hostName = "macbook";
           system = "x86_64-linux";
         };
+        # cloud vps
         kairi = mkMachine {
           hostName = "kairi";
           system = "x86_64-linux";
         };
+        # minimal server build
+        minimal = mkMachine {
+          hostName = "minimal";
+          system = "x86_64-linux";
+        };
         installer-base = inputs.nixpkgs.lib.nixosSystem {
-          # nix build .#nixosConfigurations.installer-base.config.formats.gnome-installer-iso
-          # nix build .#nixosConfigurations.installer-base.config.formats.plasma-installer-iso
           # nix build .#nixosConfigurations.installer-base.config.formats.install-iso
+          # nix build .#nixosConfigurations.installer-base.config.formats.install-iso-gnome
+          # nix build .#nixosConfigurations.installer-base.config.formats.install-iso-plasma
           # ssh into virtual machine by getting ip address (ip a) and ssh@
           system = "x86_64-linux";
           modules = [
-            inputs.self.nixosModules.nixos-generate-formats
+            inputs.self.nixosModules.generators-custom-formats
             ({ pkgs, config, ... }: {
               nixpkgs.config.allowUnfree = true;
               environment.systemPackages = [ pkgs.git pkgs.neovim ];
