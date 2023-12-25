@@ -186,6 +186,11 @@
           defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
         };
 
+      direnv = {
+        enable = systemConfig.activities.coding;
+        nix-direnv.enable = true;
+      };
+
       nnn = {
         enable = true;
         package = (pkgs.nnn.override { withNerdIcons = true; }).overrideAttrs (finalAttrs: previousAttrs: {
