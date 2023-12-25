@@ -73,7 +73,7 @@
 
     boot = {
       tmp.cleanOnBoot = true;
-      kernelPackages = pkgs.linuxPackages_6_6;
+      kernelPackages = lib.mkDefault pkgs.linuxPackages_6_6;
     };
 
     # Enable networking
