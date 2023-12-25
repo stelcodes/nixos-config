@@ -305,8 +305,10 @@ in
           ExecStart = "${pkgs.syncthing-tray}/bin/syncthing-tray -api 'st:${systemConfig.admin.username}@${systemConfig.networking.hostName}'";
           Restart = "always";
         };
+        Install = {
+          WantedBy = [ "sway-session.target" ];
+        };
       };
-
     };
 
     services = {
