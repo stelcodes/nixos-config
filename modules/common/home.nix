@@ -18,9 +18,22 @@
 
   config = {
     systemd.user = {
+      settings.Manager.DefaultEnvironment = {
+        PATH = "/run/current-system/sw/bin:/etc/profiles/per-user/${config.home.username}/bin";
+      };
       startServices = true;
-      # sessionVariables = { IS_THIS_WORKING = 1; };
-      # settings.Manager.DefaultEnvironment = config.home.sessionVariables;
+      services = {
+        env-check = {
+          Service = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.coreutils}/bin/env";
+            Restart = "never";
+          };
+          Install = {
+            WantedBy = [ "default.target" ];
+          };
+        };
+      };
     };
 
     xdg = {
