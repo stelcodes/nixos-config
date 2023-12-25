@@ -39,7 +39,7 @@ in
       default = [ ];
     };
   };
-  config = {
+  config = lib.mkIf cfg.enable {
     users.users.${config.admin.username}.packages = [ pkgs.syncthing ];
     services = {
       syncthing = {
