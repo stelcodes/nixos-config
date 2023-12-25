@@ -69,21 +69,6 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.conjure;
-          type = "lua";
-          config = /* lua */ ''
-            vim.g['conjure#mapping#prefix'] = ','
-            vim.g['conjure#log#hud#width'] = 1
-            vim.g['conjure#log#hud#height'] = 0.6
-            vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
-            vim.g['conjure#eval#gsubs'] = {
-              ['do-comment'] = {'^%(comment[%s%c]', '(do '}
-            }
-            vim.g['conjure#eval#result_register'] = '*'
-            vim.g['conjure#mapping#doc_word'] = '<localleader>K'
-          '';
-        }
-        {
           plugin = stel-paredit;
           type = "lua";
           config = /* lua */ ''
@@ -246,7 +231,6 @@ in
           '';
         }
 
-        pkgs.vimPlugins.playground
 
         {
           plugin = pkgs.vimPlugins.nvim-bqf;
@@ -262,16 +246,6 @@ in
             }
           '';
         }
-
-        {
-          plugin = pkgs.vimPlugins.nvim-cmp;
-          type = "lua";
-          config = builtins.readFile ./nvim-cmp-config.lua;
-        }
-        pkgs.vimPlugins.lspkind-nvim
-        pkgs.vimPlugins.luasnip
-        pkgs.vimPlugins.cmp-nvim-lua
-        pkgs.vimPlugins.cmp-nvim-lsp
 
         pkgs.vimPlugins.vim-just
 
@@ -380,6 +354,35 @@ in
               /* lua */ ''
               let g:mkdp_highlight_css = "${nordTheme}"
             '';
+        }
+
+        {
+          plugin = pkgs.vimPlugins.nvim-cmp;
+          type = "lua";
+          config = builtins.readFile ./nvim-cmp-config.lua;
+        }
+        pkgs.vimPlugins.lspkind-nvim
+        pkgs.vimPlugins.luasnip
+        pkgs.vimPlugins.cmp-nvim-lua
+        pkgs.vimPlugins.cmp-nvim-lsp
+
+        pkgs.vimPlugins.playground
+
+        {
+          plugin = pkgs.vimPlugins.conjure;
+          type = "lua";
+          config = /* lua */ ''
+            vim.g['conjure#mapping#prefix'] = ','
+            vim.g['conjure#log#hud#width'] = 1
+            vim.g['conjure#log#hud#height'] = 0.6
+            vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
+            vim.g['conjure#eval#gsubs'] = {
+              ['do-comment'] = {'^%(comment[%s%c]', '(do '}
+            }
+            vim.g['conjure#eval#result_register'] = '*'
+            vim.g['conjure#mapping#doc_word'] = '<localleader>K'
+            vim.g['conjure#client_on_load'] = false
+          '';
         }
 
       ]);
