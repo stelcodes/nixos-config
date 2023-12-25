@@ -6,6 +6,9 @@ in
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    withPython3 = false;
+    withNodeJs = false;
+    withRuby = false;
     extraLuaConfig = builtins.readFile ./base.lua;
     extraPackages = lib.lists.optionals systemConfig.activities.coding [
       pkgs.clojure-lsp
