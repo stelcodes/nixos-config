@@ -37,7 +37,7 @@
     };
   };
 
-  hardware = {
+  sound = {
     soundcardPciId = "00:1f.3";
   };
 
