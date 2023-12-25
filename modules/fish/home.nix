@@ -99,6 +99,9 @@
       wg-killswitch-disable = "if test \"$(read -P 'Disable wg-killswitch? ')\" = 'y'; doas iptables --flush wg-killswitch; doas ip6tables --flush wg-killswitch; else; false; end";
       nix-shell-nixpkgs = "nix shell --file .";
       nix-shell-default = "nix shell --impure --include nixpkgs=flake:nixpkgs --expr 'with import <nixpkgs> {}; { default = callPackage ./default.nix {}; }' default";
+      nix-dependency = "nix-store --query --referrers /nix/store/";
+      nix-bigstuff = "nix path-info -rS /run/current-system | sort -nk2";
+      nix-why = "nix why-depends /run/current-system /nix/store/";
     };
     shellAliases = {
       nnn = "n";
