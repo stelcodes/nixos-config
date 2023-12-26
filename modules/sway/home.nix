@@ -133,7 +133,8 @@ in
             "${modifier}+backspace" = "exec firefox";
             "${modifier}+Shift+backspace" = "exec firefox --private-window";
             "${modifier}+n" = "exec makoctl dismiss --all";
-            "${modifier}+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
+            "${modifier}+p" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id pavucontrol -- ${pkgs.pavucontrol}/bin/pavucontrol";
+            "${modifier}+Shift+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
             "${modifier}+less" = "focus parent";
             "${modifier}+greater" = "focus child";
             "${modifier}+semicolon" = "layout toggle split tabbed stacking";
