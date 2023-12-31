@@ -78,7 +78,10 @@
 
     # Enable networking
     networking = {
-      networkmanager.enable = (!config.profile.server); # Use networkd for servers
+      networkmanager = {
+        enable = (!config.profile.server); # Use networkd for servers
+        dns = "systemd-resolved";
+      };
       useNetworkd = config.profile.server;
       hosts = {
         "127.0.0.1" = [ "lh" ];
@@ -214,6 +217,8 @@
           InhibitDelayMaxSec=10
         '';
       };
+
+      resolved.enable = true;
 
       openssh = {
         enable = true;
