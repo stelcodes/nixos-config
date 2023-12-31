@@ -301,10 +301,8 @@ in
               quitcd = nil,        -- or "cd" / tcd" / "lcd", command to run on quitcd file if found
               offset = true,      -- whether or not to write position offset to tmpfile(for use in preview-tui)
             }
-            vim.keymap.set("n", "<leader>n", "<cmd>NnnExplorer %:p:h<cr>")
-            vim.keymap.set("n", "<leader>N", "<cmd>NnnPicker %:p:h<cr>")
-            vim.keymap.set("n", "<leader>fe", "<cmd>NnnExplorer<cr>")
-            vim.keymap.set("n", "<leader>fp", "<cmd>NnnPicker<cr>")
+            vim.keymap.set("n", "<leader>n", "<cmd>NnnPicker %:p:h<cr>")
+            vim.keymap.set("n", "<leader>N", "<cmd>NnnExplorer %:p:h<cr>")
           '';
         }
 

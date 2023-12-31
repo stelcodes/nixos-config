@@ -1,94 +1,14 @@
 -- https://github.com/nvim-telescope/telescope.nvim#previewers
 local tele = require('telescope')
 local builtin = require('telescope.builtin')
-local actions = require('telescope.actions')
-local action_state = require('telescope.actions.state')
-local Path = require('plenary.path')
-local fb = tele.extensions.file_browser
-local fb_utils = require('telescope._extensions.file_browser.utils')
-local manix = tele.extensions.manix
 
-local fb_trash = function(prompt_bufnr)
-  local current_picker = action_state.get_current_picker(prompt_bufnr)
-  local finder = current_picker.finder
-  local trash_cmd
-  if vim.fn.executable("trash-put") == 1 then
-    trash_cmd = { "trash-put" }
-  elseif vim.fn.executable("gio") == 1 then
-    trash_cmd = { "gio", "trash" }
-  elseif vim.fn.executable("trash") == 1 and string.find(vim.fn.system("trash --version"), "^trashy") then
-    trash_cmd = { "trash", "put" }
-  else
-    vim.notify "Cannot locate a valid trash executable!"
-    return
-  end
-  local selections = fb_utils.get_selected_files(prompt_bufnr, true)
-  if vim.tbl_isempty(selections) then
-    vim.notify "No selection to be trashed!"
-    return
-  end
-  for _, sel in ipairs(selections) do
-    if sel:is_dir() then
-      local abs = sel:absolute()
-      if finder.files and Path:new(finder.path):parent():absolute() == abs then
-        vim.notify "Parent folder cannot be trashed!"
-        return
-      end
-      if not finder.files and Path:new(finder.cwd):absolute() == abs then
-        vim.notify "Current folder cannot be trashed!"
-        return
-      end
-    end
-  end
-  vim.ui.input({ prompt = "Trash selections [y/N]: " }, function(input)
-    vim.cmd [[ redraw ]] -- redraw to clear out vim.ui.prompt to avoid hit-enter prompt
-    if input and input:lower() == "y" then
-      for _, p in ipairs(selections) do
-        local is_dir = p:is_dir()
-        local cmd = trash_cmd
-        table.insert(cmd, p:absolute())
-        local result = vim.fn.system(table.concat(cmd, " "))
-        if vim.v.shell_error ~= 0 then
-          vim.notify(result)
-          break
-        else
-          if is_dir then
-            fb_utils.delete_dir_buf(p:absolute())
-          else
-            fb_utils.delete_buf(p:absolute())
-          end
-        end
-      end
-    end
-    current_picker:refresh(current_picker.finder)
-  end)
-end
-
-local find_files_from_root = function()
-  builtin.find_files {
-    hidden = true,
-    no_ignore = true,
-    no_ignore_parent = true,
-    search_dirs = { '/etc', '/home', '/usr' }
-  }
-end
-local browse_notes = function()
-  fb.file_browser {
-    hidden = false,
-    respect_gitignore = false,
-    path = '/home/stel/sync/notes'
-  }
-end
 local git_status = function()
   builtin.git_status({ default_text = vim.fn.expand('%:t'), initial_mode = "normal" })
 end
 
 tele.setup {
   defaults = {
-    file_ignore_patterns = {
-      '%.pdf$', '%.db$', '%.opus$', '%.mp3$', '%.wav$', '%.git/', '%.clj%-kondo/%.cache/', '%.lsp/', '%.cpcache/',
-      '%target/'
-    },
+    file_ignore_patterns = { '%.pdf$', '%.db$', '%.opus$', '%.mp3$', '%.wav$', '%.git/', '%.clj%-kondo/%.cache/', '%.lsp/', '%.cpcache/', '%target/' },
     show_untracked = false, -- For git_files command
     layout_strategy = 'flex',
     layout_config = {
@@ -115,24 +35,6 @@ tele.setup {
     }
   },
   extensions = {
-    file_browser = {
-      -- Open file browser in directory of currently focused file
-      hidden = true,
-      path = "%:p:h",
-      initial_mode = "normal",
-      mappings = {
-        n = {
-          h = fb.actions.goto_parent_dir,
-          l = actions.select_default,
-          d = fb_trash,
-          -- to match nnn
-          n = fb.actions.create,
-          x = fb_trash,
-          t = actions.file_tab,
-          ['.'] = fb.actions.toggle_hidden
-        }
-      }
-    },
     fzf = {
       fuzzy = true,                   -- false will only do exact matching
       override_generic_sorter = true, -- override the generic sorter
@@ -142,26 +44,20 @@ tele.setup {
   }
 }
 tele.load_extension('ui-select')
-tele.load_extension('file_browser')
-tele.load_extension('manix')
 tele.load_extension('fzf')
 vim.keymap.set('n', '<leader><leader>', builtin.resume)
-vim.keymap.set('n', '<leader>fd', builtin.find_files) -- files directory
-vim.keymap.set('n', '<leader>fb', fb.file_browser) -- files browser
-vim.keymap.set('n', '<leader>fr', find_files_from_root) -- files root
-vim.keymap.set('n', '<leader>fn', browse_notes) -- files notes
-vim.keymap.set('n', '<leader>sd', function() builtin.live_grep { hidden = true } end) -- search directory
-vim.keymap.set('n', '<leader>sD', -- search directory with max 1 match per file
+vim.keymap.set('n', '<leader>f', builtin.find_files)                                 -- files directory
+vim.keymap.set('n', '<leader>s', function() builtin.live_grep { hidden = true } end) -- search directory
+vim.keymap.set('n', '<leader>S',                                                     -- search directory with max 1 match per file
   function() builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } } end)
-vim.keymap.set('n', '<leader>sb', builtin.current_buffer_fuzzy_find) -- search buffer
-vim.keymap.set('n', '<leader>dd', builtin.diagnostics) -- diagnostics directory
+vim.keymap.set('n', '<leader>b', builtin.current_buffer_fuzzy_find)                  -- search buffer
+vim.keymap.set('n', '<leader>B', builtin.buffers)                                    -- buffer active
+vim.keymap.set('n', '<leader>dd', builtin.diagnostics)                               -- diagnostics directory
 vim.keymap.set('n', '<leader>r', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)
-vim.keymap.set('n', '<leader>M', manix.manix)
 vim.keymap.set('n', '<leader>c', builtin.commands)
 vim.keymap.set('n', '<leader>C', function() builtin.colorscheme { enable_preview = true } end)
 vim.keymap.set('n', '<leader>h', builtin.help_tags)
-vim.keymap.set('n', '<leader>b', builtin.buffers) -- buffer active
 vim.keymap.set('n', '<leader>k', builtin.keymaps)
 vim.keymap.set('n', '<leader>t', builtin.builtin)
 vim.keymap.set('n', '<leader>gc', builtin.git_bcommits)
