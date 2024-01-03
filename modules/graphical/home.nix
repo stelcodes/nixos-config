@@ -409,6 +409,7 @@ in
             d = "dragdrop";
             q = "-enqueue";
             Q = "-enqueue-all";
+            e = "-!eog .";
           };
           scripts = [
             (pkgs.writeShellApplication {

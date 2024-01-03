@@ -217,7 +217,6 @@
         plugins = {
           mappings = {
             t = "preview-tui";
-            e = "-!env";
             n = "-nvim-clean";
             r = "rename-with-vimv";
             x = "delete-with-dua";
