@@ -8,6 +8,15 @@
     graphical = true;
   };
 
+  activities = {
+    coding = true;
+    gaming = true;
+    djing = true;
+    jamming = true;
+  };
+
+  sound.soundcardPciId = "31:00.4";
+
   age.secrets = {
     meshify-pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
     meshify-pvpn-sc-wg-quick-config.file = ../../secrets/meshify-pvpn-sc-wg-quick-config.age;
