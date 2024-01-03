@@ -124,8 +124,6 @@ vim.keymap.set('x', '<leader>', '<Nop>')
 -- TEXT MANIPULATION
 -- Yank word under cursor
 vim.keymap.set('n', 'Y', 'viwy')
-vim.keymap.set({ 'n', 'x' }, '<leader>ss', SearchSelection)
-vim.keymap.set({ 'n', 'x' }, '<leader>sr', SearchReplace)
 vim.keymap.set({ 'n', 'x' }, '<leader>/', SearchClear)
 
 -- BUFFERS
