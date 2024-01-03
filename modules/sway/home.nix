@@ -108,7 +108,7 @@ in
         };
         workspaceLayout = "tabbed";
         keybindings =
-          pkgs.lib.mkOptionDefault {
+          lib.mkOptionDefault {
             # Use "Shift" to properly override defaults
             "${modifier}+Shift+h" = "workspace prev";
             "${modifier}+Shift+l" = "workspace next";
@@ -192,7 +192,7 @@ in
           };
         };
         output = {
-          "*" = { background = "${theme.wallpaper} fill ${theme.bg}"; };
+          "*" = { background = "~/.wallpaper fill ${theme.bg}"; };
           # Framework screen
           "BOE 0x095F Unknown" = {
             scale = "1.6";
@@ -395,7 +395,7 @@ in
       enable = true;
       settings = {
         color = theme.bgx;
-        image = theme.wallpaper;
+        image = "~/.wallpaper";
         font-size = 24;
         indicator-idle-visible = false;
         indicator-radius = 100;
