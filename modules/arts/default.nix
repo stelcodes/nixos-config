@@ -6,22 +6,46 @@
 
   options = {
 
-    sound.soundcardPciId = lib.mkOption {
-      description = "Find with lspci | grep Audio";
-      type = lib.types.str;
+    sound.realtime = {
+      enable = lib.mkEnableOption "Enable realtime specialisation";
+
+      soundcardPciId = lib.mkOption {
+        description = "Find with lspci | grep Audio";
+        type = lib.types.str;
+      };
+
+      quant = lib.mkOption {
+        description = "Quant value for pipewire low latency setup";
+        type = lib.types.int;
+        default = 100;
+      };
     };
 
-    sound.quant = lib.mkOption {
-      description = "Quant value for pipewire low latency setup";
-      type = lib.types.int;
-      default = 100;
-    };
 
   };
 
-  config = lib.mkIf (config.activities.jamming or config.activities.djing) {
+  config = {
 
-    specialisation.realtime-audio.configuration = {
+    environment.variables =
+      let
+        makePluginPath = format:
+          (lib.makeSearchPath format [
+            "$HOME/.nix-profile/lib"
+            "/run/current-system/sw/lib"
+            "/etc/profiles/per-user/$USER/lib"
+          ])
+          + ":$HOME/.${format}";
+      in
+      {
+        DSSI_PATH = makePluginPath "dssi";
+        LADSPA_PATH = makePluginPath "ladspa";
+        LV2_PATH = makePluginPath "lv2";
+        LXVST_PATH = makePluginPath "lxvst";
+        VST_PATH = makePluginPath "vst";
+        VST3_PATH = makePluginPath "vst3";
+      };
+
+    specialisation.realtime-audio.configuration = lib.mkIf config.sound.realtime.enable {
 
       # https://github.com/mixxxdj/mixxx/wiki/Adjusting-Audio-Latency
       boot.kernelParams = [ "nosmt" ];
@@ -33,7 +57,7 @@
 
       environment.etc =
         let
-          quant = builtins.toString config.sound.quant;
+          quant = builtins.toString config.sound.realtime.quant;
           json = pkgs.formats.json { };
         in
         {
@@ -85,7 +109,7 @@
           packages = pkgs.linuxPackages_rt_6_1;
         };
         rtirq.enable = true;
-        soundcardPciId = config.sound.soundcardPciId;
+        soundcardPciId = config.sound.realtime.soundcardPciId;
       };
 
     };
