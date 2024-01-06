@@ -1,6 +1,12 @@
-{ pkgs, config, lib, ... }: {
+{ pkgs, config, lib, inputs, ... }: {
 
   imports = [
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
+    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
+    inputs.nixos-hardware.nixosModules.common-gpu-amd
+    inputs.nixos-hardware.nixosModules.common-pc
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
+    inputs.nixos-hardware.nixosModules.common-pc-hdd
     ./hardware-configuration.nix
   ];
 
@@ -19,8 +25,6 @@
     jamming = true;
   };
 
-  sound.soundcardPciId = "31:00.4";
-
   age.secrets = {
     meshify-pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
     meshify-pvpn-sc-wg-quick-config.file = ../../secrets/meshify-pvpn-sc-wg-quick-config.age;
@@ -33,21 +37,39 @@
     ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
   };
 
-  musnix.enable = true;
-
   programs.k3b.enable = true;
 
   services = {
-    jellyfin = {
-      enable = false;
-      group = "multimedia";
-      openFirewall = true;
-    };
     syncthing = {
       enable = true;
       selectedFolders = [ "default" ];
     };
   };
+
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  # virtualisation.oci-containers.containers."jellyfin" = {
+  #   autoStart = true;
+  #   image = "jellyfin/jellyfin";
+  #   volumes = [
+  #     "/run/media/stel/wolf6-1/containers/jellyfin/config:/config"
+  #     "/run/media/stel/wolf6-1/containers/jellyfin/cache:/cache"
+  #     "/run/media/stel/wolf6-1/containers/jellyfin/log:/log"
+  #     "/run/media/stel/wolf6-1/videos/movies:/movies:ro"
+  #     "/run/media/stel/wolf6-1/videos/shows:/shows:ro"
+  #   ];
+  #   ports = [ "8096:8096" "8920:8920"  "1900:1900" "7359:7359" ];
+  #   environment = {
+  #     JELLYFIN_LOG_DIR = "/log";
+  #   };
+  # };
+  # networking = {
+  #   firewall = {
+  #     enable = true;
+  #     allowedTCPPorts = [ 8096 8920 ];
+  #     allowedUDPPorts = [ 1900 7359 ];
+  #   };
+  # };
 
   networking = {
     firewall = {
