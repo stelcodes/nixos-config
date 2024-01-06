@@ -14,23 +14,18 @@
     profile = {
       graphical = lib.mkOption {
         type = lib.types.bool;
-        default = false;
       };
       battery = lib.mkOption {
         type = lib.types.bool;
-        default = false;
       };
       virtual = lib.mkOption {
         type = lib.types.bool;
-        default = false;
       };
       server = lib.mkOption {
         type = lib.types.bool;
-        default = false;
       };
       virtualHost = lib.mkOption {
         type = lib.types.bool;
-        default = false;
       };
     };
     activities = {

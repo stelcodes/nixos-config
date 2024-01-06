@@ -6,6 +6,10 @@
 
   profile = {
     graphical = true;
+    battery = false;
+    virtualHost = true;
+    server = false;
+    virtual = false;
   };
 
   activities = {

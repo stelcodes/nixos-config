@@ -9,6 +9,8 @@
   profile = {
     graphical = true;
     battery = true;
+    server = false;
+    virtual = false;
     virtualHost = true;
   };
 
