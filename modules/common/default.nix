@@ -230,6 +230,7 @@
         config = {
           permittedInsecurePackages = [
             "electron-25.9.0"
+            "electron-24.8.6"
           ];
           allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
             "obsidian"
@@ -246,6 +247,10 @@
       {
         inherit config;
         overlays = [
+          # https://github.com/NixOS/nixpkgs/issues/263764#issuecomment-1782979513
+          (final: prev: {
+            obsidian = prev.obsidian.override { electron = final.electron_24; };
+          })
           (final: prev: {
             unstable = import inputs.nixpkgs-unstable { inherit config; system = final.system; };
           })
