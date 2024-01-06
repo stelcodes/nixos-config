@@ -74,7 +74,7 @@
 
     nixosConfigurations =
       let
-        mkMachine = { system, hostName, ... }:
+        nixosMachine = { system, hostName, ... }:
           inputs.nixpkgs.lib.nixosSystem {
             inherit system;
             specialArgs = { inherit inputs; };
@@ -87,32 +87,32 @@
       in
       {
         # 12th gen intel framework laptop
-        framework = mkMachine {
+        framework = nixosMachine {
           hostName = "framework";
           system = "x86_64-linux";
         };
         # desktop tower
-        meshify = mkMachine {
+        meshify = nixosMachine {
           hostName = "meshify";
           system = "x86_64-linux";
         };
         # 2013 macbook air
-        macbook = mkMachine {
+        macbook = nixosMachine {
           hostName = "macbook";
           system = "x86_64-linux";
         };
         # cloud vps
-        kairi = mkMachine {
+        kairi = nixosMachine {
           hostName = "kairi";
           system = "x86_64-linux";
         };
         # minimal server build
-        minimal = mkMachine {
+        minimal = nixosMachine {
           hostName = "minimal";
           system = "x86_64-linux";
         };
         # raspberry pi 3B+
-        olette = mkMachine {
+        olette = nixosMachine {
           hostName = "olette";
           system = "aarch64-linux";
         };
