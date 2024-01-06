@@ -302,7 +302,7 @@ in
               offset = true,      -- whether or not to write position offset to tmpfile(for use in preview-tui)
             }
             vim.keymap.set("n", "<leader>n", "<cmd>NnnPicker %:p:h<cr>")
-            vim.keymap.set("n", "<leader>N", "<cmd>NnnExplorer %:p:h<cr>")
+            vim.keymap.set("n", "<leader>N", "<cmd>NnnPicker<cr>")
           '';
         }
 
