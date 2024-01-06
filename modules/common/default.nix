@@ -281,7 +281,7 @@
 
     hardware = {
       enableRedistributableFirmware = (!config.profile.virtual);
-      cpu.intel.updateMicrocode = (!config.profile.virtual);
+      cpu.intel.updateMicrocode = (!config.profile.virtual && pkgs.system == "x86_64-linux");
       cpu.amd.updateMicrocode = (!config.profile.virtual);
     };
 
