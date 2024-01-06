@@ -89,6 +89,8 @@
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild-direct = "doas nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       swaytree = "swaymsg -t get_tree | nvim -R";
+      swayinputs = "swaymsg -t get_inputs | nvim -R";
+      swayoutputs = "swaymsg -t get_outputs | nvim -R";
       nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/nixos-config)).nixosConfigurations.$hostname\"";
       nix-pkg-size = "nix path-info --closure-size --human-readable --recursive";
       play = "audacious --enqueue-to-temp";
@@ -108,6 +110,9 @@
     };
     functions = {
       n = builtins.readFile ./n.fish;
+      wallpaper = /* fish */ ''
+        cp -i "$argv[1]" "$HOME/.wallpaper"
+      '';
     };
   };
 }
