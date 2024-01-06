@@ -112,14 +112,14 @@ in
             # Use "Shift" to properly override defaults
             "${modifier}+Shift+h" = "workspace prev";
             "${modifier}+Shift+l" = "workspace next";
-            "${modifier}+Left" = "move left";
-            "${modifier}+Right" = "move right";
-            "${modifier}+Up" = "move up";
-            "${modifier}+Down" = "move down";
-            "${modifier}+Shift+Left" = "focus output left";
-            "${modifier}+Shift+Right" = "focus output right";
-            "${modifier}+Shift+Up" = "focus output up";
-            "${modifier}+Shift+Down" = "focus output down";
+            "${modifier}+Left" = "focus output left";
+            "${modifier}+Right" = "focus output right";
+            "${modifier}+Up" = "focus output up";
+            "${modifier}+Down" = "focus output down";
+            "${modifier}+Shift+Left" = "move left";
+            "${modifier}+Shift+Right" = "move right";
+            "${modifier}+Shift+Up" = "move up";
+            "${modifier}+Shift+Down" = "move down";
             "${modifier}+tab" = "focus next";
             "${modifier}+Shift+tab" = "focus prev";
             "${modifier}+grave" = "exec wofi-emoji";
