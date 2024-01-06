@@ -111,6 +111,11 @@
           hostName = "minimal";
           system = "x86_64-linux";
         };
+        # raspberry pi 3B+
+        olette = mkMachine {
+          hostName = "olette";
+          system = "aarch64-linux";
+        };
         installer-base = inputs.nixpkgs.lib.nixosSystem {
           # nix build .#nixosConfigurations.installer-base.config.formats.install-iso
           # nix build .#nixosConfigurations.installer-base.config.formats.install-iso-gnome
