@@ -122,17 +122,20 @@ in
         keybindings =
           lib.mkOptionDefault {
             # Use "Shift" to properly override defaults
-            "${modifier}+Shift+h" = "workspace prev";
-            "${modifier}+Shift+l" = "workspace next";
+            "${modifier}+Shift+h" = "move left";
+            "${modifier}+Shift+l" = "move right";
+            "${modifier}+Shift+k" = "move up";
+            "${modifier}+Shift+j" = "move down";
             "${modifier}+Left" = "focus output left";
             "${modifier}+Right" = "focus output right";
             "${modifier}+Up" = "focus output up";
             "${modifier}+Down" = "focus output down";
-            "${modifier}+Shift+Left" = "move left";
-            "${modifier}+Shift+Right" = "move right";
-            "${modifier}+Shift+Up" = "move up";
-            "${modifier}+Shift+Down" = "move down";
-            "${modifier}+tab" = "exec ${cycle-sway-output}/bin/cycle-sway-output";
+            "${modifier}+Shift+Left" = "move window to output left";
+            "${modifier}+Shift+Right" = "move window to output right";
+            "${modifier}+Shift+Up" = "move window to output up";
+            "${modifier}+Shift+Down" = "move window to output down";
+            "${modifier}+tab" = "workspace back_and_forth";
+            "${modifier}+Shift+tab" = "exec ${cycle-sway-output}/bin/cycle-sway-output";
             "${modifier}+grave" = "exec wofi-emoji";
             "${modifier}+Shift+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
             "${modifier}+r" = "mode resize";
@@ -506,17 +509,15 @@ in
             "1" = "term";
             "2" = "www";
             "3" = "notes";
-            "4" = "social";
-            "5" = "music";
-            "6" = "sys";
+            "4" = "arts";
+            "5" = "media";
           };
-          persistent_workspaces = {
+          persistent-workspaces = {
             "1" = [ ];
             "2" = [ ];
             "3" = [ ];
             "4" = [ ];
             "5" = [ ];
-            "6" = [ ];
           };
         };
         cpu = {

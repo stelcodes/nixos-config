@@ -16,8 +16,9 @@ window {
 }
 
 #workspaces button {
-    padding: 5px 8px;
+    padding: 4px 8px 3px 8px;
     border: 1px solid @bg;
+    border-bottom: 2px solid @bg;
     border-top: none;
     min-width: 30px;
 }
@@ -27,14 +28,19 @@ window {
     background: rgba(0, 0, 0, 0.2);
 }
 
-#workspaces button.current_output.visible:not(.focused) {
+#workspaces button.visible {
+    border-bottom: 2px solid @bgThree;
+}
+
+#workspaces button.visible.current_output:not(.focused) {
     background-color: @bgTwo;
 }
 
 #workspaces button.current_output.visible.focused {
+    background-color: @bg;
     border: 1px solid @bgThree;
+    border-bottom: 2px solid @bgThree;
     border-top: none;
-    padding: 5px 8px;
 }
 
 #workspaces button.urgent {
