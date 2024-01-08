@@ -24,13 +24,8 @@ self: super: {
   writeBabashkaScript = super.callPackage ./write-babashka-script.nix { };
   cycle-pulse-sink = self.writeBabashkaScript {
     name = "cycle-pulse-sink";
-    source = ../misc/cycle-pulse-sink.clj;
+    text = builtins.readFile ../misc/cycle-pulse-sink.clj;
     runtimeInputs = [ super.pulseaudio ];
-  };
-  cycle-sway-scale = self.writeBabashkaScript {
-    name = "cycle-sway-scale";
-    source = ../misc/cycle-sway-scale.clj;
-    runtimeInputs = [ super.sway ];
   };
   tmux-snapshot = super.writeShellApplication {
     name = "tmux-snapshot";
@@ -115,11 +110,6 @@ self: super: {
     '';
   };
   graillon-free = super.callPackage ./graillon.nix { };
-  toggle-sway-window = self.writeBabashkaScript {
-    name = "toggle-sway-window";
-    source = ../misc/toggle-sway-window.clj;
-    runtimeInputs = [ super.sway ];
-  };
   mixxx = super.symlinkJoin {
     name = "mixxx-wayland";
     paths = [ super.mixxx ];

@@ -1,22 +1,16 @@
 { writeTextFile
-, babashka
+, babashka-unwrapped
 , lib
 , runtimeShell
 }:
 { name
-, text ? null
-, source ? null
+, text
 , runtimeInputs ? [ ]
 , checkPhase ? null
 }:
-assert (builtins.typeOf text == "string") || (builtins.typeOf source == "path");
-let sourceFile = writeTextFile {
-  inherit name;
-  text = ''
-    ${if (text != null) then text else builtins.readFile source}
-  '';
-  # destination = "${name}.clj";
-}; in
+let
+  sourceFile = writeTextFile { inherit name text; };
+in
 writeTextFile {
   name = ".${name}-wrapped";
   executable = true;
@@ -31,6 +25,6 @@ writeTextFile {
     export PATH="${lib.makeBinPath runtimeInputs}:$PATH"
   '' + ''
 
-    ${babashka}/bin/bb ${sourceFile} "$@"
+    ${babashka-unwrapped}/bin/bb ${sourceFile} "$@"
   '';
 }

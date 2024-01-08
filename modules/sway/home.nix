@@ -17,6 +17,18 @@ let
       }
     '')
     appleKeyboardIdentifiers;
+  cycle-sway-output = pkgs.writeBabashkaScript {
+    name = "cycle-sway-output";
+    text = builtins.readFile ../../misc/cycle-sway-output.clj;
+  };
+  cycle-sway-scale = pkgs.writeBabashkaScript {
+    name = "cycle-sway-scale";
+    text = builtins.readFile ../../misc/cycle-sway-scale.clj;
+  };
+  toggle-sway-window = pkgs.writeBabashkaScript {
+    name = "toggle-sway-window";
+    text = builtins.readFile ../../misc/toggle-sway-window.clj;
+  };
 in
 {
   config = lib.mkIf systemConfig.profile.graphical {
@@ -120,31 +132,30 @@ in
             "${modifier}+Shift+Right" = "move right";
             "${modifier}+Shift+Up" = "move up";
             "${modifier}+Shift+Down" = "move down";
-            "${modifier}+tab" = "focus next";
-            "${modifier}+Shift+tab" = "focus prev";
+            "${modifier}+tab" = "exec ${cycle-sway-output}/bin/cycle-sway-output";
             "${modifier}+grave" = "exec wofi-emoji";
             "${modifier}+Shift+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
             "${modifier}+r" = "mode resize";
-            "${modifier}+c" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
-            "${modifier}+t" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id thunar -- ${pkgs.xfce.thunar}/bin/thunar";
-            "${modifier}+g" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id gnome-disks -- ${pkgs.gnome.gnome-disk-utility}/bin/gnome-disks";
+            "${modifier}+c" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
+            "${modifier}+t" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id thunar -- ${pkgs.xfce.thunar}/bin/thunar";
+            "${modifier}+g" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id gnome-disks -- ${pkgs.gnome.gnome-disk-utility}/bin/gnome-disks";
             "${modifier}+Shift+d" = "exec ${pkgs.wofi}/bin/wofi --show drun --width 800 --height 400 --term foot";
             "${modifier}+Shift+c" = "exec rebuild";
             "${modifier}+backspace" = "exec firefox";
             "${modifier}+Shift+backspace" = "exec firefox --private-window";
             "${modifier}+n" = "exec makoctl dismiss --all";
-            "${modifier}+p" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id pavucontrol -- ${pkgs.pavucontrol}/bin/pavucontrol";
+            "${modifier}+p" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id pavucontrol -- ${pkgs.pavucontrol}/bin/pavucontrol";
             "${modifier}+Shift+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
             "${modifier}+less" = "focus parent";
             "${modifier}+greater" = "focus child";
             "${modifier}+semicolon" = "layout toggle split tabbed stacking";
             "${modifier}+apostrophe" = "split toggle";
-            "${modifier}+backslash" = "exec ${pkgs.cycle-sway-scale}/bin/cycle-sway-scale";
+            "${modifier}+backslash" = "exec ${cycle-sway-scale}/bin/cycle-sway-scale";
             "${modifier}+bar" = "exec ${pkgs.toggle-service}/bin/toggle-service wlsunset";
-            "${modifier}+v" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
+            "${modifier}+v" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
             "${modifier}+delete" = "exec ${pkgs.swaylock}/bin/swaylock";
-            "${modifier}+b" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id .blueman-manager-wrapped -- ${pkgs.blueman}/bin/blueman-manager";
-            "${modifier}+m" = "exec ${pkgs.toggle-sway-window}/bin/toggle-sway-window --id system_monitor -- ${pkgs.foot}/bin/foot --app-id=system_monitor ${pkgs.btop}/bin/btop";
+            "${modifier}+b" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id .blueman-manager-wrapped -- ${pkgs.blueman}/bin/blueman-manager";
+            "${modifier}+m" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id system_monitor -- ${pkgs.foot}/bin/foot --app-id=system_monitor ${pkgs.btop}/bin/btop";
             XF86MonBrightnessDown = "exec brightnessctl set 5%-";
             XF86MonBrightnessUp = "exec brightnessctl set +5%";
             XF86AudioPrev = "exec playerctl previous";

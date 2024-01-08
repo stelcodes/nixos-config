@@ -60,7 +60,6 @@ in
         pkgs.gnome.dconf-editor
         pkgs.jellyfin-media-player
         pkgs.cycle-pulse-sink
-        pkgs.cycle-sway-scale
         pkgs.qalculate-gtk
         pkgs.gnome.eog
         pkgs.gajim
