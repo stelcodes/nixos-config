@@ -10,7 +10,7 @@
   wayland.windowManager.sway.config.workspaceOutputAssign = [
     {
       output = "HDMI-A-1";
-      workspace = "9";
+      workspace = "5";
     }
   ];
 }
