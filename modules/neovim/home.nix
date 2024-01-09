@@ -63,7 +63,7 @@ in
           plugin = pkgs.vimPlugins.vim-fugitive;
           type = "lua";
           config = /* lua */ ''
-            vim.keymap.set('n', '<c-g>', '<cmd>Git<cr><c-w>H')
+            vim.keymap.set('n', '<c-g>', '<cmd>Git<cr><c-w>H<cmd>vertical resize 80<cr>')
             vim.keymap.set('n', '<leader>gD', '<cmd>Git difftool<cr>')
           '';
         }
