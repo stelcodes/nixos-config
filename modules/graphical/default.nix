@@ -13,11 +13,6 @@
       pkgs.gnome.adwaita-icon-theme # Do I need this?
     ];
 
-    sound.enable = true;
-
-    # Needed for pipewire
-    security.rtkit.enable = true;
-
     hardware = {
       bluetooth.enable = true;
       opengl = {
@@ -29,8 +24,6 @@
           libvdpau-va-gl
         ];
       };
-      # Use pipewire instead of pulseaudio
-      pulseaudio.enable = false;
       xpadneo.enable = config.activities.gaming;
     };
 
@@ -233,14 +226,6 @@
     };
 
     services = {
-
-      pipewire = {
-        enable = true;
-        alsa.enable = true;
-        alsa.support32Bit = true;
-        pulse.enable = true;
-        jack.enable = true;
-      };
 
       # Enable CUPS to print documents.
       printing = {
