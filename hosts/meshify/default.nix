@@ -11,6 +11,7 @@
   ];
 
   profile = {
+    audio = true;
     graphical = true;
     battery = false;
     virtualHost = true;

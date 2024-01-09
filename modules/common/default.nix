@@ -27,6 +27,9 @@
       virtualHost = lib.mkOption {
         type = lib.types.bool;
       };
+      audio = lib.mkOption {
+        type = lib.types.bool;
+      };
     };
     activities = {
       gaming = lib.mkOption {

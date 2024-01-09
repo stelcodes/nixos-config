@@ -24,7 +24,7 @@
 
   };
 
-  config = {
+  config = lib.mkIf config.profile.audio {
 
     sound.enable = true;
 
