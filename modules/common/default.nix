@@ -7,7 +7,7 @@
     ../syncthing
     ../graphical
     ../battery
-    ../arts
+    ../audio
   ];
 
   options = {
