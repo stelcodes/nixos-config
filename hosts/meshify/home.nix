@@ -5,6 +5,7 @@
     packages = [
       pkgs.fractal
       inputs.gpt4all-nix.packages.${pkgs.system}.default
+      inputs.arcsearch.defaultPackage.${pkgs.system}
     ];
   };
   wayland.windowManager.sway.config.workspaceOutputAssign = [
