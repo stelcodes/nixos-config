@@ -224,7 +224,7 @@ in
           { command = "${pkgs.tmux}/bin/tmux kill-server"; }
           { command = "${pkgs.systemd}/bin/systemctl is-active syncthing.service && ${pkgs.systemd}/bin/systemctl --user start syncthing-tray.service"; always = true; }
           { command = "${pkgs.systemd}/bin/systemctl --user is-active waybar || ${pkgs.systemd}/bin/systemctl --user restart waybar"; always = true; }
-          { command = "${pkgs.systemd}/bin/systemctl --user start pomo-notify.service"; }
+          # { command = "${pkgs.systemd}/bin/systemctl --user start pomo-notify.service"; }
           { command = "${pkgs.obsidian}/bin/obsidian"; }
         ];
       };
