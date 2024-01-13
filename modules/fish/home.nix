@@ -60,7 +60,7 @@
       la = "ls -A";
       rm = "rm -i";
       mv = "mv -n";
-      r = "rsync --archive --verbose --human-readable --progress --one-file-system --ignore-existing";
+      r = "rsync -rltxhv";
       gs = "git status";
       gl = "git log";
       glo = "git log --oneline";
