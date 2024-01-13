@@ -62,22 +62,24 @@ in
       #########################################################################
       # KEYBINDINGS
 
-      bind -n M-h previous-window
-      bind -n M-l next-window
-      bind -n M-H select-pane -L
-      bind -n M-L select-pane -R
-      bind -n M-J select-pane -D
-      bind -n M-K select-pane -U
+      # tmux doesn't have an option to avoid wrapping around with select-pane :(
+      bind -n M-h select-pane -L
+      bind -n M-l select-pane -R
+      bind -n M-j select-pane -D
+      bind -n M-k select-pane -U
+      bind -n M-H previous-window
+      bind -n M-L next-window
       bind -n M-Q kill-pane
       bind -n M-s choose-tree -s
-      bind -n M-S switch-client -l
-      bind -n M-f thumbs-pick
-      bind -n M-space copy-mode
-      bind -n M-w new-window -a -c "#{pane_current_path}"
-      bind -n M-W select-window -l
-      bind -n M-t command-prompt 'new-session -s %%'
-      bind -n M-r command-prompt 'rename-session %%'
-      bind -n M-R source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
+      bind -n M-S command-prompt 'new-session -s %%'
+      bind -n M-tab switch-client -l
+      bind -n M-S-tab select-window -l
+      bind -n M-space thumbs-pick
+      bind -n M-t new-window -a -c "#{pane_current_path}"
+      bind -n M-r command-prompt 'rename-window %%'
+      bind -n M-R command-prompt 'rename-session %%'
+      bind -n M-c copy-mode
+      bind -n M-C source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
       bind -n M-x split-window -v -c "#{pane_current_path}"
       bind -n M-v split-window -h -c "#{pane_current_path}"
       bind -n M-< swap-window -d -t -1
@@ -116,6 +118,7 @@ in
       set -g status-style bg=${theme.bg1},fg=${theme.fg}
       set -g pane-border-style bg=default,fg=${theme.bg}
       set -g pane-active-border-style bg=default,fg=${theme.blue}
+      set -g pane-border-indicators arrows
       set -g display-panes-colour black
       set -g display-panes-active-colour black
       set -g clock-mode-colour '${theme.tmuxPrimary}'
