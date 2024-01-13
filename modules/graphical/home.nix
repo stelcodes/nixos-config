@@ -97,10 +97,7 @@ in
     xdg.configFile = {
       "mpv/mpv.conf".text = ''
         gapless-audio=no
-        hwdec=auto-safe
-        vo=gpu
-        profile=gpu-hq
-        # gpu-context=wayland
+        sub-auto=all
       '';
       "ranger/rc.conf".text = ''
         set preview_images true
@@ -380,6 +377,8 @@ in
         "text/markdown" = [ "neovim.desktop" ];
         "text/plain" = [ "neovim.desktop" ];
         "application/x-zerosize" = [ "neovim.desktop" ]; # empty files
+        "video/vnd.avi" = [ "mpv.desktop" ];
+        "video/mkv" = [ "mpv.desktop" ];
       };
     };
 
