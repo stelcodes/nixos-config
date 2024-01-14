@@ -71,7 +71,7 @@ in
       bind -n M-L next-window
       bind -n M-Q kill-pane
       bind -n M-s choose-tree -s
-      bind -n M-S command-prompt 'new-session -s %%'
+      bind -n M-S command-prompt 'new-session -s %% -c ~ nnn'
       bind -n M-tab switch-client -l
       bind -n M-S-tab select-window -l
       bind -n M-space thumbs-pick
