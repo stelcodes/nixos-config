@@ -12,6 +12,7 @@
 
   profile = {
     audio = true;
+    bluetooth = true;
     graphical = true;
     battery = false;
     virtualHost = true;

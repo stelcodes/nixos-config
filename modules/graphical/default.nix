@@ -14,7 +14,6 @@
     ];
 
     hardware = {
-      bluetooth.enable = true;
       opengl = {
         enable = true;
         extraPackages = with pkgs; [
@@ -251,8 +250,6 @@
       # Enable iOS devices to automatically connect
       # Use idevice* commands like ideviceinfo
       usbmuxd.enable = true;
-
-      blueman.enable = true;
 
       gnome.gnome-keyring.enable = true;
 

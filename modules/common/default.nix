@@ -8,6 +8,7 @@
     ../graphical
     ../battery
     ../audio
+    ../bluetooth
   ];
 
   options = {
@@ -28,6 +29,9 @@
         type = lib.types.bool;
       };
       audio = lib.mkOption {
+        type = lib.types.bool;
+      };
+      bluetooth = lib.mkOption {
         type = lib.types.bool;
       };
     };
