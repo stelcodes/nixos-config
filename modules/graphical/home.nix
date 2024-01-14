@@ -98,6 +98,7 @@ in
       "mpv/mpv.conf".text = ''
         gapless-audio=no
         sub-auto=all
+        osd-on-seek=msg-bar
       '';
       "ranger/rc.conf".text = ''
         set preview_images true
