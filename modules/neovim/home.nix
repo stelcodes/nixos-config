@@ -54,6 +54,17 @@ in
           };
         };
 
+        resize-nvim = pkgs.vimUtils.buildVimPlugin {
+          pname = "resize-nvim";
+          version = "unstable-2024-01-16";
+          src = pkgs.fetchFromGitHub {
+            owner = "stelcodes";
+            repo = "resize.nvim";
+            rev = "a0b28847f69d234de933685503df84a88e7ae514";
+            sha256 = "jGEVE9gfK4EirGDOFzSNXn60X+IldKASVoTD4/p7MBM=";
+          };
+        };
+
       in
       [
         # Theme plugin should go first because it sets local vars like lualine_theme
@@ -303,6 +314,18 @@ in
             }
             vim.keymap.set("n", "<leader>n", "<cmd>NnnPicker %:p:h<cr>")
             vim.keymap.set("n", "<leader>N", "<cmd>NnnPicker<cr>")
+          '';
+        }
+
+        {
+          plugin = resize-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            local r = require('resize')
+            vim.keymap.set('n', '<c-left>', function() r.ResizeLeft(1) end)
+            vim.keymap.set('n', '<c-right>', function() r.ResizeRight(1) end)
+            vim.keymap.set('n', '<c-up>', function() r.ResizeUp(1) end)
+            vim.keymap.set('n', '<c-down>', function() r.ResizeDown(1) end)
           '';
         }
 
