@@ -37,6 +37,7 @@
       enable = true;
       selectedFolders = [ "default" ];
     };
+    getty.autologinUser = config.admin.username;
   };
 
   sound = {

@@ -46,6 +46,7 @@
       enable = true;
       selectedFolders = [ "default" ];
     };
+    getty.autologinUser = config.admin.username;
   };
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

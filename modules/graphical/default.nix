@@ -245,8 +245,6 @@
         # desktopManager.cinnamon.enable = true;
       };
 
-      getty.autologinUser = config.admin.username;
-
       # Enable iOS devices to automatically connect
       # Use idevice* commands like ideviceinfo
       usbmuxd.enable = true;
