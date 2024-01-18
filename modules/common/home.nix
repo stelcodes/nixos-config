@@ -82,6 +82,8 @@
         pkgs.toggle-service
         pkgs.dua
         pkgs.vimv-rs
+        pkgs.ffmpeg # TODO: add activies.archiving toggle
+        pkgs.jq
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
         pkgs.nix-prefetch-github
         pkgs.check-newline
@@ -105,6 +107,7 @@
         NNN_FIFO = "/tmp/nnn.fifo";
         NNN_BATTHEME = "base16";
         NNN_BATSTYLE = "plain";
+        NNN_PISTOL = "1";
         BAT_THEME = "base16";
       };
 
@@ -191,6 +194,35 @@
         nix-direnv.enable = true;
       };
 
+      pistol = {
+        enable = true;
+        associations =
+          let
+            ffprobeBase = "sh: ffprobe -v quiet -print_format json -show_format -pretty %pistol-filename%";
+            audioFilters = {
+              "title" = ".tags.TITLE";
+              "artist" = ".tags.ARTIST";
+              "album" = ".tags.ALBUM";
+              "album_artist" = ".tags.album_artist";
+              "date" = ".tags.DATE";
+              "duration" = ".duration";
+              "size" = ".size";
+              "bitrate" = ".bit_rate";
+              "encoder" = ".tags.ENCODER";
+              "comment" = ".tags.comment";
+            };
+            ffprobeWithoutFilters = ffprobeBase + " | jq -C .format";
+            ffprobeWithFilters = filters: ffprobeBase + " | jq -C '.format | { " + (lib.foldlAttrs (acc: name: value: acc + "${name}: ${value}, ") "" filters) + " }'";
+          in
+          [
+            # Must install ffmpeg for media previews
+            { mime = "audio/*"; command = ffprobeWithFilters audioFilters; }
+            { mime = "video/*"; command = ffprobeWithoutFilters; }
+            { mime = "image/*"; command = ffprobeWithoutFilters; }
+            { mime = "inode/directory"; command = "sh: eza -la --color always %pistol-filename%  2>&1"; }
+          ];
+      };
+
       nnn = {
         enable = true;
         package = (pkgs.nnn.override { withNerdIcons = true; }).overrideAttrs (finalAttrs: previousAttrs: {
@@ -202,14 +234,13 @@
           pkgs.gawk
           pkgs.findutils
           pkgs.fzf
-          pkgs.libsixel
           pkgs.xdg-utils
         ];
         bookmarks = {
-          e = "/run/media"; # external
-          h = "/home/${systemConfig.admin.username}"; # home
-          m = "/home/${systemConfig.admin.username}/music";
+          m = "/run/media";
+          M = "/home/${systemConfig.admin.username}/music";
           d = "/home/${systemConfig.admin.username}/downloads";
+          D = "/home/${systemConfig.admin.username}/documents";
           t = "/home/${systemConfig.admin.username}/tmp";
           n = "/home/${systemConfig.admin.username}/nixos-config";
           c = "/home/${systemConfig.admin.username}/.config";

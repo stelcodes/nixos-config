@@ -371,6 +371,7 @@ in
         "audio/x-stm" = [ "audacious.desktop" ];
         "audio/x-vorbis+ogg" = [ "audacious.desktop" ];
         "audio/x-wav" = [ "audacious.desktop" ];
+        "audio/vnd.wave" = [ "audacious.desktop" ];
         "audio/x-wavpack" = [ "audacious.desktop" ];
         "audio/x-xm" = [ "audacious.desktop" ];
         "audio/x-opus+ogg" = [ "audacious.desktop" ];
@@ -397,10 +398,7 @@ in
     programs = {
       nnn = {
         extraPackages = [
-          pkgs.ffmpeg
-          pkgs.ffmpegthumbnailer
           pkgs.xdragon
-          pkgs.mediainfo
         ];
         plugins = {
           mappings = {
