@@ -199,4 +199,41 @@ self: super: {
       exit 1
     '';
   };
+  discord-firefox = super.writeShellApplication {
+    name = "discord";
+    text = ''
+      firefox --new-window 'https://discord.com/app'
+    '';
+  };
+  kodi-loaded = super.kodi.withPackages (p: [
+    p.visualization-goom
+    p.somafm
+    p.radioparadise
+    p.joystick
+  ]);
+  retroarch-loaded = super.retroarch.override {
+    settings = {
+      menu_driver = "xmb";
+      xmb_menu_color_theme = "15"; # cube purple
+      savefile_directory = "~/sync/games/saves";
+      savestate_directory = "~/sync/games/states";
+      screenshot_directory = "~/sync/games/screenshots";
+      playlist_directory = "~/sync/games/playlists";
+      thumbnails_directory = "~/sync/games/thumbnails";
+      content_favorites_path = "~/sync/games/content_favorites.lpl";
+      playlist_entry_remove_enable = "0";
+      playlist_entry_rename = "false";
+    };
+    cores = with super.libretro; [
+      # pkgs/applications/emulators/retroarch/cores.nix
+      mesen # nes
+      snes9x # snes
+      mupen64plus # n64
+      dolphin # gamecube/wii
+      swanstation # ps1
+      sameboy # gb
+      mgba # gba
+      ppsspp # psp
+    ];
+  };
 }
