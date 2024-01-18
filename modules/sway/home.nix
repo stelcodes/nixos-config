@@ -224,8 +224,6 @@ in
           { command = "${pkgs.tmux}/bin/tmux kill-server"; }
           { command = "${pkgs.systemd}/bin/systemctl is-active syncthing.service && ${pkgs.systemd}/bin/systemctl --user start syncthing-tray.service"; always = true; }
           { command = "${pkgs.systemd}/bin/systemctl --user is-active waybar || ${pkgs.systemd}/bin/systemctl --user restart waybar"; always = true; }
-          # { command = "${pkgs.systemd}/bin/systemctl --user start pomo-notify.service"; }
-          { command = "${pkgs.obsidian}/bin/obsidian"; }
         ];
       };
       extraConfig = ''
@@ -241,6 +239,7 @@ in
         bindsym --locked ${modifier}+o output eDP-1 toggle
         bindsym --locked ${modifier}+Shift+o output eDP-1 power toggle
         bindsym --locked ${modifier}+Shift+delete exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
+        for_window [title=".*"] inhibit_idle fullscreen
         for_window [app_id=org.gnome.Calculator] floating enable
         for_window [class=REAPER] floating enable
         for_window [app_id=nmtui] floating enable
@@ -253,10 +252,11 @@ in
         for_window [app_id=org.rncbc.qpwgraph] floating enable
         for_window [app_id=thunar] floating enable
         for_window [app_id=gnome-disks] floating enable
-        for_window [app_id="org.qbit.*" title="^\[[Bb]itsearch.*"] floating disable
         # Workaround for Bitwig moving itself to current workspace when scale changes
-        for_window [class=com.bitwig.BitwigStudio] move container to workspace 5
         for_window [app_id=obsidian] move container to workspace 3
+        for_window [app_id=org.libretro.RetroArch] move container to workspace 4
+        for_window [class=com.bitwig.BitwigStudio] move container to workspace 4
+        for_window [class=Kodi] move container to workspace 5
       '';
       swaynag = {
         enable = true;
