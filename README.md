@@ -1,6 +1,6 @@
 # My NixOS Config
 
-My pride and joy. Feel free to take a look around.
+Feel free to take a look around 🌷✨
 
 ## Inspiration
 
@@ -16,17 +16,46 @@ https://github.com/LongerHV/nixos-configuration
 
 https://github.com/TLATER/dotfiles
 
-## Other Links
+## Essential Nix Resources
 
-https://librearts.org/
+https://search.nixos.org
 
-https://diskprices.com
+https://noogle.dev
 
-https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data
+```
+man configuration.nix
+man home-configuration.nix
+```
 
-https://modcase.com.au
+## Wayland
 
-https://frame.work
+Use `QT_QPA_PLATFORM=xcb audacious` to see controls for adjusting plugin windows (Wayland QT issues)
+
+## Dconf
+
+Values can be defined with Home Manager's `dconf.settings` option.
+
+```
+dconf dump /org/cinnamon/ | dconf2nix | nvim -R
+pkgs.gnome.dconf-editor for GUI
+```
+
+## Messaging
+
+My favorites:
+
+```
+XMPP: pkgs.gajim
+Signal: pkgs.signal-desktop
+```
+
+## Obsidian
+
+Might have to `rm -rf ~/.config/obsidian/GPUCache` after a major update.
+
+## Phone tethering
+
+For iphone hotspot tethering use `pkgs.libimobiledevice`.
 
 ## Gaming
 
@@ -61,3 +90,19 @@ Media -> Music -> Visualisations -> On
 Player -> Music -> Visualisation -> Goom
 ```
 This music sources don't purge missing tracks even when cleaned so you have to remove .kodi/userdata/Database/MyMusic.db all the time. Seems fixable? 🤔
+
+## Compatibility
+
+`pkgs.appimage-run`
+
+## Other Links
+
+https://librearts.org/
+
+https://diskprices.com
+
+https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data
+
+https://modcase.com.au
+
+https://frame.work
