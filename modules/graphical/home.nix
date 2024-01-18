@@ -424,6 +424,7 @@ in
       };
     };
 
+    # dconf dump /org/cinnamon/ | dconf2nix | nvim -R
     dconf.settings =
       with lib.hm.gvariant;
       let bind = x: mkArray type.string [ x ];
@@ -432,55 +433,6 @@ in
         "org/virt-manager/virt-manager/connections" = {
           autoconnect = [ "qemu:///system" ];
           uris = [ "qemu:///system" ];
-        };
-        # dconf dump /org/cinnamon/ | dconf2nix | nvim -R
-        "org/cinnamon" = {
-          alttab-switcher-delay = mkInt32 0;
-          hotcorner-layout = mkArray type.string [
-            "expo:true:0"
-            ":false:0"
-            ":false:0"
-            ":false:0"
-          ];
-        };
-        "org/cinnamon/sounds" = {
-          notification-enabled = false;
-        };
-        "org/cinnamon/desktop/keybindings/wm" = {
-          close = bind "<Shift><Super>q";
-          move-to-workspace-left = bind "<Shift><Super>h";
-          move-to-workspace-right = bind "<Shift><Super>l";
-          switch-to-workspace-left = bind "<Super>h";
-          switch-to-workspace-right = bind "<Super>l";
-          switch-to-workspace-up = bind "<Super>k";
-          switch-to-workspace-down = bind "<Super>j";
-          switch-windows = bind "<Super>Tab";
-          # toggle-fullscreen = bind "<Super>Space";
-          toggle-fullscreen = bind "<Super>f";
-          show-desktop = bind "<Super>x";
-          toggle-maximized = bind "<Super>m";
-        };
-        "org/cinnamon/desktop/keybindings/media-keys" = {
-          logout = bind "<Shift><Super>e";
-          terminal = bind "<Super>Return";
-          www = bind "<Super>BackSpace";
-          screensaver = bind "<Super>Delete";
-        };
-        "org/cinnamon/desktop/wm/preferences" = {
-          # titlebar-font = "FiraMono Nerd Font Medium 10";
-          num-workspaces = 9;
-        };
-        "org/cinnamon/desktop/interface" = {
-          cursor-size = "24";
-          cursor-theme = "Bibata-Original-Classic";
-          font-name = "Ubuntu 10";
-          # font-name = "FiraMono Nerd Font 11";
-          gtk-theme = theme.gtkThemeName;
-          icon-theme = theme.iconThemeName;
-        };
-
-        "org/cinnamon/desktop/background" = {
-          picture-uri = "file://${theme.wallpaper}";
         };
 
         "org/gnome/terminal/legacy" = {
@@ -540,18 +492,6 @@ in
         };
       };
 
-    services = {
-      redshift = {
-        enable = false;
-        latitude = 38.0;
-        longitude = -124.0;
-        temperature = {
-          day = 5500;
-          night = 3000;
-        };
-        tray = true;
-      };
-    };
   };
 
 }
