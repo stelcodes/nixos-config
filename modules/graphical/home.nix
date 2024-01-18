@@ -378,6 +378,9 @@ in
         ExecStart = "${pkgs.pomo}/bin/pomo notify";
         Restart = "always";
       };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
     };
 
     programs = {
