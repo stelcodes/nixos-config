@@ -146,13 +146,6 @@ vim.keymap.set('n', '<c-q>', '<cmd>wincmd q<cr>')
 vim.keymap.set('n', '<c-x>', '<cmd>split %<cr>')
 
 -- TABS
--- Navigate tabs
-vim.keymap.set('n', 'T', '<cmd>tabnext<cr>')
--- vim.keymap.set('n', 't', '<cmd>tabnext #<cr>')
-vim.keymap.set('n', 't', function()
-  local ok, _ = pcall(vim.cmd, 'tabnext #')
-  if not ok then vim.cmd 'tabnext' end
-end)
 -- Open new tab with clone of current buffer
 vim.keymap.set('n', '<c-t>', function() vim.cmd "tab split" end)
 vim.keymap.set('n', '<leader>1', '<cmd>tabnext 1<cr>')
