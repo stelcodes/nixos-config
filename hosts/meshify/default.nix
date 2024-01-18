@@ -49,30 +49,6 @@
     getty.autologinUser = config.admin.username;
   };
 
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  # virtualisation.oci-containers.containers."jellyfin" = {
-  #   autoStart = true;
-  #   image = "jellyfin/jellyfin";
-  #   volumes = [
-  #     "/run/media/stel/wolf6-1/containers/jellyfin/config:/config"
-  #     "/run/media/stel/wolf6-1/containers/jellyfin/cache:/cache"
-  #     "/run/media/stel/wolf6-1/containers/jellyfin/log:/log"
-  #     "/run/media/stel/wolf6-1/videos/movies:/movies:ro"
-  #     "/run/media/stel/wolf6-1/videos/shows:/shows:ro"
-  #   ];
-  #   ports = [ "8096:8096" "8920:8920"  "1900:1900" "7359:7359" ];
-  #   environment = {
-  #     JELLYFIN_LOG_DIR = "/log";
-  #   };
-  # };
-  # networking = {
-  #   firewall = {
-  #     enable = true;
-  #     allowedTCPPorts = [ 8096 8920 ];
-  #     allowedUDPPorts = [ 1900 7359 ];
-  #   };
-  # };
 
   networking = {
     firewall = {
