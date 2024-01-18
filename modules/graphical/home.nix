@@ -41,30 +41,15 @@ in
         gtk.enable = true;
       };
       packages = [
-        pkgs.calibre
-        pkgs.gimp-with-plugins
-        pkgs.qbittorrent
-        # pkgs.ungoogled-chromium
-        pkgs.chromium
+        # System tooling
         pkgs.gnome.gnome-disk-utility
-        pkgs.spotify
-        pkgs.libimobiledevice # For iphone hotspot tethering
-        pkgs.obsidian # rm -rf ~/.config/obsidian/GPUCache every major update
+        # Media tooling
         pkgs.pavucontrol
-        pkgs.tor-browser-bundle-bin
-        pkgs.vlc
         pkgs.mpv
-        pkgs.appimage-run
-        pkgs.signal-desktop
-        pkgs.gnome-feeds
-        pkgs.gnome.dconf-editor
-        pkgs.jellyfin-media-player
-        pkgs.cycle-pulse-sink
-        pkgs.qalculate-gtk
+        pkgs.audacious
         pkgs.gnome.eog
-        pkgs.gajim
+        pkgs.qalculate-gtk
         pkgs.qpwgraph
-        pkgs.audacious # Use QT_QPA_PLATFORM=xcb to adjust plugin windows (Wayland QT issues)
       ];
     };
 
