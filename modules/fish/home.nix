@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   home.packages = [ pkgs.starship ];
   xdg.configFile."fish/themes/base16.theme" = {
     onChange = "${pkgs.fish}/bin/fish -c 'echo y | fish_config theme save base16'";
@@ -51,9 +51,8 @@
       ${pkgs.starship}/bin/starship init fish | source
       # Maybe add direnv sourcing here later
     '';
-    loginShellInit = ''
+    loginShellInit = lib.mkDefault ''
       ${pkgs.neofetch}/bin/neofetch
-      ${pkgs.pomo}/bin/pomo start
     '';
     shellAbbrs = rec {
       ll = "ls -l";
@@ -64,7 +63,7 @@
       gs = "git status";
       gl = "git log";
       glo = "git log --oneline";
-      gf = "log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
+      gf = "git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
       sc = "systemctl";
       scu = "systemctl --user";
       jc = "journalctl -ex --unit";
