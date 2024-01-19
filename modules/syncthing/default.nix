@@ -11,7 +11,7 @@ let
     };
   };
   allDevices = {
-    framework = {
+    yuffie = {
       id = "G5Q3Q2S-6UCPWME-FPX4RSD-3AWNHAV-36BCGNE-HQ6NEV2-2LWC2MA-DUVQDQZ";
     };
     macbook = {

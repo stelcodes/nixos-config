@@ -86,12 +86,12 @@
           };
       in
       {
-        # 12th gen intel framework laptop kairi
-        framework = nixosMachine {
-          hostName = "framework";
+        # 12th gen intel framework laptop
+        yuffie = nixosMachine {
+          hostName = "yuffie";
           system = "x86_64-linux";
         };
-        # desktop tower terra
+        # desktop tower
         terra = nixosMachine {
           hostName = "terra";
           system = "x86_64-linux";

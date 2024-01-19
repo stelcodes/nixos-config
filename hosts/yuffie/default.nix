@@ -24,7 +24,7 @@
   age.secrets = {
     root-password.file = ../../secrets/root-password.age;
     admin-password.file = ../../secrets/admin-password.age;
-    framework-pvpn-fast-wg-quick-config.file = ../../secrets/framework-pvpn-fast-wg-quick-config.age;
+    pvpn-fast-wg-quick-config.file = ../../secrets/framework-pvpn-fast-wg-quick-config.age;
   };
 
   users.users = {
@@ -62,14 +62,13 @@
   boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
 
   networking = {
-    hostName = "framework";
     firewall = {
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
     wg-quick.interfaces = {
       pvpn-fast = {
-        configFile = config.age.secrets.framework-pvpn-fast-wg-quick-config.path;
+        configFile = config.age.secrets.pvpn-fast-wg-quick-config.path;
         autostart = true;
       };
     };
