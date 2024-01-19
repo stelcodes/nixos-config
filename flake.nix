@@ -107,11 +107,11 @@
           system = "x86_64-linux";
         };
         # raspberry pi 3B+
-        olette = nixosMachine {
-          hostName = "olette";
+        boko = nixosMachine {
+          hostName = "boko";
           system = "aarch64-linux";
         };
-        # minimal server build
+        # basic virtual machine for experimenting
         sandbox = nixosMachine {
           hostName = "sandbox";
           system = "x86_64-linux";
