@@ -102,8 +102,8 @@
           system = "x86_64-linux";
         };
         # mac mini 2011 beatrix
-        kairi = nixosMachine {
-          hostName = "kairi";
+        beatrix = nixosMachine {
+          hostName = "beatrix";
           system = "x86_64-linux";
         };
         # raspberry pi 3B+
