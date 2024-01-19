@@ -13,4 +13,10 @@
       pkgs.retroarch-loaded
     ];
   };
+  wayland.windowManager.sway = {
+    wallpaper = pkgs.fetchurl {
+      url = "https://i.imgur.com/lR2iapT.jpg";
+      hash = "sha256-JtY6vWns88mZ29fuYBYZO1NoD+O1YxPb9EBfotv7yb0=";
+    };
+  };
 }

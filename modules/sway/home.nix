@@ -1,6 +1,7 @@
 { pkgs, lib, config, systemConfig, ... }:
 let
   theme = systemConfig.theme.set;
+  wallpaper = config.wayland.windowManager.sway.wallpaper;
   viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
   modifier = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
@@ -31,6 +32,14 @@ let
   };
 in
 {
+
+  options = {
+    wayland.windowManager.sway.wallpaper = lib.mkOption {
+      type = lib.types.nullOr lib.types.package;
+      default = null;
+    };
+  };
+
   config = lib.mkIf systemConfig.profile.graphical {
 
     home.packages = [
@@ -205,7 +214,9 @@ in
           };
         };
         output = {
-          "*" = { background = "~/.wallpaper fill ${theme.bg}"; };
+          "*" = {
+            background = if (wallpaper != null) then "${wallpaper} fill ${theme.bg}" else "${theme.bg} solid_color";
+          };
           # Framework screen
           "BOE 0x095F Unknown" = {
             scale = "1.6";
@@ -408,7 +419,7 @@ in
       enable = true;
       settings = {
         color = theme.bgx;
-        image = "~/.wallpaper";
+        image = lib.mkIf (wallpaper != null) "${wallpaper}";
         font-size = 24;
         indicator-idle-visible = false;
         indicator-radius = 100;

@@ -134,6 +134,12 @@ This music sources don't purge missing tracks even when cleaned so you have to r
 
 `pkgs.appimage-run`
 
+## Wallpapers
+
+https://github.com/kitsunebishi/Wallpapers
+
+https://imgur.com/upload
+
 ## Other Links
 
 https://librearts.org/

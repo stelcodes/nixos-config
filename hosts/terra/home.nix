@@ -15,7 +15,13 @@
       pkgs.discord-firefox
     ];
   };
-  wayland.windowManager.sway.config.workspaceOutputAssign = [
-    { output = "HDMI-A-1"; workspace = "5"; }
-  ];
+  wayland.windowManager.sway = {
+    config.workspaceOutputAssign = [
+      { output = "HDMI-A-1"; workspace = "5"; }
+    ];
+    wallpaper = pkgs.fetchurl {
+      url = "https://i.imgur.com/NnXQqDZ.jpg";
+      hash = "sha256-yth6v4M5UhXkxQ/bfd3iwFRi0FDGIjcqR37737D8P5w=";
+    };
+  };
 }
