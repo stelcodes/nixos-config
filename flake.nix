@@ -1,8 +1,4 @@
 {
-  # https://nixos-and-flakes.thiscute.world
-  # https://www.nixhub.io/
-  # https://docs.kernel.org/admin-guide/kernel-parameters.html
-  # https://nixpk.gs/pr-tracker.html
   # nix-repl> :lf .
   # nix-repl> pkgs = import inputs.nixpkgs { system = builtins.currentSystem; }
 
@@ -90,29 +86,24 @@
           };
       in
       {
-        # 12th gen intel framework laptop
+        # 12th gen intel framework laptop kairi
         framework = nixosMachine {
           hostName = "framework";
           system = "x86_64-linux";
         };
-        # desktop tower
+        # desktop tower terra
         meshify = nixosMachine {
           hostName = "meshify";
           system = "x86_64-linux";
         };
-        # 2013 macbook air
+        # 2013 macbook air yuffie
         macbook = nixosMachine {
           hostName = "macbook";
           system = "x86_64-linux";
         };
-        # cloud vps
+        # mac mini 2011 beatrix
         kairi = nixosMachine {
           hostName = "kairi";
-          system = "x86_64-linux";
-        };
-        # minimal server build
-        minimal = nixosMachine {
-          hostName = "minimal";
           system = "x86_64-linux";
         };
         # raspberry pi 3B+
@@ -120,11 +111,12 @@
           hostName = "olette";
           system = "aarch64-linux";
         };
-        installer-base = inputs.nixpkgs.lib.nixosSystem {
-          # nix build .#nixosConfigurations.installer-base.config.formats.install-iso
-          # nix build .#nixosConfigurations.installer-base.config.formats.install-iso-gnome
-          # nix build .#nixosConfigurations.installer-base.config.formats.install-iso-plasma
-          # ssh into virtual machine by getting ip address (ip a) and ssh@
+        # minimal server build
+        minimal = nixosMachine {
+          hostName = "minimal";
+          system = "x86_64-linux";
+        };
+        installer = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             inputs.self.nixosModules.generators-custom-formats
