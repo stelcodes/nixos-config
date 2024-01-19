@@ -10,7 +10,6 @@
       pkgs.spice-protocol
       pkgs.win-virtio
       pkgs.win-spice
-      pkgs.gnome.adwaita-icon-theme # Do I need this?
     ];
 
     hardware = {

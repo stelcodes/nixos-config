@@ -79,7 +79,7 @@ in
         export GDK_DPI_SCALE=-1
         # Forgot what graphical program is being run from systemd user service
         # Could use systemd.user.extraConfig = '''DefaultEnvironment="GDK_DPI_SCALE=-1"'''
-        ${pkgs.systemd}/bin/systemctl --user import-environment GDK_DPI_SCALE
+        systemctl --user import-environment GDK_DPI_SCALE
       '';
       config = {
         terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
@@ -135,30 +135,30 @@ in
             "${modifier}+Shift+Up" = "move window to output up";
             "${modifier}+Shift+Down" = "move window to output down";
             "${modifier}+tab" = "workspace back_and_forth";
-            "${modifier}+Shift+tab" = "exec ${cycle-sway-output}/bin/cycle-sway-output";
+            "${modifier}+Shift+tab" = "exec ${lib.getExe cycle-sway-output}";
             "${modifier}+grave" = "exec wofi-emoji";
-            "${modifier}+Shift+r" = "reload; exec ${pkgs.systemd}/bin/systemctl --user restart waybar";
+            "${modifier}+Shift+r" = "reload; exec systemctl --user restart waybar";
             "${modifier}+r" = "mode resize";
-            "${modifier}+c" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
-            "${modifier}+t" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id thunar -- ${pkgs.xfce.thunar}/bin/thunar";
-            "${modifier}+g" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id gnome-disks -- ${pkgs.gnome.gnome-disk-utility}/bin/gnome-disks";
-            "${modifier}+Shift+d" = "exec ${pkgs.wofi}/bin/wofi --show drun --width 800 --height 400 --term foot";
+            "${modifier}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
+            "${modifier}+t" = "exec ${lib.getExe toggle-sway-window} --id thunar -- thunar";
+            "${modifier}+g" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
+            "${modifier}+Shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
             "${modifier}+Shift+c" = "exec rebuild";
             "${modifier}+backspace" = "exec firefox";
             "${modifier}+Shift+backspace" = "exec firefox --private-window";
             "${modifier}+n" = "exec makoctl dismiss --all";
-            "${modifier}+p" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id pavucontrol -- ${pkgs.pavucontrol}/bin/pavucontrol";
-            "${modifier}+Shift+p" = "exec ${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
+            "${modifier}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol -- pavucontrol";
+            "${modifier}+Shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
             "${modifier}+less" = "focus parent";
             "${modifier}+greater" = "focus child";
             "${modifier}+semicolon" = "layout toggle split tabbed stacking";
             "${modifier}+apostrophe" = "split toggle";
-            "${modifier}+backslash" = "exec ${cycle-sway-scale}/bin/cycle-sway-scale";
-            "${modifier}+bar" = "exec ${pkgs.toggle-service}/bin/toggle-service wlsunset";
-            "${modifier}+v" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id org.keepassxc.KeePassXC -- ${pkgs.keepassxc}/bin/keepassxc";
-            "${modifier}+delete" = "exec ${pkgs.swaylock}/bin/swaylock";
-            "${modifier}+b" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id .blueman-manager-wrapped -- ${pkgs.blueman}/bin/blueman-manager";
-            "${modifier}+m" = "exec ${toggle-sway-window}/bin/toggle-sway-window --id system_monitor -- ${pkgs.foot}/bin/foot --app-id=system_monitor ${pkgs.btop}/bin/btop";
+            "${modifier}+backslash" = "exec ${lib.getExe cycle-sway-scale}";
+            "${modifier}+bar" = "exec ${lib.getExe pkgs.toggle-service} wlsunset";
+            "${modifier}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC -- keepassxc";
+            "${modifier}+delete" = "exec swaylock";
+            "${modifier}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped -- blueman-manager";
+            "${modifier}+m" = "exec ${lib.getExe toggle-sway-window} --id system_monitor -- foot --app-id=system_monitor btop";
             XF86MonBrightnessDown = "exec brightnessctl set 5%-";
             XF86MonBrightnessUp = "exec brightnessctl set +5%";
             XF86AudioPrev = "exec playerctl previous";
@@ -167,15 +167,15 @@ in
             XF86AudioMute = "exec pamixer --toggle-mute";
             XF86AudioLowerVolume = "exec pamixer --decrease 5";
             XF86AudioRaiseVolume = "exec pamixer --increase 5";
-            "${modifier}+Print" = let app = pkgs.writeShellApplication {
+            "${modifier}+Print" = "exec " + lib.getExe (pkgs.writeShellApplication {
               name = "sway-screenshot-selection";
               runtimeInputs = [ pkgs.coreutils-full pkgs.slurp pkgs.grim pkgs.swappy ];
               text = ''
                 mkdir -p "$XDG_PICTURES_DIR/screenshots"
                 grim -g "$(slurp)" - | swappy -f -
               '';
-            }; in "exec ${app}/bin/sway-screenshot-selection";
-            Print = let app = pkgs.writeShellApplication {
+            });
+            Print = "exec " + lib.getExe (pkgs.writeShellApplication {
               name = "sway-screenshot";
               runtimeInputs = [ pkgs.coreutils-full pkgs.sway pkgs.jq pkgs.grim pkgs.swappy ];
               text = ''
@@ -183,7 +183,7 @@ in
                 current_output=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
                 grim -o "$current_output" - | swappy -f -
               '';
-            }; in "exec ${app}/bin/sway-screenshot";
+            });
           };
         modes = pkgs.lib.mkOptionDefault {
           resize = {
@@ -219,11 +219,11 @@ in
         };
         startup = [
           # Import sway-related environment variables into systemd user services
-          { command = "${pkgs.systemd}/bin/systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK DISPLAY"; }
+          { command = "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK DISPLAY"; }
           # Kill tmux so all shell environments contain sway-related environment variables
-          { command = "${pkgs.tmux}/bin/tmux kill-server"; }
-          { command = "${pkgs.systemd}/bin/systemctl is-active syncthing.service && ${pkgs.systemd}/bin/systemctl --user start syncthing-tray.service"; always = true; }
-          { command = "${pkgs.systemd}/bin/systemctl --user is-active waybar || ${pkgs.systemd}/bin/systemctl --user restart waybar"; always = true; }
+          { command = "tmux kill-server"; }
+          { command = "systemctl is-active syncthing.service && systemctl --user start syncthing-tray.service"; always = true; }
+          { command = "systemctl --user is-active waybar || systemctl --user restart waybar"; always = true; }
         ];
       };
       extraConfig = ''
@@ -238,7 +238,7 @@ in
         bindsym button2 kill
         bindsym --locked ${modifier}+o output eDP-1 toggle
         bindsym --locked ${modifier}+Shift+o output eDP-1 power toggle
-        bindsym --locked ${modifier}+Shift+delete exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
+        bindsym --locked ${modifier}+Shift+delete exec systemctl suspend-then-hibernate
         for_window [title=".*"] inhibit_idle fullscreen
         for_window [app_id=org.gnome.Calculator] floating enable
         for_window [class=REAPER] floating enable
@@ -288,7 +288,7 @@ in
     };
 
     systemd.user.services = {
-      swayidle.Service.ExecStop = let app = pkgs.writeShellApplication {
+      swayidle.Service.ExecStop = lib.getExe (pkgs.writeShellApplication {
         name = "swayidle-cleanup";
         runtimeInputs = [ pkgs.coreutils ];
         text = ''
@@ -297,7 +297,7 @@ in
             rm "$BLOCKFILE"
           fi
         '';
-      }; in "${app}/bin/swayidle-cleanup";
+      });
 
       polkit-gnome = {
         Unit = {
@@ -317,7 +317,7 @@ in
           Description = "Simple tray for syncthing file sync service";
         };
         Service = {
-          ExecStart = "${pkgs.syncthing-tray}/bin/syncthing-tray -api 'st:${systemConfig.admin.username}@${systemConfig.networking.hostName}'";
+          ExecStart = "${lib.getExe pkgs.syncthing-tray} -api 'st:${systemConfig.admin.username}@${systemConfig.networking.hostName}'";
           Restart = "always";
         };
         Install = {
@@ -333,11 +333,11 @@ in
         events = [
           {
             event = "before-sleep";
-            command = "${pkgs.tmux-snapshot}/bin/tmux-snapshot; ${pkgs.swaylock}/bin/swaylock --daemonize; ${pkgs.sway}/bin/swaymsg 'output * power off'";
+            command = "${lib.getExe pkgs.tmux-snapshot}; ${lib.getExe pkgs.swaylock} --daemonize; ${pkgs.sway}/bin/swaymsg 'output * power off'";
           }
           {
             event = "after-resume";
-            command = "test -f $HOME/.local/share/pomo && ${pkgs.pomo}/bin/pomo start; ${pkgs.sway}/bin/swaymsg 'output * power on'";
+            command = "test -f $HOME/.local/share/pomo && ${lib.getExe pkgs.pomo} start; ${pkgs.sway}/bin/swaymsg 'output * power on'";
           }
         ];
         timeouts = [
@@ -479,7 +479,7 @@ in
           # 󰦞 󰦝 shield
           # 󱓣 󰜗 snowflake
           exec = "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣'; else echo '󰜗'; fi";
-          on-click = let app = pkgs.writeShellApplication {
+          on-click = lib.getExe (pkgs.writeShellApplication {
             name = "toggle-idle-sleep-lock";
             runtimeInputs = [ pkgs.coreutils ];
             text = ''
@@ -490,12 +490,12 @@ in
                 touch "$BLOCKFILE"
               fi
             '';
-          }; in "${app}/bin/toggle-idle-sleep-lock";
+          });
         };
         "custom/wlsunset" = {
-          exec = "if ${pkgs.systemd}/bin/systemctl --user --quiet is-active wlsunset.service; then echo ''; else echo ''; fi";
+          exec = "if systemctl --user --quiet is-active wlsunset.service; then echo ''; else echo ''; fi";
           interval = 2;
-          on-click = "${pkgs.toggle-service}/bin/toggle-service wlsunset";
+          on-click = "${lib.getExe pkgs.toggle-service} wlsunset";
           # This doesn't actually work because the only way to have dynamic tooltips is to use json mode
           # tooltip-format = "${pkgs.writers.writeFish "wlsunset-temp" ''
           #   journalctl --user -ex --unit wlsunset.service | tail | string match --regex "\d{4} K" | tail -1
@@ -523,7 +523,7 @@ in
         cpu = {
           interval = 10;
           format = "{usage} ";
-          on-click = "${pkgs.foot}/bin/foot --app-id=system_monitor ${pkgs.btop}/bin/btop";
+          on-click = "${pkgs.foot}/bin/foot --app-id=system_monitor btop";
         };
         memory = {
           interval = 30;
@@ -536,7 +536,7 @@ in
         bluetooth = {
           format = "";
           format-on = "󰂲";
-          on-click = "${pkgs.blueman}/bin/blueman-manager";
+          on-click = "blueman-manager";
         };
         "network#1" = {
           max-length = 60;
@@ -546,7 +546,7 @@ in
           format-disconnected = "";
           format-wifi = "";
           tooltip-format = "{essid} {frequency}GHz {signalStrength}%";
-          on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
+          on-click = "${pkgs.foot}/bin/foot --app-id=nmtui nmtui";
         };
         "network#2" = {
           max-length = 60;
@@ -554,15 +554,15 @@ in
           format = "";
           tooltip-format = "{essid}";
           format-disconnected = "";
-          on-click = "${pkgs.foot}/bin/foot --app-id=nmtui ${pkgs.networkmanager}/bin/nmtui";
+          on-click = "${pkgs.foot}/bin/foot --app-id=nmtui nmtui";
         };
         wireplumber = {
           format = "{node_name} {volume} {icon}";
           format-muted = "{volume} ";
           format-icons = { default = [ "" "" ]; };
-          on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
-          on-click-right = "${pkgs.cycle-pulse-sink}/bin/cycle-pulse-sink";
-          on-click-middle = "${pkgs.helvum}/bin/helvum";
+          on-click = "pavucontrol";
+          on-click-right = "cycle-pulse-sink";
+          on-click-middle = "helvum";
           max-volume = 100;
           scroll-step = 5;
         };

@@ -49,7 +49,7 @@ in
         pkgs.audacious
         pkgs.gnome.eog
         pkgs.qalculate-gtk
-        pkgs.qpwgraph
+        pkgs.helvum # better looking than qpwgraph
       ];
     };
 
