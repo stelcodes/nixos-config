@@ -148,13 +148,13 @@ in
             "${modifier}+Shift+r" = "reload; exec systemctl --user restart waybar";
             "${modifier}+r" = "mode resize";
             "${modifier}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
-            "${modifier}+t" = "exec ${lib.getExe toggle-sway-window} --id thunar -- thunar";
             "${modifier}+g" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
             "${modifier}+Shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
             "${modifier}+Shift+c" = "exec rebuild";
             "${modifier}+backspace" = "exec firefox";
             "${modifier}+Shift+backspace" = "exec firefox --private-window";
-            "${modifier}+n" = "exec makoctl dismiss --all";
+            "${modifier}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn -- foot --app-id=nnn fish -c n ~";
+            "${modifier}+Shift+n" = "exec makoctl dismiss --all";
             "${modifier}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol -- pavucontrol";
             "${modifier}+Shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
             "${modifier}+less" = "focus parent";
@@ -260,7 +260,7 @@ in
         for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.rncbc.qpwgraph] floating enable
-        for_window [app_id=thunar] floating enable
+        for_window [app_id=nnn] floating enable
         for_window [app_id=gnome-disks] floating enable
         # Workaround for Bitwig moving itself to current workspace when scale changes
         for_window [app_id=obsidian] move container to workspace 3

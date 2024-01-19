@@ -240,7 +240,6 @@ in
         "application/pdf" = [ "firefox.desktop" ];
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
-        "inode/directory" = [ "thunar.desktop" ];
         "application/bzip2" = [ "org.gnome.FileRoller.desktop" ];
         "application/gzip" = [ "org.gnome.FileRoller.desktop" ];
         "application/vnd.android.package-archive" = [ "org.gnome.FileRoller.desktop" ];

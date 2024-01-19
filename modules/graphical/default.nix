@@ -211,16 +211,6 @@
           UserAgentReduction = 2;
         };
       };
-
-      thunar = {
-        enable = true;
-        plugins = [
-          pkgs.xfce.thunar-archive-plugin
-          pkgs.xfce.thunar-volman
-        ];
-      };
-
-      file-roller.enable = true;
     };
 
     services = {
@@ -241,14 +231,9 @@
         xkbVariant = pkgs.lib.mkDefault "";
         xkbOptions = pkgs.lib.mkDefault "caps:escape_shifted_capslock,altwin:swap_alt_win";
         libinput.enable = true;
-        # desktopManager.cinnamon.enable = true;
       };
 
       gnome.gnome-keyring.enable = true;
-
-      # For thunar https://nixos.wiki/wiki/Thunar
-      gvfs.enable = true;
-      tumbler.enable = true;
 
       spice-vdagentd.enable = config.profile.virtualHost;
     };
