@@ -369,17 +369,29 @@ in
       };
     };
 
-    systemd.user.services.pomo-notify = {
-      Unit = {
-        Description = "pomo.sh notify daemon";
+    systemd.user.services = {
+      audacious = {
+        Unit = {
+          Description = "audacious music player";
+        };
+        Service = {
+          ExecStart = lib.getExe pkgs.audacious;
+          ExecStartPost = "-${pkgs.sway}/bin/swaymsg for_window [app_id=audacious] move scratchpad";
+          Restart = "on-failure";
+        };
       };
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.pomo}/bin/pomo notify";
-        Restart = "always";
-      };
-      Install = {
-        WantedBy = [ "default.target" ];
+      pomo-notify = {
+        Unit = {
+          Description = "pomo.sh notify daemon";
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.pomo}/bin/pomo notify";
+          Restart = "always";
+        };
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
       };
     };
 

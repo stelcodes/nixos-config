@@ -1,5 +1,8 @@
 # Enqueues the selection or the hovered file if nothing is selected and ensures playback
 
+# Try to start audacious service to create totally independent process
+systemctl --user start audacious.service || true
+
 SEL=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 FLAG="--enqueue-to-temp"
 
