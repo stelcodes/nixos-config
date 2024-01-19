@@ -3,7 +3,7 @@ let
   theme = systemConfig.theme.set;
   wallpaper = config.wayland.windowManager.sway.wallpaper;
   viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
-  modifier = "Mod4";
+  mod = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
   # Apple keyboard, I have to create a new rule for each Apple keyboard I use.
   appleKeyboardIdentifiers = [
@@ -90,9 +90,6 @@ in
         systemctl --user import-environment GDK_DPI_SCALE
       '';
       config = {
-        terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
-        menu = ""; # Not using this and I don't want the default with hardcoded dmenu
-        modifier = modifier;
         fonts = {
           names = [ "FiraMono Nerd Font" ];
           style = "Regular";
@@ -127,74 +124,112 @@ in
           border = 1;
         };
         workspaceLayout = "tabbed";
-        keybindings =
-          lib.mkOptionDefault {
-            # Use "Shift" to properly override defaults
-            "${modifier}+space" = "exec wofi --show run --width 800 --height 400 --term foot";
-            "${modifier}+Shift+space" = "exec wofi --show drun --width 800 --height 400 --term foot";
-            "${modifier}+Shift+h" = "move left";
-            "${modifier}+Shift+l" = "move right";
-            "${modifier}+Shift+k" = "move up";
-            "${modifier}+Shift+j" = "move down";
-            "${modifier}+Left" = "focus output left";
-            "${modifier}+Right" = "focus output right";
-            "${modifier}+Up" = "focus output up";
-            "${modifier}+Down" = "focus output down";
-            "${modifier}+Shift+Left" = "move window to output left";
-            "${modifier}+Shift+Right" = "move window to output right";
-            "${modifier}+Shift+Up" = "move window to output up";
-            "${modifier}+Shift+Down" = "move window to output down";
-            "${modifier}+tab" = "workspace back_and_forth";
-            "${modifier}+Shift+tab" = "exec ${lib.getExe cycle-sway-output}";
-            "${modifier}+grave" = "exec wofi-emoji";
-            "${modifier}+Shift+r" = "reload; exec systemctl --user restart waybar";
-            "${modifier}+r" = "mode resize";
-            "${modifier}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
-            "${modifier}+d" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
-            "${modifier}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious -- audacious";
-            "${modifier}+Shift+c" = "exec rebuild";
-            "${modifier}+backspace" = "exec firefox";
-            "${modifier}+Shift+backspace" = "exec firefox --private-window";
-            "${modifier}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn -- foot --app-id=nnn fish -c n ~";
-            "${modifier}+Shift+n" = "exec makoctl dismiss --all";
-            "${modifier}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol -- pavucontrol";
-            "${modifier}+Shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
-            "${modifier}+less" = "focus parent";
-            "${modifier}+greater" = "focus child";
-            "${modifier}+semicolon" = "layout toggle split tabbed stacking";
-            "${modifier}+apostrophe" = "split toggle";
-            "${modifier}+backslash" = "exec ${lib.getExe cycle-sway-scale}";
-            "${modifier}+bar" = "exec ${lib.getExe pkgs.toggle-service} wlsunset";
-            "${modifier}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC -- keepassxc";
-            "${modifier}+delete" = "exec swaylock";
-            "${modifier}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped -- blueman-manager";
-            "${modifier}+t" = "exec ${lib.getExe toggle-sway-window} --id btop -- foot --app-id=btop btop";
-            XF86MonBrightnessDown = "exec brightnessctl set 5%-";
-            XF86MonBrightnessUp = "exec brightnessctl set +5%";
-            XF86AudioPrev = "exec playerctl previous";
-            XF86AudioPlay = "exec playerctl play-pause";
-            XF86AudioNext = "exec playerctl next";
-            XF86AudioMute = "exec pamixer --toggle-mute";
-            XF86AudioLowerVolume = "exec pamixer --decrease 5";
-            XF86AudioRaiseVolume = "exec pamixer --increase 5";
-            "${modifier}+Print" = "exec " + lib.getExe (pkgs.writeShellApplication {
-              name = "sway-screenshot-selection";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.slurp pkgs.grim pkgs.swappy ];
-              text = ''
-                mkdir -p "$XDG_PICTURES_DIR/screenshots"
-                grim -g "$(slurp)" - | swappy -f -
-              '';
-            });
-            Print = "exec " + lib.getExe (pkgs.writeShellApplication {
-              name = "sway-screenshot";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.sway pkgs.jq pkgs.grim pkgs.swappy ];
-              text = ''
-                mkdir -p "$XDG_PICTURES_DIR/screenshots"
-                current_output=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
-                grim -o "$current_output" - | swappy -f -
-              '';
-            });
-          };
+        keybindings = {
+          # Default keymaps
+          "${mod}+h" = "focus left";
+          "${mod}+j" = "focus down";
+          "${mod}+k" = "focus up";
+          "${mod}+l" = "focus right";
+          "${mod}+shift+h" = "move left";
+          "${mod}+shift+l" = "move right";
+          "${mod}+shift+k" = "move up";
+          "${mod}+shift+j" = "move down";
+          "${mod}+shift+q" = "kill";
+          "${mod}+f" = "fullscreen toggle";
+          "${mod}+s" = "layout stacking";
+          "${mod}+w" = "layout tabbed";
+          "${mod}+e" = "layout toggle split";
+          "${mod}+shift+space" = "floating toggle";
+          "${mod}+space" = "focus mode_toggle";
+          "${mod}+1" = "workspace number 1";
+          "${mod}+2" = "workspace number 2";
+          "${mod}+3" = "workspace number 3";
+          "${mod}+4" = "workspace number 4";
+          "${mod}+5" = "workspace number 5";
+          "${mod}+6" = "workspace number 6";
+          "${mod}+7" = "workspace number 7";
+          "${mod}+8" = "workspace number 8";
+          "${mod}+9" = "workspace number 9";
+          "${mod}+shift+1" = "move container to workspace number 1";
+          "${mod}+shift+2" = "move container to workspace number 2";
+          "${mod}+shift+3" = "move container to workspace number 3";
+          "${mod}+shift+4" = "move container to workspace number 4";
+          "${mod}+shift+5" = "move container to workspace number 5";
+          "${mod}+shift+6" = "move container to workspace number 6";
+          "${mod}+shift+7" = "move container to workspace number 7";
+          "${mod}+shift+8" = "move container to workspace number 8";
+          "${mod}+shift+9" = "move container to workspace number 9";
+          "${mod}+shift+minus" = "move scratchpad";
+          "${mod}+minus" = "scratchpad show";
+          "${mod}+r" = "mode resize";
+
+          # Custom sway-specific keymaps
+          "${mod}+left" = "focus output left";
+          "${mod}+down" = "focus output down";
+          "${mod}+up" = "focus output up";
+          "${mod}+right" = "focus output right";
+          "${mod}+shift+left" = "move window to output left";
+          "${mod}+shift+down" = "move window to output down";
+          "${mod}+shift+up" = "move window to output up";
+          "${mod}+shift+right" = "move window to output right";
+          "${mod}+tab" = "workspace back_and_forth";
+          "${mod}+less" = "focus parent";
+          "${mod}+greater" = "focus child";
+          "${mod}+semicolon" = "layout toggle split tabbed stacking";
+          "${mod}+apostrophe" = "split toggle";
+          "${mod}+shift+tab" = "exec ${lib.getExe cycle-sway-output}";
+          "${mod}+shift+r" = "reload; exec systemctl --user restart waybar";
+          "${mod}+shift+e" = "exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'";
+
+          # Custom external program keymaps
+          "${mod}+return" = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
+          "${mod}+m" = "exec wofi --show run --width 800 --height 400 --term foot";
+          "${mod}+shift+m" = "exec wofi --show drun --width 800 --height 400 --term foot";
+          "${mod}+backspace" = "exec firefox";
+          "${mod}+shift+backspace" = "exec firefox --private-window";
+          "${mod}+grave" = "exec wofi-emoji";
+          "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
+          "${mod}+shift+c" = "exec rebuild";
+          "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn -- foot --app-id=nnn fish -c n ~";
+          "${mod}+shift+n" = "exec makoctl dismiss --all";
+          "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol -- pavucontrol";
+          "${mod}+shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
+          "${mod}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious -- audacious";
+          "${mod}+d" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
+          "${mod}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC -- keepassxc";
+          "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped -- blueman-manager";
+          "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop -- foot --app-id=btop btop";
+          "${mod}+backslash" = "exec ${lib.getExe cycle-sway-scale}";
+          "${mod}+bar" = "exec ${lib.getExe pkgs.toggle-service} wlsunset";
+          "${mod}+delete" = "exec swaylock";
+
+          # Function key keymaps
+          XF86MonBrightnessDown = "exec brightnessctl set 5%-";
+          XF86MonBrightnessUp = "exec brightnessctl set +5%";
+          XF86AudioPrev = "exec playerctl previous";
+          XF86AudioPlay = "exec playerctl play-pause";
+          XF86AudioNext = "exec playerctl next";
+          XF86AudioMute = "exec pamixer --toggle-mute";
+          XF86AudioLowerVolume = "exec pamixer --decrease 5";
+          XF86AudioRaiseVolume = "exec pamixer --increase 5";
+          "${mod}+Print" = "exec " + lib.getExe (pkgs.writeShellApplication {
+            name = "sway-screenshot-selection";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.slurp pkgs.grim pkgs.swappy ];
+            text = ''
+              mkdir -p "$XDG_PICTURES_DIR/screenshots"
+              grim -g "$(slurp)" - | swappy -f -
+            '';
+          });
+          Print = "exec " + lib.getExe (pkgs.writeShellApplication {
+            name = "sway-screenshot";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.sway pkgs.jq pkgs.grim pkgs.swappy ];
+            text = ''
+              mkdir -p "$XDG_PICTURES_DIR/screenshots"
+              current_output=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+              grim -o "$current_output" - | swappy -f -
+            '';
+          });
+        };
         modes = pkgs.lib.mkOptionDefault {
           resize = {
             "r" = "resize set width 80 ppt height 90 ppt, move position center";
@@ -248,9 +283,9 @@ in
         bindswitch lid:off output * power off
         # Middle-click on a window title bar kills it
         bindsym button2 kill
-        bindsym --locked ${modifier}+o output eDP-1 toggle
-        bindsym --locked ${modifier}+Shift+o output eDP-1 power toggle
-        bindsym --locked ${modifier}+Shift+delete exec systemctl suspend-then-hibernate
+        bindsym --locked ${mod}+o output eDP-1 toggle
+        bindsym --locked ${mod}+shift+o output eDP-1 power toggle
+        bindsym --locked ${mod}+shift+delete exec systemctl suspend-then-hibernate
         for_window [title=".*"] inhibit_idle fullscreen
         for_window [app_id=org.gnome.Calculator] floating enable
         for_window [class=REAPER] floating enable
@@ -258,7 +293,7 @@ in
         for_window [app_id=qalculate-gtk] floating enable
         for_window [app_id=\.?blueman-manager(-wrapped)?] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=nixos_rebuild_log] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=system_monitor] floating enable, resize set width 80 ppt height 80 ppt, move position center
+        for_window [app_id=btop] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.rncbc.qpwgraph] floating enable
