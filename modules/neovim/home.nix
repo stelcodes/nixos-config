@@ -74,7 +74,16 @@ in
           plugin = pkgs.vimPlugins.vim-fugitive;
           type = "lua";
           config = /* lua */ ''
-            vim.keymap.set('n', '<c-g>', '<cmd>Git<cr><c-w>H<cmd>vertical resize 80<cr>')
+            local toggle_fugitive = function()
+              if vim.bo.filetype == "fugitive" then
+                vim.cmd "wincmd q"
+              else
+                vim.cmd "Git"
+                vim.cmd "wincmd H"
+                vim.cmd "vertical resize 70"
+              end
+            end
+            vim.keymap.set('n', '<c-g>', toggle_fugitive)
             vim.keymap.set('n', '<leader>gD', '<cmd>Git difftool<cr>')
           '';
         }
