@@ -16,15 +16,54 @@ https://github.com/LongerHV/nixos-configuration
 
 https://github.com/TLATER/dotfiles
 
-## Essential Nix Resources
+## Essential Resources
+
+### Nix
 
 https://search.nixos.org
 
 https://noogle.dev
 
+https://nixos-and-flakes.thiscute.world
+
+https://www.nixhub.io/
+
+https://nixpk.gs/pr-tracker.html
+
 ```
 man configuration.nix
 man home-configuration.nix
+```
+
+### Linux
+
+https://docs.kernel.org/admin-guide/kernel-parameters.html
+
+## Installer Media
+```
+nix build .#nixosConfigurations.installer-base.config.formats.install-iso
+nix build .#nixosConfigurations.installer-base.config.formats.install-iso-gnome
+nix build .#nixosConfigurations.installer-base.config.formats.install-iso-plasma
+```
+
+
+## Virtualisation
+
+build vm image:
+```
+nixos-rebuild build-vm-with-bootloader --flake "$HOME/nixos-config#hostname"
+```
+
+test ssh:
+```
+QEMU_NET_OPTS='hostfwd=tcp::2222-:22' <vm_start_script>
+```
+
+ssh into virtual machine by getting ip address (ip a) and `ssh <user>@ip`.
+
+build digital ocean droplet image:
+```
+nix build .#nixosConfigurations.hostname.config.formats.do
 ```
 
 ## Wayland
