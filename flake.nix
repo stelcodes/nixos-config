@@ -112,8 +112,8 @@
           system = "aarch64-linux";
         };
         # minimal server build
-        minimal = nixosMachine {
-          hostName = "minimal";
+        sandbox = nixosMachine {
+          hostName = "sandbox";
           system = "x86_64-linux";
         };
         installer = inputs.nixpkgs.lib.nixosSystem {
