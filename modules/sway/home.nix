@@ -91,7 +91,7 @@ in
       '';
       config = {
         terminal = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
-        menu = "${pkgs.wofi}/bin/wofi --show run --width 800 --height 400 --term foot";
+        menu = ""; # Not using this and I don't want the default with hardcoded dmenu
         modifier = modifier;
         fonts = {
           names = [ "FiraMono Nerd Font" ];
@@ -130,6 +130,8 @@ in
         keybindings =
           lib.mkOptionDefault {
             # Use "Shift" to properly override defaults
+            "${modifier}+space" = "exec wofi --show run --width 800 --height 400 --term foot";
+            "${modifier}+Shift+space" = "exec wofi --show drun --width 800 --height 400 --term foot";
             "${modifier}+Shift+h" = "move left";
             "${modifier}+Shift+l" = "move right";
             "${modifier}+Shift+k" = "move up";
@@ -148,8 +150,8 @@ in
             "${modifier}+Shift+r" = "reload; exec systemctl --user restart waybar";
             "${modifier}+r" = "mode resize";
             "${modifier}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
-            "${modifier}+g" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
-            "${modifier}+Shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
+            "${modifier}+d" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
+            "${modifier}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious -- audacious";
             "${modifier}+Shift+c" = "exec rebuild";
             "${modifier}+backspace" = "exec firefox";
             "${modifier}+Shift+backspace" = "exec firefox --private-window";
@@ -166,7 +168,7 @@ in
             "${modifier}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC -- keepassxc";
             "${modifier}+delete" = "exec swaylock";
             "${modifier}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped -- blueman-manager";
-            "${modifier}+m" = "exec ${lib.getExe toggle-sway-window} --id system_monitor -- foot --app-id=system_monitor btop";
+            "${modifier}+t" = "exec ${lib.getExe toggle-sway-window} --id btop -- foot --app-id=btop btop";
             XF86MonBrightnessDown = "exec brightnessctl set 5%-";
             XF86MonBrightnessUp = "exec brightnessctl set +5%";
             XF86AudioPrev = "exec playerctl previous";
@@ -267,6 +269,7 @@ in
         for_window [app_id=org.libretro.RetroArch] move container to workspace 4
         for_window [class=com.bitwig.BitwigStudio] move container to workspace 4
         for_window [class=Kodi] move container to workspace 5
+        for_window [app_id=audacious] floating enable, resize set width 80 ppt height 80 ppt, move position center
       '';
       swaynag = {
         enable = true;
