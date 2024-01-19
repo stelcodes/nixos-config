@@ -40,7 +40,6 @@ in
       pkgs.playerctl
       pkgs.libinput
       pkgs.wev
-      pkgs.keepassxc
       pkgs.font-manager
       pkgs.wl-clipboard
       pkgs.wofi

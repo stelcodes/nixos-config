@@ -43,6 +43,7 @@ in
       packages = [
         # System tooling
         pkgs.gnome.gnome-disk-utility
+        pkgs.keepassxc
         # Media tooling
         pkgs.pavucontrol
         pkgs.mpv
