@@ -236,4 +236,7 @@ self: super: {
       ppsspp # psp
     ];
   };
+  syncthing-tray = super.syncthing-tray.overrideAttrs (final: prev: {
+    meta.mainProgram = "syncthing-tray";
+  });
 }

@@ -6,7 +6,7 @@
 , libnotify
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "pomo-sh";
   version = "unstable-2023-01-26";
 
@@ -35,11 +35,12 @@ stdenv.mkDerivation rec {
     wrapProgram $out/bin/pomo --prefix PATH : ${lib.makeBinPath [ coreutils libnotify ]}
   '';
 
-  meta = with lib; {
-    description = "A simple Pomodoro timer written in Bash ";
-    homepage = "https://github.com/jsspencer/pomo";
-    license = licenses.mit;
-    platforms = platforms.unix;
+  meta = {
+    description = "A simple Pomodoro timer written in Bash";
+    homepage = "https://github.com/stelcodes/pomo";
+    license = lib.licenses.mit;
+    platforms = lib.platforms.unix;
     maintainers = [ ];
+    mainProgram = "pomo";
   };
 }
