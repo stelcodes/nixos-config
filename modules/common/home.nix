@@ -248,7 +248,8 @@
         plugins = {
           mappings = {
             t = "preview-tui";
-            n = "-nvim-clean";
+            n = "!nvim*";
+            N = "nvim-clean";
             r = "rename-with-vimv";
             x = "delete-with-dua";
             p = "copy-with-rsync";
