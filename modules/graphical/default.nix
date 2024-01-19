@@ -244,10 +244,6 @@
         # desktopManager.cinnamon.enable = true;
       };
 
-      # Enable iOS devices to automatically connect
-      # Use idevice* commands like ideviceinfo
-      usbmuxd.enable = true;
-
       gnome.gnome-keyring.enable = true;
 
       # For thunar https://nixos.wiki/wiki/Thunar
@@ -271,62 +267,6 @@
         enable = true;
         wlr.enable = true;
       };
-    };
-
-    specialisation = {
-      # gnome.configuration = {
-      #   environment.gnome.excludePackages = with pkgs; [
-      #     gnome-tour
-      #     gnome-user-docs
-      #     orca
-      #     baobab
-      #     epiphany
-      #     gnome.gnome-backgrounds
-      #     gnome.gnome-color-manager
-      #     gnome.gnome-themes-extra
-      #     gnome.gnome-shell-extensions
-      #     gnome.yelp
-      #     gnome.cheese
-      #     gnome.gnome-contacts
-      #     gnome.gnome-music
-      #     gnome.gnome-system-monitor
-      #     gnome-text-editor
-      #     gnome.gnome-clocks
-      #     gnome.gnome-weather
-      #     gnome.gnome-maps
-      #     gnome.simple-scan
-      #     gnome.gnome-characters
-      #     gnome-connections
-      #     gnome.gnome-logs
-      #     gnome.totem
-      #     gnome.geary
-      #     gnome-photos
-      #     gnome.gnome-calendar
-      #   ];
-      #   services.xserver = {
-      #     autorun = true;
-      #     desktopManager.gnome.enable = true;
-      #   };
-      # };
-      # plasma.configuration = {
-      #   # X11 apps in Plasma wayland with fractional scaling are either blurry (global scaling) or scaled very small (app scaling)
-      #   # So plasma X11 is the only option for fractional scaling and I like cinnamon better
-      #   # environment.plasma5.excludePackages = [ ];
-      #   home-manager.users.${config.admin.username} = {
-      #     qt.enable = lib.mkForce false;
-      #   };
-      #   services = {
-      #     gnome.gnome-keyring.enable = lib.mkForce false;
-      #     xserver = {
-      #       autorun = true;
-      #       desktopManager.cinnamon.enable = lib.mkForce false;
-      #       desktopManager.plasma5 = {
-      #         enable = true;
-      #         # useQtScaling = true;
-      #       };
-      #     };
-      #   };
-      # };
     };
 
   };
