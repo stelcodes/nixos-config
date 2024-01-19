@@ -312,8 +312,23 @@ in
               quitcd = nil,        -- or "cd" / tcd" / "lcd", command to run on quitcd file if found
               offset = true,      -- whether or not to write position offset to tmpfile(for use in preview-tui)
             }
-            vim.keymap.set("n", "<leader>n", "<cmd>NnnPicker %:p:h<cr>")
-            vim.keymap.set("n", "<leader>N", "<cmd>NnnPicker<cr>")
+
+            local nnn_buffer_dir = function()
+              vim.fn.setreg("/", "")
+              if vim.bo.filetype == "fugitive" then
+                vim.cmd "NnnPicker"
+              else
+                vim.cmd "NnnPicker %:p:h"
+              end
+            end
+
+            local nnn_working_dir = function()
+              vim.fn.setreg("/", "")
+              vim.cmd "NnnPicker"
+            end
+
+            vim.keymap.set("n", "<leader>n", nnn_buffer_dir)
+            vim.keymap.set("n", "<leader>N", nnn_working_dir)
           '';
         }
 
