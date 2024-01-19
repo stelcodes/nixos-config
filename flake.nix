@@ -92,8 +92,8 @@
           system = "x86_64-linux";
         };
         # desktop tower terra
-        meshify = nixosMachine {
-          hostName = "meshify";
+        terra = nixosMachine {
+          hostName = "terra";
           system = "x86_64-linux";
         };
         # 2013 macbook air yuffie

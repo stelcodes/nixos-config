@@ -28,8 +28,8 @@
   };
 
   age.secrets = {
-    meshify-pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
-    meshify-pvpn-sc-wg-quick-config.file = ../../secrets/meshify-pvpn-sc-wg-quick-config.age;
+    pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
+    pvpn-sc-wg-quick-config.file = ../../secrets/meshify-pvpn-sc-wg-quick-config.age;
     root-password.file = ../../secrets/root-password.age;
     admin-password.file = ../../secrets/admin-password.age;
   };
@@ -58,11 +58,11 @@
     };
     wg-quick.interfaces = {
       pvpn-fast = {
-        configFile = config.age.secrets.meshify-pvpn-fast-wg-quick-config.path;
+        configFile = config.age.secrets.pvpn-fast-wg-quick-config.path;
         autostart = false;
       };
       pvpn-sc = {
-        configFile = config.age.secrets.meshify-pvpn-sc-wg-quick-config.path;
+        configFile = config.age.secrets.pvpn-sc-wg-quick-config.path;
         autostart = false;
       };
     };
