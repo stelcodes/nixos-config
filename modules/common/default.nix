@@ -9,6 +9,7 @@
     ../battery
     ../audio
     ../bluetooth
+    ../virtualisation
   ];
 
   options = {
@@ -307,17 +308,20 @@
       };
     };
 
-    virtualisation = lib.mkIf config.profile.virtualHost {
-      libvirtd = {
-        enable = true;
-        qemu = {
-          swtpm.enable = true;
-          ovmf.enable = true;
-          ovmf.packages = [ pkgs.OVMFFull.fd ];
-        };
+    virtualisation.vmVariant = {
+      profile.virtualHost = lib.mkForce false;
+      virtualisation = {
+        memorySize = 4096;
+        cores = 4;
       };
-      podman.enable = true;
-      spiceUSBRedirection.enable = true;
+      boot.initrd.secrets = lib.mkForce { };
+      services.syncthing.enable = lib.mkForce false;
+      boot.initrd.luks.devices = lib.mkForce { };
+      networking.wg-quick.interfaces = lib.mkForce { };
+      users.users = {
+        root.hashedPassword = lib.mkForce "$y$j9T$GAOQggBNWKTXXoCXQCGiw0$wVVmGFS2rI.9QDGe51MQHYcEr02FqHVJ1alHig9Y475";
+        ${config.admin.username}.hashedPassword = lib.mkForce "$y$j9T$GAOQggBNWKTXXoCXQCGiw0$wVVmGFS2rI.9QDGe51MQHYcEr02FqHVJ1alHig9Y475";
+      };
     };
 
     # I could do this to only create generations tied to specific commits but

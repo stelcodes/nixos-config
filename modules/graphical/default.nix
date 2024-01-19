@@ -2,16 +2,6 @@
 
   config = lib.mkIf config.profile.graphical {
 
-    environment.systemPackages = lib.lists.optionals config.profile.virtualHost [
-      pkgs.virt-manager
-      pkgs.virt-viewer
-      pkgs.spice
-      pkgs.spice-gtk
-      pkgs.spice-protocol
-      pkgs.win-virtio
-      pkgs.win-spice
-    ];
-
     hardware = {
       opengl = {
         enable = true;
