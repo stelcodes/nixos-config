@@ -16,8 +16,6 @@
   };
 
   hardware = {
-    bluetooth.enable = true;
-    opengl.enable = true;
     xpadneo.enable = true;
   };
 
@@ -36,6 +34,7 @@
     getty.autologinUser = "${config.admin.username}";
     syncthing = {
       enable = true;
+      selectedFolders = [ "default" "games" ];
     };
   };
 }

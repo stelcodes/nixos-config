@@ -47,7 +47,7 @@
   services = {
     syncthing = {
       enable = true;
-      selectedFolders = [ "default" ];
+      selectedFolders = [ "default" "games" ];
     };
     getty.autologinUser = config.admin.username;
   };

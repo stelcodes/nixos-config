@@ -3,26 +3,36 @@ let
   cfg = config.services.syncthing;
   dataDir = "/home/${config.admin.username}/sync";
   secretKey = "sync4life";
-  staggeredVersioning = {
+  staggeredVersioningYear = {
     type = "staggered";
     params = {
       cleanInterval = "43200"; # Cleanup versions every 12 hours
       maxAge = "31536000"; # Keep versions for up to a year
     };
   };
-  allDevices = {
+  staggeredVersioningMonth = {
+    type = "staggered";
+    params = {
+      cleanInterval = "43200"; # Cleanup versions every 12 hours
+      maxAge = "2592000"; # Keep versions for up to a month
+    };
+  };
+  devices = {
     yuffie.id = "G5Q3Q2S-6UCPWME-FPX4RSD-3AWNHAV-36BCGNE-HQ6NEV2-2LWC2MA-DUVQDQZ";
     aerith.id = "JUABVAR-HLJXGIQ-4OZHN2G-P3WJ64R-D77NR74-SOIIEEC-IL53S4S-BO6R7QE";
     terra.id = "HXMLVPE-DYRLXGQ-ZYBP7UK-G5AWL4U-B27PDUB-7EQHQY4-SZLROKY-4P54XQV";
     beatrix.id = "ZZTXMYW-7FC4BBY-4QHAB6R-2RCMQDT-SRTS3F7-ZZSL4WE-27P4Y46-5YC4CAZ";
   };
-  allOtherDevices = builtins.removeAttrs allDevices [ config.networking.hostName ];
-  allOtherDevicesNames = builtins.attrNames allOtherDevices;
-  allFolders = {
+  folders = {
     default = {
-      versioning = staggeredVersioning;
+      versioning = staggeredVersioningYear;
       path = "${dataDir}/default";
-      devices = allOtherDevicesNames;
+      devices = builtins.attrNames devices;
+    };
+    games = {
+      versioning = staggeredVersioningMonth;
+      path = "${dataDir}/games";
+      devices = [ "terra" "beatrix" ];
     };
   };
 in
@@ -30,7 +40,7 @@ in
   options = {
     services.syncthing.selectedFolders = lib.mkOption {
       description = "Folders to sync with syncthing";
-      type = lib.types.either (lib.types.enum [ "all" ]) (lib.types.listOf (lib.types.enum (builtins.attrNames allFolders)));
+      type = lib.types.listOf (lib.types.enum (builtins.attrNames folders));
       default = [ ];
     };
   };
@@ -38,7 +48,7 @@ in
     users.users.${config.admin.username}.packages = [ pkgs.syncthing ];
     services = {
       syncthing = {
-        inherit dataDir;
+        inherit dataDir devices;
         openDefaultPorts = true;
         user = config.admin.username;
         configDir = "/home/${config.admin.username}/.config/syncthing";
@@ -54,8 +64,7 @@ in
             password = secretKey;
             apikey = secretKey;
           };
-          folders = if (cfg.selectedFolders == "all") then allFolders else lib.getAttrs cfg.selectedFolders allFolders;
-          devices = allOtherDevices;
+          folders = lib.getAttrs cfg.selectedFolders folders;
         };
       };
     };
