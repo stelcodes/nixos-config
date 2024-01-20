@@ -72,14 +72,14 @@ in
       bind -n M-Q kill-pane
       bind -n M-s choose-tree -s
       bind -n M-S command-prompt 'new-session -s %% -c ~ nnn'
-      bind -n M-tab switch-client -l
-      bind -n M-S-tab select-window -l
-      bind -n M-space thumbs-pick
+      bind -n M-S-tab switch-client -l
+      bind -n M-tab select-window -l
+      bind -n M-f thumbs-pick
       bind -n M-t new-window -a -c "#{pane_current_path}"
       bind -n M-r command-prompt 'rename-window %%'
       bind -n M-R command-prompt 'rename-session %%'
-      bind -n M-c copy-mode
-      bind -n M-C source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
+      bind -n M-c source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
+      bind -n M-space copy-mode
       bind -n M-x split-window -v -c "#{pane_current_path}"
       bind -n M-v split-window -h -c "#{pane_current_path}"
       bind -n M-< swap-window -d -t -1
