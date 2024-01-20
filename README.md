@@ -39,12 +39,25 @@ man home-configuration.nix
 
 https://docs.kernel.org/admin-guide/kernel-parameters.html
 
-## Installer Media
+## Installing NixOS
+
+### Old Apple Hardware
+
+The official NixOS installers don't include the necessary Broadcom wifi drivers so I have to build the installer myself with the drivers included:
+
 ```
-nix build .#nixosConfigurations.installer-base.config.formats.install-iso
-nix build .#nixosConfigurations.installer-base.config.formats.install-iso-gnome
-nix build .#nixosConfigurations.installer-base.config.formats.install-iso-plasma
+nix build .#nixosConfigurations.installer.config.formats.install-iso
+nix build .#nixosConfigurations.installer.config.formats.install-iso-gnome
+nix build .#nixosConfigurations.installer.config.formats.install-iso-plasma
 ```
+
+Then write I image to media with `pkgs.gnome.gnome-disk-utility` with "Restore Image". The image selector won't display symlinks so copy the nix store path of the result iso and press Ctrl+L to bring up the location bar and paste the path in.
+
+Spam Alt+R while it's booting up to get to the firmware boot menu.
+
+## Calamares
+
+Always enable "Allow Unfree" so installing proprietary drivers doesn't crash the installation process.
 
 
 ## Virtualisation
@@ -196,6 +209,12 @@ https://imgur.com/upload
   };
 }
 ```
+
+## Theming
+
+### Catppucin
+
+https://github.com/xlce/wofi
 
 ## Other Links
 
