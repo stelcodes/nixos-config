@@ -12,7 +12,7 @@
           libvdpau-va-gl
         ];
       };
-      xpadneo.enable = config.activities.gaming;
+      xpadneo.enable = lib.mkIf config.activities.gaming true;
     };
 
     programs = {
@@ -22,7 +22,7 @@
 
       sway.enable = true;
 
-      steam.enable = config.activities.gaming;
+      steam.enable = lib.mkIf config.activities.gaming true;
 
       firefox = {
         enable = true;
