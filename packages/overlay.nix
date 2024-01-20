@@ -215,6 +215,7 @@ self: super: {
     settings = {
       menu_driver = "xmb";
       xmb_menu_color_theme = "15"; # cube purple
+      assets_directory = "${super.retroarch-assets}/share/retroarch/assets";
       savefile_directory = "~/sync/games/saves";
       savestate_directory = "~/sync/games/states";
       screenshot_directory = "~/sync/games/screenshots";
