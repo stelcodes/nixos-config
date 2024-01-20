@@ -98,7 +98,6 @@
       sessionVariables = {
         SUCCESS_ALERT = "${pkgs.success-alert}";
         FAILURE_ALERT = "${pkgs.failure-alert}";
-        BROWSER = "firefox";
         EDITOR = "nvim";
         PAGER = "less --chop-long-lines --RAW-CONTROL-CHARS";
         MANPAGER = "nvim +Man!";

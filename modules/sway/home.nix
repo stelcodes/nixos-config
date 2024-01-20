@@ -88,6 +88,8 @@ in
         # Forgot what graphical program is being run from systemd user service
         # Could use systemd.user.extraConfig = '''DefaultEnvironment="GDK_DPI_SCALE=-1"'''
         systemctl --user import-environment GDK_DPI_SCALE
+        export TERMINAL=foot
+        export BROWSER=firefox;
       '';
       config = {
         fonts = {
