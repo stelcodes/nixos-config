@@ -59,6 +59,31 @@ Spam Alt+R while it's booting up to get to the firmware boot menu.
 
 Always enable "Allow Unfree" so installing proprietary drivers doesn't crash the installation process.
 
+Afterwards mount the new root partition and clone your nixos configuration repo:
+```
+cd /run/media/<somepath>/home/stel
+git clone https://github.com/stelcodes/nixos-config
+cd nixos-config
+nixos-generate-config --show-hardware-config > hosts/<hostname>/hardware-configuration.nix
+git add .
+sudo nixos-rebuild switch --flake "/home/stel/nixos-config#<hostname>"
+```
+
+Or you could croc the hardware configuration back to another computer:
+```sh
+ROOT="$1"
+TEMPDIR="$(mktemp -d)"
+if [ test -z "$ROOT" ]; then
+  echo "Please provide a root path of the mounted NixOS installation."
+  exit 1
+fi
+if ! [ test -d "$ROOT/etc/nixos" ]; then
+  echo "The provided path doesn't seem to be the root of a NixOS installation"
+fi
+nixos-generate-config --root "$ROOT" --dir "$TEMPDIR"
+croc "$TEMPDIR/hardware-configuration.nix"
+```
+
 
 ## Virtualisation
 
