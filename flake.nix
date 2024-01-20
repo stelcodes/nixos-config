@@ -74,7 +74,7 @@
 
     nixosConfigurations =
       let
-        nixosMachine = { system, hostName, ... }:
+        nixosMachine = { system, hostName }:
           inputs.nixpkgs.lib.nixosSystem {
             inherit system;
             specialArgs = { inherit inputs; };
