@@ -48,12 +48,14 @@ in
     users.users.${config.admin.username}.packages = [ pkgs.syncthing ];
     services = {
       syncthing = {
-        inherit dataDir devices;
+        inherit dataDir;
         openDefaultPorts = true;
         user = config.admin.username;
         configDir = "/home/${config.admin.username}/.config/syncthing";
         guiAddress = "127.0.0.1:8384";
         settings = {
+          inherit devices;
+          folders = lib.getAttrs cfg.selectedFolders folders;
           options = {
             # urSeen and urAccepted don't seem to stop the popup but they are absolutely the right settings
             urSeen = 3;
@@ -64,7 +66,6 @@ in
             password = secretKey;
             apikey = secretKey;
           };
-          folders = lib.getAttrs cfg.selectedFolders folders;
         };
       };
     };
