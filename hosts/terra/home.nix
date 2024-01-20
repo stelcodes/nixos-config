@@ -13,6 +13,7 @@
       pkgs.retroarch-loaded
       pkgs.kodi-loaded
       pkgs.discord-firefox
+      pkgs.flac
     ];
   };
   wayland.windowManager.sway = {

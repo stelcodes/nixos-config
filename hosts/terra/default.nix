@@ -38,6 +38,10 @@
     ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
   };
 
+  environment.systemPackages = [
+    pkgs.btrfs-progs
+  ];
+
   programs.k3b.enable = true;
 
   services = {
