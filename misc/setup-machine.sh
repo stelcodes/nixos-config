@@ -1,23 +1,16 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p git neovim fish
+#!nix-shell -i bash -p coreutils-full croc
 
 set -eux
 
-HOST_NAME="$1"
-CONFIG_DIR="$HOME/nixos-config"
-HOST_DIR="$CONFIG_DIR/hosts/$HOST_NAME"
-
-if test ! "$HOST_NAME"; then
-  echo "Hostname is required"
+ROOT="$1"
+TEMPDIR="$(mktemp -d)"
+if [ test -z "$ROOT" ]; then
+  echo "Please provide a root path of the mounted NixOS installation."
   exit 1
 fi
-
-git clone https://github.com/stelcodes/nixos-config "$CONFIG_DIR"
-mkdir -p "$HOST_DIR"
-cp -a /etc/nixos/* "$HOST_DIR"
-nvim "$CONFIG_DIR"
-
-cd "$CONFIG_DIR"
-git add "$HOST_DIR"
-
-nixos-rebuild switch --flake "$CONFIG_DIR#$HOST_NAME"
+if ! [ test -d "$ROOT/etc/nixos" ]; then
+  echo "The provided path doesn't seem to be the root of a NixOS installation"
+fi
+nixos-generate-config --root "$ROOT" --dir "$TEMPDIR"
+croc "$TEMPDIR/hardware-configuration.nix"
