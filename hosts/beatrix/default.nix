@@ -23,8 +23,8 @@
   };
 
   age.secrets = {
-    root-password.file = ../../secrets/root-password.age;
-    admin-password.file = ../../secrets/admin-password.age;
+    # root-password.file = ../../secrets/root-password.age;
+    # admin-password.file = ../../secrets/admin-password.age;
   };
 
   # Uncomment this when secrets are rekeyed with new system ssh key
