@@ -365,7 +365,7 @@ in
           Description = "Simple tray for syncthing file sync service";
         };
         Service = {
-          ExecStart = "${lib.getExe pkgs.syncthing-tray} -api 'st:${systemConfig.admin.username}@${systemConfig.networking.hostName}'";
+          ExecStart = "${lib.getExe pkgs.syncthing-tray} -api '${systemConfig.services.syncthing.settings.gui.apikey}'";
           Restart = "always";
         };
         Install = {

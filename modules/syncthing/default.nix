@@ -2,7 +2,7 @@
 let
   cfg = config.services.syncthing;
   dataDir = "/home/${config.admin.username}/sync";
-  secretKey = "st:${config.admin.username}@${config.networking.hostName}";
+  secretKey = "sync4life";
   staggeredVersioning = {
     type = "staggered";
     params = {
