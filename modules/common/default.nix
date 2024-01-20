@@ -255,6 +255,7 @@
             "steam-original"
             "steam-run"
             "vital"
+            "broadcom-sta"
           ];
         };
       in
