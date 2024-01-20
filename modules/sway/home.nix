@@ -2,7 +2,7 @@
 let
   theme = systemConfig.theme.set;
   wallpaper = config.wayland.windowManager.sway.wallpaper;
-  viewRebuildLogCmd = "${pkgs.foot}/bin/foot --app-id=nixos_rebuild_log ${pkgs.coreutils}/bin/tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
+  viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
   mod = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
   # Apple keyboard, I have to create a new rule for each Apple keyboard I use.
@@ -182,7 +182,7 @@ in
           "${mod}+shift+e" = "exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'";
 
           # Custom external program keymaps
-          "${mod}+return" = "${pkgs.foot}/bin/foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
+          "${mod}+return" = "exec foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
           "${mod}+m" = "exec wofi --show run --width 800 --height 400 --term foot";
           "${mod}+shift+m" = "exec wofi --show drun --width 800 --height 400 --term foot";
           "${mod}+backspace" = "exec firefox";
@@ -571,7 +571,7 @@ in
         cpu = {
           interval = 10;
           format = "{usage} ";
-          on-click = "${pkgs.foot}/bin/foot --app-id=system_monitor btop";
+          on-click = "foot --app-id=system_monitor btop";
         };
         memory = {
           interval = 30;
@@ -594,7 +594,7 @@ in
           format-disconnected = "";
           format-wifi = "";
           tooltip-format = "{essid} {frequency}GHz {signalStrength}%";
-          on-click = "${pkgs.foot}/bin/foot --app-id=nmtui nmtui";
+          on-click = "foot --app-id=nmtui nmtui";
         };
         "network#2" = {
           max-length = 60;
@@ -602,7 +602,7 @@ in
           format = "";
           tooltip-format = "{essid}";
           format-disconnected = "";
-          on-click = "${pkgs.foot}/bin/foot --app-id=nmtui nmtui";
+          on-click = "foot --app-id=nmtui nmtui";
         };
         wireplumber = {
           format = "{node_name} {volume} {icon}";
