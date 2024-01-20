@@ -239,4 +239,7 @@ self: super: {
   syncthing-tray = super.syncthing-tray.overrideAttrs (final: prev: {
     meta.mainProgram = "syncthing-tray";
   });
+  audacious = super.audacious.overrideAttrs (final: prev: {
+    meta.mainProgram = "audacious";
+  });
 }
