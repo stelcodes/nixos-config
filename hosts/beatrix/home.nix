@@ -11,6 +11,8 @@
     exec systemd-cat --identifier=sway sway
   '';
 
+  services.wlsunset.enable = false;
+
   wayland.windowManager.sway = {
     config = {
       startup = [

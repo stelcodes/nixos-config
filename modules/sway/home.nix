@@ -413,7 +413,7 @@ in
       };
 
       wlsunset = {
-        enable = true;
+        enable = lib.mkDefault true;
         systemdTarget = "sway-session.target";
         latitude = "38";
         longitude = "-124";
