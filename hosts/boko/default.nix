@@ -4,7 +4,6 @@
     audio = true;
     graphical = true;
     battery = false;
-    server = true;
     virtual = false;
     virtualHost = false;
   };

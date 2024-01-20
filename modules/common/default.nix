@@ -23,9 +23,6 @@
       virtual = lib.mkOption {
         type = lib.types.bool;
       };
-      server = lib.mkOption {
-        type = lib.types.bool;
-      };
       virtualHost = lib.mkOption {
         type = lib.types.bool;
       };
@@ -88,17 +85,15 @@
     # Enable networking
     networking = {
       networkmanager = {
-        enable = (!config.profile.server); # Use networkd for servers
+        enable = true;
         dns = "systemd-resolved";
       };
-      useNetworkd = config.profile.server;
       hosts = {
         "127.0.0.1" = [ "lh" ];
       };
     };
 
     systemd = {
-      network.enable = config.profile.server;
       extraConfig = ''
         [Manager]
         DefaultTimeoutStopSec=10

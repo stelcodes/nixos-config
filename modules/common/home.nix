@@ -121,8 +121,8 @@
       home-manager.enable = true;
 
       # Use "," command to run programs not currently installed with prebuilt nixpkgs index
-      nix-index.enable = !systemConfig.profile.server;
-      nix-index-database.comma.enable = !systemConfig.profile.server;
+      nix-index.enable = true;
+      nix-index-database.comma.enable = true;
 
       bat = {
         enable = true;
