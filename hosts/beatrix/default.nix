@@ -34,7 +34,7 @@
   # };
 
   services = {
-    getty.autoLoginUser = "${config.admin.username}";
+    getty.autologinUser = "${config.admin.username}";
     syncthing = {
       enable = true;
     };
