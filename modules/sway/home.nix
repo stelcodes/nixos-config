@@ -1,7 +1,7 @@
 { pkgs, lib, config, systemConfig, ... }:
 let
+  cfg = config.wayland.windowManager.sway;
   theme = systemConfig.theme.set;
-  wallpaper = config.wayland.windowManager.sway.wallpaper;
   viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
   mod = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
@@ -34,9 +34,33 @@ in
 {
 
   options = {
-    wayland.windowManager.sway.wallpaper = lib.mkOption {
-      type = lib.types.nullOr lib.types.package;
-      default = null;
+    wayland.windowManager.sway = {
+      lockBeforeSleep = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
+      idleSleep = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+        };
+        lock = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+        };
+        timeout = lib.mkOption {
+          type = lib.types.int;
+          default = 1800;
+        };
+        sleepType = lib.mkOption {
+          type = lib.types.enum [ "suspend" "hibernate" "hybrid-sleep" "suspend-then-hibernate" "poweroff" ];
+          default = "suspend-then-hibernate";
+        };
+      };
+      wallpaper = lib.mkOption {
+        type = lib.types.nullOr lib.types.package;
+        default = null;
+      };
     };
   };
 
@@ -254,7 +278,7 @@ in
         };
         output = {
           "*" = {
-            background = if (wallpaper != null) then "${wallpaper} fill ${theme.bg}" else "${theme.bg} solid_color";
+            background = if (cfg.wallpaper != null) then "${cfg.wallpaper} fill ${theme.bg}" else "${theme.bg} solid_color";
           };
           # Framework screen
           "BOE 0x095F Unknown" = {
@@ -383,29 +407,49 @@ in
         events = [
           {
             event = "before-sleep";
-            command = "${lib.getExe pkgs.tmux-snapshot}; ${lib.getExe pkgs.swaylock} --daemonize; ${pkgs.sway}/bin/swaymsg 'output * power off'";
+            command = lib.getExe (pkgs.writeShellApplication {
+              name = "swayidle-before-sleep";
+              text = lib.optionalString cfg.lockBeforeSleep ''
+                ${lib.getExe pkgs.swaylock} --daemonize
+              '' + ''
+                ${lib.getExe pkgs.tmux-snapshot}
+                swaymsg 'output * power off'
+              '';
+            });
           }
           {
             event = "after-resume";
-            command = "test -f $HOME/.local/share/pomo && ${lib.getExe pkgs.pomo} start; ${pkgs.sway}/bin/swaymsg 'output * power on'";
+            command = lib.getExe (pkgs.writeShellApplication {
+              name = "swayidle-after-resume";
+              text = ''
+                if [ -f "$HOME/.local/share/pomo" ]; then pomo start || true; fi
+                ${pkgs.sway}/bin/swaymsg 'output * power on'
+              '';
+            });
           }
         ];
-        timeouts = [
+        timeouts = lib.mkIf cfg.idleSleep.enable [
           {
-            timeout = 1800;
+            timeout = cfg.idleSleep.timeout;
             command = lib.getExe (pkgs.writeShellApplication {
-              name = "swayidle-timeout";
+              name = "swayidle-sleepy-sleep";
               runtimeInputs = [ pkgs.systemd pkgs.playerctl pkgs.gnugrep pkgs.acpi ];
               text = ''
                 if test -f "$HOME/.local/share/idle-sleep-block"; then
-                  echo "Restarting service because of user's idle-sleep-block file"
+                  echo "Restarting service because of idle-sleep-block file"
                   systemctl --restart swayidle.service
-                elif playerctl status | grep -q "Playing" || acpi --ac-adapter | grep -q "on-line"; then
-                  echo "Restarting service because "
+                elif playerctl status | grep -q "Playing"; then
+                  echo "Restarting service because music is playing"
+                  systemctl --restart swayidle.service
+                elif acpi --ac-adapter | grep -q "on-line"; then
+                  echo "Restarting service because laptop is plugged in"
                   systemctl --restart swayidle.service
                 else
-                  echo "Suspending..."
-                  systemctl suspend-then-hibernate || systemctl suspend
+                  echo "Idle timeout reached. Night night."
+                  if ${builtins.toString cfg.idleSleep.lock}; then
+                    swaylock --daemonize
+                  fi
+                  systemctl ${cfg.idleSleep.sleepType}
                 fi
               '';
             });
@@ -459,7 +503,7 @@ in
       enable = true;
       settings = {
         color = theme.bgx;
-        image = lib.mkIf (wallpaper != null) "${wallpaper}";
+        image = lib.mkIf (cfg.wallpaper != null) "${cfg.wallpaper}";
         font-size = 24;
         indicator-idle-visible = false;
         indicator-radius = 100;
@@ -492,7 +536,7 @@ in
           "sway/workspaces"
           "tray"
           "custom/pomo"
-          "custom/swayidle"
+          "custom/idlesleep"
         ];
         modules-center = [ "sway/mode" ];
         modules-right = [
@@ -521,14 +565,14 @@ in
           exec = "if test -f \"$HOME/tmp/rebuild/status\"; then echo \"$(< $HOME/tmp/rebuild/status)\"; else echo ; fi";
           on-click = viewRebuildLogCmd;
         };
-        "custom/swayidle" = {
+        "custom/idlesleep" = {
           format = "{}";
           max-length = 2;
-          interval = 2;
+          interval = if cfg.idleSleep.enable then 2 else 0;
           # 󱥑 󱥐 octahedron
           # 󰦞 󰦝 shield
           # 󱓣 󰜗 snowflake
-          exec = "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣'; else echo '󰜗'; fi";
+          exec = if cfg.idleSleep.enable then "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣'; else echo '󰜗'; fi" else "echo '󱓣'";
           on-click = lib.getExe (pkgs.writeShellApplication {
             name = "toggle-idle-sleep-lock";
             runtimeInputs = [ pkgs.coreutils ];

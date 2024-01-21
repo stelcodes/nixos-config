@@ -24,6 +24,12 @@
         { output = "*"; workspace = "5"; }
       ];
     };
+    lockBeforeSleep = false;
+    idleSleep = {
+      timeout = 3600;
+      lock = false;
+      sleepType = "suspend";
+    };
     wallpaper = pkgs.fetchurl {
       url = "https://i.imgur.com/sCV0yu7.jpg";
       hash = "sha256-qDt+Gj21M2LkMo80sXICCzy/LjOkAqeN4la/YhaLBmM=";
