@@ -405,6 +405,7 @@ in
           Description = "Records playback from default pulseaudio monitor";
         };
         Service = {
+          RuntimeMaxSec = 60;
           Type = "forking";
           ExecStart = lib.getExe (pkgs.writeShellApplication {
             name = "record-playback-exec-start";
@@ -579,6 +580,7 @@ in
           "cpu"
           "backlight"
           "custom/wlsunset"
+          "custom/recordplayback"
           "wireplumber"
           "bluetooth"
           "battery"
@@ -597,6 +599,19 @@ in
           interval = 2;
           exec = "if test -f \"$HOME/tmp/rebuild/status\"; then echo \"$(< $HOME/tmp/rebuild/status)\"; else echo ; fi";
           on-click = viewRebuildLogCmd;
+        };
+        "custom/recordplayback" = {
+          format = "{}";
+          max-length = 3;
+          interval = 2;
+          exec = lib.getExe (pkgs.writeShellApplication {
+            name = "waybar-record-playback";
+            text = ''
+              if systemctl --user is-active --quiet record-playback.service; then
+                echo "🔴";
+              fi
+            '';
+          });
         };
         "custom/idlesleep" = {
           format = "{}";
