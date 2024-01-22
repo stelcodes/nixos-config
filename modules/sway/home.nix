@@ -411,7 +411,7 @@ in
             name = "record-playback-exec-start";
             runtimeInputs = [ pkgs.pulseaudio pkgs.coreutils-full pkgs.libnotify ];
             text = ''
-              SAVEDIR="$HOME/sync/playback"
+              SAVEDIR="''${XDG_STATE_HOME:-$HOME/.local/state}/record-playback"
               mkdir -p "$SAVEDIR"
               SAVEPATH="$SAVEDIR/$(date +%Y-%m-%dT%H:%M:%S%Z).wav"
               notify-send "Starting audio recording..."
