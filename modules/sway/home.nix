@@ -620,7 +620,7 @@ in
           # 󱥑 󱥐 octahedron
           # 󰦞 󰦝 shield
           # 󱓣 󰜗 snowflake
-          exec = if cfg.idleSleep.enable then "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣'; else echo '󰜗'; fi" else "echo '󱓣'";
+          exec = if cfg.idleSleep.enable then "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣 '; else echo '󰜗 '; fi" else "echo '󱓣 '";
           on-click = lib.getExe (pkgs.writeShellApplication {
             name = "toggle-idle-sleep-lock";
             runtimeInputs = [ pkgs.coreutils ];
