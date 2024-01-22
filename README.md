@@ -136,6 +136,16 @@ For iphone hotspot tethering use `pkgs.libimobiledevice` and `services.usbmuxd.e
 
 ## Gaming
 
+## GPUS
+
+### AMD
+
+https://en.wikipedia.org/wiki/List_of_AMD_graphics_processing_units#Features_overview
+
+https://en.wikipedia.org/wiki/Video_Core_Next
+
+I have one of these: https://en.wikipedia.org/wiki/Radeon_RX_5000_series
+
 ### Wireless Controllers
 
 The Xbox One controllers models 1708 and 1797 are some of best wireless controllers for linux. The package that provides their firmware is called xpadneo.
