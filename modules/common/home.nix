@@ -238,12 +238,13 @@
         ];
         bookmarks = {
           m = "/run/media";
-          M = "/home/${systemConfig.admin.username}/music";
-          d = "/home/${systemConfig.admin.username}/downloads";
-          D = "/home/${systemConfig.admin.username}/documents";
-          t = "/home/${systemConfig.admin.username}/tmp";
-          n = "/home/${systemConfig.admin.username}/nixos-config";
-          c = "/home/${systemConfig.admin.username}/.config";
+          M = "~/music";
+          d = "~/downloads";
+          D = "~/documents";
+          t = "~/tmp";
+          n = "~/nixos-config";
+          c = "~/.config";
+          l = "~/.local";
         };
         plugins = {
           mappings = {
@@ -251,7 +252,7 @@
             n = "!nvim*";
             N = "nvim-clean";
             r = "rename-with-vimv";
-            x = "delete-with-dua";
+            x = "!dua --stay-on-filesystem interactive*";
             p = "copy-with-rsync";
             P = "copy-with-rsync-include-list";
           };
@@ -273,11 +274,6 @@
                   vimv
                 fi
               '';
-            })
-            (pkgs.writeShellApplication {
-              name = "delete-with-dua";
-              runtimeInputs = [ pkgs.dua ];
-              text = "dua --stay-on-filesystem interactive";
             })
             (pkgs.writeShellApplication {
               name = "copy-with-rsync";
