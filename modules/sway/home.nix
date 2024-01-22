@@ -221,6 +221,7 @@ in
           "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol -- pavucontrol";
           "${mod}+shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
           "${mod}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious -- audacious";
+          "${mod}+shift+a" = "exec ${lib.getExe pkgs.toggle-service} record-playback";
           "${mod}+d" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
           "${mod}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC -- keepassxc";
           "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped -- blueman-manager";
@@ -396,6 +397,38 @@ in
         };
         Install = {
           WantedBy = [ "sway-session.target" ];
+        };
+      };
+
+      record-playback = {
+        Unit = {
+          Description = "Records playback from default pulseaudio monitor";
+        };
+        Service = {
+          Type = "forking";
+          ExecStart = lib.getExe (pkgs.writeShellApplication {
+            name = "record-playback-exec-start";
+            runtimeInputs = [ pkgs.pulseaudio pkgs.coreutils-full pkgs.libnotify ];
+            text = ''
+              SAVEDIR="$HOME/sync/playback"
+              mkdir -p "$SAVEDIR"
+              SAVEPATH="$SAVEDIR/$(date +%Y-%m-%dT%H:%M:%S%Z).wav"
+              notify-send "Starting audio recording..."
+              parecord --device=@DEFAULT_MONITOR@ "$SAVEPATH" &
+            '';
+          });
+          ExecStopPost = lib.getExe (pkgs.writeShellApplication {
+            name = "record-playback-exec-stop-post";
+            runtimeInputs = [ pkgs.libnotify ];
+            text = ''
+              if [ "$EXIT_STATUS" -eq 0 ]; then
+                notify-send "Stopped recording successfully"
+              else
+                notify-send --urgency=critical "Recording failed"
+              fi
+            '';
+          });
+          Restart = "no";
         };
       };
     };
