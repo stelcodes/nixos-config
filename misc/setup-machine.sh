@@ -1,29 +1,59 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p coreutils-full croc
+#!nix-shell -i bash -p coreutils-full croc git
 
 set -eu
 
-ROOT="$1"
-if [ test -z "$ROOT" ]; then
-  echo "Please provide a root path of the mounted NixOS installation."
+CROC_DIR="$(mktemp -d)"
+HOSTNAME="$1"
+ROOT="$2"
+if [ -z "$HOSTNAME" ] || [ ! -d "$ROOT" ] || [ "$ROOT" = "/" ]; then
+  echo "USAGE:"
+  echo "setup-machine.sh <hostname> <mounted_root_dir>"
   exit 1
 fi
-if ! [ test -d "$ROOT/etc/nixos" ]; then
-  echo "The provided path doesn't seem to be the root of a NixOS installation"
+
+# echo "Running nixos-generate-config"
+# nixos-generate-config --root "$ROOT" --dir "$CROC_DIR"
+echo "Copying new system's config"
+CONFIG_DIR="$ROOT/etc/nixos"
+if [ -d "$CONFIG_DIR" ]; then
+  cp "$CONFIG_DIR"/* "$CROC_DIR"
+else
+  echo "Can't locate the system config"
 fi
 
-echo "Sending new hardware-configuration.nix..."
-TEMPDIR="$(mktemp -d)"
-nixos-generate-config --root "$ROOT" --dir "$TEMPDIR"
-croc "$TEMPDIR/hardware-configuration.nix"
-
-echo "Sending system ssh public key..."
+echo "Copying new system's ssh public key"
 SYSTEM_SSH_KEY="$ROOT/etc/ssh/ssh_host_ed25519_key.pub"
-if ! [ test -f "$SYSTEM_SSH_KEY" ]; then
+if [ -f "$SYSTEM_SSH_KEY" ]; then
+  cp "$SYSTEM_SSH_KEY" "$CROC_DIR"
+else
   echo "Can't locate the system ssh key"
 fi
-croc "$SYSTEM_SSH_KEY"
 
-echo "Remember to rekey necessary secrets:"
-echo "cd ~/nixos-config/secrets"
-echo "agenix --rekey"
+echo "Files to be sent:"
+ls -l "$CROC_DIR"
+echo
+read -rp "Send files? (Y/n):"
+
+if [ -z "$REPLY" ] || [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
+  croc "$CROC_DIR"
+fi
+
+echo "1. Add machine configuration to host directory"
+echo "2. Add machine ssh key to secrets.nix"
+echo "3. Rekey secrets: cd secrets && agenix --rekey"
+echo "4. Commit and push changes"
+
+read -rp "Done committing and pushing changes? (Y/n):"
+if [ -z "$REPLY" ] || [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
+  echo "Starting secondary installation"
+  if ! install-nixos --root "$ROOT" --flake "github:stelcodes/nixos-config#$HOSTNAME"; then
+    echo "Secondary installation failed"
+  else
+    echo "Secondary installation succeeded"
+    echo "Cloning nixos-config to new machine"
+    if ! git clone https://github.com/stelcodes/nixos-config "$ROOT/home/stel/nixos-config"; then
+      echo "Could not clone config to new machine"
+    fi
+  fi
+fi
