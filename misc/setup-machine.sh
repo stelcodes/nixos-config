@@ -6,11 +6,16 @@ set -eu
 CROC_DIR="$(mktemp -d)"
 HOSTNAME="$1"
 ROOT="$2"
-if [ -z "$HOSTNAME" ] || [ ! -d "$ROOT" ] || [ "$ROOT" = "/" ]; then
+if [ -z "$HOSTNAME" ] || [ ! -d "$ROOT" ]; then
   echo "USAGE:"
   echo "setup-machine.sh <hostname> <mounted_root_dir>"
   exit 1
+else
+  echo "Starting setup-machine"
+  echo "HOSTNAME: $HOSTNAME"
+  echo "ROOT: $ROOT"
 fi
+
 
 # echo "Running nixos-generate-config"
 # nixos-generate-config --root "$ROOT" --dir "$CROC_DIR"
@@ -47,7 +52,7 @@ echo "4. Commit and push changes"
 read -rp "Done committing and pushing changes? (Y/n):"
 if [ -z "$REPLY" ] || [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
   echo "Starting secondary installation"
-  if ! install-nixos --root "$ROOT" --flake "github:stelcodes/nixos-config#$HOSTNAME"; then
+  if ! install-nixos --no-channel-copy --root "$ROOT" --flake "github:stelcodes/nixos-config#$HOSTNAME"; then
     echo "Secondary installation failed"
   else
     echo "Secondary installation succeeded"
