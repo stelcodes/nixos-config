@@ -136,9 +136,28 @@ For iphone hotspot tethering use `pkgs.libimobiledevice` and `services.usbmuxd.e
 
 ## Gaming
 
-## GPUS
+### Standalone games
 
-### AMD
+Probably going to run into openGL issues:
+```
+error while loading shared libraries: libGL.so.1: cannot open shared object file: No such file or directory
+```
+
+One solution is to use distrobox:
+```
+distrobox create -n gamebox -i registry.fedoraproject.org/fedora-toolbox:38
+distrbox enter gamebox
+sudo dnf install opengl-games-utils
+./run-game.sh
+```
+
+Another might be to use https://github.com/nix-community/nixGL but there will probably still be missing other libraries like wayland related stuff.
+
+## Hardware
+
+### GPUS
+
+#### AMD
 
 https://en.wikipedia.org/wiki/List_of_AMD_graphics_processing_units#Features_overview
 
