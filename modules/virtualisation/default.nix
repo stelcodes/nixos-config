@@ -10,6 +10,7 @@
       pkgs.spice-protocol
       pkgs.win-virtio
       pkgs.win-spice
+      pkgs.distrobox
     ];
 
     virtualisation =  {
