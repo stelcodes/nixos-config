@@ -1,7 +1,9 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, inputs, ... }: {
 
   imports = [
     ./hardware-configuration.nix
+    inputs.nixos-hardware.nixosModules.common-cpu-intel
+    inputs.nixos-hardware.nixosModules.common-cpu-intel-sandy-bridge
   ];
 
   system.stateVersion = "23.11";
