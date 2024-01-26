@@ -2,16 +2,11 @@
 
   config = lib.mkIf config.profile.graphical {
 
+    # Supposedly not needed for xpadneo with newer kernels but on 6.6.7 this immediately fixed all issues so :shrug:
+    boot.extraModprobeConfig = lib.mkIf config.activities.gaming "options bluetooth disable_ertm=1";
+
     hardware = {
-      opengl = {
-        enable = true;
-        extraPackages = with pkgs; [
-          intel-media-driver # LIBVA_DRIVER_NAME=iHD
-          vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-          vaapiVdpau
-          libvdpau-va-gl
-        ];
-      };
+      opengl.enable = true;
       xpadneo.enable = lib.mkIf config.activities.gaming true;
     };
 
