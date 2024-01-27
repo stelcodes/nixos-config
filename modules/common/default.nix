@@ -232,6 +232,12 @@
         };
       };
 
+      # TODO: Only enable this for local physical computers
+      avahi = {
+        enable = true;
+        nssmdns = true; # allow local applications to resolve `local.` domains using avahi.
+      };
+
     };
 
     nixpkgs =
