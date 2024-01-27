@@ -245,6 +245,7 @@
           n = "~/nixos-config";
           c = "~/.config";
           l = "~/.local";
+          w = "~/.wine/drive_c";
         };
         plugins = {
           mappings = {
