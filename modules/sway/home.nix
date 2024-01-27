@@ -422,7 +422,6 @@ in
           });
           ExecStop = lib.getExe (pkgs.writeShellApplication {
             name = "record-playback-exec-stop";
-            runtimeInputs = [];
             text = ''
               # The last couple seconds of audio gets lost so wait a lil bit before killing
               sleep 2 && kill -INT "$MAINPID"
