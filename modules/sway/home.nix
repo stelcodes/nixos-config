@@ -39,22 +39,24 @@ in
         type = lib.types.bool;
         default = true;
       };
-      idleSleep = {
-        enable = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
+      sleep = {
+        preferredType = lib.mkOption {
+          type = lib.types.enum [ "suspend" "hibernate" "hybrid-sleep" "suspend-then-hibernate" "poweroff" ];
+          default = "suspend-then-hibernate";
         };
-        lock = lib.mkOption {
+        lockBefore = lib.mkOption {
           type = lib.types.bool;
           default = true;
         };
-        timeout = lib.mkOption {
-          type = lib.types.int;
-          default = 1800;
-        };
-        sleepType = lib.mkOption {
-          type = lib.types.enum [ "suspend" "hibernate" "hybrid-sleep" "suspend-then-hibernate" "poweroff" ];
-          default = "suspend-then-hibernate";
+        auto = {
+          enable = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+          };
+          timeout = lib.mkOption {
+            type = lib.types.int;
+            default = 1800;
+          };
         };
       };
       wallpaper = lib.mkOption {
@@ -206,6 +208,7 @@ in
           "${mod}+shift+tab" = "exec ${lib.getExe cycle-sway-output}";
           "${mod}+shift+r" = "reload; exec systemctl --user restart waybar";
           "${mod}+shift+e" = "exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'";
+          "--locked ${mod}+shift+delete" = "exec systemctl ${cfg.sleep.preferredType}";
 
           # Custom external program keymaps
           "${mod}+return" = "exec foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
@@ -312,7 +315,6 @@ in
         bindsym button2 kill
         bindsym --locked ${mod}+o output eDP-1 toggle
         bindsym --locked ${mod}+shift+o output eDP-1 power toggle
-        bindsym --locked ${mod}+shift+delete exec systemctl suspend-then-hibernate
         for_window [title=".*"] inhibit_idle fullscreen
         for_window [app_id=org.gnome.Calculator] floating enable
         for_window [class=REAPER] floating enable
@@ -470,9 +472,9 @@ in
             });
           }
         ];
-        timeouts = lib.mkIf cfg.idleSleep.enable [
+        timeouts = lib.mkIf cfg.sleep.auto.enable [
           {
-            timeout = cfg.idleSleep.timeout;
+            timeout = cfg.sleep.auto.timeout;
             command = lib.getExe (pkgs.writeShellApplication {
               name = "swayidle-sleepy-sleep";
               runtimeInputs = [ pkgs.systemd pkgs.playerctl pkgs.gnugrep pkgs.acpi ];
@@ -488,10 +490,10 @@ in
                   systemctl --restart swayidle.service
                 else
                   echo "Idle timeout reached. Night night."
-                  if ${builtins.toString cfg.idleSleep.lock}; then
+                  if ${if cfg.sleep.lockBefore then "true" else "false"}; then
                     swaylock --daemonize
                   fi
-                  systemctl ${cfg.idleSleep.sleepType}
+                  systemctl ${cfg.sleep.preferredType}
                 fi
               '';
             });
@@ -624,11 +626,11 @@ in
         "custom/idlesleep" = {
           format = "{}";
           max-length = 2;
-          interval = if cfg.idleSleep.enable then 2 else 0;
+          interval = if cfg.sleep.auto.enable then 2 else 0;
           # 󱥑 󱥐 octahedron
           # 󰦞 󰦝 shield
           # 󱓣 󰜗 snowflake
-          exec = if cfg.idleSleep.enable then "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣 '; else echo '󰜗 '; fi" else "echo '󱓣 '";
+          exec = if cfg.sleep.auto.enable then "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣 '; else echo '󰜗 '; fi" else "echo '󱓣 '";
           on-click = lib.getExe (pkgs.writeShellApplication {
             name = "toggle-idle-sleep-lock";
             runtimeInputs = [ pkgs.coreutils ];

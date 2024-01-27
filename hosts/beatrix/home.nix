@@ -24,11 +24,13 @@
         { output = "*"; workspace = "5"; }
       ];
     };
-    lockBeforeSleep = false;
-    idleSleep = {
-      timeout = 3600;
-      lock = false;
-      sleepType = "suspend";
+    sleep = {
+      preferredType = "suspend";
+      lockBefore = false;
+      auto = {
+        enable = true;
+        timeout = 3600;
+      };
     };
     wallpaper = pkgs.fetchurl {
       url = "https://i.imgur.com/sCV0yu7.jpg";

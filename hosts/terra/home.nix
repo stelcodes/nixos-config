@@ -14,16 +14,17 @@
       pkgs.kodi-loaded
       pkgs.discord-firefox
       pkgs.flac
+      pkgs.pdfcpu # Convert a pdf to booklet for printing!
     ];
   };
   wayland.windowManager.sway = {
     config.workspaceOutputAssign = [
       { output = "HDMI-A-1"; workspace = "5"; }
     ];
-    lockBeforeSleep = true;
-    idleSleep = {
-      enable = true;
-      sleepType = "suspend-then-hibernate";
+    sleep = {
+      preferredType = "suspend-then-hibernate";
+      lockBefore = false;
+      auto.enable = true;
     };
     wallpaper = pkgs.fetchurl {
       url = "https://i.imgur.com/NnXQqDZ.jpg";
