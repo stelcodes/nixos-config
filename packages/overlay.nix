@@ -224,6 +224,11 @@ self: super: {
       content_favorites_path = "~/sync/games/content_favorites.lpl";
       playlist_entry_remove_enable = "0";
       playlist_entry_rename = "false";
+      input_menu_toggle_gamepad_combo = "7"; # hold start for quick menu
+      menu_swap_ok_cancel_buttons = "true";
+      savestate_auto_index = "true";
+      auto_overrides_enable = "true"; # Auto setup controllers
+      auto_remaps_enable = "true"; # Auto load past remaps
     };
     cores = with super.libretro; [
       # pkgs/applications/emulators/retroarch/cores.nix
