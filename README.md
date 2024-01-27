@@ -108,6 +108,19 @@ nix build .#nixosConfigurations.hostname.config.formats.do
 
 Use `QT_QPA_PLATFORM=xcb audacious` to see controls for adjusting plugin windows (Wayland QT issues)
 
+## Music Production
+
+### Wine + Yabridge
+
+Run plugin installers with something like `wine plugin_installer.exe`.
+
+Make sure yabridge knows about plugin paths:
+```
+# Common install locations
+yabridge add ~/.wine/drive_c/Program Files/Common Files/VST3
+yabridge sync
+```
+
 ## Dconf
 
 Values can be defined with Home Manager's `dconf.settings` option.
