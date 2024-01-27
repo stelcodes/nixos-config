@@ -35,9 +35,9 @@ in
 
   options = {
     wayland.windowManager.sway = {
-      lockBeforeSleep = lib.mkOption {
-        type = lib.types.bool;
-        default = true;
+      mainDisplay = lib.mkOption {
+        type = lib.types.str;
+        default = "eDP-1";
       };
       sleep = {
         preferredType = lib.mkOption {
@@ -209,6 +209,8 @@ in
           "${mod}+shift+r" = "reload; exec systemctl --user restart waybar";
           "${mod}+shift+e" = "exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'";
           "--locked ${mod}+shift+delete" = "exec systemctl ${cfg.sleep.preferredType}";
+          "--locked ${mod}+o" = "output ${cfg.mainDisplay} power toggle";
+          "--locked ${mod}+shift+o" = "output ${cfg.mainDisplay} toggle";
 
           # Custom external program keymaps
           "${mod}+return" = "exec foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
@@ -313,8 +315,6 @@ in
         bindswitch lid:off output * power off
         # Middle-click on a window title bar kills it
         bindsym button2 kill
-        bindsym --locked ${mod}+o output eDP-1 toggle
-        bindsym --locked ${mod}+shift+o output eDP-1 power toggle
         for_window [title=".*"] inhibit_idle fullscreen
         for_window [app_id=org.gnome.Calculator] floating enable
         for_window [class=REAPER] floating enable
@@ -452,9 +452,10 @@ in
             event = "before-sleep";
             command = lib.getExe (pkgs.writeShellApplication {
               name = "swayidle-before-sleep";
-              text = lib.optionalString cfg.lockBeforeSleep ''
-                ${lib.getExe pkgs.swaylock} --daemonize
-              '' + ''
+              text = ''
+                if ${if cfg.sleep.lockBefore then "true" else "false"}; then
+                  swaylock --daemonize
+                fi
                 ${lib.getExe pkgs.tmux-snapshot}
                 swaymsg 'output * power off'
               '';

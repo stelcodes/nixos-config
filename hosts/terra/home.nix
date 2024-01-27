@@ -21,6 +21,7 @@
     config.workspaceOutputAssign = [
       { output = "HDMI-A-1"; workspace = "5"; }
     ];
+    mainDisplay = "DP-1";
     sleep = {
       preferredType = "suspend-then-hibernate";
       lockBefore = false;
