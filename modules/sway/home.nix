@@ -214,8 +214,8 @@ in
 
           # Custom external program keymaps
           "${mod}+return" = "exec foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
-          "${mod}+m" = "exec wofi --show run --width 800 --height 400 --term foot";
-          "${mod}+shift+m" = "exec wofi --show drun --width 800 --height 400 --term foot";
+          "${mod}+d" = "exec wofi --show run --width 800 --height 400 --term foot";
+          "${mod}+shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
           "${mod}+backspace" = "exec firefox";
           "${mod}+shift+backspace" = "exec firefox --private-window";
           "${mod}+grave" = "exec wofi-emoji";
@@ -227,7 +227,7 @@ in
           "${mod}+shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
           "${mod}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious -- audacious";
           "${mod}+shift+a" = "exec ${lib.getExe pkgs.toggle-service} record-playback";
-          "${mod}+d" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks";
+          "${mod}+m" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks"; # m = media
           "${mod}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC -- keepassxc";
           "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped -- blueman-manager";
           "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop -- foot --app-id=btop btop";
