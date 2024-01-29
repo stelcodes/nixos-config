@@ -8,6 +8,7 @@
     ../sway/home.nix
     ../audio/home.nix
     inputs.nix-index-database.hmModules.nix-index
+    inputs.wayland-pipewire-idle-inhibit.homeModules.default
   ];
 
   options = {

@@ -24,8 +24,11 @@
     mainDisplay = "DP-1";
     sleep = {
       preferredType = "suspend-then-hibernate";
-      lockBefore = false;
-      auto.enable = true;
+      lockBefore = true;
+      auto = {
+        enable = true;
+        timeout = 1800;
+      };
     };
     wallpaper = pkgs.fetchurl {
       url = "https://i.imgur.com/NnXQqDZ.jpg";

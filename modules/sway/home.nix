@@ -451,6 +451,7 @@ in
           {
             event = "before-sleep";
             command = lib.getExe (pkgs.writeShellApplication {
+              runtimeInputs = [ pkgs.coreutils-full pkgs.sway pkgs.swaylock ];
               name = "swayidle-before-sleep";
               text = ''
                 if ${if cfg.sleep.lockBefore then "true" else "false"}; then
@@ -465,6 +466,7 @@ in
             event = "after-resume";
             command = lib.getExe (pkgs.writeShellApplication {
               name = "swayidle-after-resume";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.sway pkgs.pomo ];
               text = ''
                 if [ -f "$HOME/.local/share/pomo" ]; then pomo start || true; fi
                 ${pkgs.sway}/bin/swaymsg 'output * power on'
@@ -477,22 +479,17 @@ in
             timeout = cfg.sleep.auto.timeout;
             command = lib.getExe (pkgs.writeShellApplication {
               name = "swayidle-sleepy-sleep";
-              runtimeInputs = [ pkgs.systemd pkgs.playerctl pkgs.gnugrep pkgs.acpi ];
+              runtimeInputs = [ pkgs.coreutils-full pkgs.systemd pkgs.playerctl pkgs.gnugrep pkgs.acpi pkgs.swaylock ];
               text = ''
+                set -x
                 if test -f "$HOME/.local/share/idle-sleep-block"; then
                   echo "Restarting service because of idle-sleep-block file"
-                  systemctl --restart swayidle.service
-                elif playerctl status | grep -q "Playing"; then
-                  echo "Restarting service because music is playing"
                   systemctl --restart swayidle.service
                 elif acpi --ac-adapter | grep -q "on-line"; then
                   echo "Restarting service because laptop is plugged in"
                   systemctl --restart swayidle.service
                 else
                   echo "Idle timeout reached. Night night."
-                  if ${if cfg.sleep.lockBefore then "true" else "false"}; then
-                    swaylock --daemonize
-                  fi
                   systemctl ${cfg.sleep.preferredType}
                 fi
               '';
@@ -540,6 +537,19 @@ in
           [urgency=high]
           border-color=${theme.red}
         '';
+      };
+
+      wayland-pipewire-idle-inhibit = {
+        enable = true;
+        systemdTarget = "sway-session.target";
+        settings = {
+          verbosity = "INFO";
+          media_minimum_duration = 30;
+          sink_whitelist = [ ];
+          node_blacklist = [
+            { name = "Bitwig Studio"; } # Always seen as playing audio when open so just ignore it
+          ];
+        };
       };
     };
 
