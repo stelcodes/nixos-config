@@ -242,11 +242,13 @@
           M = "~/music";
           d = "~/downloads";
           D = "~/documents";
+          v = "~/videos";
           t = "~/tmp";
           n = "~/nixos-config";
           c = "~/.config";
           l = "~/.local";
           w = "~/.wine/drive_c";
+          h = "~";
         };
         plugins = {
           mappings = {
