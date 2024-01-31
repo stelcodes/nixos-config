@@ -284,7 +284,7 @@ in
                 fullscreen = false, -- whether to fullscreen explorer window when current tab is empty
               },
               picker = {
-                cmd = "tmux new-session nnn -ouAGP w",       -- command override (-p flag is implied)
+                cmd = "tmux new-session -- tmux set detach-on-destroy on; nnn -ouAGP w",       -- command override (-p flag is implied)
                 style = {
                   width = 0.9,     -- percentage relative to terminal size when < 1, absolute otherwise
                   height = 0.8,    -- ^

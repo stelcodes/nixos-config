@@ -71,7 +71,7 @@ in
       bind -n M-L next-window
       bind -n M-Q kill-pane
       bind -n M-s choose-tree -s
-      bind -n M-S command-prompt 'new-session -s %% -c ~ nnn'
+      bind -n M-S command-prompt 'new-session -s %% -c ~ "nnn; fish"'
       bind -n M-S-tab switch-client -l
       bind -n M-tab select-window -l
       bind -n M-f thumbs-pick
@@ -112,6 +112,7 @@ in
       set -g status on
       set -g status-interval 1
       set -g history-limit 8000
+      set -g detach-on-destroy off # Switch to another session when last shell is closed
       set -sa terminal-features ',foot:RGB,xterm-256color:RGB,tmux-256color:RGB'
       setenv -g COLORTERM truecolor
 
