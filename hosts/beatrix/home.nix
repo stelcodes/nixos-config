@@ -4,6 +4,7 @@
     packages = [
       pkgs.kodi-loaded
       pkgs.retroarch-loaded
+      pkgs.bitwig-studio
     ];
   };
 
