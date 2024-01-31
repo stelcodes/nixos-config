@@ -249,6 +249,7 @@
           l = "~/.local";
           w = "~/.wine/drive_c";
           h = "~";
+          s = "~/sync";
         };
         plugins = {
           mappings = {
