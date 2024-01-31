@@ -317,22 +317,20 @@ in
         # Middle-click on a window title bar kills it
         bindsym button2 kill
         for_window [title=".*"] inhibit_idle fullscreen
-        for_window [app_id=org.gnome.Calculator] floating enable
-        for_window [class=REAPER] floating enable
-        for_window [app_id=nmtui] floating enable
-        for_window [app_id=qalculate-gtk] floating enable
+        for_window [class=com.bitwig.BitwigStudio] inhibit_idle focus
+        for_window [app_id=nmtui] floating enable, resize set width 80 ppt height 80 ppt, move position center
+        for_window [app_id=qalculate-gtk] floating enable, move position center
+        for_window [app_id=org.gnome.Calculator] floating enable, move position center
         for_window [app_id=\.?blueman-manager(-wrapped)?] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=nixos_rebuild_log] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=btop] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=org.rncbc.qpwgraph] floating enable
-        for_window [app_id=nnn] floating enable
-        for_window [app_id=gnome-disks] floating enable
-        # Workaround for Bitwig moving itself to current workspace when scale changes
+        for_window [app_id=org.rncbc.qpwgraph] floating enable, resize set width 80 ppt height 80 ppt, move position center
+        for_window [app_id=nnn] floating enable, resize set width 80 ppt height 80 ppt, move position center
+        for_window [app_id=gnome-disks] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=obsidian] move container to workspace 3
         for_window [app_id=org.libretro.RetroArch] move container to workspace 4
-        for_window [class=com.bitwig.BitwigStudio] move container to workspace 4
         for_window [class=Kodi] move container to workspace 5
         for_window [app_id=audacious] floating enable, resize set width 80 ppt height 80 ppt, move position center
       '';
