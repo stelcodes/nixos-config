@@ -47,12 +47,13 @@
     environment.variables =
       let
         makePluginPath = format:
+          # Yabridge uses the first entry for installation directory so it needs to be writable
+          "$HOME/.${format}:" +
           (lib.makeSearchPath format [
             "$HOME/.nix-profile/lib"
             "/run/current-system/sw/lib"
             "/etc/profiles/per-user/$USER/lib"
-          ])
-          + ":$HOME/.${format}";
+          ]);
       in
       {
         DSSI_PATH = makePluginPath "dssi";
