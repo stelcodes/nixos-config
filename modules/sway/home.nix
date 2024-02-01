@@ -221,7 +221,7 @@ in
           "${mod}+grave" = "exec wofi-emoji";
           "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
           "${mod}+shift+c" = "exec rebuild";
-          "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn -- foot --app-id=nnn fish -c n ~";
+          "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn -- foot --app-id=nnn fish -c nnn ~";
           "${mod}+shift+n" = "exec makoctl dismiss --all";
           "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol -- pavucontrol";
           "${mod}+shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
