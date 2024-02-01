@@ -260,12 +260,56 @@
             x = "!dua --stay-on-filesystem interactive*";
             p = "copy-with-rsync";
             P = "copy-with-rsync-include-list";
+            f = "copy-relative-filenames";
+            F = "copy-absolute-filenames";
           };
           scripts = [
             (pkgs.writeShellApplication {
               name = "nvim-clean";
               runtimeInputs = [ pkgs.neovim-unwrapped pkgs.coreutils-full ];
               text = builtins.readFile ./nvim-clean.sh;
+            })
+            (pkgs.writeShellApplication {
+              name = "copy-relative-filenames";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.wl-clipboard pkgs.libnotify ];
+              text = ''
+                # Copy relative filenames from hovered file or selection
+
+                notify() {
+                  notify-send "nnn" "Path selection copied to clipboard"
+                }
+
+                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                if [ -s "$SEL" ]; then
+                  RESULT=""
+                  PATHS=""
+                  IFS= readarray -d "" PATHS < <(cat "$SEL")
+                  for path in "''${PATHS[@]}"; do
+                    printf -v RESULT "%s%s\n" "$RESULT" "$(basename "$path")"
+                  done
+                  wl-copy "$RESULT" && notify
+                elif [ -n "$1" ]; then
+                  wl-copy "$(basename "$1")" && notify
+                fi
+              '';
+            })
+            (pkgs.writeShellApplication {
+              name = "copy-absolute-filenames";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.wl-clipboard pkgs.libnotify ];
+              text = ''
+                # Copy absolute filenames from hovered file or selection
+
+                notify() {
+                  notify-send "nnn" "Path selection copied to clipboard"
+                }
+
+                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                if [ -s "$SEL" ]; then
+                  wl-copy "$(printf "%s\n" "$(sed 's/\x0/\n/g' < "$SEL")")" && notify
+                elif [ -n "$1" ]; then
+                  wl-copy "$PWD/$1" && notify
+                fi
+              '';
             })
             (pkgs.writeShellApplication {
               name = "rename-with-vimv";
