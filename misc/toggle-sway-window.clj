@@ -12,13 +12,13 @@
   {:require [:id]
    :exec-args {:floating true
                :kill false
-               :width 80
-               :height 80}
+               :width nil
+               :height nil}
    :validate {:id string?
               :floating boolean?
               :kill boolean?
-              :width pos?
-              :height pos?}})
+              :width (some-fn nil? pos?)
+              :height (some-fn nil? pos?)}})
 
 (def cli-results (cli/parse-args *command-line-args* cli-opts))
 
@@ -26,10 +26,15 @@
 
 (def args (:args cli-results))
 
+(defn make-resize-str []
+  (let [{:keys [width height]} opts]
+    (when (or width height)
+      (str "resize set" (when width (str " width " width " ppt ")) (when height (str " height " height " ppt ")) ", "))))
+
 (def position-cmds (str "floating "
                         (if-not (:floating opts)
                           "disable"
-                          (str "enable, resize set width " (:width opts) " ppt height " (:height opts) " ppt, move position center"))))
+                          (str "enable, " (make-resize-str) "move position center"))))
 
 (def criteria (str "[app_id=" (:id opts) "]"))
 

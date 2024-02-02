@@ -219,18 +219,19 @@ in
           "${mod}+backspace" = "exec firefox";
           "${mod}+shift+backspace" = "exec firefox --private-window";
           "${mod}+grave" = "exec wofi-emoji";
-          "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log -- ${viewRebuildLogCmd}";
+          "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log --width 80 --height 80 -- ${viewRebuildLogCmd}";
           "${mod}+shift+c" = "exec rebuild";
-          "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn -- foot --app-id=nnn fish -c nnn ~";
+          "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn --width 80 --height 80 -- foot --app-id=nnn fish -c nnn ~";
           "${mod}+shift+n" = "exec makoctl dismiss --all";
-          "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol -- pavucontrol";
+          "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol --width 80 --height 80 -- pavucontrol";
           "${mod}+shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
-          "${mod}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious -- audacious";
+          "${mod}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious --width 80 --height 80 -- audacious";
           "${mod}+shift+a" = "exec ${lib.getExe pkgs.toggle-service} record-playback";
           "${mod}+m" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks"; # m = media
-          "${mod}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC -- keepassxc";
-          "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped -- blueman-manager";
-          "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop -- foot --app-id=btop btop";
+          "${mod}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC --width 80 --height 80 -- keepassxc";
+          "${mod}+q" = "exec ${lib.getExe toggle-sway-window} --id qalculate-gtk -- qalculate-gtk";
+          "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped --width 80 --height 80 -- blueman-manager";
+          "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop --width 90 --height 90 -- foot --app-id=btop btop";
           "${mod}+backslash" = "exec ${lib.getExe cycle-sway-scale}";
           "${mod}+bar" = "exec ${lib.getExe pkgs.toggle-service} wlsunset";
           "${mod}+delete" = "exec swaylock";
