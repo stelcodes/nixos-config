@@ -30,7 +30,7 @@
       lockBefore = false;
       auto = {
         enable = true;
-        timeout = 3600;
+        idleMinutes = 30;
       };
     };
     wallpaper = pkgs.fetchurl {

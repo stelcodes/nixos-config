@@ -33,11 +33,11 @@
     ];
     mainDisplay = "DP-1";
     sleep = {
-      preferredType = "suspend-then-hibernate";
-      lockBefore = true;
+      preferredType = "hybrid-sleep";
+      lockBefore = false;
       auto = {
         enable = true;
-        timeout = 1800;
+        idleMinutes = 15;
       };
     };
     wallpaper = pkgs.fetchurl {

@@ -53,9 +53,9 @@ in
             type = lib.types.bool;
             default = false;
           };
-          timeout = lib.mkOption {
+          idleMinutes = lib.mkOption {
             type = lib.types.int;
-            default = 1800;
+            default = 30;
           };
         };
       };
@@ -476,7 +476,7 @@ in
         ];
         timeouts = lib.mkIf cfg.sleep.auto.enable [
           {
-            timeout = cfg.sleep.auto.timeout;
+            timeout = cfg.sleep.auto.idleMinutes * 60;
             command = lib.getExe (pkgs.writeShellApplication {
               name = "swayidle-sleepy-sleep";
               runtimeInputs = [ pkgs.coreutils-full pkgs.systemd pkgs.playerctl pkgs.gnugrep pkgs.acpi pkgs.swaylock ];
