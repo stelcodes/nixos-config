@@ -407,7 +407,7 @@ in
           Description = "Records playback from default pulseaudio monitor";
         };
         Service = {
-          RuntimeMaxSec = 60;
+          RuntimeMaxSec = 500;
           Type = "forking";
           ExecStart = lib.getExe (pkgs.writeShellApplication {
             name = "record-playback-exec-start";
