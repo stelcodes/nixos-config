@@ -221,6 +221,7 @@
             { mime = "video/*"; command = ffprobeWithoutFilters; }
             { mime = "image/*"; command = ffprobeWithoutFilters; }
             { mime = "inode/directory"; command = "sh: eza -la --color always %pistol-filename%  2>&1"; }
+            { mime = "application/epub+zip"; command = "sh: bk --meta"; }
           ];
       };
 

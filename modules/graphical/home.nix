@@ -69,13 +69,29 @@ in
           # Killing foot from sway results in non-zero exit code which triggers
           # xdg-mime to use next valid entry, so we must always exit successfully
           if [ "$SWAYSOCK" ]; then
-            ${pkgs.foot}/bin/foot -- nvim "$1" || true
+            foot -- nvim "$1" || true
           else
-            ${pkgs.gnome.gnome-terminal}/bin/gnome-terminal -- nvim "$1" || true
+            gnome-terminal -- nvim "$1" || true
           fi
         ''; in "${app} %U";
         terminal = false;
         categories = [ "Utility" "TextEditor" ];
+        mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
+      };
+      nnn = {
+        name = "nnn";
+        genericName = "Text Editor";
+        exec = let app = pkgs.writeShellScript "nnn-terminal" ''
+          # Killing foot from sway results in non-zero exit code which triggers
+          # xdg-mime to use next valid entry, so we must always exit successfully
+          if [ "$SWAYSOCK" ]; then
+            foot --app-id nnn -- fish -c "nnn $1" || true
+          else
+            gnome-terminal -- fish -c "nnn $1" || true
+          fi
+        ''; in "${app} %U";
+        terminal = false;
+        categories = [ "Utility" ];
         mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
       };
     };
@@ -366,6 +382,9 @@ in
         "application/x-zerosize" = [ "neovim.desktop" ]; # empty files
         "video/vnd.avi" = [ "mpv.desktop" ];
         "video/mkv" = [ "mpv.desktop" ];
+        "application/x-mobipocket-ebook" = [ "com.github.johnfactotum.Foliate.desktop" ];
+        "application/epub+zip" = [ "com.github.johnfactotum.Foliate.desktop" ];
+        "inode/directory" = [ "nnn.desktop" ];
       };
     };
 
@@ -458,6 +477,16 @@ in
         "org/virt-manager/virt-manager/connections" = {
           autoconnect = [ "qemu:///system" ];
           uris = [ "qemu:///system" ];
+        };
+
+        "com/github/johnfactotum/Foliate/view" = {
+          bg-color = theme.bg1;
+          fg-color = theme.fg;
+          font = "FiraMono Nerd Font 16";
+          invert = false;
+          layout = "single";
+          link-color = theme.cyan;
+          prefer-dark-theme = true;
         };
 
         "org/gnome/terminal/legacy" = {
