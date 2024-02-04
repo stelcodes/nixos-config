@@ -275,11 +275,18 @@
               text = ''
                 # Copy relative filenames from hovered file or selection
 
+                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
                 notify() {
                   notify-send "nnn" "Path selection copied to clipboard"
                 }
 
-                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                clear_sel() {
+                  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
                 if [ -s "$SEL" ]; then
                   RESULT=""
                   PATHS=""
@@ -287,7 +294,7 @@
                   for path in "''${PATHS[@]}"; do
                     printf -v RESULT "%s%s\n" "$RESULT" "$(basename "$path")"
                   done
-                  wl-copy "$RESULT" && notify
+                  wl-copy "$RESULT" && clear_sel && notify
                 elif [ -n "$1" ]; then
                   wl-copy "$(basename "$1")" && notify
                 fi
@@ -299,13 +306,20 @@
               text = ''
                 # Copy absolute filenames from hovered file or selection
 
+                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
                 notify() {
                   notify-send "nnn" "Path selection copied to clipboard"
                 }
 
-                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                clear_sel() {
+                  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
                 if [ -s "$SEL" ]; then
-                  wl-copy "$(printf "%s\n" "$(sed 's/\x0/\n/g' < "$SEL")")" && notify
+                  wl-copy "$(printf "%s\n" "$(sed 's/\x0/\n/g' < "$SEL")")" && clear_sel && notify
                 elif [ -n "$1" ]; then
                   wl-copy "$PWD/$1" && notify
                 fi
@@ -316,9 +330,17 @@
               runtimeInputs = [ pkgs.vimv-rs ];
               text = ''
                 # Rename files with vimv-rs
+
                 SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+                clear_sel() {
+                  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
                 if [ -s "$SEL" ]; then
-                  xargs --null vimv < "$SEL"
+                  xargs --null vimv < "$SEL" && clear_sel
                 else
                   vimv
                 fi

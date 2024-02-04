@@ -402,10 +402,10 @@ in
         ];
         plugins = {
           mappings = {
-            d = "dragdrop";
+            d = "-dragdrop-simple";
             q = "-enqueue";
             Q = "-enqueue-all";
-            e = "-!&eog .";
+            i = "-!&eog ."; # image viewer
           };
           scripts = [
             (pkgs.writeShellApplication {
@@ -418,7 +418,32 @@ in
               runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
               text = builtins.readFile ./enqueue-all.sh;
             })
+            (pkgs.writeShellApplication {
+              name = "dragdrop-simple";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.gnused pkgs.xdragon ];
+              text = ''
+                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 
+                clear_sel() {
+                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
+                # nnn doesn't refresh the view after clearing selection?? Seems like a bug.
+                if [ -s "$selection" ]; then
+                  TMPFILE="$(mktemp)"
+                  cat "$selection" > "$TMPFILE"
+                  xargs -0 dragon --and-exit < "$TMPFILE" &
+                  rm "$TMPFILE"
+                  clear_sel
+                else
+                  if [ -n "$1" ] && [ -e "$1" ]; then
+                    dragon --and-exit "$1" &
+                  fi
+                fi
+              '';
+            })
           ];
         };
       };
