@@ -15,6 +15,16 @@
       pkgs.discord-firefox
       pkgs.flac
       pkgs.pdfcpu # Convert a pdf to booklet for printing!
+      pkgs.smartmontools # Tools for monitoring the health of hard drives
+      pkgs.gnome3.cheese # for testing webcams
+      pkgs.amdgpu_top
+      # pkgs.lact # amdgpu controller daemon + gui https://github.com/ilya-zlobintsev/LACT
+      pkgs.blender
+      pkgs.libreoffice
+      pkgs.guitarix
+      pkgs.bk
+      pkgs.foliate # Sepia, single column
+      pkgs.dconf2nix
     ];
   };
   wayland.windowManager.sway = {

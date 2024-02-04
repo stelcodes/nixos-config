@@ -10,6 +10,14 @@
     ./hardware-configuration.nix
   ];
 
+  environment.variables = {
+    ROC_ENABLE_PRE_VEGA = "1";
+  };
+
+  hardware.opengl.extraPackages = with pkgs; [
+    amdvlk
+  ];
+
   profile = {
     audio = true;
     bluetooth = true;
@@ -52,6 +60,9 @@
     getty.autologinUser = config.admin.username;
   };
 
+  systemd.tmpfiles.rules = [
+    "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
+  ];
 
   networking = {
     firewall = {
