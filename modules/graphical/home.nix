@@ -232,13 +232,13 @@ in
       "swappy/config".text = ''
         [Default]
         save_dir=$XDG_PICTURES_DIR/screenshots
-        save_filename_format=swappy:%FT%X.png
+        save_filename_format=swappy-%FT%X.png
         show_panel=false
         line_size=5
         text_size=20
         text_font=sans-serif
         paint_mode=brush
-        early_exit=false
+        early_exit=true
         fill_shape=false
       '';
 
