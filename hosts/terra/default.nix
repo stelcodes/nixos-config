@@ -34,6 +34,11 @@
     jamming = true;
   };
 
+  sound.realtime = {
+    enable = true;
+    soundcardPciId = "31:00.4"; # Mobo soundcard
+  };
+
   age.secrets = {
     pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
     pvpn-sc-wg-quick-config.file = ../../secrets/meshify-pvpn-sc-wg-quick-config.age;
