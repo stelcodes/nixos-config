@@ -19,12 +19,15 @@ in
         package = theme.iconThemePackage;
       };
       # gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
-      gtk3.extraCss = ''
+      gtk3.extraCss = /* css */ ''
         /* shrink ssd titlebars */
         .default-decoration {
             min-height: 0; /* let the entry and button drive the titlebar size */
             padding-top: 5px;
             padding-bottom: 5px;
+        }
+        .titlebar, .titlebar .background {
+            border-radius: 0;
         }
       '';
     };
@@ -484,7 +487,9 @@ in
           link-color = theme.cyan;
           prefer-dark-theme = true;
         };
-
+        "org/gnome/desktop/wm/preferences" = {
+          button-layout = ""; # Hide GTK CSD window buttons
+        };
         "org/gnome/terminal/legacy" = {
           default-show-menubar = false;
         };
