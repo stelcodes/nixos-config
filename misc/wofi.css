@@ -1,42 +1,16 @@
-/* window { */
-/*   background-color: #2e3440; */
-/* } */
+#outer-box {
+  padding: 5px;
+  border: 1px solid @borders;
+}
 
 #input {
   margin: 5px;
-  /* background-color: #2e3440; */
-  /* color: #d8dee9; */
-  /* border: 1px solid #b48ead; */
 }
-
-/* #input:focus { */
-/*   border: 1px solid #b48ead; */
-/* } */
 
 #inner-box {
   margin: 5px;
-  /* background-color: #2e3440; */
 }
-
-/* #outer-box { */
-/*   background-color: #2e3440; */
-/*   border: 1px solid #b48ead; */
-/* } */
-
-/* #scroll { */
-/*   background-color: #2e3440; */
-/* } */
 
 #text {
   margin: 5px;
-  /* color: #d8dee9; */
-} 
-
-/* #entry:selected { */
-/*   background-color: #2e3440; */
-/* } */
-
-/* #text:selected { */
-/*   color: #EBCB8B; */
-/*   background-color: #2e3440; */
-/* } */
+}
