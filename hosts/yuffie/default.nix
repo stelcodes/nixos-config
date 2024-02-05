@@ -7,6 +7,8 @@
   ];
 
   profile = {
+    audio = true;
+    bluetooth = true;
     graphical = true;
     battery = true;
     virtual = false;
@@ -39,7 +41,8 @@
     getty.autologinUser = config.admin.username;
   };
 
-  sound = {
+  sound.realtime = {
+    enable = true;
     soundcardPciId = "00:1f.3";
   };
 
