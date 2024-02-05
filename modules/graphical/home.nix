@@ -419,6 +419,9 @@ in
 
     programs = {
       nnn = {
+        extraPackages = [
+          pkgs.xdragon
+        ];
         plugins = {
           mappings = {
             d = "-dragdrop-simple";
@@ -439,7 +442,7 @@ in
             })
             (pkgs.writeShellApplication {
               name = "dragdrop-simple";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.gnused pkgs.ripdrag ];
+              runtimeInputs = [ pkgs.coreutils-full pkgs.gnused pkgs.xdragon ];
               text = ''
                 selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 
@@ -453,11 +456,12 @@ in
                 if [ -s "$selection" ]; then
                   TMPFILE="$(mktemp)"
                   cat "$selection" > "$TMPFILE"
-                  { xargs -0 ripdrag --and-exit < "$TMPFILE" > /dev/null 2>&1; rm "$TMPFILE"; } &
+                  xargs -0 dragon --and-exit < "$TMPFILE" &
+                  rm "$TMPFILE"
                   clear_sel
                 else
                   if [ -n "$1" ] && [ -e "$1" ]; then
-                    ripdrag --and-exit "$1" > /dev/null 2>&1 &
+                    dragon --and-exit "$1" &
                   fi
                 fi
               '';
