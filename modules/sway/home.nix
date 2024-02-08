@@ -213,7 +213,9 @@ in
           "--locked ${mod}+shift+o" = "output ${cfg.mainDisplay} toggle";
 
           # Custom external program keymaps
-          "${mod}+return" = "exec foot sh -c 'tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
+          # TODO: Create command that creates config session if tmux isn't started or creates new session
+          "${mod}+return" = "exec foot sh -c 'tmux attach -t config || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
+          "${mod}+shift+return" = "exec foot";
           "${mod}+d" = "exec wofi --show run --width 800 --height 400 --term foot";
           "${mod}+shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
           "${mod}+backspace" = "exec firefox";
