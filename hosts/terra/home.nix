@@ -22,9 +22,19 @@
       pkgs.blender
       pkgs.libreoffice
       pkgs.guitarix
+      pkgs.gxplugins-lv2
       pkgs.bk
       pkgs.foliate # Sepia, single column
       pkgs.dconf2nix
+      (pkgs.wrapOBS {
+        plugins = with pkgs.obs-studio-plugins; [
+          wlrobs
+          obs-backgroundremoval
+          obs-pipewire-audio-capture
+          obs-vaapi # https://wiki.archlinux.org/title/Open_Broadcaster_Software#Encoding_using_GStreamer
+        ];
+      })
+      pkgs.easyeffects
     ];
   };
   wayland.windowManager.sway = {
