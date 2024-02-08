@@ -83,7 +83,7 @@ in
       pkgs.grim
       pkgs.slurp
       pkgs.pamixer
-      pkgs.wofi-emoji
+      pkgs.rofimoji # Great associated word hints with extensive symbol lists to choose from
       pkgs.wtype
       pkgs.libnotify
       pkgs.pomo
@@ -218,7 +218,7 @@ in
           "${mod}+shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
           "${mod}+backspace" = "exec firefox";
           "${mod}+shift+backspace" = "exec firefox --private-window";
-          "${mod}+grave" = "exec wofi-emoji";
+          "${mod}+grave" = "exec rofimoji";
           "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log --width 80 --height 80 -- ${viewRebuildLogCmd}";
           "${mod}+shift+c" = "exec rebuild";
           "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn --width 80 --height 80 -- foot --app-id=nnn fish -c nnn ~";

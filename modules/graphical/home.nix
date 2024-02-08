@@ -244,7 +244,12 @@ in
         early_exit=true
         fill_shape=false
       '';
-
+      "rofimoji.rc".text = ''
+        action = copy
+        selector = wofi
+        files = [emojis]
+        skin-tone = moderate
+      '';
     };
 
     xdg.mimeApps = {
