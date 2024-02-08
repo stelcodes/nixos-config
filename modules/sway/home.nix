@@ -739,8 +739,8 @@ in
           scroll-step = 5;
         };
         clock = {
-          format = "{:%I:%M %p} 󱛡";
-          format-alt = "{:%a %b %d} 󱛡";
+          format = "{:%I:%M %p %b %d} 󱛡";
+          format-alt = "{:%A} 󱛡";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
         };
         battery = {
