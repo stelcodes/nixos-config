@@ -30,6 +30,14 @@ let
     name = "toggle-sway-window";
     text = builtins.readFile ../../misc/toggle-sway-window.clj;
   };
+  launch-tmux = pkgs.writers.writeBash "launch-tmux" ''
+    if tmux run 2>/dev/null; then
+      tmux new-session -As sandbox
+    else
+      tmux new-session -ds config -c "$HOME/nixos-config" nvim
+      tmux new-session -As sandbox
+    fi
+  '';
 in
 {
 
@@ -213,8 +221,7 @@ in
           "--locked ${mod}+shift+o" = "output ${cfg.mainDisplay} toggle";
 
           # Custom external program keymaps
-          # TODO: Create command that creates config session if tmux isn't started or creates new session
-          "${mod}+return" = "exec foot sh -c 'tmux attach -t config || tmux new-session -s config -c \"$HOME/nixos-config\"; fish'";
+          "${mod}+return" = "exec foot ${launch-tmux}";
           "${mod}+shift+return" = "exec foot";
           "${mod}+d" = "exec wofi --show run --width 800 --height 400 --term foot";
           "${mod}+shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
