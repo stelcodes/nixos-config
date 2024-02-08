@@ -7,6 +7,10 @@
 
     hardware = {
       opengl.enable = true;
+      opengl.extraPackages = [
+        pkgs.vaapiVdpau
+        pkgs.libvdpau-va-gl
+      ];
       xpadneo.enable = lib.mkIf config.activities.gaming true;
     };
 
