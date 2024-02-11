@@ -254,15 +254,18 @@
         };
         plugins = {
           mappings = {
-            t = "preview-tui";
-            n = "!nvim*";
+            t = "preview-tui"; # tui
+            n = "!nvim*"; # nvim
             N = "nvim-clean";
-            r = "rename-with-vimv";
-            x = "!dua --stay-on-filesystem interactive*";
-            p = "copy-with-rsync";
+            r = "rename-with-vimv"; # rename
+            x = "!dua --stay-on-filesystem interactive*"; # trash
+            p = "copy-with-rsync"; # paste
             P = "copy-with-rsync-include-list";
-            f = "copy-relative-filenames";
-            F = "copy-absolute-filenames";
+            c = "copy-relative-filenames"; # copy
+            C = "copy-absolute-filenames";
+            f = "fuzzy-files-cd"; # files
+            F = "fuzzy-files-open";
+            d = "fuzzy-directories-cd"; # directories
           };
           scripts = [
             (pkgs.writeShellApplication {
@@ -441,6 +444,58 @@
                   echo "A selection is required"
                 fi
                 echo
+              '';
+            })
+
+            (pkgs.writeShellApplication {
+              name = "fuzzy-directories-cd";
+              runtimeInputs = [ pkgs.fzf pkgs.fd pkgs.coreutils-full ];
+              text = ''
+                fzf_sel="$(fd --type directory 2>/dev/null | fzf)"
+                if [ -d "$fzf_sel" ] && ! [ "$fzf_sel" = "." ]; then
+                  printf "%s" "0c$PWD/$fzf_sel" > "$NNN_PIPE" # change directory
+                fi
+              '';
+            })
+
+            (pkgs.writeShellApplication {
+              name = "fuzzy-directories-cd-from-selection";
+              runtimeInputs = [ pkgs.fzf pkgs.fd pkgs.coreutils-full ];
+              text = ''
+                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+                if [ -s "$selection" ]; then
+                  fzf_sel="$(xargs -0 fd --type directory < "$selection" 2>/dev/null | fzf)"
+                else
+                  fzf_sel="$(fd --type directory 2>/dev/null | fzf)"
+                fi
+
+                if [ -d "$fzf_sel" ] && ! [ "$fzf_sel" = "." ]; then
+                  printf "%s" "-" > "$NNN_PIPE" # clear selection
+                  printf "%s" "0c$PWD/$fzf_sel" > "$NNN_PIPE" # change directory
+                fi
+              '';
+            })
+
+            (pkgs.writeShellApplication {
+              name = "fuzzy-files-open";
+              runtimeInputs = [ pkgs.xdg-utils pkgs.fzf pkgs.fd pkgs.coreutils-full ];
+              text = ''
+                fzf_sel="$(fd --type file 2>/dev/null | fzf)"
+                if [ -f "$fzf_sel" ]; then
+                  xdg-open "$fzf_sel"
+                fi
+              '';
+            })
+
+            (pkgs.writeShellApplication {
+              name = "fuzzy-files-cd";
+              runtimeInputs = [ pkgs.fzf pkgs.fd pkgs.coreutils-full ];
+              text = ''
+                fzf_sel_dir="$(fd --type file 2>/dev/null | fzf | xargs -0 dirname)"
+                if [ -d "$fzf_sel_dir" ] && ! [ "$fzf_sel_dir" = "." ]; then
+                  printf "%s" "0c$PWD/$fzf_sel_dir" > "$NNN_PIPE"
+                fi
               '';
             })
 

@@ -429,7 +429,7 @@ in
         ];
         plugins = {
           mappings = {
-            d = "-dragdrop-simple";
+            D = "-dragdrop-simple";
             q = "-enqueue";
             Q = "-enqueue-all";
             i = "-!&eog ."; # image viewer
