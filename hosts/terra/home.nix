@@ -35,6 +35,7 @@
         ];
       })
       pkgs.easyeffects
+      pkgs.calibre
     ];
   };
   wayland.windowManager.sway = {
