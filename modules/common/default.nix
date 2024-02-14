@@ -286,9 +286,7 @@
       };
       package = pkgs.nixFlakes; # Enable nixFlakes on system
       extraOptions = ''
-        keep-outputs          = true
-        keep-derivations      = true
-        warn-dirty            = false
+        warn-dirty = false
       '';
       # Make the nixpkgs flake input be used for various nix commands
       nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
