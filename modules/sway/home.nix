@@ -241,6 +241,7 @@ in
           "${mod}+q" = "exec ${lib.getExe toggle-sway-window} --id qalculate-gtk -- qalculate-gtk";
           "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped --width 80 --height 80 -- blueman-manager";
           "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop --width 90 --height 90 -- foot --app-id=btop btop";
+          "${mod}+i" = "exec ${lib.getExe toggle-sway-window} --id signal --width 80 --height 80 -- signal-desktop";
           "${mod}+backslash" = "exec ${lib.getExe cycle-sway-scale}";
           "${mod}+bar" = "exec ${lib.getExe pkgs.toggle-service} wlsunset";
           "${mod}+delete" = "exec swaylock";
