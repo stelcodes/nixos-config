@@ -14,9 +14,23 @@ self: super: {
     url = "https://cdn.freesound.org/previews/421/421829_8224400-lq.mp3";
     sha256 = "049x6z6d3ssfx6rh8y11var1chj3x67nfrakigydnj3961hnr6ar";
   };
-  nord-wallpaper = super.fetchurl {
-    url = "https://raw.githubusercontent.com/dxnst/nord-backgrounds/9334ccc197cf0e4299778fd6ff4202fdbe2756f2/music/3840x2160/bjorkvespertine.png";
-    sha256 = "bZQVGQHO+YZ5aVfBdHbEELz1Zu4dBnO33w21nKVoHZ4=";
+  wallpaper = {
+    rei-moon = super.fetchurl {
+      url = "https://i.imgur.com/NnXQqDZ.jpg";
+      hash = "sha256-yth6v4M5UhXkxQ/bfd3iwFRi0FDGIjcqR37737D8P5w=";
+    };
+    halcyondaze = super.fetchurl {
+      url = "https://i.imgur.com/obIghpJ.png";
+      hash = "sha256-ar+Zbf/DN7bc9tAnQFi6qR8TPoBREzCb3d65HoOez5s=";
+    };
+    anime-girl-cat = super.fetchurl {
+      url = "https://i.imgur.com/sCV0yu7.jpg";
+      hash = "sha256-qDt+Gj21M2LkMo80sXICCzy/LjOkAqeN4la/YhaLBmM=";
+    };
+    anime-girl-coffee = super.fetchurl {
+      url = "https://i.imgur.com/lR2iapT.jpg";
+      hash = "sha256-JtY6vWns88mZ29fuYBYZO1NoD+O1YxPb9EBfotv7yb0=";
+    };
   };
   pomo = super.callPackage ./pomo.nix { };
   wezterm-nightly = super.callPackage ./wezterm-nightly { };

@@ -50,9 +50,6 @@
         idleMinutes = 15;
       };
     };
-    wallpaper = pkgs.fetchurl {
-      url = "https://i.imgur.com/NnXQqDZ.jpg";
-      hash = "sha256-yth6v4M5UhXkxQ/bfd3iwFRi0FDGIjcqR37737D8P5w=";
-    };
+    wallpaper = pkgs.wallpaper.halcyondaze;
   };
 }
