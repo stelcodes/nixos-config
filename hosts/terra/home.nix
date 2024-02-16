@@ -8,7 +8,8 @@
       pkgs.gajim
       pkgs.signal-desktop
       pkgs.fractal
-      inputs.gpt4all-nix.packages.${pkgs.system}.default
+      # inputs.gpt4all-nix.packages.${pkgs.system}.default
+      pkgs.unstable.gpt4all-chat
       inputs.arcsearch.defaultPackage.${pkgs.system}
       pkgs.retroarch-loaded
       pkgs.kodi-loaded
