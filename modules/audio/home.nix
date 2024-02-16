@@ -1,8 +1,8 @@
-{ pkgs, lib, systemConfig, ... }: {
+{ inputs, pkgs, lib, systemConfig, ... }: {
 
   home = {
     packages = (lib.lists.optionals systemConfig.activities.jamming [
-      pkgs.unstable.bitwig-studio
+      inputs.audio-nix.packages.${pkgs.system}.bitwig-studio5-latest
       pkgs.musescore
       # pkgs.lsp-plugins
       pkgs.graillon-free
