@@ -723,7 +723,7 @@ in
         };
         "network#2" = {
           max-length = 60;
-          interface = "pvpn*";
+          interface = "vpn*";
           format = "";
           tooltip-format = "{essid}";
           format-disconnected = "";
