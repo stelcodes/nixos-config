@@ -87,11 +87,7 @@ in
         exec = let app = pkgs.writeShellScript "nnn-terminal" ''
           # Killing foot from sway results in non-zero exit code which triggers
           # xdg-mime to use next valid entry, so we must always exit successfully
-          if [ "$SWAYSOCK" ]; then
-            foot --app-id nnn -- fish -c "nnn $1" || true
-          else
-            gnome-terminal -- fish -c "nnn $1" || true
-          fi
+          foot --app-id nnn -- fish -c "nnn '$1'" || true
         ''; in "${app} %U";
         terminal = false;
         categories = [ "Utility" ];
