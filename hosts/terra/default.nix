@@ -42,6 +42,7 @@
   age.secrets = {
     pvpn-fast-wg-quick-config.file = ../../secrets/meshify-pvpn-fast-wg-quick-config.age;
     pvpn-sc-wg-quick-config.file = ../../secrets/meshify-pvpn-sc-wg-quick-config.age;
+    vpn-1.file = ../../secrets/vpn-1.age;
     root-password.file = ../../secrets/root-password.age;
     admin-password.file = ../../secrets/admin-password.age;
   };
@@ -82,6 +83,10 @@
       };
       pvpn-sc = {
         configFile = config.age.secrets.pvpn-sc-wg-quick-config.path;
+        autostart = false;
+      };
+      vpn-1 = {
+        configFile = config.age.secrets.vpn-1.path;
         autostart = false;
       };
     };

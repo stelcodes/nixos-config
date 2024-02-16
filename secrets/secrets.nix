@@ -17,6 +17,7 @@ in
   "framework-pvpn-fast-wg-quick-config.age".publicKeys = [ systemKeys.yuffie ] ++ allAdminKeys;
   "meshify-pvpn-fast-wg-quick-config.age".publicKeys = [ systemKeys.terra ] ++ allAdminKeys;
   "meshify-pvpn-sc-wg-quick-config.age".publicKeys = [ systemKeys.terra ] ++ allAdminKeys;
+  "vpn-1.age".publicKeys = allKeys;
   "admin-password.age".publicKeys = allKeys;
   "root-password.age".publicKeys = allKeys;
 }
