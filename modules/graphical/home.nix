@@ -257,7 +257,6 @@ in
       defaultApplications = {
         "application/http" = [ "firefox.desktop" ];
         "text/html" = [ "firefox.desktop" ];
-        "application/pdf" = [ "firefox.desktop" ];
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
         "application/bzip2" = [ "org.gnome.FileRoller.desktop" ];
@@ -386,8 +385,11 @@ in
         "application/x-zerosize" = [ "neovim.desktop" ]; # empty files
         "video/vnd.avi" = [ "mpv.desktop" ];
         "video/mkv" = [ "mpv.desktop" ];
-        "application/x-mobipocket-ebook" = [ "com.github.johnfactotum.Foliate.desktop" ];
-        "application/epub+zip" = [ "com.github.johnfactotum.Foliate.desktop" ];
+        # "application/x-mobipocket-ebook" = [ "org.pwmt.zathura.desktop" ];
+        "application/epub+zip" = [ "org.pwmt.zathura.desktop" ];
+        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+        "application/oxps" = [ "org.pwmt.zathura.desktop" ];
+        "application/x-fictionbook" = [ "org.pwmt.zathura.desktop" ];
         "inode/directory" = [ "nnn.desktop" ];
       };
     };
@@ -419,6 +421,15 @@ in
     };
 
     programs = {
+      zathura = {
+        enable = true;
+        options = {
+          default-fg = theme.fg;
+          default-bg = theme.bg;
+          statusbar-bg = theme.bg1;
+          statusbar-fg = theme.fg;
+        };
+      };
       nnn = {
         extraPackages = [
           pkgs.xdragon

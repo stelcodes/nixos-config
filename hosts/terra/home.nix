@@ -25,7 +25,6 @@
       pkgs.guitarix
       pkgs.gxplugins-lv2
       pkgs.bk
-      pkgs.foliate # Sepia, single column
       pkgs.dconf2nix
       (pkgs.wrapOBS {
         plugins = with pkgs.obs-studio-plugins; [
