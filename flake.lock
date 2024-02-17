@@ -546,11 +546,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1708047038,
-        "narHash": "sha256-qBi+uTSZvKZpjKZnTwP43/ii9HZqypOPGTBrahiLp2M=",
+        "lastModified": 1708166933,
+        "narHash": "sha256-ScQCFxZ4NpEFsyyS0NAMKT0rtHx5UimG2klIhQpsZP8=",
         "owner": "stelcodes",
         "repo": "vimv",
-        "rev": "6c8ee1c8a2caf811a83f3db77ef7fd40cae14ce2",
+        "rev": "c94a925d204621d6037dafee0bf305251ba77865",
         "type": "github"
       },
       "original": {
