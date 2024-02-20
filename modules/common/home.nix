@@ -85,6 +85,7 @@
         pkgs.dua
         pkgs.vimv-rs
         pkgs.jq
+        pkgs.fzf
         pkgs.exiftool
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
         pkgs.nix-prefetch-github
