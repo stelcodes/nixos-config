@@ -436,41 +436,70 @@ in
         ];
         plugins = {
           mappings = {
-            D = "-dragdrop-simple";
-            q = "-enqueue";
-            Q = "-enqueue-all";
+            D = "dragdrop-simple";
+            q = "queue-songs";
+            Q = "-queue-songs-reset";
             i = "-!&eog ."; # image viewer
           };
           scripts = [
             (pkgs.writeShellApplication {
-              name = "enqueue";
+              name = "queue-songs";
               runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
-              text = builtins.readFile ./enqueue.sh;
+              text = ''
+                # Enqueues the selection or the hovered file if nothing is selected and ensures playback
+                # Try to start audacious service to create totally independent process
+                systemctl --user start audacious.service || true
+                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+                flag="--enqueue-to-temp"
+                if audtool --current-playlist-name 2>&1 | grep -q 'Now Playing'; then
+                  flag="--enqueue"
+                fi
+
+                if [ -s "$selection" ]; then
+                  xargs -0 audacious "$flag" < "$selection"
+                  # Clear selection
+                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
+                    printf "-" > "$NNN_PIPE"
+                  fi
+                elif [ -f "$1" ]; then
+                  audacious "$flag" "$1"
+                fi
+
+                if ! audtool --playback-status | grep -q "playing"; then
+                  audtool --playback-play
+                fi
+              '';
             })
             (pkgs.writeShellApplication {
-              name = "enqueue-all";
+              name = "queue-songs-reset";
               runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
-              text = builtins.readFile ./enqueue-all.sh;
+              text = ''
+                # Enqueues the selection or the hovered file if nothing is selected and ensures playback
+                # Try to start audacious service to create totally independent process
+                systemctl --user start audacious.service || true
+
+                if audtool --current-playlist-name 2>&1 | grep -q 'Now Playing'; then
+                  audtool --playlist-clear
+                fi
+              '';
             })
+
             (pkgs.writeShellApplication {
               name = "dragdrop-simple";
               runtimeInputs = [ pkgs.coreutils-full pkgs.gnused pkgs.xdragon ];
               text = ''
                 selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 
-                clear_sel() {
-                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
-                      printf "-" > "$NNN_PIPE"
-                  fi
-                }
-
-                # nnn doesn't refresh the view after clearing selection?? Seems like a bug.
                 if [ -s "$selection" ]; then
                   TMPFILE="$(mktemp)"
                   cat "$selection" > "$TMPFILE"
                   xargs -0 dragon --and-exit < "$TMPFILE" &
                   rm "$TMPFILE"
-                  clear_sel
+                  # Clear selection
+                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
+                    printf "-" > "$NNN_PIPE"
+                  fi
                 else
                   if [ -n "$1" ] && [ -e "$1" ]; then
                     dragon --and-exit "$1" &
