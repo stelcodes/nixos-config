@@ -533,7 +533,7 @@ in
           border-radius=5
           icons=1
           max-icon-size=64
-          default-timeout=30000
+          default-timeout=10000
           ignore-timeout=1
           padding=14
           margin=20
@@ -653,7 +653,7 @@ in
           # 󱓣 󰜗 snowflake
           exec = if cfg.sleep.auto.enable then "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣 '; else echo '󰜗 '; fi" else "echo '󱓣 '";
           on-click = lib.getExe (pkgs.writeShellApplication {
-            name = "toggle-idle-sleep-lock";
+            name = "toggle-idle-sleep-block";
             runtimeInputs = [ pkgs.coreutils ];
             text = ''
               BLOCKFILE="$HOME/.local/share/idle-sleep-block"
