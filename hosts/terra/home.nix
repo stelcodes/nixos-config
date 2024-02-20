@@ -36,6 +36,8 @@
       })
       pkgs.easyeffects
       pkgs.calibre
+      pkgs.kdenlive
+      pkgs.ffmpeg
     ];
   };
   wayland.windowManager.sway = {
