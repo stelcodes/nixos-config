@@ -84,8 +84,8 @@
         pkgs.toggle-service
         pkgs.dua
         pkgs.vimv-rs
-        pkgs.ffmpeg # TODO: add activies.archiving toggle
         pkgs.jq
+        pkgs.exiftool
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
         pkgs.nix-prefetch-github
         pkgs.check-newline
@@ -217,9 +217,9 @@
           in
           [
             # Must install ffmpeg for media previews
-            { mime = "audio/*"; command = ffprobeWithFilters audioFilters; }
-            { mime = "video/*"; command = ffprobeWithoutFilters; }
-            { mime = "image/*"; command = ffprobeWithoutFilters; }
+            { mime = "audio/*"; command = "sh: exiftool '--ExifTool*' '--Directory*' '--File*' '--Frame*' '--Block*' '--TotalSamples*' '--MD5*' '--Picture*' '--MusicBrainz*' '--Traktor*' '--Djuced*' %pistol-filename%"; }
+            { mime = "video/*"; command = "sh: exiftool '--ExifTool*' '--Directory*' '--File*' '--Frame*' '--Block*' '--TotalSamples*' '--MD5*' %pistol-filename%"; }
+            { mime = "image/*"; command = "sh: exiftool '--ExifTool*' '--Directory*' '--File*' '--Frame*' '--Block*' '--TotalSamples*' '--MD5*' %pistol-filename%"; }
             { mime = "inode/directory"; command = "sh: eza -la --color always %pistol-filename%  2>&1"; }
             { mime = "application/epub+zip"; command = "sh: bk --meta"; }
           ];
