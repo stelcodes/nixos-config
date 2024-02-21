@@ -376,6 +376,23 @@ in
     };
 
     systemd.user.services = {
+
+      mako = {
+        Unit = {
+          Description = "Wayland notification daemon";
+        };
+        Service = {
+          ExecStart = pkgs.writers.writeBash "mako-with-sh" ''
+            export PATH="${lib.makeBinPath [pkgs.bash]}:$PATH"
+            ${pkgs.mako}/bin/mako
+          '';
+          Restart = "always";
+        };
+        Install = {
+          WantedBy = [ "sway-session.target" ];
+        };
+      };
+
       swayidle.Service.ExecStop = lib.getExe (pkgs.writeShellApplication {
         name = "swayidle-cleanup";
         runtimeInputs = [ pkgs.coreutils ];
@@ -538,6 +555,7 @@ in
           padding=14
           margin=20
           background-color=${theme.bg}
+          on-button-right=exec ${pkgs.libnotify}/bin/notify-send testtttttt
 
           [urgency=low]
           border-color=${theme.blue}
@@ -547,6 +565,7 @@ in
 
           [urgency=high]
           border-color=${theme.red}
+
         '';
       };
 
