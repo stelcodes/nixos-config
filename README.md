@@ -84,6 +84,32 @@ nixos-generate-config --root "$ROOT" --dir "$TEMPDIR"
 croc "$TEMPDIR/hardware-configuration.nix"
 ```
 
+## Writing Nix
+
+### Avoiding having to pull in `flake-utils` in your flake
+https://ayats.org/blog/no-flake-utils/
+```nix
+{
+  outputs = {nixpkgs, ...}: let
+
+    forAllSystems = function:
+      nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-linux"
+      ] (system: function nixpkgs.legacyPackages.${system});
+
+  in {
+
+    packages = forAllSystems (pkgs: {
+      default = pkgs.callPackage ./package.nix {};
+    });
+
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {};
+    overlays.default = final: prev: {};
+  };
+}
+```
+
 
 ## Virtualisation
 
