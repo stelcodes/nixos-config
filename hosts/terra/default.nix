@@ -64,6 +64,35 @@
       selectedFolders = [ "default" "games" ];
     };
     getty.autologinUser = config.admin.username;
+    snapper = {
+      # Must create btrfs snapshots subvolume manually
+      # sudo btrfs subvolume create <mount_point>/.snapshots
+      snapshotInterval = "hourly"; # (terrible naming, this is a calendar value not a timespan)
+      cleanupInterval = "12hours";
+      # https://wiki.archlinux.org/title/Snapper
+      # http://snapper.io/manpages/snapper-configs.html
+      configs = {
+        archive = {
+          SUBVOLUME = "/run/media/${config.admin.username}/archive1";
+          ALLOW_USERS = [ config.admin.username ];
+          FSTYPE = "btrfs";
+          SPACE_LIMIT = "0.5";
+          FREE_LIMIT = "0.2";
+          NUMBER_CLEANUP = true;
+          NUMBER_LIMIT = "20";
+          NUMBER_LIMIT_IMPORTANT = "20";
+          NUMBER_MIN_AGE = "21600"; # 6 hours
+          TIMELINE_CREATE = true;
+          TIMELINE_CLEANUP = true;
+          TIMELINE_MIN_AGE = "21600"; # 6 hours
+          TIMELINE_LIMIT_HOURLY = "6";
+          TIMELINE_LIMIT_DAILY = "7";
+          TIMELINE_LIMIT_WEEKLY = "8";
+          TIMELINE_LIMIT_MONTHLY = "0";
+          TIMELINE_LIMIT_YEARLY = "0";
+        };
+      };
+    };
   };
 
   systemd.tmpfiles.rules = [
