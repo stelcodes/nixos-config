@@ -377,15 +377,13 @@ in
 
     systemd.user.services = {
 
-      mako = {
+      btop = {
         Unit = {
-          Description = "Wayland notification daemon";
+          Description = "Btop system resource dashboard";
         };
         Service = {
-          ExecStart = pkgs.writers.writeBash "mako-with-sh" ''
-            export PATH="${lib.makeBinPath [pkgs.bash]}:$PATH"
-            ${pkgs.mako}/bin/mako
-          '';
+          ExecStart = "${lib.getExe pkgs.foot} --app-id=btop ${lib.getExe pkgs.btop}";
+          ExecStartPost = "-${pkgs.sway}/bin/swaymsg for_window [app_id=btop] move scratchpad";
           Restart = "always";
         };
         Install = {
