@@ -262,4 +262,11 @@ self: super: {
   audacious = super.audacious.overrideAttrs (final: prev: {
     meta.mainProgram = "audacious";
   });
+  mako = super.mako.overrideAttrs (final: prev: {
+    preFixup = ''
+      gappsWrapperArgs+=(
+        --prefix PATH : "${super.lib.makeBinPath [ super.systemd /* for busctl */ super.jq super.bash ]}"
+      )
+    '';
+  });
 }
