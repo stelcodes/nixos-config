@@ -106,7 +106,6 @@
         MANPAGER = "nvim +Man!";
         NNN_TRASH = "1";
         NNN_FCOLORS = "030304030705020801030301";
-        NNN_FIFO = "/tmp/nnn.fifo";
         NNN_BATTHEME = "base16";
         NNN_BATSTYLE = "plain";
         NNN_PISTOL = "1";
@@ -218,11 +217,11 @@
           in
           [
             # Must install ffmpeg for media previews
-            { mime = "audio/*"; command = "sh: exiftool '--ExifTool*' '--Directory*' '--File*' '--Frame*' '--Block*' '--TotalSamples*' '--MD5*' '--Picture*' '--MusicBrainz*' '--Traktor*' '--Djuced*' %pistol-filename%"; }
-            { mime = "video/*"; command = "sh: exiftool '--ExifTool*' '--Directory*' '--File*' '--Frame*' '--Block*' '--TotalSamples*' '--MD5*' %pistol-filename%"; }
-            { mime = "image/*"; command = "sh: exiftool '--ExifTool*' '--Directory*' '--File*' '--Frame*' '--Block*' '--TotalSamples*' '--MD5*' %pistol-filename%"; }
-            { mime = "inode/directory"; command = "sh: eza -la --color always %pistol-filename%  2>&1"; }
-            { mime = "application/epub+zip"; command = "sh: bk --meta"; }
+            { mime = "audio/*"; command = "exiftool --ExifTool* --Directory* --File* --Frame* --Block* --TotalSamples* --MD5* --Picture* --MusicBrainz* --Traktor* --Djuced* %pistol-filename%"; }
+            { mime = "video/*"; command = "exiftool --ExifTool* --Directory* --File* --Frame* --Block* --TotalSamples* --MD5* %pistol-filename%"; }
+            { mime = "image/*"; command = "exiftool --ExifTool* --Directory* --File* --Frame* --Block* --TotalSamples* --MD5* %pistol-filename%"; }
+            { mime = "inode/directory"; command = "eza -la --color always %pistol-filename%"; }
+            { mime = "application/epub+zip"; command = "bk --meta %pistol-filename%"; }
           ];
       };
 
