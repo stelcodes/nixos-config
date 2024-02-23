@@ -320,3 +320,18 @@ https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data
 https://modcase.com.au
 
 https://frame.work
+
+## Hard Drives
+
+### Btrfs RAID1 mirror
+
+You need a btrfs volume and an unpartitioned disk to add to the volume. Mount the btrfs volume (let's say at `/mnt/archive`). The second disk should be unformatted (let's say it's `/dev/sdc`).
+
+```sh
+# Use the -f (force) flag if second disk has a partition table or partitions
+# This will erase /dev/sda
+sudo btrfs device add /dev/sda /mnt/archive
+# Start converting the volume into a mirrored array for both the data and metadata
+# This might take a LONG time depending on how much data is already present on the first disk
+sudo btrfs balance start -mconvert=raid1 -dconvert=raid1 /mnt/archive
+```
