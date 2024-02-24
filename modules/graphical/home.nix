@@ -395,6 +395,9 @@ in
         };
       };
 
+      dataFile = {
+        "audacious/internet-radio-stations.audpl".source = ../../misc/internet-radio-stations.audpl;
+      };
     };
 
     systemd.user.services = {

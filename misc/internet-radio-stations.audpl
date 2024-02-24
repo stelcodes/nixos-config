@@ -1,0 +1,15 @@
+title=Internet%20Radio
+uri=http://listen.optimizedmedia.net/wfnu128
+title=WFNU%2094.1%20-%20The%20Voice%20of%20the%20Frogtown
+artist=WFNU-LP
+bitrate=192
+codec=MPEG-1%20layer%203
+quality=Stereo%2C%2044100%20Hz
+channels=2
+uri=http://listen.freeformportland.org:8000/stream
+title=Freeform%20Portland
+artist=Freeform%20Portland
+bitrate=256
+codec=MPEG-1%20layer%203
+quality=Stereo%2C%2044100%20Hz
+channels=2
