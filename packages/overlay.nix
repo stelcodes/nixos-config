@@ -302,7 +302,7 @@ self: super: {
   obsidian = super.writeShellApplication {
     name = "obsidian";
     text = ''
-      /run/wrappers/bin/firejail --noprofile --net=none ${lib.getExe super.obsidian}
+      /run/wrappers/bin/firejail --noprofile --net=none --whitelist="$HOME/sync/vaults" --whitelist="$HOME/.config/obsidian" ${super.obsidian}/bin/obsidian
     '';
   };
 }
