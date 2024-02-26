@@ -38,6 +38,13 @@ let
       tmux new-session -As sandbox
     fi
   '';
+  toggle-notifications = pkgs.writers.writeBash "toggle-notifications" ''
+    if makoctl mode | grep -q "default"; then
+      makoctl mode -s hidden
+    else
+      makoctl mode -s default
+    fi
+  '';
 in
 {
 
@@ -231,7 +238,7 @@ in
           "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log --width 80 --height 80 -- ${viewRebuildLogCmd}";
           "${mod}+shift+c" = "exec rebuild";
           "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn --width 80 --height 80 -- foot --app-id=nnn fish -c nnn ~";
-          "${mod}+shift+n" = "exec makoctl dismiss --all";
+          "${mod}+shift+n" = "exec ${toggle-notifications}";
           "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol --width 80 --height 80 -- pavucontrol";
           "${mod}+shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
           "${mod}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious --width 80 --height 80 -- audacious";
@@ -553,7 +560,6 @@ in
           padding=14
           margin=20
           background-color=${theme.bg}
-          on-button-right=exec ${pkgs.libnotify}/bin/notify-send testtttttt
 
           [urgency=low]
           border-color=${theme.blue}
@@ -564,6 +570,8 @@ in
           [urgency=high]
           border-color=${theme.red}
 
+          [mode=hidden]
+          invisible=1
         '';
       };
 
