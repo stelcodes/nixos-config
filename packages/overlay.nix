@@ -269,4 +269,10 @@ self: super: {
       )
     '';
   });
+  obsidian = super.writeShellApplication {
+    name = "obsidian";
+    text = ''
+      /run/wrappers/bin/firejail --noprofile --net=none ${lib.getExe super.obsidian}
+    '';
+  };
 }
