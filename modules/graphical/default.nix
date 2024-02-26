@@ -134,7 +134,7 @@
       };
 
       chromium = {
-        enable = false;
+        enable = true; # only enables polices to be put in etc, doesn't install chromium
         extensions = [
           "gighmmpiobklfepjocnamgkkbiglidom" # adblock
         ];
@@ -157,7 +157,6 @@
           BrowserSignin = 0;
           DefaultBrowserSettingEnabled = false;
           DefaultClipboardSetting = 2;
-          DefaultCookiesSetting = 4;
           DefaultFileSystemReadGuardSetting = 2;
           DefaultFileSystemWriteGuardSetting = 2;
           DefaultGeolocationSetting = 2;
