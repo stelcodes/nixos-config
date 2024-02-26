@@ -279,26 +279,26 @@
               text = ''
                 # Copy relative filenames from hovered file or selection
 
-                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 
                 notify() {
                   notify-send "nnn" "Path selection copied to clipboard"
                 }
 
                 clear_sel() {
-                  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
+                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
                       printf "-" > "$NNN_PIPE"
                   fi
                 }
 
-                if [ -s "$SEL" ]; then
-                  RESULT=""
-                  PATHS=""
-                  IFS= readarray -d "" PATHS < <(cat "$SEL")
-                  for path in "''${PATHS[@]}"; do
-                    printf -v RESULT "%s%s\n" "$RESULT" "$(basename "$path")"
+                if [ -s "$selection" ]; then
+                  result=""
+                  paths=""
+                  IFS= readarray -d "" paths < <(cat "$selection")
+                  for path in "''${paths[@]}"; do
+                    printf -v result "%s%s\n" "$result" "$(basename "$path")"
                   done
-                  wl-copy "$RESULT" && clear_sel && notify
+                  wl-copy "$result" && clear_sel && notify
                 elif [ -n "$1" ]; then
                   wl-copy "$(basename "$1")" && notify
                 fi
