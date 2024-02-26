@@ -56,7 +56,12 @@
     pkgs.btrfs-progs
   ];
 
-  programs.k3b.enable = true;
+  programs = {
+    firejail = {
+      enable = true;
+    };
+    k3b.enable = true;
+  };
 
   services = {
     syncthing = {
