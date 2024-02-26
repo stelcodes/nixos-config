@@ -276,7 +276,7 @@ in
             let
               session-command = pkgs.writers.writeBash "nnn-nvim-tmux-session" ''
                 # Make sure to pass along the nnn args added by the plugin
-                nnn -ouAGP t $@
+                nnn -ouaAGP t $@
                 tmux detach-client
               '';
             in
