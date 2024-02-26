@@ -57,9 +57,7 @@
   ];
 
   programs = {
-    firejail = {
-      enable = true;
-    };
+    firejail.enable = true;
     k3b.enable = true;
   };
 
