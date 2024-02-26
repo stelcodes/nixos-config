@@ -443,43 +443,50 @@ in
         plugins = {
           mappings = {
             D = "dragdrop-simple";
-            q = "queue-songs";
-            Q = "-queue-songs-reset";
+            a = "queue-audio";
+            A = "-queue-audio-reset";
             i = "-!&eog ."; # image viewer
           };
           scripts = [
             (pkgs.writeShellApplication {
-              name = "queue-songs";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
+              name = "queue-audio";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious ];
               text = ''
                 # Enqueues the selection or the hovered file if nothing is selected and ensures playback
                 # Try to start audacious service to create totally independent process
                 systemctl --user start audacious.service || true
                 selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 
-                flag="--enqueue-to-temp"
-                if audtool --current-playlist-name 2>&1 | grep -q 'Now Playing'; then
-                  flag="--enqueue"
-                fi
+                queue_audio() {
+                  audio="$1"
+                  if test -f "$audio" && xdg-mime query filetype "$1" | grep -q "audio/"; then
+                    if audtool --current-playlist-name | grep -q 'Now Playing' && audtool --playback-status | grep -q "playing"; then
+                      flag="--enqueue"
+                    else
+                      flag="--enqueue-to-temp"
+                    fi
+                    audacious "$flag" "$audio"
+                  fi
+                }
 
                 if [ -s "$selection" ]; then
-                  xargs -0 audacious "$flag" < "$selection"
+                  paths=""
+                  IFS= readarray -d "" paths < <(cat "$selection")
+                  for path in "''${paths[@]}"; do
+                    queue_audio "$path"
+                  done
                   # Clear selection
                   if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
                     printf "-" > "$NNN_PIPE"
                   fi
                 elif [ -f "$1" ]; then
-                  audacious "$flag" "$1"
-                fi
-
-                if ! audtool --playback-status | grep -q "playing"; then
-                  audtool --playback-play
+                  queue_audio "$1"
                 fi
               '';
             })
             (pkgs.writeShellApplication {
-              name = "queue-songs-reset";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious pkgs.playerctl ];
+              name = "queue-audio-reset";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious ];
               text = ''
                 # Enqueues the selection or the hovered file if nothing is selected and ensures playback
                 # Try to start audacious service to create totally independent process
