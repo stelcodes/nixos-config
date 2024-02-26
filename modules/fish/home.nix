@@ -77,8 +77,8 @@
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
       dl-base = "yt-dlp --embed-metadata --embed-thumbnail --progress";
       dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor' --remux-video 'mkv'";
-      dl-video-yt-chrono = "${dl-video} --output '%(channel|creator|uploader|Unknown Uploader)s/%(upload_date|release_date|19690101)s - %(channel|creator|uploader|Unknown Uploader)s - %(title|Unknown Title)s [%(id)s].%(ext)s'";
-      dl-video-yt-playlist = "${dl-video} --output '%(channel|creator|uploader|Unknown Uploader)s - %(playlist)s/%(playlist_index).2d - %(upload_date|release_date|19690101)s - %(channel|creator|uploader|Unknown Uploader)s - %(title|Unknown Title)s [%(id)s].%(ext)s'";
+      dl-video-yt-chrono = "${dl-video} --output '%(channel,creator,uploader|Unknown Uploader)s/%(upload_date,release_date|19690101)s - %(channel,creator,uploader|Unknown Uploader)s - %(title|Unknown Title)s [%(id)s].%(ext)s'";
+      dl-video-yt-playlist = "${dl-video} --output '%(channel,creator,uploader|Unknown Uploader)s - %(playlist)s/%(playlist_index).2d - %(upload_date,release_date|19690101)s - %(channel,creator,uploader|Unknown Uploader)s - %(title|Unknown Title)s [%(id)s].%(ext)s'";
       dl-video-1080 = "${dl-video} --format 'bestvideo[height<=1080]+bestaudio'";
       dl-video-1080-yt-playlist = "${dl-video-yt-playlist} --format 'bestvideo[height<=1080]+bestaudio'";
       dl-audio-bc = "${dl-base} --format 'flac' --output '%(album_artist,artist,uploader|Unknown Artist)s - %(album,track,title|Unknown Album)s/%(track_number|00).2d - %(artist,uploader|Unknown Artist)s - %(track,title,webpage_url)s.%(ext)s'";
