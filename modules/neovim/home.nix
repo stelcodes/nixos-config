@@ -389,10 +389,11 @@ in
             vim.opt.list = true
             require("nvim-listchars").setup {
               save_state = true,
+              notifications = false,
               listchars = {
+                -- space = ' ',
                 eol = "↲",
                 tab = "» ",
-                space = ' ',
                 trail = '·',
                 extends = '<',
                 precedes = '>',
@@ -401,7 +402,7 @@ in
               },
             }
             vim.cmd 'ListcharsDarkenColors'
-            vim.keymap.set('n', '<c-l>', '<cmd>ListcharsToggle<cr>')
+            vim.keymap.set('n', '<c-.>', '<cmd>ListcharsToggle<cr>')
           '';
         }
 
