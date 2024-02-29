@@ -8,7 +8,7 @@
     packages = [
       # pkgs.davinci-resolve not working
       pkgs.obsidian
-      pkgs.discord
+      pkgs.discord-firefox
       pkgs.signal-desktop
       pkgs.retroarch-loaded
     ];

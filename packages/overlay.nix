@@ -247,8 +247,8 @@ self: super: {
       swaymsg "$(printf '[title="%s — Mozilla Firefox"] kill' "$temp_title")"
     '';
   });
-  discord = self.makeFirefoxApp "Discord" "https://discord.com/app";
-  google = self.makeFirefoxApp "Google" "https://google.com";
+  discord-firefox = self.makeFirefoxApp "Discord" "https://discord.com/app";
+  spotify-firefox = self.makeFirefoxApp "Spotify" "https://open.spotify.com";
   kodi-loaded = super.kodi.withPackages (p: [
     p.visualization-goom
     p.somafm

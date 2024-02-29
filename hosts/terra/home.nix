@@ -13,7 +13,6 @@
       inputs.arcsearch.defaultPackage.${pkgs.system}
       pkgs.retroarch-loaded
       pkgs.kodi-loaded
-      pkgs.discord
       pkgs.flac
       pkgs.pdfcpu # Convert a pdf to booklet for printing!
       pkgs.smartmontools # Tools for monitoring the health of hard drives
@@ -38,6 +37,8 @@
       pkgs.calibre
       pkgs.kdenlive
       pkgs.ffmpeg
+      pkgs.discord-firefox
+      pkgs.spotify-firefox
     ];
   };
   wayland.windowManager.sway = {
