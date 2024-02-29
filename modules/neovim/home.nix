@@ -1,6 +1,7 @@
 { pkgs, lib, config, systemConfig, ... }:
 let
   theme = systemConfig.theme.set;
+  plugins = pkgs.unstable.vimPlugins;
 in
 {
   programs.neovim = {
@@ -71,7 +72,7 @@ in
         theme.neovimPlugin
 
         {
-          plugin = pkgs.vimPlugins.vim-fugitive;
+          plugin = plugins.vim-fugitive;
           type = "lua";
           config = /* lua */ ''
             local toggle_fugitive = function()
@@ -97,42 +98,48 @@ in
           '';
         }
 
-        pkgs.vimPlugins.plenary-nvim
-        pkgs.vimPlugins.telescope-file-browser-nvim
-        pkgs.vimPlugins.telescope-ui-select-nvim
-        pkgs.vimPlugins.telescope-fzf-native-nvim
-        pkgs.vimPlugins.telescope-manix
+        plugins.plenary-nvim
+        plugins.telescope-file-browser-nvim
+        plugins.telescope-ui-select-nvim
+        plugins.telescope-fzf-native-nvim
+        plugins.telescope-manix
         {
-          plugin = pkgs.vimPlugins.telescope-nvim;
+          plugin = plugins.telescope-nvim;
           type = "lua";
           config = builtins.readFile ./telescope-nvim-config.lua;
         }
 
-        pkgs.vimPlugins.vim-nix
+        plugins.vim-nix
 
         {
-          plugin = pkgs.vimPlugins.vim-auto-save;
-          config = /* lua */ "let g:auto_save = 1";
+          plugin = plugins.vim-auto-save;
+          config = /* vim */ "let g:auto_save = 1";
         }
 
         {
-          plugin = pkgs.vimPlugins.gitsigns-nvim;
+          plugin = plugins.gitsigns-nvim;
           type = "lua";
           config = builtins.readFile ./gitsigns-config.lua;
         }
 
         {
-          plugin = pkgs.vimPlugins.comment-nvim;
+          plugin = plugins.comment-nvim;
           type = "lua";
           config = /* lua */ ''
-            require('Comment').setup {}
+            local f = function()
+              require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+            end
+            local pre_hook = pcall(f) or nil
+            require('Comment').setup {
+              pre_hook = pre_hook,
+            }
             local ft = require('Comment.ft')
             ft.set('clojure', ';; %s')
           '';
         }
 
         {
-          plugin = pkgs.vimPlugins.lualine-nvim;
+          plugin = plugins.lualine-nvim;
           type = "lua";
           config = /* lua */ ''
             require('lualine').setup {
@@ -167,7 +174,7 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.auto-session;
+          plugin = plugins.auto-session;
           type = "lua";
           config = /* lua */ ''
             vim.o.sessionoptions="buffers,curdir,folds,help,tabpages,winsize,winpos"
@@ -178,10 +185,10 @@ in
           '';
         }
 
-        pkgs.vimPlugins.nvim-web-devicons
+        plugins.nvim-web-devicons
 
         {
-          plugin = pkgs.vimPlugins.bufferline-nvim;
+          plugin = plugins.bufferline-nvim;
           type = "lua";
           config = /* lua */ ''
             local buff = require('bufferline')
@@ -198,10 +205,10 @@ in
           '';
         }
 
-        pkgs.vimPlugins.suda-vim
+        plugins.suda-vim
 
         {
-          plugin = pkgs.vimPlugins.vim-eunuch;
+          plugin = plugins.vim-eunuch;
           type = "lua";
           config = /* lua */ ''
             local delete_eunuch_cmds = function()
@@ -215,7 +222,7 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.nvim-colorizer-lua;
+          plugin = plugins.nvim-colorizer-lua;
           type = "lua";
           config = /* lua */ ''
             require 'colorizer'.setup {
@@ -241,7 +248,7 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.vim-better-whitespace;
+          plugin = plugins.vim-better-whitespace;
           type = "lua";
           config = /* lua */ ''
             vim.g["better_whitespace_guicolor"] = "${theme.red}"
@@ -253,7 +260,7 @@ in
 
 
         {
-          plugin = pkgs.vimPlugins.nvim-bqf;
+          plugin = plugins.nvim-bqf;
           type = "lua";
           config = /* lua */ ''
             require('bqf').setup {
@@ -267,7 +274,7 @@ in
           '';
         }
 
-        pkgs.vimPlugins.vim-just
+        plugins.vim-just
 
         {
           plugin = nnn-nvim;
@@ -362,8 +369,9 @@ in
         }
 
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
+
         {
-          plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+          plugin = plugins.nvim-treesitter.withAllGrammars;
           type = "lua";
           config = /* lua */ ''
             require'nvim-treesitter.configs'.setup {
@@ -390,13 +398,13 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.nvim-lspconfig;
+          plugin = plugins.nvim-lspconfig;
           type = "lua";
           config = builtins.readFile ./nvim-lspconfig.lua;
         }
 
         {
-          plugin = pkgs.vimPlugins.markdown-preview-nvim;
+          plugin = plugins.markdown-preview-nvim;
           config =
             let
               nordTheme = pkgs.writeTextFile {
@@ -410,19 +418,19 @@ in
         }
 
         {
-          plugin = pkgs.vimPlugins.nvim-cmp;
+          plugin = plugins.nvim-cmp;
           type = "lua";
           config = builtins.readFile ./nvim-cmp-config.lua;
         }
-        pkgs.vimPlugins.lspkind-nvim
-        pkgs.vimPlugins.luasnip
-        pkgs.vimPlugins.cmp-nvim-lua
-        pkgs.vimPlugins.cmp-nvim-lsp
+        plugins.lspkind-nvim
+        plugins.luasnip
+        plugins.cmp-nvim-lua
+        plugins.cmp-nvim-lsp
 
-        pkgs.vimPlugins.playground
+        plugins.playground
 
         {
-          plugin = pkgs.vimPlugins.conjure;
+          plugin = plugins.conjure;
           type = "lua";
           config = /* lua */ ''
             vim.g['conjure#mapping#prefix'] = ','
@@ -449,7 +457,7 @@ in
               rev = "b77e4c15ebc7e8de0633fed7270099e3978143d9";
               hash = "sha256-LGGy+nGnLUjBQN19WpXcORWw7A7W7xv6uM0zP18T6QY=";
             };
-            # dependencies = [ pkgs.vimPlugins.plenary-nvim ];
+            # dependencies = [ plugins.plenary-nvim ];
           };
           type = "lua";
           config = /* lua */ ''
@@ -514,7 +522,7 @@ in
             #};
           };
           type = "lua";
-          config =  /* lua */ ''
+          config = /* lua */ ''
             require("kanban").setup()
             vim.keymap.set('n', '<leader>ko', '<cmd>KanbanOpen telescope<cr>')
             vim.keymap.set('n', '<leader>kn', '<cmd>KanbanCreate')
