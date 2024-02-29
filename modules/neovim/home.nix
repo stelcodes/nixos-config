@@ -373,6 +373,38 @@ in
           '';
         }
 
+        {
+          plugin = pkgs.vimUtils.buildVimPlugin {
+            pname = "nvim-listchars";
+            version = "unstable-2024-02-24";
+            src = pkgs.fetchFromGitHub {
+              owner = "0xfraso";
+              repo = "nvim-listchars";
+              rev = "40b05e8375af11253434376154a9e6b3e9400747";
+              hash = "sha256-SQPe1c3EzVdqpU41FqwR2owfstDqSLjNlrpJuaLZXNE=";
+            };
+          };
+          type = "lua";
+          config = /* lua */ ''
+            vim.opt.list = true
+            require("nvim-listchars").setup {
+              save_state = true,
+              listchars = {
+                eol = "↲",
+                tab = "» ",
+                space = ' ',
+                trail = '·',
+                extends = '<',
+                precedes = '>',
+                conceal = '┊',
+                nbsp = '␣',
+              },
+            }
+            vim.cmd 'ListcharsDarkenColors'
+            vim.keymap.set('n', '<c-l>', '<cmd>ListcharsToggle<cr>')
+          '';
+        }
+
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
 
         plugins.nvim-ts-context-commentstring # For accurate comments
