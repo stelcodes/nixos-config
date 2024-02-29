@@ -370,6 +370,7 @@ in
 
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
 
+        plugins.nvim-ts-context-commentstring # For accurate comments
         {
           plugin = plugins.nvim-treesitter.withAllGrammars;
           type = "lua";
