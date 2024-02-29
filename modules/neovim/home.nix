@@ -126,13 +126,18 @@ in
           plugin = plugins.comment-nvim;
           type = "lua";
           config = /* lua */ ''
-            local f = function()
-              require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+            local opts = {}
+            -- Don't rely on this plugin or treesitter being present
+            local success, pre_hook = pcall(function()
+              require('ts_context_commentstring').setup {
+                enable_autocmd = false,
+              }
+              return require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+            end)
+            if success then
+              opts.pre_hook = pre_hook
             end
-            local pre_hook = pcall(f) or nil
-            require('Comment').setup {
-              pre_hook = pre_hook,
-            }
+            require('Comment').setup(opts)
             local ft = require('Comment.ft')
             ft.set('clojure', ';; %s')
           '';
