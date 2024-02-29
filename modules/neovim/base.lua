@@ -102,6 +102,7 @@ vim.opt.swapfile = false -- turn swapfiles off
 vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" } -- Completion
 -- vim.opt.shortmess:append "c"
 vim.g.netrw_fastbrowse = 0; -- don't keep netrw buffers around indefinitely
+vim.opt.conceallevel = 1; -- let chars be concealed and replaced with single char
 
 ----------------------------------------------------------------------------------------
 -- GLOBALS

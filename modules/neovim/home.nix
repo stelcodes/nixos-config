@@ -438,6 +438,89 @@ in
           '';
         }
 
+        {
+          # TODO: Use nixpkgs version when development slows down
+          plugin = pkgs.vimUtils.buildVimPlugin {
+            pname = "obsidian.nvim";
+            version = "3.6.0";
+            src = pkgs.fetchFromGitHub {
+              owner = "epwalsh";
+              repo = "obsidian.nvim";
+              rev = "b77e4c15ebc7e8de0633fed7270099e3978143d9";
+              hash = "sha256-LGGy+nGnLUjBQN19WpXcORWw7A7W7xv6uM0zP18T6QY=";
+            };
+            # dependencies = [ pkgs.vimPlugins.plenary-nvim ];
+          };
+          type = "lua";
+          config = /* lua */ ''
+            local obs = require("obsidian")
+            obs.setup {
+              workspaces = {
+                { name = "journal", path = "~/sync/vaults/journal" }
+              },
+              daily_notes = {
+                folder = "daily",
+                date_format = "%Y-%m-%d",
+                template = nil
+              },
+              new_notes_location = "notes_subdir",
+              mappings = {
+                ["<leader>on"] = {
+                  action = function() vim.cmd "ObsidianNew" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>oc"] = {
+                  action = obs.util.toggle_checkbox,
+                  opts = { buffer = true },
+                },
+                ["<leader>od"] = {
+                  action = function() vim.cmd "ObsidianToday" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>ot"] = {
+                  action = function() vim.cmd "ObsidianTags" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>ob"] = {
+                  action = function() vim.cmd "ObsidianBacklinks" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>oq"] = {
+                  action = function() vim.cmd "ObsidianQuickSwitch" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>oo"] = {
+                  action = function() vim.cmd "ObsidianOpen" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>or"] = {
+                  action = function() vim.cmd "ObsidianRename" end,
+                  opts = { buffer = true },
+                },
+              },
+            }
+          '';
+        }
+
+        {
+          plugin = pkgs.vimUtils.buildVimPlugin {
+            pname = "kanban-nvim";
+            version = "unstable-2023-12-08";
+            #src = pkgs.fetchFromGitHub {
+            #  owner = "arakkkkk";
+            #  repo = "kanban.nvim";
+            #  rev = "640962c9b06709e4701cf2e063b43a3fd89db39c";
+            #  hash = "sha256-QuRAp9CZYFyXlSo+1oZ8Ti1MHaHgN/8ixuMjTScz3G8=";
+            #};
+          };
+          type = "lua";
+          config =  /* lua */ ''
+            require("kanban").setup()
+            vim.keymap.set('n', '<leader>ko', '<cmd>KanbanOpen telescope<cr>')
+            vim.keymap.set('n', '<leader>kn', '<cmd>KanbanCreate')
+          '';
+        }
+
       ]);
   };
 }
