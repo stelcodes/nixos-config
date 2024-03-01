@@ -330,4 +330,16 @@ self: super: {
     desktop = "${super.obsidian}/share/applications/obsidian.desktop";
     extraArgs = [ "--noprofile" "--net=none" "--whitelist=\"$HOME/sync/journal\"" "--whitelist=\"$HOME/.config/obsidian\"" ];
   };
+  desktop-entries = super.writeShellApplication {
+    name = "desktop-entries";
+    runtimeInputs = [ super.coreutils-full super.findutils ];
+    text = ''
+      data_dirs="$XDG_DATA_DIRS:$HOME/.local/share"
+      matches=""
+      for p in ''${data_dirs//:/ }; do
+        printf -v matches "%s%s" "$matches" "$(find "$p/applications" -name '*.desktop' 2>/dev/null || true)"
+      done
+      printf "%s" "$matches" | sort | uniq
+    '';
+  };
 }
