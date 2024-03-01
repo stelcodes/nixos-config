@@ -392,6 +392,7 @@ in
           "application/oxps" = [ "org.pwmt.zathura.desktop" ];
           "application/x-fictionbook" = [ "org.pwmt.zathura.desktop" ];
           "inode/directory" = [ "nnn.desktop" ];
+          "x-scheme-handler/obsidian" = [ "obsidian.desktop" ];
         };
       };
 
