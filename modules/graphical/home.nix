@@ -245,7 +245,7 @@ in
           action = copy
           selector = wofi
           files = [emojis]
-          skin-tone = moderate
+          skin-tone = neutral
         '';
       };
 
