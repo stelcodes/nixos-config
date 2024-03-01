@@ -306,6 +306,7 @@
         inherit inputs;
         systemConfig = config;
       };
+      backupFileExtension = "backup";
       users.${config.admin.username} = {
         imports = [
           ./home.nix
