@@ -81,7 +81,6 @@
         pkgs.unzip
         pkgs.truecolor-test
         pkgs.desktop-entries
-        pkgs.rebuild
         pkgs.toggle-service
         pkgs.dua
         pkgs.vimv-rs

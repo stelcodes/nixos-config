@@ -170,13 +170,6 @@
       ];
     };
 
-    security.doas.enable = true;
-    security.doas.extraRules = [{
-      users = [ config.admin.username ];
-      keepEnv = true;
-      noPass = true;
-      # persist = true;
-    }];
     # security.sudo.enable = false;
     # security.acme.email = "stel@stel.codes";
     # security.acme.acceptTerms = true;

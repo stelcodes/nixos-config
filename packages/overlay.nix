@@ -72,39 +72,6 @@ self: super: {
       }'
     '';
   };
-  rebuild = super.writeShellApplication {
-    name = "rebuild";
-    runtimeInputs = [ super.coreutils super.nixos-rebuild ]; # mpv is optional
-    text = ''
-      LOG_DIR="$HOME/tmp/rebuild"
-      STATUS_FILE="$LOG_DIR/status"
-      LOG_FILE="$LOG_DIR/$(date +%Y-%m-%dT%H:%M:%S%Z)"
-      LOG_LINK="$LOG_DIR/latest"
-      CONFIG_DIR="$HOME/nixos-config"
-
-      rebuild() {
-        /run/wrappers/bin/doas nixos-rebuild --option eval-cache false switch --flake "$CONFIG_DIR#" 2>&1 | tee "$LOG_FILE";
-      }
-      succeed() {
-        echo "New generation created 🥳" | tee -a "$LOG_FILE";
-        echo "" > "$STATUS_FILE";
-        mpv ${self.success-alert} || true;
-      }
-      fail() {
-        echo "Something went wrong 🤔" | tee -a "$LOG_FILE";
-        echo "" > "$STATUS_FILE";
-        mpv ${self.failure-alert} || true;
-        exit 1;
-      }
-
-      mkdir -p "$LOG_DIR"
-      echo "" > "$STATUS_FILE"
-      touch "$LOG_FILE"
-      ln -sf "$LOG_FILE" "$LOG_LINK";
-      if rebuild; then succeed; else fail; fi
-    '';
-  };
-
   toggle-service = super.writeShellApplication {
     name = "toggle-service";
     runtimeInputs = [ super.systemd ];
