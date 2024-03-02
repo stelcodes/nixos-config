@@ -425,23 +425,13 @@ in
           WantedBy = [ "default.target" ];
         };
       };
-      request-nixos-rebuild = {
-        # Intentionally doesn't have an Install directive to stop home-manager from restarting it while it's running!
-        # Start this manually from your window/desktop manager's startup files instead
+      nixos-rebuild = {
         Service = {
-          Type = "notify-reload";
-          NotifyAccess = "all"; # Allow notifications from all exec subprocesses
-          Restart = "always";
+          Type = "oneshot";
           ExecStart = lib.getExe (pkgs.writeShellApplication {
-            name = "nixos-rebuild";
+            name = "nixos-rebuild-exec-start";
             runtimeInputs = [ pkgs.coreutils-full pkgs.nixos-rebuild pkgs.systemd pkgs.mpv ];
             text = ''
-              notify_ready() {
-                systemd-notify --ready --status="Waiting for nixos-rebuild request..."
-              }
-              notify_reloading() {
-                systemd-notify --reloading --status="Starting nixos-rebuild request..."
-              }
               notify_success() {
                 notify-send "NixOS rebuild successful"
                 mpv ${pkgs.success-alert} || true;
@@ -450,27 +440,18 @@ in
                 notify-send --urgency=critical "NixOS rebuild failed"
                 mpv ${pkgs.failure-alert} || true;
               }
-              request_rebuild() {
-                notify_reloading
-                if systemctl start nixos-rebuild.service; then
-                  while systemctl is-active nixos-rebuild.service; do
-                    sleep 1
-                  done
-                  if systemctl is-failed nixos-rebuild.service; then
-                    notify_failure
-                  else
-                    notify_success
-                  fi
-                else
+              if systemctl start nixos-rebuild.service; then
+                while systemctl is-active nixos-rebuild.service; do
+                  sleep 1
+                done
+                if systemctl is-failed nixos-rebuild.service; then
                   notify_failure
+                else
+                  notify_success
                 fi
-                notify_ready
-              }
-              trap 'request_rebuild' SIGHUP
-
-              notify_ready
-              sleep infinity &
-              wait $!
+              else
+                notify_failure
+              fi
             '';
           });
         };

@@ -236,7 +236,7 @@ in
           "${mod}+shift+backspace" = "exec firefox --private-window";
           "${mod}+grave" = "exec rofimoji";
           "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log --width 80 --height 80 -- ${viewRebuildLogCmd}";
-          "${mod}+shift+c" = "exec systemctl --user reload request-nixos-rebuild";
+          "${mod}+shift+c" = "exec systemctl --user start nixos-rebuild";
           "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn --width 80 --height 80 -- foot --app-id=nnn fish -c nnn ~";
           "${mod}+shift+n" = "exec ${toggle-notifications}";
           "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol --width 80 --height 80 -- pavucontrol";
@@ -320,8 +320,7 @@ in
           # Kill tmux so all shell environments contain sway-related environment variables
           { command = "tmux kill-server"; }
           { command = "systemctl is-active syncthing.service && systemctl --user start syncthing-tray.service"; always = true; }
-          { command = "systemctl --user is-active waybar.service || systemctl --user restart waybar.service"; always = true; }
-          { command = "systemctl --user start request-nixos-rebuild.service"; always = true; }
+          { command = "systemctl --user restart waybar.service"; always = true; }
           { command = "systemctl --user start wlsunset.service"; }
         ];
       };
@@ -661,7 +660,7 @@ in
               status="$(systemctl is-active nixos-rebuild.service || true)"
               if grep -q "inactive" <<< "$status"; then
                 printf ""
-              elif grep -q "active" <<< "$status"; then
+              elif grep -q "activating" <<< "$status"; then
                 printf ""
               elif grep -q "failed" <<< "$status"; then
                 printf ""
