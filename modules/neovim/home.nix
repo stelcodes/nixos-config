@@ -489,12 +489,12 @@ in
           # TODO: Use nixpkgs version when development slows down
           plugin = pkgs.vimUtils.buildVimPlugin {
             pname = "obsidian.nvim";
-            version = "3.6.0";
+            version = "unstable-2024-02-29";
             src = pkgs.fetchFromGitHub {
               owner = "epwalsh";
               repo = "obsidian.nvim";
-              rev = "b77e4c15ebc7e8de0633fed7270099e3978143d9";
-              hash = "sha256-LGGy+nGnLUjBQN19WpXcORWw7A7W7xv6uM0zP18T6QY=";
+              rev = "c7812abe3ab5c6a6a8b29a9ec08b32142a2e7011";
+              hash = "sha256-CIr9qDzx8DDrFUYFUly8npYs1W7GKSrnCv7lRfdSsEo=";
             };
             # dependencies = [ plugins.plenary-nvim ];
           };
@@ -503,7 +503,7 @@ in
             local obs = require("obsidian")
             obs.setup {
               workspaces = {
-                { name = "journal", path = "~/sync/vaults/journal" }
+                { name = "journal", path = "~/sync/journal" }
               },
               daily_notes = {
                 folder = "daily",
@@ -553,12 +553,12 @@ in
           plugin = pkgs.vimUtils.buildVimPlugin {
             pname = "kanban-nvim";
             version = "unstable-2023-12-08";
-            #src = pkgs.fetchFromGitHub {
-            #  owner = "arakkkkk";
-            #  repo = "kanban.nvim";
-            #  rev = "640962c9b06709e4701cf2e063b43a3fd89db39c";
-            #  hash = "sha256-QuRAp9CZYFyXlSo+1oZ8Ti1MHaHgN/8ixuMjTScz3G8=";
-            #};
+            src = pkgs.fetchFromGitHub {
+              owner = "arakkkkk";
+              repo = "kanban.nvim";
+              rev = "640962c9b06709e4701cf2e063b43a3fd89db39c";
+              hash = "sha256-QuRAp9CZYFyXlSo+1oZ8Ti1MHaHgN/8ixuMjTScz3G8=";
+            };
           };
           type = "lua";
           config = /* lua */ ''
