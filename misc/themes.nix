@@ -182,24 +182,201 @@
     tmuxPrimary = green;
     tmuxSecondary = red;
 
-    vscode = {
-      extension = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
-        mktplcRef = {
-          name = "everforest";
-          publisher = "sainnhe";
-          version = "0.3.0";
-          sha256 = "sha256-nZirzVvM160ZTpBLTimL2X35sIGy5j2LQOok7a2Yc7U=";
-        };
-      };
-      themeName = "Everforest Dark";
-    };
-
     btop = "everforest-dark-hard";
 
     wallpaper = builtins.toString (pkgs.fetchurl {
       url = "https://i.ibb.co/fDjcr2G/00016.jpg";
       hash = "sha256-ZWVIhfwoHlLdge/ECmdWfcZjbqWfc/aPfr+dBsx8/eE=";
     });
+  };
+
+  catppuccin-frappe = rec {
+    # https://github.com/catppuccin/catppuccin
+
+    name = "catppuccin-frappe";
+
+    # https://github.com/catppuccin/base16/tree/main/base16
+    base00 = "#303446"; # base
+    base01 = "#292c3c"; # mantle
+    base02 = "#414559"; # surface0
+    base03 = "#51576d"; # surface1
+    base04 = "#626880"; # surface2
+    base05 = "#c6d0f5"; # text
+    base06 = "#f2d5cf"; # rosewater
+    base07 = "#babbf1"; # lavender
+    base08 = "#e78284"; # red
+    base09 = "#ef9f76"; # peach
+    base0A = "#e5c890"; # yellow
+    base0B = "#a6d189"; # green
+    base0C = "#81c8be"; # teal
+    base0D = "#8caaee"; # blue
+    base0E = "#ca9ee6"; # mauve
+    base0F = "#eebebe"; # flamingo
+
+    bg = base00;
+    bg1 = base01;
+    bg2 = base02;
+    bg3 = base03;
+    bg4 = base04;
+    fg = base05;
+    fg1 = base06;
+    alt1 = base07;
+    red = base08;
+    orange = base09;
+    yellow = base0A;
+    green = base0B;
+    cyan = base0C;
+    blue = base0D;
+    magenta = base0E;
+    alt2 = base0F;
+
+    bgx = builtins.substring 1 6 bg;
+    bg1x = builtins.substring 1 6 bg1;
+    bg2x = builtins.substring 1 6 bg2;
+    bg3x = builtins.substring 1 6 bg3;
+    bg4x = builtins.substring 1 6 bg4;
+    fgx = builtins.substring 1 6 fg;
+    fg1x = builtins.substring 1 6 fg1;
+    alt1x = builtins.substring 1 6 alt1;
+    redx = builtins.substring 1 6 red;
+    orangex = builtins.substring 1 6 orange;
+    yellowx = builtins.substring 1 6 yellow;
+    greenx = builtins.substring 1 6 green;
+    cyanx = builtins.substring 1 6 cyan;
+    bluex = builtins.substring 1 6 blue;
+    magentax = builtins.substring 1 6 magenta;
+    alt2x = builtins.substring 1 6 alt2;
+
+    black = "#15191c"; # weirdly needed but ok
+
+    btop = "toyko-storm";
+
+    tmuxPrimary = blue;
+    tmuxSecondary = orange;
+
+    # https://github.com/NixOS/nixpkgs/blob/master/pkgs/data/themes/catppuccin-gtk/default.nix
+    gtkThemeName = "Catppuccin-Frappe-Standard-Pink-Dark";
+    gtkThemePackage = pkgs.catppuccin-gtk.override {
+      variant = "frappe";
+      accents = [ "pink" ]; # You can specify multiple accents here to output multiple themes
+      size = "standard";
+      tweaks = [ ]; # You can also specify multiple tweaks here
+    };
+
+    iconThemeName = "Catppuccin-Frappe";
+    iconThemePackage = pkgs.callPackage ../packages/catppuccin-gtk-theme.nix { };
+    cursorThemeName = "frappePink";
+    cursorThemePackage = pkgs.catppuccin-cursors;
+
+    neovimPlugin = {
+      plugin = pkgs.vimPlugins.catppuccin-nvim;
+      type = "lua";
+      config = /* lua */ ''
+        require("catppuccin").setup({
+          flavour = "frappe", -- latte, frappe, macchiato, mocha
+          background = { -- :h background
+              light = "latte",
+              dark = "frappe",
+          },
+        })
+        -- setup must be called before loading
+        vim.cmd.colorscheme "catppuccin"
+        local lualine_theme = require('lualine.themes.catppuccin')
+      '';
+    };
+  };
+
+  catppuccin-macchiato = rec {
+
+    # https://github.com/catppuccin/catppuccin
+
+    name = "catppuccin-macchiato";
+
+    # https://github.com/catppuccin/base16/tree/main/base16
+    base00 = "#24273a"; #base
+    base01 = "#1e2030"; #mantle
+    base02 = "#363a4f"; #surface0
+    base03 = "#494d64"; #surface1
+    base04 = "#5b6078"; #surface2
+    base05 = "#cad3f5"; #text
+    base06 = "#f4dbd6"; #rosewater
+    base07 = "#b7bdf8"; #lavender
+    base08 = "#ed8796"; #red
+    base09 = "#f5a97f"; #peach
+    base0A = "#eed49f"; #yellow
+    base0B = "#a6da95"; #green
+    base0C = "#8bd5ca"; #teal
+    base0D = "#8aadf4"; #blue
+    base0E = "#c6a0f6"; #mauve
+    base0F = "#f0c6c6"; #flamingo
+
+    bg = base00;
+    bg1 = base01;
+    bg2 = base02;
+    bg3 = base03;
+    bg4 = base04;
+    fg = base05;
+    fg1 = base06;
+    alt1 = base07;
+    red = base08;
+    orange = base09;
+    yellow = base0A;
+    green = base0B;
+    cyan = base0C;
+    blue = base0D;
+    magenta = base0E;
+    alt2 = base0F;
+
+    bgx = builtins.substring 1 6 bg;
+    bg1x = builtins.substring 1 6 bg1;
+    bg2x = builtins.substring 1 6 bg2;
+    bg3x = builtins.substring 1 6 bg3;
+    bg4x = builtins.substring 1 6 bg4;
+    fgx = builtins.substring 1 6 fg;
+    fg1x = builtins.substring 1 6 fg1;
+    alt1x = builtins.substring 1 6 alt1;
+    redx = builtins.substring 1 6 red;
+    orangex = builtins.substring 1 6 orange;
+    yellowx = builtins.substring 1 6 yellow;
+    greenx = builtins.substring 1 6 green;
+    cyanx = builtins.substring 1 6 cyan;
+    bluex = builtins.substring 1 6 blue;
+    magentax = builtins.substring 1 6 magenta;
+    alt2x = builtins.substring 1 6 alt2;
+
+    black = "#15191c"; # weirdly needed but ok
+
+    btop = "toyko-storm";
+
+    tmuxPrimary = blue;
+    tmuxSecondary = orange;
+
+    # https://github.com/NixOS/nixpkgs/blob/master/pkgs/data/themes/catppuccin-gtk/default.nix
+    gtkThemeName = "Catppuccin-Macchiato-Standard-Mauve-Dark";
+    gtkThemePackage = pkgs.catppuccin-gtk.override {
+      variant = "macchiato";
+      accents = [ "mauve" ]; # You can specify multiple accents here to output multiple themes
+      size = "standard";
+      tweaks = [ ]; # You can also specify multiple tweaks here
+    };
+
+    iconThemeName = "Catppuccin-Macchiato";
+    iconThemePackage = pkgs.callPackage ../packages/catppuccin-gtk-theme.nix { };
+    cursorThemeName = "Catppuccin-Macchiato-Pink-Cursors";
+    cursorThemePackage = pkgs.catppuccin-cursors.macchiatoPink;
+
+    neovimPlugin = {
+      plugin = pkgs.vimPlugins.catppuccin-nvim;
+      type = "lua";
+      config = /* lua */ ''
+        require("catppuccin").setup({
+          flavour = "macchiato", -- latte, frappe, macchiato, mocha
+        })
+        -- setup must be called before loading
+        vim.cmd.colorscheme "catppuccin"
+        local lualine_theme = require('lualine.themes.catppuccin')
+      '';
+    };
   };
 
   rose-pine = rec {

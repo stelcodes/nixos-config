@@ -42,6 +42,12 @@
       ref = "5595d93d29d2474338a9f601d713d395a07a6029";
       flake = false;
     };
+    catppuccin-bat = {
+      type = "github";
+      owner = "catppuccin";
+      repo = "bat";
+      flake = false;
+    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";

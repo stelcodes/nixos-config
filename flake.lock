@@ -66,6 +66,22 @@
         "type": "github"
       }
     },
+    "catppuccin-bat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1709404884,
+        "narHash": "sha256-PLbTLj0qhsDj+xm+OML/AQsfRQVPXLYQNEPllgKcEx4=",
+        "owner": "catppuccin",
+        "repo": "bat",
+        "rev": "0ce3d34921ba1b544a4d82aa01352abd553d51ef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "bat",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -461,6 +477,7 @@
         "agenix": "agenix",
         "arcsearch": "arcsearch",
         "audio-nix": "audio-nix",
+        "catppuccin-bat": "catppuccin-bat",
         "home-manager": "home-manager",
         "musnix": "musnix",
         "nix-alien": "nix-alien",

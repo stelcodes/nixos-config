@@ -129,7 +129,7 @@ in
       set -g clock-mode-colour '${theme.tmuxPrimary}'
       set -g message-style bg=${theme.bg},fg=${theme.tmuxPrimary}
       set -g message-command-style bg=${theme.bg},fg=${theme.tmuxPrimary}
-      set -g status-left "#[fg=${theme.bg},bg=${theme.tmuxPrimary},bold] #S "
+      set -g status-left "#{?pane_in_mode,#[fg=${theme.bg}#,bg=${theme.tmuxSecondary}#,bold],#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}#,bold]} #S "
       set -g status-left-length 25
       set -g status-right "#{?client_prefix,#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}] M-a ,}#[fg=${theme.bg4},bg=${theme.bg2}] %I:%M %p #{?pane_in_mode,#[fg=${theme.bg}#,bg=${theme.tmuxSecondary}#,bold],#[fg=${theme.bg}#,bg=${theme.tmuxPrimary}#,bold]} #H "
       set -g status-right-length 50

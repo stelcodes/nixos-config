@@ -18,18 +18,18 @@ in
         name = theme.iconThemeName;
         package = theme.iconThemePackage;
       };
-      # gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
-      gtk3.extraCss = /* css */ ''
-        /* shrink ssd titlebars */
-        .default-decoration {
-            min-height: 0; /* let the entry and button drive the titlebar size */
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-        .titlebar, .titlebar .background {
-            border-radius: 0;
-        }
-      '';
+      gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+      # gtk3.extraCss = /* css */ ''
+      #   /* shrink ssd titlebars */
+      #   .default-decoration {
+      #       min-height: 0; /* let the entry and button drive the titlebar size */
+      #       padding-top: 5px;
+      #       padding-bottom: 5px;
+      #   }
+      #   .titlebar, .titlebar .background {
+      #       border-radius: 0;
+      #   }
+      # '';
     };
 
     home = {
@@ -247,6 +247,12 @@ in
           files = [emojis]
           skin-tone = neutral
         '';
+
+        # TODO: Temporary catppuccin hack
+        "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+        "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+        "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+        "bat/themes/Catppuccin Macchiato.tmTheme".source = "${inputs.catppuccin-bat}/themes/Catppuccin Macchiato.tmTheme";
       };
 
       mimeApps = {

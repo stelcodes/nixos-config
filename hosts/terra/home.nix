@@ -54,6 +54,6 @@
         idleMinutes = 15;
       };
     };
-    wallpaper = pkgs.wallpaper.halcyondaze;
+    wallpaper = pkgs.wallpaper.rei-moon;
   };
 }
