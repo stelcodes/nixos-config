@@ -2,7 +2,7 @@
 let
   cfg = config.wayland.windowManager.sway;
   theme = systemConfig.theme.set;
-  viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log -- journalctl -ef -o cat -u nixos-rebuild";
+  viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log -- journalctl -efo cat -u nixos-rebuild.service";
   mod = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
   # Apple keyboard, I have to create a new rule for each Apple keyboard I use.
@@ -428,6 +428,19 @@ in
         };
         Service = {
           ExecStart = "${lib.getExe pkgs.syncthing-tray} -api '${systemConfig.services.syncthing.settings.gui.apikey}'";
+          Restart = "always";
+        };
+        Install = {
+          WantedBy = [ "sway-session.target" ];
+        };
+      };
+
+      nm-applet = {
+        Unit = {
+          Description = "Network manager applet";
+        };
+        Service = {
+          ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
           Restart = "always";
         };
         Install = {
