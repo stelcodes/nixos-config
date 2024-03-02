@@ -707,13 +707,10 @@ in
           });
         };
         "custom/idlesleep" = {
-          format = "{}";
+          format = if cfg.sleep.auto.enable then "{}" else "🕸️";
           max-length = 2;
           interval = if cfg.sleep.auto.enable then 2 else 0;
-          exec =
-            if cfg.sleep.auto.enable then
-              ''if test -f "$HOME/.local/share/idle-sleep-block"; then echo '🐝'; else echo '󱋒 '; fi''
-            else "echo '🐝'";
+          exec = ''if test -f "$HOME/.local/share/idle-sleep-block"; then echo '🐝'; else echo '🕸️'; fi'';
           on-click = lib.getExe (pkgs.writeShellApplication {
             name = "toggle-idle-sleep-block";
             runtimeInputs = [ pkgs.coreutils ];
