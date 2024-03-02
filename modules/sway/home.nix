@@ -321,6 +321,7 @@ in
           { command = "tmux kill-server"; }
           { command = "systemctl is-active syncthing.service && systemctl --user start syncthing-tray.service"; always = true; }
           { command = "systemctl --user is-active waybar.service || systemctl --user restart waybar.service"; always = true; }
+          { command = "systemctl --user start request-nixos-rebuild.service"; always = true; }
           { command = "systemctl --user start wlsunset.service"; }
         ];
       };

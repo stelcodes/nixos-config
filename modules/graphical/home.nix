@@ -426,8 +426,8 @@ in
         };
       };
       request-nixos-rebuild = {
-        # When editing this service, don't use the service itself to trigger a rebuild or home-manager
-        # will attempt to restart it as part of the rebuild process and madness will ensue
+        # Intentionally doesn't have an Install directive to stop home-manager from restarting it while it's running!
+        # Start this manually from your window/desktop manager's startup files instead
         Service = {
           Type = "notify-reload";
           NotifyAccess = "all"; # Allow notifications from all exec subprocesses
@@ -473,9 +473,6 @@ in
               wait $!
             '';
           });
-        };
-        Install = {
-          WantedBy = [ "default.target" ];
         };
       };
     };
