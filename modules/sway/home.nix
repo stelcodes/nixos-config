@@ -2,7 +2,7 @@
 let
   cfg = config.wayland.windowManager.sway;
   theme = systemConfig.theme.set;
-  viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log tail -n +1 -F -s 0.2 $HOME/tmp/rebuild/latest";
+  viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log -- journalctl -ef -o cat -u nixos-rebuild";
   mod = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
   # Apple keyboard, I have to create a new rule for each Apple keyboard I use.
@@ -236,7 +236,7 @@ in
           "${mod}+shift+backspace" = "exec firefox --private-window";
           "${mod}+grave" = "exec rofimoji";
           "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log --width 80 --height 80 -- ${viewRebuildLogCmd}";
-          "${mod}+shift+c" = "exec rebuild";
+          "${mod}+shift+c" = "exec systemctl --user reload request-nixos-rebuild";
           "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn --width 80 --height 80 -- foot --app-id=nnn fish -c nnn ~";
           "${mod}+shift+n" = "exec ${toggle-notifications}";
           "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol --width 80 --height 80 -- pavucontrol";
@@ -651,9 +651,22 @@ in
         };
         "custom/rebuild" = {
           format = "{}";
-          max-length = 25;
+          max-length = 3;
           interval = 2;
-          exec = "if test -f \"$HOME/tmp/rebuild/status\"; then echo \"$(< $HOME/tmp/rebuild/status)\"; else echo ; fi";
+          exec = lib.getExe (pkgs.writeShellApplication {
+            name = "waybar-rebuild-exec";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.systemd pkgs.gnugrep ];
+            text = ''
+              status="$(systemctl is-active nixos-rebuild.service || true)"
+              if grep -q "inactive" <<< "$status"; then
+                printf ""
+              elif grep -q "active" <<< "$status"; then
+                printf ""
+              elif grep -q "failed" <<< "$status"; then
+                printf ""
+              fi
+            '';
+          });
           on-click = viewRebuildLogCmd;
         };
         "custom/recordplayback" = {
