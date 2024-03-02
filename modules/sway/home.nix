@@ -653,19 +653,16 @@ in
           "sway/workspaces"
           "tray"
           "custom/pomo"
+          "custom/wlsunset"
           "custom/idlesleep"
         ];
         modules-center = [ "sway/mode" ];
         modules-right = [
           "custom/rebuild"
-          "network#1"
-          "network#2"
           "cpu"
           "backlight"
-          "custom/wlsunset"
           "custom/recordplayback"
           "wireplumber"
-          "bluetooth"
           "battery"
           "clock"
         ];
@@ -678,7 +675,7 @@ in
         };
         "custom/rebuild" = {
           format = "{}";
-          max-length = 3;
+          max-length = 12;
           interval = 2;
           exec = lib.getExe (pkgs.writeShellApplication {
             name = "waybar-rebuild-exec";
@@ -686,11 +683,11 @@ in
             text = ''
               status="$(systemctl is-active nixos-rebuild.service || true)"
               if grep -q "inactive" <<< "$status"; then
-                printf ""
+                printf "rebuild: "
               elif grep -q "active" <<< "$status"; then
-                printf ""
+                printf "rebuild: "
               elif grep -q "failed" <<< "$status"; then
-                printf ""
+                printf "rebuild: "
               fi
             '';
           });
@@ -713,10 +710,10 @@ in
           format = "{}";
           max-length = 2;
           interval = if cfg.sleep.auto.enable then 2 else 0;
-          # 󱥑 󱥐 octahedron
-          # 󰦞 󰦝 shield
-          # 󱓣 󰜗 snowflake
-          exec = if cfg.sleep.auto.enable then "if test -f \"$HOME/.local/share/idle-sleep-block\"; then echo '󱓣 '; else echo '󰜗 '; fi" else "echo '󱓣 '";
+          exec =
+            if cfg.sleep.auto.enable then
+              ''if test -f "$HOME/.local/share/idle-sleep-block"; then echo '🐝'; else echo '󱋒 '; fi''
+            else "echo '🐝'";
           on-click = lib.getExe (pkgs.writeShellApplication {
             name = "toggle-idle-sleep-block";
             runtimeInputs = [ pkgs.coreutils ];
@@ -770,29 +767,6 @@ in
         disk = {
           interval = 30;
           format = "{percentage_used} ";
-        };
-        bluetooth = {
-          format = "";
-          format-on = "󰂲";
-          on-click = "blueman-manager";
-        };
-        "network#1" = {
-          max-length = 60;
-          interface = "wl*";
-          # format = "{ifname}";
-          # format-ethernet = "{ifname} ";
-          format-disconnected = "";
-          format-wifi = "";
-          tooltip-format = "{essid} {frequency}GHz {signalStrength}%";
-          on-click = "foot --app-id=nmtui nmtui";
-        };
-        "network#2" = {
-          max-length = 60;
-          interface = "vpn*";
-          format = "";
-          tooltip-format = "{essid}";
-          format-disconnected = "";
-          on-click = "foot --app-id=nmtui nmtui";
         };
         wireplumber = {
           format = "{node_name} {volume} {icon}";
