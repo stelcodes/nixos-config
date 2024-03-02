@@ -61,6 +61,11 @@
     k3b.enable = true;
   };
 
+  fileSystems."/run/media/archive" = {
+    device = "/dev/disk/by-uuid/b61e7c5c-ef1b-402c-bc2f-28ec33770319";
+    fsType = "btrfs";
+  };
+
   services = {
     syncthing = {
       enable = true;
@@ -76,7 +81,7 @@
       # http://snapper.io/manpages/snapper-configs.html
       configs = {
         archive = {
-          SUBVOLUME = "/run/media/${config.admin.username}/archive1";
+          SUBVOLUME = "/run/media/archive";
           ALLOW_USERS = [ config.admin.username ];
           FSTYPE = "btrfs";
           SPACE_LIMIT = "0.5";
