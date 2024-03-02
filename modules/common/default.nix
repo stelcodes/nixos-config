@@ -101,8 +101,9 @@
       '';
       services = {
         nixos-rebuild = {
+          restartIfChanged = false;
           serviceConfig = {
-            Type = "oneshot";
+            Type = "exec";
             ExecStart = lib.getExe (pkgs.writeShellApplication {
               name = "nixos-rebuild";
               runtimeInputs = [ pkgs.coreutils pkgs.nixos-rebuild pkgs.git ];

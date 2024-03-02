@@ -88,7 +88,7 @@
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild = "sudo nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
-      _rebuild = "systemctl --user start nixos-rebuild.service";
+      rebuild_ = "systemctl start --user nixos-rebuild.service";
       swaytree = "swaymsg -t get_tree | nvim -R";
       swayinputs = "swaymsg -t get_inputs | nvim -R";
       swayoutputs = "swaymsg -t get_outputs | nvim -R";

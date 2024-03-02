@@ -427,7 +427,7 @@ in
       };
       nixos-rebuild = {
         Service = {
-          Type = "oneshot";
+          Type = "exec";
           ExecStart = lib.getExe (pkgs.writeShellApplication {
             name = "nixos-rebuild-exec-start";
             runtimeInputs = [ pkgs.coreutils-full pkgs.nixos-rebuild pkgs.systemd pkgs.mpv ];
@@ -441,7 +441,7 @@ in
                 mpv ${pkgs.failure-alert} || true;
               }
               if systemctl start nixos-rebuild.service; then
-                while systemctl is-active nixos-rebuild.service; do
+                while systemctl -q is-active nixos-rebuild.service; do
                   sleep 1
                 done
                 if systemctl is-failed nixos-rebuild.service; then

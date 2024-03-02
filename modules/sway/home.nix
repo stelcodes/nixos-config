@@ -660,7 +660,7 @@ in
               status="$(systemctl is-active nixos-rebuild.service || true)"
               if grep -q "inactive" <<< "$status"; then
                 printf ""
-              elif grep -q "activating" <<< "$status"; then
+              elif grep -q "active" <<< "$status"; then
                 printf ""
               elif grep -q "failed" <<< "$status"; then
                 printf ""
