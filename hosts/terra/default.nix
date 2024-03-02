@@ -71,7 +71,7 @@
       enable = true;
       selectedFolders = [ "default" "games" ];
     };
-    getty.autologinUser = config.admin.username;
+    # getty.autologinUser = config.admin.username;
     snapper = {
       # Must create btrfs snapshots subvolume manually
       # sudo btrfs subvolume create <mount_point>/.snapshots
