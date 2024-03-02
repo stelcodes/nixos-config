@@ -99,6 +99,35 @@
         DefaultTimeoutStopSec=10
         DefaultTimeoutAbortSec=10
       '';
+      services = {
+        nixos-rebuild = {
+          serviceConfig = {
+            Type = "exec";
+            Restart = "no";
+            ExecStart = lib.getExe (pkgs.writeShellApplication {
+              name = "nixos-rebuild";
+              runtimeInputs = [ pkgs.coreutils pkgs.nixos-rebuild pkgs.git ];
+              text = ''
+                stderr() { printf "%s\n" "$*" >&2; }
+                flake_dir="/home/${config.admin.username}/nixos-config"
+
+                if [ ! -d "$flake_dir" ] || [ ! -f "$flake_dir/flake.nix" ]; then
+                  stderr "Flake directory: '$flake_dir' is not valid"
+                  exit 1
+                fi
+
+                if nixos-rebuild --option eval-cache false switch --flake "$flake_dir#"; then
+                  printf "New generation created 🥳"
+                  exit 0
+                else
+                  stderr "Something went wrong 🤔"
+                  exit 1
+                fi
+              '';
+            });
+          };
+        };
+      };
     };
 
     # Set your time zone.
