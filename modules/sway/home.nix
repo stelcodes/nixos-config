@@ -487,7 +487,21 @@ in
           Restart = "no";
         };
       };
-    };
+    } // (if systemConfig.profile.bluetooth then {
+
+      blueman-applet = {
+        Unit = {
+          Description = "Blueman applet";
+        };
+        Service = {
+          ExecStart = "${pkgs.blueman}/bin/blueman-applet";
+        };
+        Install = {
+          WantedBy = [ "sway-session.target" ];
+        };
+      };
+
+    } else { });
 
     services = {
       swayidle = {
