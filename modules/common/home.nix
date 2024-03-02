@@ -29,7 +29,6 @@
           Service = {
             Type = "oneshot";
             ExecStart = "${pkgs.coreutils}/bin/env";
-            Restart = "never";
           };
           Install = {
             WantedBy = [ "default.target" ];
