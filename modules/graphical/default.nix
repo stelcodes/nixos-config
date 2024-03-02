@@ -14,6 +14,29 @@
       xpadneo.enable = lib.mkIf config.activities.gaming true;
     };
 
+    security.polkit = {
+      debug = true;
+      extraConfig = /* javascript */ ''
+        // Log authorization checks
+        polkit.addRule(function(action, subject) {
+         polkit.log("user " +  subject.user + " is attempting action " + action.id + " from PID " + subject.pid);
+        });
+        // Allow rebuilds for admin user without password
+        polkit.addRule(function(action, subject) {
+          polkit.log("action=" + action);
+          polkit.log("subject=" + subject);
+          var wheel = subject.isInGroup("wheel");
+          var systemd = (action.id == "org.freedesktop.systemd1.manage-unit-files");
+          var rebuild = (action.lookup("unit") == "nixos-rebuild.service");
+          var verb = action.lookup("verb");
+          var acceptedVerb = (verb == "start" || verb == "stop" || verb == "restart");
+          if (wheel && systemd && rebuild && acceptedVerb) {
+            return polkit.Result.YES;
+          }
+        });
+      '';
+    };
+
     programs = {
 
       # Need this for font-manager or any other gtk app to work I guess
