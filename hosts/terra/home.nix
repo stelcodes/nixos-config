@@ -9,8 +9,8 @@
       pkgs.signal-desktop
       pkgs.fractal
       # inputs.gpt4all-nix.packages.${pkgs.system}.default
-      pkgs.unstable.gpt4all-chat
-      inputs.arcsearch.defaultPackage.${pkgs.system}
+      pkgs.unstable.gpt4all
+      # inputs.arcsearch.packages.${pkgs.system}.default
       pkgs.retroarch-loaded
       pkgs.kodi-loaded
       pkgs.flac
@@ -19,7 +19,7 @@
       pkgs.gnome3.cheese # for testing webcams
       pkgs.amdgpu_top
       # pkgs.lact # amdgpu controller daemon + gui https://github.com/ilya-zlobintsev/LACT
-      pkgs.blender
+      pkgs.blender-hip # Includes HIP libraries needed for AMD GPU
       pkgs.libreoffice
       pkgs.guitarix
       pkgs.gxplugins-lv2
@@ -39,6 +39,7 @@
       pkgs.ffmpeg
       pkgs.discord-firefox
       pkgs.spotify-firefox
+      pkgs.gnome.dconf-editor
     ];
   };
   wayland.windowManager.sway = {

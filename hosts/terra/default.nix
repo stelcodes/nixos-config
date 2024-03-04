@@ -16,6 +16,8 @@
 
   hardware.opengl.extraPackages = with pkgs; [
     amdvlk
+    # Trying to get blender to work
+    # rocmPackages.clr.icd
   ];
 
   profile = {
@@ -39,6 +41,7 @@
   sound.realtime = {
     enable = true;
     soundcardPciId = "31:00.4"; # Mobo soundcard
+    specialisation = true;
   };
 
   age.secrets = {
@@ -105,9 +108,9 @@
     };
   };
 
-  systemd.tmpfiles.rules = [
-    "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
-  ];
+  # systemd.tmpfiles.rules = [
+  #   "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
+  # ];
 
   networking = {
     firewall = {
