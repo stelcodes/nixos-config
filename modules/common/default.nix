@@ -73,7 +73,7 @@
 
     boot = {
       tmp.cleanOnBoot = true;
-      kernelPackages = lib.mkDefault pkgs.linuxPackages_6_1;
+      kernelPackages = lib.mkDefault pkgs.linuxPackages_6_6;
 
       # These boot loader settings are the only thing in new configuration.nix files
       loader = lib.mkIf (!config.profile.virtual) {
