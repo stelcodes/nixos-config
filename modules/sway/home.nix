@@ -280,9 +280,19 @@ in
             '';
           });
         };
-        modes = pkgs.lib.mkOptionDefault {
+        modes = {
           resize = {
-            "r" = "resize set width 80 ppt height 90 ppt, move position center";
+            escape = "mode default";
+            return = "mode default";
+            up = "move up 10 px";
+            down = "move down 10 px";
+            left = "move left 10 px";
+            right = "move right 10 px";
+            h = "resize shrink width 10 px";
+            j = "resize grow height 10 px";
+            k = "resize shrink height 10 px";
+            l = "resize grow width 10 px";
+            r = "resize set width 80 ppt height 90 ppt, move position center";
           };
         };
         # There's a big problem with how home-manager handles the input and output values
