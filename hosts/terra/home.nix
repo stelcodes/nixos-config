@@ -3,7 +3,7 @@
   home = {
     stateVersion = "23.05";
     packages = [
-      pkgs.obsidian
+      pkgs.obsidian-jailed
       pkgs.gimp-with-plugins
       pkgs.gajim
       pkgs.signal-desktop

@@ -279,7 +279,7 @@ self: super: {
         );
       in
       ''
-        command_path="$out/bin/$(basename ${executable})"
+        command_path="$out/bin/$(basename ${executable})-jailed"
         mkdir -p $out/bin
         mkdir -p $out/share/applications
         cat <<'_EOF' >"$command_path"
@@ -292,10 +292,10 @@ self: super: {
           --replace ${executable} "$command_path"
       ''
     );
-  obsidian = self.firejailWrapper {
+  obsidian-jailed = self.firejailWrapper {
     executable = "${super.obsidian}/bin/obsidian";
     desktop = "${super.obsidian}/share/applications/obsidian.desktop";
-    extraArgs = [ "--noprofile" "--net=none" "--whitelist=\"$HOME/sync/journal\"" "--whitelist=\"$HOME/.config/obsidian\"" ];
+    extraArgs = [ "--noprofile" "--net=none" ];
   };
   desktop-entries = super.writeShellApplication {
     name = "desktop-entries";
