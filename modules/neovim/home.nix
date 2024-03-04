@@ -511,6 +511,13 @@ in
                 template = nil
               },
               new_notes_location = "notes_subdir",
+              follow_url_func = function(url)
+                vim.fn.jobstart({"xdg-open", url})
+              end,
+              preferred_link_style = "markdown",
+              attachments = {
+                img_folder = "media",
+              },
               mappings = {
                 ["<leader>on"] = {
                   action = function() vim.cmd "ObsidianNew" end,
@@ -538,6 +545,14 @@ in
                 },
                 ["<leader>oo"] = {
                   action = function() vim.cmd "ObsidianOpen" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>ol"] = {
+                  action = function() vim.cmd "ObsidianLink" end,
+                  opts = { buffer = true },
+                },
+                ["<leader>oL"] = {
+                  action = function() vim.cmd "ObsidianLinkNew" end,
                   opts = { buffer = true },
                 },
                 ["<leader>or"] = {
