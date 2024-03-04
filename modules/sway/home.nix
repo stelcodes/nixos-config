@@ -140,6 +140,7 @@ in
           size = 8.0;
         };
         bars = [ ];
+        seat.seat0.xcursor_theme = "${theme.cursorThemeName} 32";
         colors = {
           focused = {
             background = theme.bg;

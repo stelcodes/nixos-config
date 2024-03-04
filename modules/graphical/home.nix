@@ -19,17 +19,6 @@ in
         package = theme.iconThemePackage;
       };
       gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
-      # gtk3.extraCss = /* css */ ''
-      #   /* shrink ssd titlebars */
-      #   .default-decoration {
-      #       min-height: 0; /* let the entry and button drive the titlebar size */
-      #       padding-top: 5px;
-      #       padding-bottom: 5px;
-      #   }
-      #   .titlebar, .titlebar .background {
-      #       border-radius: 0;
-      #   }
-      # '';
     };
 
     home = {
@@ -39,8 +28,7 @@ in
       pointerCursor = {
         package = theme.cursorThemePackage;
         name = theme.cursorThemeName;
-        # Sway seems unaffected by this size and defaults to 24
-        size = 24;
+        size = 32;
         gtk.enable = true;
       };
       packages = [
@@ -248,12 +236,7 @@ in
           skin-tone = neutral
         '';
 
-        # TODO: Temporary catppuccin hack
-        "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-        "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-        "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
-        "bat/themes/Catppuccin Macchiato.tmTheme".source = "${inputs.catppuccin-bat}/themes/Catppuccin Macchiato.tmTheme";
-      };
+      } // (if theme ? configFile then theme.configFile else { });
 
       mimeApps = {
         # https://www.iana.org/assignments/media-types/media-types.xhtml
@@ -584,7 +567,7 @@ in
           prefer-dark-theme = true;
         };
         "org/gnome/desktop/wm/preferences" = {
-          button-layout = ""; # Hide GTK CSD window buttons
+          button-layout = "appmenu:close"; # Only show close button
         };
         "org/gnome/terminal/legacy" = {
           default-show-menubar = false;
