@@ -86,7 +86,7 @@
           ffado.enable = true;
           kernel = {
             realtime = true; # https://github.com/musnix/musnix/issues/118
-            packages = pkgs.linuxPackages_rt_6_1;
+            packages = pkgs.unstable.linuxPackages-rt_latest; # Get the latest bc the rt versions lag behind
           };
           rtirq.enable = true;
           soundcardPciId = config.sound.realtime.soundcardPciId;
