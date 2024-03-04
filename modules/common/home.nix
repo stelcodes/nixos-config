@@ -220,7 +220,7 @@
           pkgs.xdg-utils
         ];
         bookmarks = {
-          m = "/run/media/${config.home.username}";
+          m = "/run/media";
           M = "~/music";
           d = "~/downloads";
           D = "~/documents";
