@@ -284,6 +284,12 @@
         local lualine_theme = require('lualine.themes.catppuccin')
       '';
     };
+
+    configFile = {
+      "gtk-4.0/assets".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/assets";
+      "gtk-4.0/gtk.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk.css";
+      "gtk-4.0/gtk-dark.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk-dark.css";
+    };
   };
 
   catppuccin-macchiato = rec {
@@ -346,7 +352,7 @@
 
     black = "#15191c"; # weirdly needed but ok
 
-    btop = "toyko-storm";
+    btop = "catppuccin_macchiato";
 
     tmuxPrimary = blue;
     tmuxSecondary = orange;
@@ -377,6 +383,22 @@
         local lualine_theme = require('lualine.themes.catppuccin')
       '';
     };
+
+    configFile =
+      let
+        btopTheme = pkgs.fetchFromGitHub {
+          owner = "catppuccin";
+          repo = "btop";
+          rev = "c6469190f2ecf25f017d6120bf4e050e6b1d17af";
+          hash = "sha256-jodJl4f2T9ViNqsY9fk8IV62CrpC5hy7WK3aRpu70Cs=";
+        };
+      in
+      {
+        "btop/themes/catppuccin_macchiato.theme".source = "${btopTheme}/themes/catppuccin_macchiato.theme";
+        "gtk-4.0/assets".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/assets";
+        "gtk-4.0/gtk.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk.css";
+        "gtk-4.0/gtk-dark.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk-dark.css";
+      };
   };
 
   rose-pine = rec {
