@@ -75,10 +75,11 @@
       date-sortable-utc = "date -u +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with UTC timezone
       t = "tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"";
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
-      dl-base = "yt-dlp --embed-metadata --embed-thumbnail --progress";
+      dl-base = "cd ~/videos/youtube && yt-dlp --embed-metadata --embed-thumbnail --progress --download-archive ./yt-dlp-archive.txt --user-agent 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0'";
       dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor' --remux-video 'mkv'";
-      dl-video-yt-chrono = "${dl-video} --output '%(channel,creator,uploader|Unknown Uploader)s/%(upload_date,release_date|19690101)s - %(channel,creator,uploader|Unknown Uploader)s - %(title|Unknown Title)s [%(id)s].%(ext)s'";
-      dl-video-yt-playlist = "${dl-video} --output '%(channel,creator,uploader|Unknown Uploader)s - %(playlist)s/%(playlist_index).2d - %(upload_date,release_date|19690101)s - %(channel,creator,uploader|Unknown Uploader)s - %(title|Unknown Title)s [%(id)s].%(ext)s'";
+      dl-video-yt = "${dl-video} --no-playlist --output '%(uploader_id,uploader)s/%(upload_date)s - %(uploader_id,uploader)s - %(title)s [%(id)s].%(ext)s'";
+      yt = dl-video-yt;
+      dl-video-yt-playlist = "${dl-video} --output '%(uploader_id,uploader)s - %(playlist)s/%(playlist_index).3d - %(upload_date)s - %(uploader_id,uploader)s - %(title)s [%(id)s].%(ext)s'";
       dl-video-1080 = "${dl-video} --format 'bestvideo[height<=1080]+bestaudio'";
       dl-video-1080-yt-playlist = "${dl-video-yt-playlist} --format 'bestvideo[height<=1080]+bestaudio'";
       dl-audio-bc = "${dl-base} --format 'flac' --output '%(album_artist,artist,uploader|Unknown Artist)s - %(album,track,title|Unknown Album)s/%(track_number|00).2d - %(artist,uploader|Unknown Artist)s - %(track,title,webpage_url)s.%(ext)s'";
