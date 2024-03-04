@@ -267,7 +267,7 @@ in
             runtimeInputs = [ pkgs.coreutils-full pkgs.slurp pkgs.grim pkgs.swappy ];
             text = ''
               mkdir -p "$XDG_PICTURES_DIR/screenshots"
-              grim -g "$(slurp)" - | swappy -f -
+              grim -cg "$(slurp)" - | swappy -f -
             '';
           });
           Print = "exec " + lib.getExe (pkgs.writeShellApplication {
@@ -276,7 +276,7 @@ in
             text = ''
               mkdir -p "$XDG_PICTURES_DIR/screenshots"
               current_output=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
-              grim -o "$current_output" - | swappy -f -
+              grim -co "$current_output" - | swappy -f -
             '';
           });
         };
