@@ -113,6 +113,7 @@
 
       file = {
         ".hm-generation-source".source = ../..;
+        ".ExifTool_config".source = ../../misc/exiftool-config.pl;
       };
     };
 
@@ -196,32 +197,13 @@
 
       pistol = {
         enable = true;
-        associations =
-          let
-            ffprobeBase = "sh: ffprobe -v quiet -print_format json -show_format -pretty %pistol-filename%";
-            audioFilters = {
-              "title" = ".tags.TITLE";
-              "artist" = ".tags.ARTIST";
-              "album" = ".tags.ALBUM";
-              "album_artist" = ".tags.album_artist";
-              "date" = ".tags.DATE";
-              "duration" = ".duration";
-              "size" = ".size";
-              "bitrate" = ".bit_rate";
-              "encoder" = ".tags.ENCODER";
-              "comment" = ".tags.comment";
-            };
-            ffprobeWithoutFilters = ffprobeBase + " | jq -C .format";
-            ffprobeWithFilters = filters: ffprobeBase + " | jq -C '.format | { " + (lib.foldlAttrs (acc: name: value: acc + "${name}: ${value}, ") "" filters) + " }'";
-          in
-          [
-            # Must install ffmpeg for media previews
-            { mime = "audio/*"; command = "exiftool --ExifTool* --Directory* --File* --Frame* --Block* --TotalSamples* --MD5* --Picture* --MusicBrainz* --Traktor* --Djuced* %pistol-filename%"; }
-            { mime = "video/*"; command = "exiftool --ExifTool* --Directory* --File* --Frame* --Block* --TotalSamples* --MD5* %pistol-filename%"; }
-            { mime = "image/*"; command = "exiftool --ExifTool* --Directory* --File* --Frame* --Block* --TotalSamples* --MD5* %pistol-filename%"; }
-            { mime = "inode/directory"; command = "eza -la --color always %pistol-filename%"; }
-            { mime = "application/epub+zip"; command = "bk --meta %pistol-filename%"; }
-          ];
+        associations = [
+          { mime = "audio/*"; command = "exiftool -mimetype -duration -title -artist -album -albumartist -tracknumber -date* -year -catalog -label -publisher -genre -audiobitrate -flacbitrate -comment %pistol-filename%"; }
+          { mime = "video/*"; command = "exiftool -mimetype -duration -title -date* -videoframerate -imagewidth -imageheight -description %pistol-filename%"; }
+          { mime = "image/*"; command = "exiftool -mimetype -imagesize -megapixels %pistol-filename%"; }
+          { mime = "inode/directory"; command = "eza -la --color always %pistol-filename%"; }
+          { mime = "application/epub+zip"; command = "bk --meta %pistol-filename%"; }
+        ];
       };
 
       nnn = {
