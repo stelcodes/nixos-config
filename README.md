@@ -309,18 +309,6 @@ https://imgur.com/upload
 
 https://github.com/xlce/wofi
 
-## Other Links
-
-https://librearts.org/
-
-https://diskprices.com
-
-https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data
-
-https://modcase.com.au
-
-https://frame.work
-
 ## Hard Drives
 
 ### Btrfs RAID1 mirror
@@ -335,3 +323,25 @@ sudo btrfs device add /dev/sda /mnt/archive
 # This might take a LONG time depending on how much data is already present on the first disk
 sudo btrfs balance start -mconvert=raid1 -dconvert=raid1 /mnt/archive
 ```
+
+## Neovim
+
+### Folding
+Sometimes I forget how to fold in Vim. Here's the easiest way for me to remember:
+
+- Fold: z prefix (the "z" looks like a folded piece of paper, if you look at it from the side)
+- Fold MORE: zm, zM to fold everything
+- Fold REDUCE: zr, zR to fold nothing
+
+## Other Links
+
+https://librearts.org/
+
+https://diskprices.com
+
+https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data
+
+https://modcase.com.au
+
+https://frame.work
+
