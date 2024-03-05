@@ -221,6 +221,7 @@ self: super: {
     p.somafm
     p.radioparadise
     p.joystick
+    p.youtube
   ]);
   retroarch-loaded = super.retroarch.override {
     settings = {
@@ -237,7 +238,6 @@ self: super: {
       playlist_entry_rename = "false";
       input_menu_toggle_gamepad_combo = "7"; # hold start for quick menu
       menu_swap_ok_cancel_buttons = "true";
-      savestate_auto_index = "true";
       auto_overrides_enable = "true"; # Auto setup controllers
       auto_remaps_enable = "true"; # Auto load past remaps
     };

@@ -35,8 +35,8 @@
     };
     wallpaper = pkgs.wallpaper.anime-girl-cat;
     extraConfig = ''
-      for_window [app_id=org.libretro.RetroArch] fullscreen enable
-      for_window [class=Kodi] fullscreen enable
+      for_window [app_id=org.libretro.RetroArch] fullscreen disable
+      for_window [class=Kodi] fullscreen disable
     '';
   };
 }
