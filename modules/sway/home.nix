@@ -34,8 +34,8 @@ let
     if tmux run 2>/dev/null; then
       tmux new-session -As sandbox
     else
-      tmux new-session -ds config -c "$HOME/nixos-config" -- nvim
-      tmux new-session -ds journal -c "$HOME/sync/journal" -- nvim -c ObsidianToday
+      tmux new-session -ds config -c "$HOME/nixos-config"
+      tmux new-session -ds notes -c "$HOME/notes"
       tmux new-session -As sandbox
     fi
   '';

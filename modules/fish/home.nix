@@ -105,7 +105,7 @@
       nix-dependency = "nix-store --query --referrers /nix/store/";
       nix-bigstuff = "nix path-info -rS /run/current-system | sort -nk2";
       nix-why = "nix why-depends /run/current-system /nix/store/";
-      oj = "cd ~/sync/journal && nvim -c ObsidianToday";
+      notes = "cd ~/notes && nnn";
     };
     shellAliases = {
       n = "nnn";
