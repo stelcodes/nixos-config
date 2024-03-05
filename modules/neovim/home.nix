@@ -406,6 +406,42 @@ in
           '';
         }
 
+        (pkgs.vimUtils.buildVimPlugin {
+          pname = "calendar-vim-fork";
+          version = "unstable-2021-11-26";
+          src = pkgs.fetchFromGitHub {
+            owner = "renerocksai";
+            repo = "calendar-vim";
+            rev = "a7e73e02c92566bf427b2a1d6a61a8f23542cc21";
+            hash = "sha256-4XeDd+myM+wtHUsr3s1H9+GAwIjK8fAqBbFnBCeatPo=";
+          };
+        })
+        {
+          plugin = plugins.telekasten-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            local home = vim.fn.expand("~/tmp/notes")
+            require('telekasten').setup({
+              home = home,
+              image_subdir = "media",
+              sort = "modified",
+              filename_space_subst = "-",
+              image_link_style = "markdown",
+              media_previewer = "catimg-previewer",
+            })
+            -- Most used functions
+            vim.keymap.set("n", "<leader>z", "<cmd>Telekasten panel<CR>")
+            vim.keymap.set("n", "<leader>zf", "<cmd>Telekasten find_notes<CR>")
+            vim.keymap.set("n", "<leader>zs", "<cmd>Telekasten search_notes<CR>")
+            vim.keymap.set("n", "<leader>zd", "<cmd>Telekasten goto_today<CR>")
+            vim.keymap.set("n", "<leader>zz", "<cmd>Telekasten follow_link<CR>")
+            vim.keymap.set("n", "<leader>zn", "<cmd>Telekasten new_note<CR>")
+            vim.keymap.set("n", "<leader>zc", "<cmd>Telekasten show_calendar<CR>")
+            vim.keymap.set("n", "<leader>zb", "<cmd>Telekasten show_backlinks<CR>")
+            vim.keymap.set("n", "<leader>zI", "<cmd>Telekasten insert_img_link<CR>")
+          '';
+        }
+
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
 
         plugins.nvim-ts-context-commentstring # For accurate comments
