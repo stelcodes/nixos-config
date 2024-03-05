@@ -96,7 +96,6 @@
       nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/nixos-config)).nixosConfigurations.$hostname\"";
       nix-pkg-size = "nix path-info --closure-size --human-readable --recursive";
       play = "audacious --enqueue-to-temp";
-      notes = "cd ~/documents/journal && nvim";
       strip-exec-permissions = "if test \"$(read -P 'Are you sure: ')\" = 'y'; fd -0 --type x | xargs -0 chmod -vc a-x; else; echo 'Aborting'; end";
       sway = "exec systemd-cat --identifier=sway sway";
       u = "udisksctl";
@@ -105,7 +104,6 @@
       nix-dependency = "nix-store --query --referrers /nix/store/";
       nix-bigstuff = "nix path-info -rS /run/current-system | sort -nk2";
       nix-why = "nix why-depends /run/current-system /nix/store/";
-      notes = "cd ~/notes && nnn";
     };
     shellAliases = {
       n = "nnn";
