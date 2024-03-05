@@ -296,10 +296,6 @@
       {
         inherit config;
         overlays = [
-          # https://github.com/NixOS/nixpkgs/issues/263764#issuecomment-1782979513
-          (final: prev: {
-            obsidian = prev.obsidian.override { electron = final.electron_24; };
-          })
           (final: prev: {
             unstable = import inputs.nixpkgs-unstable { inherit config; system = final.system; };
           })

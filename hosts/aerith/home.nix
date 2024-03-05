@@ -2,7 +2,7 @@
   home = {
     stateVersion = "23.11";
     packages = [
-      pkgs.obsidian-jailed
+      pkgs.unstable.obsidian
     ];
   };
 }

@@ -7,7 +7,7 @@
     stateVersion = "23.11";
     packages = [
       # pkgs.davinci-resolve not working
-      pkgs.obsidian-jailed
+      pkgs.unstable.obsidian
       pkgs.discord-firefox
       pkgs.signal-desktop
       pkgs.retroarch-loaded
