@@ -40,6 +40,7 @@
       pkgs.discord-firefox
       pkgs.spotify-firefox
       pkgs.gnome.dconf-editor
+      pkgs.picard # Music tagging (mp3, flac, everything)
     ];
   };
   wayland.windowManager.sway = {
