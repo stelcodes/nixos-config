@@ -365,6 +365,7 @@ in
         for_window [class=Kodi] move container to workspace 5
         for_window [app_id=audacious] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=guitarix] floating disable
+        for_window [app_id=dragon] sticky enable
       '';
       swaynag = {
         enable = true;

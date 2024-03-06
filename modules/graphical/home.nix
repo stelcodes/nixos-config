@@ -528,7 +528,7 @@ in
                 if [ -s "$selection" ]; then
                   TMPFILE="$(mktemp)"
                   cat "$selection" > "$TMPFILE"
-                  xargs -0 dragon --and-exit < "$TMPFILE" &
+                  xargs -0 dragon < "$TMPFILE" &
                   rm "$TMPFILE"
                   # Clear selection
                   if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
@@ -536,7 +536,7 @@ in
                   fi
                 else
                   if [ -n "$1" ] && [ -e "$1" ]; then
-                    dragon --and-exit "$1" &
+                    dragon "$1" &
                   fi
                 fi
               '';
