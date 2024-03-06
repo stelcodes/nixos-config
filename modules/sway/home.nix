@@ -166,7 +166,7 @@ in
           };
         };
         window = {
-          hideEdgeBorders = "smart";
+          hideEdgeBorders = "none";
           border = 1;
         };
         workspaceLayout = "tabbed";
@@ -221,8 +221,8 @@ in
           "${mod}+tab" = "workspace back_and_forth";
           "${mod}+less" = "focus parent";
           "${mod}+greater" = "focus child";
-          "${mod}+semicolon" = "layout toggle split tabbed stacking";
-          "${mod}+apostrophe" = "split toggle";
+          "${mod}+comma" = "split toggle";
+          "${mod}+period" = "split none";
           "${mod}+shift+tab" = "exec ${lib.getExe cycle-sway-output}";
           "${mod}+shift+r" = "reload; exec systemctl --user restart waybar";
           "${mod}+shift+e" = "exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'";
@@ -315,7 +315,7 @@ in
         };
         output = {
           "*" = {
-            background = if (cfg.wallpaper != null) then "${cfg.wallpaper} fill ${theme.bg}" else "${theme.bg} solid_color";
+            background = if (cfg.wallpaper != null) then "${cfg.wallpaper} fill ${theme.bg}" else "~/.wallpaper fill ${theme.bg}";
           };
           # Framework screen
           "BOE 0x095F Unknown" = {
