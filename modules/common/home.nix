@@ -84,7 +84,6 @@
         pkgs.dua
         pkgs.vimv-rs
         pkgs.jq
-        pkgs.fzf
         pkgs.exiftool
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
         pkgs.nix-prefetch-github
@@ -168,27 +167,7 @@
         };
       };
 
-      fzf =
-        let
-          fzfExcludes = [
-            ".local"
-            ".cache"
-            ".git"
-            "node_modules"
-            ".rustup"
-            ".cargo"
-            ".m2"
-            ".bash_history"
-          ];
-          # string lib found here https://git.io/JtIua
-          fzfExcludesString =
-            pkgs.lib.concatMapStrings (glob: " --exclude '${glob}'") fzfExcludes;
-        in
-        {
-          enable = false;
-          defaultOptions = [ "--height 80%" "--reverse" ];
-          defaultCommand = "fd --type f --hidden ${fzfExcludesString}";
-        };
+      fzf.enable = true;
 
       direnv = {
         enable = systemConfig.activities.coding;
