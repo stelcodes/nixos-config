@@ -154,7 +154,6 @@
           "/result"
           "/target"
         ];
-        delta.enable = true;
         extraConfig = {
           core.editor = "nvim";
           init = { defaultBranch = "main"; };
