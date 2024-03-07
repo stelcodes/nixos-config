@@ -91,14 +91,6 @@ self: super: {
     '';
   };
   graillon-free = super.callPackage ./graillon.nix { };
-  mixxx = super.symlinkJoin {
-    name = "mixxx-wayland";
-    paths = [ super.mixxx ];
-    buildInputs = [ super.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/mixxx --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+-platform xcb}}"
-    '';
-  };
   check-newline = super.writeShellApplication {
     name = "check-newline";
     runtimeInputs = [ super.coreutils ];

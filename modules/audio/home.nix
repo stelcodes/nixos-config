@@ -21,7 +21,7 @@
       pkgs.dragonfly-reverb
       # pkgs.davinci-resolve not working
     ]) ++ (lib.lists.optionals systemConfig.activities.djing [
-      pkgs.mixxx
+      pkgs.unstable.mixxx
     ]);
   };
 }
