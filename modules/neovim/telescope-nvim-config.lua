@@ -50,9 +50,10 @@ vim.keymap.set('n', '<leader>f', builtin.find_files)                            
 vim.keymap.set('n', '<leader>s', function() builtin.live_grep { hidden = true } end) -- search directory
 vim.keymap.set('n', '<leader>S',                                                     -- search directory with max 1 match per file
   function() builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } } end)
-vim.keymap.set('n', '<leader>b', builtin.current_buffer_fuzzy_find)                  -- search buffer
-vim.keymap.set('n', '<leader>B', builtin.buffers)                                    -- buffer active
-vim.keymap.set('n', '<leader>dd', builtin.diagnostics)                               -- diagnostics directory
+vim.keymap.set('n', '<leader>b',
+	function() builtin.live_grep { search_dirs = { vim.fn.expand("%:p") } } end) -- Regex search current file
+vim.keymap.set('n', '<leader>B', builtin.current_buffer_fuzzy_find)
+vim.keymap.set('n', '<leader>dd', builtin.diagnostics)
 vim.keymap.set('n', '<leader>r', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)
 vim.keymap.set('n', '<leader>c', builtin.commands)
