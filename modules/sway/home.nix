@@ -618,6 +618,7 @@ in
 
       wayland-pipewire-idle-inhibit = {
         enable = true;
+        package = pkgs.wayland-pipewire-idle-inhibit;
         systemdTarget = "sway-session.target";
         settings = {
           verbosity = "INFO";
