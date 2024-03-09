@@ -58,7 +58,7 @@ in
         '';
       }
     ];
-    extraConfig = ''
+    extraConfig = /* bash */ ''
       #########################################################################
       # KEYBINDINGS
 
@@ -71,6 +71,8 @@ in
       bind -n M-L next-window
       bind -n M-Q kill-pane
       bind -n M-s choose-tree -s
+      bind -n M-w choose-window -w
+      bind -n M-e next-layout
       bind -n M-S command-prompt 'new-session -s %% -c ~'
       bind -n M-S-tab switch-client -l
       bind -n M-tab select-window -l
