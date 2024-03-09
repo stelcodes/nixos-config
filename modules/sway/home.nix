@@ -366,6 +366,7 @@ in
         for_window [app_id=audacious] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=guitarix] floating disable
         for_window [app_id=dragon] sticky enable
+        for_window [app_id=org.gnome.Weather] floating enable, resize set width 40 ppt height 50 ppt, move position center
       '';
       swaynag = {
         enable = true;

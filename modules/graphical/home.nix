@@ -42,6 +42,7 @@ in
         pkgs.gnome.eog
         pkgs.qalculate-gtk
         pkgs.helvum # better looking than qpwgraph
+        pkgs.gnome.gnome-weather
       ];
     };
 
