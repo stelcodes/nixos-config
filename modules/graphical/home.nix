@@ -90,6 +90,8 @@ in
           gapless-audio=no
           sub-auto=all
           osd-on-seek=msg-bar
+          vo=dmabuf-wayland
+          hwdec=auto-safe
         '';
         "ranger/rc.conf".text = ''
           set preview_images true
@@ -424,17 +426,19 @@ in
             text = ''
               notify_success() {
                 notify-send "NixOS rebuild successful"
-                mpv ${pkgs.success-alert} || true;
+                { mpv ${pkgs.success-alert} || true; } &
+                sleep 5 && kill -9 "$!"
               }
               notify_failure() {
                 notify-send --urgency=critical "NixOS rebuild failed"
-                mpv ${pkgs.failure-alert} || true;
+                { mpv ${pkgs.failure-alert} || true; } &
+                sleep 5 && kill -9 "$!"
               }
               if systemctl start nixos-rebuild.service; then
                 while systemctl -q is-active nixos-rebuild.service; do
                   sleep 1
                 done
-                if systemctl is-failed nixos-rebuild.service; then
+                if systemctl -q is-failed nixos-rebuild.service; then
                   notify_failure
                 else
                   notify_success
