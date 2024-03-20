@@ -226,6 +226,7 @@ in
           "${mod}+shift+tab" = "exec ${lib.getExe cycle-sway-output}";
           "${mod}+shift+r" = "reload; exec systemctl --user restart waybar";
           "${mod}+shift+e" = "exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'";
+          "${mod}+shift+s" = "sticky toggle";
           "--locked ${mod}+shift+delete" = "exec systemctl ${cfg.sleep.preferredType}";
           "--locked ${mod}+o" = "output ${cfg.mainDisplay} power toggle";
           "--locked ${mod}+shift+o" = "output ${cfg.mainDisplay} toggle";
