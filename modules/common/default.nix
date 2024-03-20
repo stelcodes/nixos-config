@@ -126,7 +126,8 @@
                   printf "Network is up, substituters engaged 🌎"
                 else
                   printf "Network is down, off-grid mode activated 🚫"
-                  flags+=("--option" "substitute" "false")
+                  # This actually causes massive rebuilds so I'm disabling it
+                  # flags+=("--option" "substitute" "false")
                 fi
 
                 if ! nixos-rebuild "''${flags[@]}" switch --flake "$flake_dir#"; then
