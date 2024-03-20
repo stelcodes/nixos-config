@@ -466,7 +466,7 @@ in
           mappings = {
             D = "dragdrop-simple";
             a = "queue-audio";
-            A = "-queue-audio-reset";
+            A = "copy-current-song";
             i = "-!&eog ."; # image viewer
           };
           scripts = [
@@ -519,7 +519,16 @@ in
                 fi
               '';
             })
-
+            (pkgs.writeShellApplication {
+              name = "copy-current-song";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious ];
+              text = ''
+                song="$(audtool --current-song-filename)"
+                if [ -f "$song" ]; then
+                  cp -n "$song" "$PWD"
+                fi
+              '';
+            })
             (pkgs.writeShellApplication {
               name = "dragdrop-simple";
               runtimeInputs = [ pkgs.coreutils-full pkgs.gnused pkgs.xdragon ];
