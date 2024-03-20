@@ -10,16 +10,6 @@
     ./hardware-configuration.nix
   ];
 
-  environment.variables = {
-    ROC_ENABLE_PRE_VEGA = "1";
-  };
-
-  hardware.opengl.extraPackages = with pkgs; [
-    amdvlk
-    # Trying to get blender to work
-    # rocmPackages.clr.icd
-  ];
-
   profile = {
     audio = true;
     bluetooth = true;
@@ -41,7 +31,7 @@
   sound.realtime = {
     enable = true;
     soundcardPciId = "31:00.4"; # Mobo soundcard
-    specialisation = true;
+    specialisation = false;
   };
 
   age.secrets = {
