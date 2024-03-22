@@ -225,6 +225,7 @@
             f = "fuzzy-files-cd"; # files
             F = "fuzzy-files-open";
             d = "fuzzy-directories-cd"; # directories
+            z = "unzipper";
           };
           scripts = [
             (pkgs.writeShellApplication {
@@ -432,6 +433,48 @@
                 if [ -d "$fzf_sel" ] && ! [ "$fzf_sel" = "." ]; then
                   printf "%s" "-" > "$NNN_PIPE" # clear selection
                   printf "%s" "0c$PWD/$fzf_sel" > "$NNN_PIPE" # change directory
+                fi
+              '';
+            })
+
+            (pkgs.writeShellApplication {
+              name = "unzipper";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.wl-clipboard pkgs.libnotify ];
+              text = ''
+                # Unzips archives
+
+                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+                clear_sel() {
+                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
+                extract() {
+                  path="$1"
+                  filename="$(basename "$1")"
+                  if [ -f "$path" ]; then
+                    dest="$PWD/''${filename%.*}"
+                    while [ -d "$dest" ]; do
+                      dest="$dest-"
+                    done
+                    type="$(xdg-mime query filetype "$path")"
+                    if [ "$type" = "application/zip" ] && ! [ -d "$dest" ]; then
+                      unzip "$path" -d "$dest"
+                    fi
+                  fi
+                }
+
+                if [ -s "$selection" ]; then
+                  paths=""
+                  IFS= readarray -d "" paths < <(cat "$selection")
+                  for path in "''${paths[@]}"; do
+                    extract "$path"
+                  done
+                  clear_sel
+                elif [ -n "$1" ] && [ -f "$1" ]; then
+                  extract "$1"
                 fi
               '';
             })
