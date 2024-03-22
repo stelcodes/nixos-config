@@ -192,9 +192,9 @@
           DefaultSensorsSetting = 2;
           DefaultSerialGuardSetting = 2;
           DefaultThirdPartyStoragePartitioningSetting = 2;
-          DefaultWebBluetoothGuardSetting = 2;
-          DefaultWebHidGuardSetting = 2;
-          DefaultWebUsbGuardSetting = 2;
+          # DefaultWebBluetoothGuardSetting = 2;
+          # DefaultWebHidGuardSetting = 2;
+          # DefaultWebUsbGuardSetting = 2;
           DefaultWindowManagementSetting = 2;
           DNSInterceptionChecksEnabled = false;
           DnsOverHttpsMode = "automatic";
