@@ -32,10 +32,11 @@ let
   };
   launch-tmux = pkgs.writers.writeBash "launch-tmux" ''
     if tmux run 2>/dev/null; then
+      tmux new-window -t sandbox:
       tmux new-session -As sandbox
     else
       tmux new-session -ds config -c "$HOME/nixos-config"
-      tmux new-session -ds notes -c "$HOME/notes"
+      tmux new-session -ds media
       tmux new-session -As sandbox
     fi
   '';
