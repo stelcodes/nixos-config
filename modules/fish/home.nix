@@ -66,8 +66,9 @@
       gf = "git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
       sc = "systemctl";
       scu = "systemctl --user";
-      jc = "journalctl -exfu";
-      jcu = "journalctl --user -exfu";
+      # Using --unit for better fish completion
+      jc = "journalctl -exf --unit";
+      jcu = "journalctl --user -exf --unit";
       config = "cd ~/nixos-config; nvim";
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
