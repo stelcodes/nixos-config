@@ -96,6 +96,7 @@
         };
       };
     };
+    udev.packages = [ pkgs.android-udev-rules ];
   };
 
   # systemd.tmpfiles.rules = [
