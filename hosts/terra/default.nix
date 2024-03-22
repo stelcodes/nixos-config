@@ -64,7 +64,7 @@
   services = {
     syncthing = {
       enable = true;
-      selectedFolders = [ "default" "games" ];
+      selectedFolders = [ "default" "notes" "secrets" "games" ];
     };
     # getty.autologinUser = config.admin.username;
     snapper = {
