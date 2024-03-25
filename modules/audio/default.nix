@@ -88,7 +88,7 @@
             realtime = true; # https://github.com/musnix/musnix/issues/118
             packages = pkgs.unstable.linuxPackages-rt_latest; # Get the latest bc the rt versions lag behind
           };
-          rtirq.enable = true;
+          rtirq.enable = false;
           soundcardPciId = config.sound.realtime.soundcardPciId;
         };
 
