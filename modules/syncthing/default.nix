@@ -48,6 +48,10 @@ let
       path = "${dataDir}/secrets";
       devices = [ "terra" "celes" "yuffie" ];
     };
+    togo = {
+      path = "${dataDir}/togo";
+      devices = [ "terra" "celes" ];
+    };
   };
 in
 {
