@@ -499,14 +499,14 @@ in
                   paths=""
                   IFS= readarray -d "" paths < <(cat "$selection")
                   for path in "''${paths[@]}"; do
-                    queue_audio "$path"
+                    queue_audio "$path" &
                   done
                   # Clear selection
                   if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
                     printf "-" > "$NNN_PIPE"
                   fi
                 elif [ -f "$1" ]; then
-                  queue_audio "$1"
+                  queue_audio "$1" &
                 fi
               '';
             })
