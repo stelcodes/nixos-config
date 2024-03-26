@@ -301,4 +301,5 @@ self: super: {
       printf "%s" "$matches" | sort | uniq
     '';
   };
+  git-fiddle = super.callPackage ./git-fiddle.nix { };
 }
