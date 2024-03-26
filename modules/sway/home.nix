@@ -707,9 +707,9 @@ in
           "custom/rebuild"
           "cpu"
           "backlight"
+          "battery"
           "custom/recordplayback"
           "wireplumber"
-          "battery"
           "clock"
         ];
         "custom/pomo" = {
