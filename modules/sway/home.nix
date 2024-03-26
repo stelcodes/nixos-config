@@ -495,7 +495,7 @@ in
 
       record-playback = {
         Unit = {
-          Description = "Records playback from default pulseaudio monitor";
+          Description = "playback recording from default pulseaudio monitor";
         };
         Service = {
           RuntimeMaxSec = 500;
@@ -504,7 +504,7 @@ in
             name = "record-playback-exec-start";
             runtimeInputs = [ pkgs.pulseaudio pkgs.coreutils-full pkgs.libnotify ];
             text = ''
-              SAVEDIR="''${XDG_STATE_HOME:-$HOME/.local/state}/record-playback"
+              SAVEDIR="''${XDG_DATA_HOME:-$HOME/.local/share}/record-playback"
               mkdir -p "$SAVEDIR"
               SAVEPATH="$SAVEDIR/$(date +%Y-%m-%dT%H:%M:%S%Z).wav"
               notify-send "Starting audio recording..."
