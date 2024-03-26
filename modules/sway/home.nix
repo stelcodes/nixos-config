@@ -48,9 +48,11 @@ let
     fi
   '';
   wg-quick-wofi = pkgs.writers.writeBash "wg-quick-wofi" ''
-    services="$(systemctl list-units --type service --no-legend --state inactive | grep wg-quick- | cut -d ' ' -f3)"
-    x="$(systemctl list-units --type service --no-legend --state active | grep wg-quick- | cut -d ' ' -f3 | tail -1)"
+    # Services that aren't enabled are never listed with list-unit command unless active
+    services="$(systemctl list-unit-files --type service --no-legend 'wg-quick-*' | grep wg-quick- | cut -d ' ' -f1)"
+    x="$(systemctl list-units --type service --no-legend --state active 'wg-quick-*' | grep wg-quick- | cut -d ' ' -f3 | tail -1)"
     if [ -n "$x" ]; then
+      services="$(printf "%s" "$services" | sed "/^$x/d")"
       sel="$(printf "Stop %s\n%s" "$x" "$services" | wofi --dmenu --lines 4)"
     else
       sel="$(printf "%s" "$services" | wofi --dmenu --lines 4)"
