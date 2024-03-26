@@ -627,7 +627,7 @@ in
           border-radius=5
           icons=1
           max-icon-size=64
-          default-timeout=10000
+          default-timeout=7000
           ignore-timeout=1
           padding=14
           margin=20
