@@ -47,6 +47,33 @@ let
       makoctl mode -s default
     fi
   '';
+  wg-quick-wofi = pkgs.writers.writeBash "wg-quick-wofi" ''
+    services="$(systemctl list-units --type service --no-legend --state inactive | grep wg-quick- | cut -d ' ' -f3)"
+    x="$(systemctl list-units --type service --no-legend --state active | grep wg-quick- | cut -d ' ' -f3 | tail -1)"
+    if [ -n "$x" ]; then
+      sel="$(printf "Stop %s\n%s" "$x" "$services" | wofi --dmenu --lines 4)"
+    else
+      sel="$(printf "%s" "$services" | wofi --dmenu --lines 4)"
+    fi
+    if [ "$sel" = "Stop $x" ]; then
+      if systemctl stop "$x"; then
+        notify-send "Stopped $x"
+      else
+        notify-send --urgency=critical "Failed to stop $x"
+      fi
+    else
+      if systemctl start "$sel"; then
+        notify-send "Started $sel"
+        if systemctl stop "$x"; then
+          notify-send "Stopped $x"
+        else
+          notify-send --urgency=critical "Failed to stop $x"
+        fi
+      else
+        notify-send --urgency=critical "Failed to start $sel"
+      fi
+    fi
+  '';
 in
 {
 
@@ -250,6 +277,7 @@ in
           "${mod}+shift+a" = "exec ${lib.getExe pkgs.toggle-service} record-playback";
           "${mod}+m" = "exec ${lib.getExe toggle-sway-window} --id gnome-disks -- gnome-disks"; # m = media
           "${mod}+v" = "exec ${lib.getExe toggle-sway-window} --id org.keepassxc.KeePassXC --width 80 --height 80 -- keepassxc";
+          "${mod}+shift+v" = "exec ${wg-quick-wofi}";
           "${mod}+q" = "exec ${lib.getExe toggle-sway-window} --id qalculate-gtk -- qalculate-gtk";
           "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped --width 80 --height 80 -- blueman-manager";
           "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop --width 90 --height 90 -- foot --app-id=btop btop";
