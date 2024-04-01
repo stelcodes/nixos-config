@@ -41,7 +41,7 @@ let
     notes = {
       versioning = staggeredMonth;
       path = "${dataDir}/notes";
-      devices = [ "terra" "celes" "yuffie" ];
+      devices = [ "terra" "celes" "yuffie" "aerith" ];
     };
     secrets = {
       versioning = staggeredMonth;
