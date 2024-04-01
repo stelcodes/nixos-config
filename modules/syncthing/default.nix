@@ -52,6 +52,11 @@ let
       path = "${dataDir}/togo";
       devices = [ "terra" "celes" ];
     };
+    music = {
+      versioning = trashcanBasic;
+      path = "${dataDir}/music";
+      devices = [ "terra" "aerith" "celes" ];
+    };
   };
 in
 {
