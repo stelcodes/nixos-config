@@ -153,6 +153,7 @@
           "/.clj-kondo"
           "/result"
           "/target"
+          "/dist"
         ];
         extraConfig = {
           core.editor = "nvim";
