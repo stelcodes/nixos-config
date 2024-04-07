@@ -50,7 +50,6 @@ vim.cmd 'syntax enable' -- Enables syntax highlighing
 vim.opt.inccommand = 'split' -- Preview pane for substitution
 vim.opt.autoindent = true
 vim.opt.backspace = 'indent,eol,start'
-vim.opt.smarttab = true
 vim.opt.nrformats = 'bin,hex'
 vim.opt.incsearch = true
 vim.opt.laststatus = 2
@@ -69,9 +68,10 @@ vim.opt.hidden = true -- Required to keep multiple buffers open
 vim.opt.encoding = 'utf-8' -- The encoding displayed
 vim.opt.fileencoding = 'utf-8' -- The encoding written to file
 vim.opt.mouse = '' -- Disable the mouse
+vim.opt.smarttab = true
 vim.opt.tabstop = 2 -- Insert 2 spaces for a tab
 vim.opt.shiftwidth = 2 -- Change the number of space characters inserted for indentation
-vim.opt.expandtab = false -- Converts tabs to spaces
+vim.opt.expandtab = true -- Converts tabs to spaces, if false then nvim-lsp formatting will always use tabs :/
 vim.opt.smartindent = true -- Makes indenting smart
 vim.opt.updatetime = 300 -- Faster completion
 vim.opt.timeout = false -- Wait forever for mappings
@@ -112,6 +112,10 @@ vim.g['clojure_align_multiline_strings'] = 0
 vim.g['clojure_align_subforms'] = 1
 -- Number of lines formatting will affect by default, 0 is no limit
 vim.g['clojure_maxlines'] = 0
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#denols
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}
 
 ----------------------------------------------------------------------------------------
 -- MAPPINGS

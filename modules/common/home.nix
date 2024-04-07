@@ -87,6 +87,7 @@
         pkgs.exiftool
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
         pkgs.nix-prefetch-github
+        pkgs.nixpkgs-fmt
         pkgs.check-newline
         pkgs.doctl
         pkgs.yt-dlp

@@ -5,9 +5,20 @@ lspconfig.clojure_lsp.setup {}
 lspconfig.pyright.setup {}
 lspconfig.gopls.setup {}
 lspconfig.tsserver.setup {}
+lspconfig.denols.setup {
+  autostart = false
+}
 lspconfig.java_language_server.setup {}
 lspconfig.rust_analyzer.setup {}
-lspconfig.rnix.setup {}
+lspconfig.nil_ls.setup {
+  settings = {
+    ['nil'] = {
+      formatting = {
+        command = { "nixpkgs-fmt" },
+      },
+    },
+  },
+}
 lspconfig.lua_ls.setup {
   settings = {
     Lua = {

@@ -13,7 +13,7 @@ in
     extraLuaConfig = builtins.readFile ./base.lua;
     extraPackages = lib.lists.optionals systemConfig.activities.coding [
       pkgs.clojure-lsp
-      pkgs.rnix-lsp
+      pkgs.nil
       pkgs.pyright
       pkgs.nodePackages.typescript-language-server
       pkgs.rust-analyzer
