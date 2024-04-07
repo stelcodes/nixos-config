@@ -658,7 +658,9 @@ in
           media_minimum_duration = 30;
           sink_whitelist = [ ];
           node_blacklist = [
-            { name = "Bitwig Studio"; } # Always seen as playing audio when open so just ignore it
+            # Always seen as playing audio when open so just ignore these
+            { name = "Bitwig Studio"; }
+            { name = "Mixxx"; }
           ];
         };
       };
