@@ -48,13 +48,9 @@ let
       path = "${dataDir}/secrets";
       devices = [ "terra" "celes" "yuffie" ];
     };
-    togo = {
-      path = "${dataDir}/togo";
-      devices = [ "terra" "celes" ];
-    };
-    music = {
+    tunes = {
       versioning = trashcanBasic;
-      path = "${dataDir}/music";
+      path = "${dataDir}/tunes";
       devices = [ "terra" "aerith" "celes" ];
     };
   };

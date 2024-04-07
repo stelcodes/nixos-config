@@ -23,7 +23,7 @@
     xserver.xkbOptions = "caps:escape_shifted_capslock";
     syncthing = {
       enable = true;
-      selectedFolders = [ "default" "music" "notes" ];
+      selectedFolders = [ "default" "tunes" "notes" ];
     };
   };
 
