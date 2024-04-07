@@ -136,11 +136,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
   # https://nixos.wiki/wiki/OBS_Studio
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback
