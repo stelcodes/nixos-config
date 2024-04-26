@@ -372,6 +372,7 @@ in
           "audio/x-wavpack" = [ "audacious.desktop" ];
           "audio/x-xm" = [ "audacious.desktop" ];
           "audio/x-opus+ogg" = [ "audacious.desktop" ];
+          "audio/x-aiff" = [ "audacious.desktop" ];
           "x-content/audio-cdda" = [ "audacious.desktop" ];
           "text/markdown" = [ "neovim.desktop" ];
           "text/plain" = [ "neovim.desktop" ];
@@ -499,8 +500,8 @@ in
                   paths=""
                   IFS= readarray -d "" paths < <(cat "$selection")
                   for path in "''${paths[@]}"; do
-                    queue_audio "$path" &
-                  done
+                    queue_audio "$path"
+                  done &
                   # Clear selection
                   if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
                     printf "-" > "$NNN_PIPE"
