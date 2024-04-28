@@ -1,12 +1,23 @@
-{ config, ... }: {
+{ config, lib, ... }: {
 
   imports = [
     ./hardware-configuration.nix
   ];
 
   profile = {
+    virtual = false;
+    virtualHost = false;
+    bluetooth = true;
+    audio = true;
     graphical = true;
     battery = true;
+  };
+
+  theme.name = "catppuccin-macchiato";
+
+  activities = {
+    coding = true;
+    djing = true;
   };
 
   age.secrets = {
@@ -17,6 +28,16 @@
   users.users = {
     root.hashedPasswordFile = config.age.secrets.root-password.path;
     ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
+  };
+
+  programs = {
+    firejail.enable = true;
+  };
+
+  sound.realtime = {
+    enable = true;
+    soundcardPciId = "00:03.0"; # Mobo soundcard
+    specialisation = false;
   };
 
   services = {

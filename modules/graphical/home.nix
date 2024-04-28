@@ -90,7 +90,7 @@ in
           gapless-audio=no
           sub-auto=all
           osd-on-seek=msg-bar
-          vo=dmabuf-wayland
+          # vo=dmabuf-wayland
           hwdec=auto-safe
         '';
         "ranger/rc.conf".text = ''

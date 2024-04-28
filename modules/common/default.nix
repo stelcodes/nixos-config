@@ -291,6 +291,8 @@
             "steam-run"
             "vital"
             "broadcom-sta"
+            "facetimehd-firmware"
+            "facetimehd-calibration"
           ];
         };
       in
