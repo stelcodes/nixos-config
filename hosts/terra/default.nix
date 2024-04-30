@@ -29,7 +29,7 @@
   };
 
   sound.realtime = {
-    enable = true;
+    enable = false;
     soundcardPciId = "31:00.4"; # Mobo soundcard
     specialisation = false;
   };
