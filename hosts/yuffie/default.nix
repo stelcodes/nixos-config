@@ -52,7 +52,6 @@
 
   # Enable swap on luks
   boot.initrd.luks.devices."luks-b9dd46eb-7a5b-47c6-85da-7ee933c9909a".device = "/dev/disk/by-uuid/b9dd46eb-7a5b-47c6-85da-7ee933c9909a";
-  boot.initrd.luks.devices."luks-b9dd46eb-7a5b-47c6-85da-7ee933c9909a".keyFile = "/crypto_keyfile.bin";
 
   # Fix brightness keys not working
   boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
