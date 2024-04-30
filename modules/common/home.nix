@@ -178,7 +178,7 @@
       pistol = {
         enable = true;
         associations = [
-          { mime = "audio/*"; command = "exiftool -S -title -duration -artist -album -albumartist -tracknumber -date* -year -catalog -label -publisher -genre -samplesize -bitspersample -samplerate -audiobitrate -flacbitrate -mimetype -comment %pistol-filename%"; }
+          { mime = "audio/*"; command = "exiftool -S -title -duration -artist -album -albumartist -tracknumber -date* -year -catalog -label -publisher -genre -samplesize -bitspersample -samplerate -audiobitrate -flacbitrate -picturemimetype -mimetype -comment %pistol-filename%"; }
           { mime = "video/*"; command = "exiftool -S -title -duration -date* -videoframerate -imagewidth -imageheight -mimetype -description %pistol-filename%"; }
           { mime = "image/*"; command = "exiftool -S -imagesize -megapixels -mimetype %pistol-filename%"; }
           { mime = "inode/directory"; command = "eza -la --color always %pistol-filename%"; }
