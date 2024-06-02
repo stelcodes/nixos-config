@@ -11,6 +11,7 @@
       pkgs.discord-firefox
       pkgs.signal-desktop
       pkgs.retroarch-loaded
+      pkgs.sshfs
     ];
   };
   wayland.windowManager.sway = {
