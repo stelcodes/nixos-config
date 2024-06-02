@@ -30,6 +30,18 @@ let
     name = "toggle-sway-window";
     text = builtins.readFile ../../misc/toggle-sway-window.clj;
   };
+  handle-sway-lid-on = pkgs.writers.writeBash "handle-sway-lid-on" ''
+    if swaymsg -t get_outputs --raw | grep -q '"focused": false'; then
+      swaymsg output eDP-1 power off
+    else
+      swaymsg output eDP-1 power off
+      playerctl --all-players pause
+      systemctl suspend-then-hibernate
+    fi
+  '';
+  handle-sway-lid-off = pkgs.writers.writeBash "handle-sway-lid-off" ''
+    swaymsg output eDP-1 power on
+  '';
   launch-tmux = pkgs.writers.writeBash "launch-tmux" ''
     if tmux run 2>/dev/null; then
       tmux new-window -t sandbox:
@@ -376,7 +388,8 @@ in
         bindgesture swipe:4:left workspace next
         bindgesture swipe:3:right focus left
         bindgesture swipe:3:left focus right
-        bindswitch lid:off output * power off
+        bindswitch lid:on exec ${handle-sway-lid-on}
+        bindswitch lid:off exec ${handle-sway-lid-off}
         # Middle-click on a window title bar kills it
         bindsym button2 kill
         for_window [title=".*"] inhibit_idle fullscreen
