@@ -244,10 +244,10 @@ in
           "${mod}+down" = "focus output down";
           "${mod}+up" = "focus output up";
           "${mod}+right" = "focus output right";
-          "${mod}+shift+left" = "move window to output left";
-          "${mod}+shift+down" = "move window to output down";
-          "${mod}+shift+up" = "move window to output up";
-          "${mod}+shift+right" = "move window to output right";
+          "${mod}+shift+left" = "move window to output left; focus output left";
+          "${mod}+shift+down" = "move window to output down; focus output down";
+          "${mod}+shift+up" = "move window to output up; focus output up";
+          "${mod}+shift+right" = "move window to output right; focus output right";
           "${mod}+tab" = "workspace back_and_forth";
           "${mod}+less" = "focus parent";
           "${mod}+greater" = "focus child";
