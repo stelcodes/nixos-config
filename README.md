@@ -20,6 +20,14 @@ https://github.com/TLATER/dotfiles
 
 ### Nix
 
+https://nixos.org/manual/nixos/stable/
+
+https://nixos.org/manual/nixos/stable/options
+
+https://nixos.org/manual/nixpkgs/stable/
+
+https://nix.dev/manual/nix/2.18/
+
 https://search.nixos.org
 
 https://noogle.dev
@@ -29,6 +37,8 @@ https://nixos-and-flakes.thiscute.world
 https://www.nixhub.io/
 
 https://nixpk.gs/pr-tracker.html
+
+https://lazamar.co.uk/nix-versions/
 
 ```
 man configuration.nix
