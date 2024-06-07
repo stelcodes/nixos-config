@@ -4,6 +4,9 @@
     packages = [
       pkgs.obsidian
       pkgs.spotify
+      pkgs.signal-desktop
+      pkgs.wineWowPackages.stagingFull
+      pkgs.projectm
     ];
   };
 
