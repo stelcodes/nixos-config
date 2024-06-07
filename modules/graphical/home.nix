@@ -92,6 +92,7 @@ in
           osd-on-seek=msg-bar
           # vo=dmabuf-wayland
           hwdec=auto-safe
+          demuxer-max-bytes=2048MiB
         '';
         "ranger/rc.conf".text = ''
           set preview_images true
