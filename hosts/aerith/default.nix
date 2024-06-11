@@ -41,7 +41,7 @@
   };
 
   services = {
-    xserver.xkbOptions = "caps:escape_shifted_capslock";
+    xserver.xkb.options = "caps:escape_shifted_capslock";
     syncthing = {
       enable = true;
       selectedFolders = [ "default" "tunes" "notes" ];

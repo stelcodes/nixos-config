@@ -194,10 +194,10 @@
       mutableUsers = false;
       users = {
         root = {
-          password = "password"; # Override with hashedPasswordFile (use mkpasswd)
+          password = lib.mkIf (config.users.users.root.hashedPasswordFile == null) "password"; # Override with hashedPasswordFile (use mkpasswd)
         };
         ${config.admin.username} = {
-          password = "password"; # Override with hashedPasswordFile (use mkpasswd)
+          password = lib.mkIf (config.users.users.${config.admin.username}.hashedPasswordFile == null) "password"; # Override with hashedPasswordFile (use mkpasswd)
           isNormalUser = true;
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list
           extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "multimedia" "libvirtd" ];
@@ -271,7 +271,7 @@
       # TODO: Only enable this for local physical computers
       avahi = {
         enable = true;
-        nssmdns = true; # allow local applications to resolve `local.` domains using avahi.
+        nssmdns4 = true; # allow local applications to resolve `local.` domains using avahi.
       };
 
     };
@@ -279,10 +279,7 @@
     nixpkgs =
       let
         config = {
-          permittedInsecurePackages = [
-            "electron-25.9.0"
-            "electron-24.8.6"
-          ];
+          permittedInsecurePackages = [ ];
           allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
             "obsidian"
             "spotify"
@@ -295,6 +292,7 @@
             "broadcom-sta"
             "facetimehd-firmware"
             "facetimehd-calibration"
+            "libretro-snes9x"
           ];
         };
       in
@@ -311,7 +309,7 @@
     nix = {
       gc = {
         automatic = true;
-        dates = "weekly";
+        dates = "tuesday";
         options = "--delete-older-than 30d";
       };
       settings = {

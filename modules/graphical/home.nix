@@ -49,7 +49,7 @@ in
     qt = {
       # Necessary for keepassxc, qpwgrapgh, etc to theme correctly
       enable = true;
-      platformTheme = "gtk";
+      platformTheme.name = "gtk";
       style.name = "gtk2";
     };
 

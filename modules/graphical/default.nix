@@ -238,11 +238,14 @@
       xserver = {
         enable = true;
         autorun = lib.mkDefault false;
-        layout = pkgs.lib.mkDefault "us";
-        xkbVariant = pkgs.lib.mkDefault "";
-        xkbOptions = pkgs.lib.mkDefault "caps:escape_shifted_capslock,altwin:swap_alt_win";
-        libinput.enable = true;
+        xkb = {
+          layout = pkgs.lib.mkDefault "us";
+          variant = pkgs.lib.mkDefault "";
+          options = pkgs.lib.mkDefault "caps:escape_shifted_capslock,altwin:swap_alt_win";
+        };
       };
+
+      libinput.enable = true;
 
       gnome.gnome-keyring.enable = true;
 

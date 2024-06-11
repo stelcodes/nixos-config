@@ -210,7 +210,7 @@ in
           '';
         }
 
-        plugins.suda-vim
+        plugins.vim-suda
 
         {
           plugin = plugins.vim-eunuch;
