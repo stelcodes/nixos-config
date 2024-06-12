@@ -42,10 +42,7 @@
 
   services = {
     xserver.xkb.options = "caps:escape_shifted_capslock";
-    syncthing = {
-      enable = true;
-      selectedFolders = [ "default" "tunes" "notes" ];
-    };
+    syncthing.enable = true;
   };
 
   # Bootloader.

@@ -40,9 +40,6 @@
 
   services = {
     getty.autologinUser = "${config.admin.username}";
-    syncthing = {
-      enable = true;
-      selectedFolders = [ "default" "games" ];
-    };
+    syncthing.enable = true;
   };
 }

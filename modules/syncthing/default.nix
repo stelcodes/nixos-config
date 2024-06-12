@@ -21,11 +21,26 @@ let
     };
   };
   devices = {
-    yuffie.id = "G5Q3Q2S-6UCPWME-FPX4RSD-3AWNHAV-36BCGNE-HQ6NEV2-2LWC2MA-DUVQDQZ";
-    aerith.id = "JUABVAR-HLJXGIQ-4OZHN2G-P3WJ64R-D77NR74-SOIIEEC-IL53S4S-BO6R7QE";
-    terra.id = "HXMLVPE-DYRLXGQ-ZYBP7UK-G5AWL4U-B27PDUB-7EQHQY4-SZLROKY-4P54XQV";
-    beatrix.id = "ZZTXMYW-7FC4BBY-4QHAB6R-2RCMQDT-SRTS3F7-ZZSL4WE-27P4Y46-5YC4CAZ";
-    celes.id = "2N6LGUP-2YKWX3Z-J2YPY5N-GUS34IL-HKDNOGM-CHWD6EG-6ODSB5F-2GV4GQ7";
+    yuffie = {
+      autoAcceptFolders = true;
+      id = "G5Q3Q2S-6UCPWME-FPX4RSD-3AWNHAV-36BCGNE-HQ6NEV2-2LWC2MA-DUVQDQZ";
+    };
+    aerith = {
+      autoAcceptFolders = true;
+      id = "JUABVAR-HLJXGIQ-4OZHN2G-P3WJ64R-D77NR74-SOIIEEC-IL53S4S-BO6R7QE";
+    };
+    terra = {
+      autoAcceptFolders = true;
+      id = "HXMLVPE-DYRLXGQ-ZYBP7UK-G5AWL4U-B27PDUB-7EQHQY4-SZLROKY-4P54XQV";
+    };
+    beatrix = {
+      autoAcceptFolders = true;
+      id = "ZZTXMYW-7FC4BBY-4QHAB6R-2RCMQDT-SRTS3F7-ZZSL4WE-27P4Y46-5YC4CAZ";
+    };
+    celes = {
+      autoAcceptFolders = true;
+      id = "2N6LGUP-2YKWX3Z-J2YPY5N-GUS34IL-HKDNOGM-CHWD6EG-6ODSB5F-2GV4GQ7";
+    };
   };
   folders = {
     default = {
@@ -56,13 +71,6 @@ let
   };
 in
 {
-  options = {
-    services.syncthing.selectedFolders = lib.mkOption {
-      description = "Folders to sync with syncthing";
-      type = lib.types.listOf (lib.types.enum (builtins.attrNames folders));
-      default = [ ];
-    };
-  };
   config = lib.mkIf cfg.enable {
     users.users.${config.admin.username}.packages = [ pkgs.syncthing ];
     services = {
@@ -74,7 +82,7 @@ in
         guiAddress = "127.0.0.1:8384";
         settings = {
           inherit devices;
-          folders = lib.getAttrs cfg.selectedFolders folders;
+          folders = (lib.filterAttrs (key: value: lib.elem config.networking.hostName value.devices) folders);
           options = {
             # urSeen and urAccepted don't seem to stop the popup but they are absolutely the right settings
             urSeen = 3;
@@ -85,6 +93,7 @@ in
             password = secretKey;
             apikey = secretKey;
           };
+          defaults.folder.path = "~/sync";
         };
       };
     };

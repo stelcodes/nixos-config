@@ -36,7 +36,6 @@
   services = {
     syncthing = {
       enable = true;
-      selectedFolders = [ "default" ];
     };
     getty.autologinUser = config.admin.username;
   };

@@ -62,10 +62,7 @@
   };
 
   services = {
-    syncthing = {
-      enable = true;
-      selectedFolders = [ "default" "notes" "secrets" "games" "tunes" ];
-    };
+    syncthing.enable = true;
     # getty.autologinUser = config.admin.username;
     snapper = {
       # Must create btrfs snapshots subvolume manually
