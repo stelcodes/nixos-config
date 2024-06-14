@@ -1,4 +1,5 @@
-{ pkgs, config, systemConfig, ... }:
+{ pkgs, systemConfig, ... }:
+# For images in the terminal, use img2sixel from pkgs.libsixel
 let
   theme = systemConfig.theme.set;
 in
