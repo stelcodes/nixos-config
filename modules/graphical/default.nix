@@ -37,6 +37,9 @@
       '';
     };
 
+    # As of 24.05 this is required to avoid having lightdm start automatically when services.xserver.enable = true
+    systemd.services.display-manager.enable = false;
+
     programs = {
 
       # Need this for font-manager or any other gtk app to work I guess
@@ -264,7 +267,16 @@
     xdg = {
       portal = {
         enable = true;
-        wlr.enable = true;
+        # gtkUsePortal = true;
+        # xdgOpenUsePortal = true;
+        # wlr.enable = true;
+        extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
+        # https://github.com/emersion/xdg-desktop-portal-wlr?tab=readme-ov-file#running
+        config.sway = {
+          default = "gtk";
+          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+        };
       };
     };
 

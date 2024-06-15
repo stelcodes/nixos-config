@@ -382,6 +382,8 @@ in
         ];
       };
       extraConfig = ''
+        # https://github.com/emersion/xdg-desktop-portal-wlr?tab=readme-ov-file#running
+        exec ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
         ${appleKeyboardConfig}
         # Any future keyboard xkb_options overrides need to go here
         bindgesture swipe:4:right workspace prev
