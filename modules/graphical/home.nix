@@ -58,15 +58,19 @@ in
         neovim = {
           name = "Neovim";
           genericName = "Text Editor";
-          exec = let app = pkgs.writeShellScript "neovim-terminal" ''
-            # Killing foot from sway results in non-zero exit code which triggers
-            # xdg-mime to use next valid entry, so we must always exit successfully
-            if [ "$SWAYSOCK" ]; then
-              foot -- nvim "$1" || true
-            else
-              gnome-terminal -- nvim "$1" || true
-            fi
-          ''; in "${app} %U";
+          exec =
+            let
+              app = pkgs.writeShellScript "neovim-terminal" ''
+                # Killing foot from sway results in non-zero exit code which triggers
+                # xdg-mime to use next valid entry, so we must always exit successfully
+                if [ "$SWAYSOCK" ]; then
+                  foot -- nvim "$1" || true
+                else
+                  gnome-terminal -- nvim "$1" || true
+                fi
+              '';
+            in
+            "${app} %U";
           terminal = false;
           categories = [ "Utility" "TextEditor" ];
           mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
@@ -74,11 +78,15 @@ in
         nnn = {
           name = "nnn";
           genericName = "Text Editor";
-          exec = let app = pkgs.writeShellScript "nnn-terminal" ''
-            # Killing foot from sway results in non-zero exit code which triggers
-            # xdg-mime to use next valid entry, so we must always exit successfully
-            foot --app-id nnn -- fish -c "nnn '$1'" || true
-          ''; in "${app} %U";
+          exec =
+            let
+              app = pkgs.writeShellScript "nnn-terminal" ''
+                # Killing foot from sway results in non-zero exit code which triggers
+                # xdg-mime to use next valid entry, so we must always exit successfully
+                foot --app-id nnn -- fish -c "nnn '$1'" || true
+              '';
+            in
+            "${app} %U";
           terminal = false;
           categories = [ "Utility" ];
           mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
