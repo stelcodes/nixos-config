@@ -2,7 +2,8 @@
 
   home = {
     packages = (lib.lists.optionals systemConfig.activities.jamming [
-      inputs.audio-nix.packages.${pkgs.system}.bitwig-studio5-latest
+      # inputs.audio-nix.packages.${pkgs.system}.bitwig-studio5-latest
+      pkgs.bitwig-studio
       pkgs.musescore
       # pkgs.lsp-plugins
       pkgs.graillon-free
