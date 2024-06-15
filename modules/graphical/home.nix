@@ -482,6 +482,7 @@ in
             a = "queue-audio";
             A = "copy-current-song";
             i = "-!&eog ."; # image viewer
+            m = "-!&picard .";
           };
           scripts = [
             (pkgs.writeShellApplication {
