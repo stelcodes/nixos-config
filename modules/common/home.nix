@@ -82,7 +82,7 @@
         pkgs.desktop-entries
         pkgs.toggle-service
         pkgs.dua
-        pkgs.vimv-rs
+        pkgs.mmv-go
         pkgs.jq
         pkgs.exiftool
       ] ++ (lib.lists.optionals systemConfig.activities.coding [
@@ -218,7 +218,7 @@
             t = "preview-tui"; # tui
             n = "!nvim*"; # nvim
             N = "nvim-clean";
-            r = "rename-with-vimv"; # rename
+            r = "rename-with-mmv";
             x = "!dua --stay-on-filesystem interactive*"; # trash
             p = "copy-with-rsync"; # paste
             P = "copy-with-rsync-include-list";
@@ -292,23 +292,39 @@
               '';
             })
             (pkgs.writeShellApplication {
-              name = "rename-with-vimv";
-              runtimeInputs = [ pkgs.vimv-rs ];
+              name = "rename-with-mmv";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.mmv-go ];
               text = ''
-                # Rename files with vimv-rs
+                # Copy relative filenames from hovered file or selection
 
-                SEL=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+                notify() {
+                  notify-send "nnn" "Rename successful"
+                }
 
                 clear_sel() {
-                  if [ -s "$SEL" ] && [ -p "$NNN_PIPE" ]; then
+                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
                       printf "-" > "$NNN_PIPE"
                   fi
                 }
 
-                if [ -s "$SEL" ]; then
-                  xargs --null vimv < "$SEL" && clear_sel
-                else
-                  vimv
+                if [ -s "$selection" ]; then
+                  temp="$(mktemp)"
+                  paths=""
+                  IFS= readarray -d "" paths < <(cat "$selection")
+                  for path in "''${paths[@]}"; do
+                    basename="$(basename "$path")"
+                    if [ -e "$PWD/$basename" ]; then
+                      printf "%s\0" "$basename" >> "$temp"
+                    else
+                      read -rp 'Some of the selected files are not in the PWD, aborting...'
+                      exit 1
+                    fi
+                  done
+                  xargs --null mmv < "$temp" && rm "$temp" && clear_sel && notify
+                elif [ -n "$1" ]; then
+                  mmv "$(basename "$1")" && notify
                 fi
               '';
             })

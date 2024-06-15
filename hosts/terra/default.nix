@@ -122,11 +122,7 @@
     };
   };
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      vimv-rs = inputs.vimv-rs.packages.${pkgs.system}.default;
-    })
-  ];
+  nixpkgs.overlays = [ ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
