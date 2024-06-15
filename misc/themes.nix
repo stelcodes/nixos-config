@@ -368,7 +368,7 @@
 
     iconThemeName = "Catppuccin-Macchiato";
     iconThemePackage = pkgs.callPackage ../packages/catppuccin-gtk-theme.nix { };
-    cursorThemeName = "Catppuccin-Macchiato-Pink-Cursors";
+    cursorThemeName = "catppuccin-macchiato-pink-cursors";
     cursorThemePackage = pkgs.catppuccin-cursors.macchiatoPink;
 
     neovimPlugin = {
