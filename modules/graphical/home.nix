@@ -591,6 +591,9 @@ in
           link-color = theme.cyan;
           prefer-dark-theme = true;
         };
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+        };
         "org/gnome/desktop/wm/preferences" = {
           button-layout = "appmenu:close"; # Only show close button
         };
