@@ -132,11 +132,12 @@
             StartPage = "none";
           };
           ManagedBookmarks = [
-            { toplevel_name = "Default"; }
-            { name = "Printing"; url = "localhost:631"; }
-            { name = "Syncthing"; url = "localhost:8384"; }
-            { name = "Jellyfin"; url = "macmini:8096"; }
-            { name = "Firefox Policies"; url = "mozilla.github.io/policy-templates"; }
+            { toplevel_name = "NixOS"; }
+            { name = "Printing"; url = "https://localhost:631"; }
+            { name = "Syncthing"; url = "https://localhost:8384"; }
+            { name = "Jellyfin"; url = "https://macmini:8096"; }
+            { name = "Firefox Policies"; url = "https://mozilla.github.io/policy-templates"; }
+            { name = "Coding Radio"; url = "https://coderadio.freecodecamp.org"; }
           ];
           ManualAppUpdateOnly = true;
           NewTabPage = false;
