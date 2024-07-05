@@ -22,10 +22,9 @@
 (assert (some :default sinks) "Default sink not found")
 
 (def next-sink (->> sinks
-                    ;; Remove crappy monitor speakers from sink candidates
-                    (remove #(re-find #"hdmi-stereo" (:name %)))
                     (sort-by :number)
                     cycle
+                    (take (* 2 (count sinks)))
                     (reduce (fn [flag sink]
                               (cond flag (reduced sink)
                                     (:default sink) :default-sink
