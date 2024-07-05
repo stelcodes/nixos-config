@@ -31,12 +31,13 @@ let
     text = builtins.readFile ../../misc/toggle-sway-window.clj;
   };
   handle-sway-lid-on = pkgs.writers.writeBash "handle-sway-lid-on" ''
-    if swaymsg -t get_outputs --raw | grep -q '"focused": false'; then
+    BLOCKFILE="$HOME/.local/share/idle-sleep-block"
+    if test -f "$BLOCKFILE" || swaymsg -t get_outputs --raw | grep -q '"focused": false'; then
       swaymsg output eDP-1 power off
     else
       swaymsg output eDP-1 power off
       playerctl --all-players pause
-      systemctl suspend-then-hibernate
+      systemctl ${cfg.sleep.preferredType}
     fi
   '';
   handle-sway-lid-off = pkgs.writers.writeBash "handle-sway-lid-off" ''
@@ -772,9 +773,9 @@ in
           });
         };
         "custom/idlesleep" = {
-          format = if cfg.sleep.auto.enable then "{}" else "🕸️";
+          format = "{}";
           max-length = 2;
-          interval = if cfg.sleep.auto.enable then 2 else 0;
+          interval = 2;
           exec = ''if test -f "$HOME/.local/share/idle-sleep-block"; then echo '🐝'; else echo '🕸️'; fi'';
           on-click = lib.getExe (pkgs.writeShellApplication {
             name = "toggle-idle-sleep-block";

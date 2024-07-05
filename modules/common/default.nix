@@ -250,10 +250,11 @@
       udisks2.enable = true;
 
       logind = {
-        lidSwitch = "suspend-then-hibernate";
+        lidSwitch = "ignore";
         extraConfig = ''
           # Don’t shutdown when power button is short-pressed
-          HandlePowerKey=hibernate
+          HandlePowerKey=suspend-then-hibernate
+          HandlePowerKeyLongPress=poweroff
           InhibitDelayMaxSec=10
         '';
       };
