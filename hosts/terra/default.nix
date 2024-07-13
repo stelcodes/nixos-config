@@ -6,7 +6,6 @@
     inputs.nixos-hardware.nixosModules.common-gpu-amd
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    inputs.nixos-hardware.nixosModules.common-pc-hdd
     ./hardware-configuration.nix
   ];
 
@@ -26,6 +25,14 @@
     gaming = true;
     djing = true;
     jamming = true;
+  };
+
+  powerManagement = {
+    enable = true;
+    powerUpCommands = ''
+      ${pkgs.hdparm}/bin/hdparm -B 127 /dev/sdb
+      ${pkgs.hdparm}/bin/hdparm -B 127 /dev/sdc
+    '';
   };
 
   sound.realtime = {
