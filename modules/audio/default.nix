@@ -33,6 +33,17 @@
     let
       baseConfig = {
 
+        # https://github.com/robbert-vdh/yabridge?tab=readme-ov-file#performance-tuning
+        boot.kernelParams = [ "preempt=full" ];
+
+        # https://discourse.nixos.org/t/nixos-and-linux-pro-audio/1788
+        security.pam.loginLimits = [
+          { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
+          { domain = "@audio"; item = "rtprio"; type = "-"; value = "99"; }
+          { domain = "@audio"; item = "nofile"; type = "soft"; value = "99999"; }
+          { domain = "@audio"; item = "nofile"; type = "hard"; value = "99999"; }
+        ];
+
         sound.enable = true;
 
         # Needed for pipewire
