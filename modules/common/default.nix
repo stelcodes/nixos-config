@@ -321,9 +321,6 @@
       extraOptions = ''
         warn-dirty = false
       '';
-      # Make the nixpkgs flake input be used for various nix commands
-      nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-      registry.nixpkgs.flake = inputs.nixpkgs;
     };
 
     hardware = {
