@@ -359,7 +359,7 @@
 
     # https://github.com/NixOS/nixpkgs/blob/master/pkgs/data/themes/catppuccin-gtk/default.nix
     gtkThemeName = "Catppuccin-Macchiato-Standard-Mauve-Dark";
-    gtkThemePackage = pkgs.catppuccin-gtk.override {
+    gtkThemePackage = (pkgs.callPackage ../packages/catppuccin-gtk { }).override {
       variant = "macchiato";
       accents = [ "mauve" ]; # You can specify multiple accents here to output multiple themes
       size = "standard";
