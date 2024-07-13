@@ -539,8 +539,10 @@ in
               runtimeInputs = [ pkgs.coreutils-full pkgs.audacious ];
               text = ''
                 song="$(audtool --current-song-filename)"
-                if [ -f "$song" ]; then
-                  cp -n "$song" "$PWD"
+                if [ -f "$song" ] && cp -n "$song" "$PWD"; then
+                  notify-send --urgency=low "Song copied successfully"
+                else
+                  notify-send --urgency=critical "Failed to copy song"
                 fi
               '';
             })
