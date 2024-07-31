@@ -322,9 +322,9 @@
                       exit 1
                     fi
                   done
-                  xargs --null mmv < "$temp" && rm "$temp" && clear_sel && notify
+                  xargs --null mmv -- < "$temp" && rm "$temp" && clear_sel && notify
                 elif [ -n "$1" ]; then
-                  mmv "$(basename "$1")" && notify
+                  mmv -- "$(basename "$1")" && notify
                 fi
               '';
             })
