@@ -640,7 +640,7 @@ in
         extraConfig = ''
           sort=-time
           layer=overlay
-          width=300
+          width=280
           height=110
           border-radius=5
           icons=1
@@ -649,6 +649,7 @@ in
           ignore-timeout=1
           padding=14
           margin=20
+          outer-margin=0,0,45,0
           background-color=${theme.bg}
 
           [urgency=low]
