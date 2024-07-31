@@ -83,7 +83,8 @@
       dl-video-yt-playlist = "${dl-video} --output '%(uploader_id,uploader)s - %(playlist)s/%(playlist_index).3d - %(upload_date)s - %(uploader_id,uploader)s - %(title)s [%(id)s].%(ext)s'";
       dl-video-1080 = "${dl-video} --format 'bestvideo[height<=1080]+bestaudio'";
       dl-video-1080-yt-playlist = "${dl-video-yt-playlist} --format 'bestvideo[height<=1080]+bestaudio'";
-      dl-audio-bc = "${dl-base} --format 'flac' --output '%(album_artist,artist,uploader|Unknown Artist)s - %(album,track,title|Unknown Album)s/%(track_number|00).2d - %(artist,uploader|Unknown Artist)s - %(track,title,webpage_url)s.%(ext)s'";
+      # console.log(Array.from(document.querySelectorAll('li.music-grid-item a')).map(el => el.href).join("\n")) -> copy paste to file -> -a <filename>
+      dl-audio-bc = "${dl-base} --format 'flac' --output '%(album,track,title|Unknown Album)s - %(track_number|00).2d - %(artist,uploader|Unknown Artist)s - %(track,title,webpage_url)s.%(ext)s'";
       dl-audio-yt = "${dl-base} --format 'bestaudio[acodec=opus]' --extract-audio";
       dl-yarn = "${dl-base} --extract-audio --output \"$HOME/music/samples/yarn/$(read).%(ext)s\"";
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
