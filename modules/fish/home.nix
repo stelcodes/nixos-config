@@ -80,7 +80,6 @@
       new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
       date-sortable = "date +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with local timezone
       date-sortable-utc = "date -u +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with UTC timezone
-      t = "tmux attach || tmux new-session -s config -c \"$HOME/nixos-config\"";
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
       dl-base = "yt-dlp --embed-metadata --embed-thumbnail --progress --download-archive ./yt-dlp-archive.txt --user-agent 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0'";
       dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor' --remux-video 'mkv'";
@@ -139,6 +138,16 @@
       '';
       wallpaper = /* fish */ ''
         cp -i "$argv[1]" "$HOME/.wallpaper"
+      '';
+      t = /* fish */ ''
+        if tmux run 2>/dev/null;
+          tmux new-window -t sandbox:
+          tmux new-session -As sandbox
+        else
+          tmux new-session -ds config -c "$HOME/nixos-config"
+          tmux new-session -ds media
+          tmux new-session -As sandbox
+        end
       '';
     };
   };
