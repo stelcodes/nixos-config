@@ -52,6 +52,8 @@
       end
       set -g fish_greeting (printf (_ '🐟 don\'t be afraid to ask for %shelp%s 💞') (set_color green) (set_color normal))
       fish_vi_key_bindings
+      # By default the vi mode insert cursor is a beam which I don't really like
+      set fish_cursor_insert block
       ${pkgs.starship}/bin/starship init fish | source
       # Maybe add direnv sourcing here later
     '';
