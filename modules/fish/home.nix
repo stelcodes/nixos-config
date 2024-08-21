@@ -46,6 +46,10 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
+      # Make sure the Nix environment is sourced when fish isn't the login shell (MacOS)
+      if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish;
+        source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+      end
       set -g fish_greeting (printf (_ '🐟 don\'t be afraid to ask for %shelp%s 💞') (set_color green) (set_color normal))
       fish_vi_key_bindings
       ${pkgs.starship}/bin/starship init fish | source
