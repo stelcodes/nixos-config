@@ -1,6 +1,8 @@
-{ pkgs, lib, inputs, config, systemConfig, ... }: {
+{ pkgs, lib, inputs, config, ... }: {
 
   imports = [
+    ./options.nix
+    ./nixpkgs.nix
     ../fish/home.nix
     ../neovim/home.nix
     ../tmux/home.nix
@@ -59,15 +61,15 @@
         '';
         # https://github.com/aristocratos/btop#configurability
         "btop/btop.conf".text = ''
-          color_theme = "${systemConfig.theme.set.btop}"
+          color_theme = "${config.theme.set.btop}"
           vim_keys = True
         '';
       };
     };
 
     home = {
-      username = "${systemConfig.admin.username}";
-      homeDirectory = "/home/${systemConfig.admin.username}";
+      username = lib.mkDefault "${config.admin.username}";
+      homeDirectory = lib.mkDefault "/home/${config.admin.username}";
 
       packages = [
         pkgs.btop
@@ -79,13 +81,17 @@
         pkgs.tealdeer
         pkgs.unzip
         pkgs.truecolor-test
-        pkgs.desktop-entries
-        pkgs.toggle-service
         pkgs.dua
         pkgs.mmv-go
         pkgs.jq
         pkgs.exiftool
-      ] ++ (lib.lists.optionals systemConfig.activities.coding [
+        # pkgs.unrar
+        pkgs.p7zip
+      ] ++ (lib.lists.optionals pkgs.stdenv.isLinux [
+        pkgs.desktop-entries
+        pkgs.toggle-service
+        inputs.nix-alien.packages.${pkgs.system}.nix-alien
+      ]) ++ (lib.lists.optionals config.activities.coding [
         pkgs.nix-prefetch-github
         pkgs.nixpkgs-fmt
         pkgs.check-newline
@@ -94,13 +100,9 @@
         pkgs.croc
         pkgs.restic
         pkgs.gh
-        pkgs.unrar-free
-        inputs.nix-alien.packages.x86_64-linux.nix-alien
       ]);
 
       sessionVariables = {
-        SUCCESS_ALERT = "${pkgs.success-alert}";
-        FAILURE_ALERT = "${pkgs.failure-alert}";
         EDITOR = "nvim";
         PAGER = "less --chop-long-lines --RAW-CONTROL-CHARS";
         MANPAGER = "nvim +Man!";
@@ -172,7 +174,7 @@
       fzf.enable = true;
 
       direnv = {
-        enable = systemConfig.activities.coding;
+        enable = config.activities.coding;
         nix-direnv.enable = true;
       };
 

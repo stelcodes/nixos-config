@@ -1,9 +1,9 @@
-{ pkgs, config, systemConfig, inputs, lib, ... }:
+{ pkgs, config, inputs, lib, ... }:
 let
-  theme = systemConfig.theme.set;
+  theme = config.theme.set;
 in
 {
-  config = lib.mkIf systemConfig.profile.graphical {
+  config = lib.mkIf config.profile.graphical {
     gtk = {
       enable = true;
       font = {

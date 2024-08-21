@@ -1,7 +1,7 @@
-{ inputs, pkgs, lib, systemConfig, ... }: {
+{ inputs, pkgs, lib, config, ... }: {
 
   home = {
-    packages = (lib.lists.optionals systemConfig.activities.jamming [
+    packages = (lib.lists.optionals config.activities.jamming [
       # inputs.audio-nix.packages.${pkgs.system}.bitwig-studio5-latest
       pkgs.unstable.bitwig-studio
       pkgs.musescore
@@ -22,7 +22,7 @@
       pkgs.opnplug
       pkgs.dragonfly-reverb
       # pkgs.davinci-resolve not working
-    ]) ++ (lib.lists.optionals systemConfig.activities.djing [
+    ]) ++ (lib.lists.optionals config.activities.djing [
       pkgs.unstable.mixxx
     ]);
   };

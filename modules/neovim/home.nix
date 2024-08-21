@@ -1,6 +1,6 @@
-{ pkgs, lib, config, systemConfig, ... }:
+{ pkgs, lib, config, ... }:
 let
-  theme = systemConfig.theme.set;
+  theme = config.theme.set;
   plugins = pkgs.unstable.vimPlugins;
 in
 {
@@ -11,7 +11,7 @@ in
     withNodeJs = false;
     withRuby = false;
     extraLuaConfig = builtins.readFile ./base.lua;
-    extraPackages = lib.lists.optionals systemConfig.activities.coding [
+    extraPackages = lib.lists.optionals config.activities.coding [
       pkgs.clojure-lsp
       pkgs.nil
       pkgs.pyright
@@ -406,7 +406,7 @@ in
           '';
         }
 
-      ] ++ (lib.lists.optionals systemConfig.activities.coding [
+      ] ++ (lib.lists.optionals config.activities.coding [
 
         plugins.nvim-ts-context-commentstring # For accurate comments
         {

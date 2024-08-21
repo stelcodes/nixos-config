@@ -1,7 +1,7 @@
-{ pkgs, systemConfig, ... }:
+{ pkgs, config, ... }:
 # For images in the terminal, use img2sixel from pkgs.libsixel
 let
-  theme = systemConfig.theme.set;
+  theme = config.theme.set;
 in
 {
   programs.tmux = {

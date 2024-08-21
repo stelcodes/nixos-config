@@ -1,7 +1,7 @@
-{ pkgs, lib, config, systemConfig, ... }:
+{ pkgs, lib, inputs, config, systemConfig, ... }:
 let
   cfg = config.wayland.windowManager.sway;
-  theme = systemConfig.theme.set;
+  theme = config.theme.set;
   viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log -- journalctl -efo cat -u nixos-rebuild.service";
   mod = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
@@ -125,7 +125,7 @@ in
     };
   };
 
-  config = lib.mkIf systemConfig.profile.graphical {
+  config = lib.mkIf config.profile.graphical {
 
     home.packages = [
       pkgs.swaylock
@@ -550,7 +550,7 @@ in
           Restart = "no";
         };
       };
-    } // (if systemConfig.profile.bluetooth then {
+    } // (if config.profile.bluetooth then {
 
       blueman-applet = {
         Unit = {
