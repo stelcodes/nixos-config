@@ -14,6 +14,7 @@ in
     extraPackages = lib.lists.optionals config.activities.coding [
       pkgs.clojure-lsp
       pkgs.nil
+      pkgs.nixpkgs-fmt
       pkgs.pyright
       pkgs.nodePackages.typescript-language-server
       pkgs.rust-analyzer
