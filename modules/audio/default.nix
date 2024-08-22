@@ -1,8 +1,6 @@
 { pkgs, lib, config, inputs, ... }: {
 
-  imports = [
-    inputs.musnix.nixosModules.musnix
-  ];
+  # https://github.com/robbert-vdh/yabridge?tab=readme-ov-file#performance-tuning
 
   options = {
 
@@ -31,18 +29,8 @@
 
   config =
     let
+      cfg = config.sound;
       baseConfig = {
-
-        # https://github.com/robbert-vdh/yabridge?tab=readme-ov-file#performance-tuning
-        boot.kernelParams = [ "preempt=full" ];
-
-        # https://discourse.nixos.org/t/nixos-and-linux-pro-audio/1788
-        security.pam.loginLimits = [
-          { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
-          { domain = "@audio"; item = "rtprio"; type = "-"; value = "99"; }
-          { domain = "@audio"; item = "nofile"; type = "soft"; value = "99999"; }
-          { domain = "@audio"; item = "nofile"; type = "hard"; value = "99999"; }
-        ];
 
         sound.enable = true;
 
@@ -86,29 +74,27 @@
       };
       realtimeConfig = {
 
-        services.tlp.settings = {
-          RUNTIME_PM_DISABLE = config.sound.realtime.soundcardPciId;
-        };
+        # Get the latest rt kernel bc the rt versions lag behind
+        boot.kernelPackages = pkgs.linuxPackages-rt_latest;
 
-        # https://github.com/musnix/musnix
-        musnix = {
-          enable = true;
-          alsaSeq.enable = true;
-          ffado.enable = true;
-          kernel = {
-            realtime = true; # https://github.com/musnix/musnix/issues/118
-            packages = pkgs.unstable.linuxPackages-rt_latest; # Get the latest bc the rt versions lag behind
-          };
-          rtirq.enable = false;
-          soundcardPciId = config.sound.realtime.soundcardPciId;
+        # https://discourse.nixos.org/t/nixos-and-linux-pro-audio/1788
+        security.pam.loginLimits = [
+          { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
+          { domain = "@audio"; item = "rtprio"; type = "-"; value = "99"; }
+          { domain = "@audio"; item = "nofile"; type = "soft"; value = "99999"; }
+          { domain = "@audio"; item = "nofile"; type = "hard"; value = "99999"; }
+        ];
+
+        services.tlp.settings = {
+          RUNTIME_PM_DISABLE = lib.mkIf (cfg.realtime.soundcardPciId != null) cfg.realtime.soundcardPciId;
         };
 
       };
     in
     lib.mkIf config.profile.audio (lib.mkMerge [
       baseConfig
-      (lib.mkIf (config.sound.realtime.enable && !config.sound.realtime.specialisation) realtimeConfig)
-      (lib.mkIf (config.sound.realtime.enable && config.sound.realtime.specialisation) {
+      (lib.mkIf (cfg.realtime.enable && !cfg.realtime.specialisation) realtimeConfig)
+      (lib.mkIf (cfg.realtime.enable && cfg.realtime.specialisation) {
         specialisation.realtime-audio.configuration = realtimeConfig;
       })
     ]);
