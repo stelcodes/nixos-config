@@ -258,7 +258,7 @@
           ../../hosts/${config.networking.hostName}/home.nix
         ];
         config = {
-          inherit (config) activities profiles;
+          inherit (config) activities profile;
         };
       };
     };

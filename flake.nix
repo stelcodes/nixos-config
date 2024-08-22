@@ -79,6 +79,8 @@
         modules = [
           ./hosts/marlene/home.nix
           ./modules/common/home.nix
+          # Only need to import this as a hm module in standalone hm configs
+          ./common/nixpkgs.nix
         ];
         extraSpecialArgs = {
           inherit inputs;
