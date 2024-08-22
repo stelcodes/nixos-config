@@ -63,7 +63,7 @@
     wg-quick.interfaces = {
       pvpn-fast = {
         configFile = config.age.secrets.pvpn-fast-wg-quick-config.path;
-        autostart = true;
+        autostart = false;
       };
     };
   };
