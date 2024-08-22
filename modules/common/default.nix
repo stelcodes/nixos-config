@@ -264,7 +264,7 @@
           ../../hosts/${config.networking.hostName}/home.nix
         ];
         config = {
-          inherit (config) activities profile;
+          inherit (config) activities profile theme;
         };
       };
     };
