@@ -17,6 +17,7 @@
             "facetimehd-firmware"
             "facetimehd-calibration"
             "libretro-snes9x"
+            "vscode"
           ];
         };
       in
