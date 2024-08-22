@@ -21,7 +21,10 @@
   };
 
   config = {
-    systemd.user = {
+
+    news.display = "silent";
+
+    systemd.user = lib.mkIf pkgs.stdenv.isLinux {
       settings.Manager.DefaultEnvironment = {
         PATH = "/run/current-system/sw/bin:/etc/profiles/per-user/${config.home.username}/bin";
       };
@@ -40,7 +43,7 @@
     };
 
     xdg = {
-      userDirs = {
+      userDirs = lib.mkIf pkgs.stdenv.isLinux {
         enable = true;
         createDirectories = true;
         desktop = "$HOME/desktop";
@@ -64,7 +67,7 @@
           color_theme = "${config.theme.set.btop}"
           vim_keys = True
         '';
-      };
+      } // (if config.theme.set ? configFile then config.theme.set.configFile else { });
     };
 
     home = {
@@ -202,20 +205,33 @@
           pkgs.fzf
           pkgs.xdg-utils
         ];
-        bookmarks = {
-          m = "/run/media";
-          M = "~/music";
-          d = "~/downloads";
-          D = "~/documents";
-          v = "~/videos";
-          t = "~/tmp";
-          n = "~/nixos-config";
-          c = "~/.config";
-          l = "~/.local";
-          w = "~/.wine/drive_c";
-          h = "~";
-          s = "~/sync";
-        };
+        bookmarks =
+          if pkgs.stdenv.isLinux then {
+            m = "/run/media";
+            M = "~/music";
+            d = "~/downloads";
+            D = "~/documents";
+            v = "~/videos";
+            t = "~/tmp";
+            n = "~/nixos-config";
+            c = "~/.config";
+            l = "~/.local";
+            w = "~/.wine/drive_c";
+            h = "~";
+            s = "~/sync";
+          } else {
+            m = "/Volumes";
+            M = "~/music";
+            d = "~/Downloads";
+            D = "~/Documents";
+            v = "~/Videos";
+            t = "~/tmp";
+            n = "~/nixos-config";
+            c = "~/.config";
+            l = "~/.local";
+            h = "~";
+            s = "~/sync";
+          };
         plugins = {
           mappings = {
             t = "preview-tui"; # tui
@@ -232,7 +248,7 @@
             d = "fuzzy-directories-cd"; # directories
             z = "unzipper";
           };
-          scripts = [
+          scripts = let copyCommand = if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"; in [
             (pkgs.writeShellApplication {
               name = "nvim-clean";
               runtimeInputs = [ pkgs.neovim-unwrapped pkgs.coreutils-full ];
@@ -263,9 +279,9 @@
                   for path in "''${paths[@]}"; do
                     printf -v result "%s%s\n" "$result" "$(basename "$path")"
                   done
-                  wl-copy "$result" && clear_sel && notify
+                  ${copyCommand} "$result" && clear_sel && notify
                 elif [ -n "$1" ]; then
-                  wl-copy "$(basename "$1")" && notify
+                  ${copyCommand} "$(basename "$1")" && notify
                 fi
               '';
             })
@@ -288,9 +304,9 @@
                 }
 
                 if [ -s "$SEL" ]; then
-                  wl-copy "$(printf "%s\n" "$(sed 's/\x0/\n/g' < "$SEL")")" && clear_sel && notify
+                  ${copyCommand} "$(printf "%s\n" "$(sed 's/\x0/\n/g' < "$SEL")")" && clear_sel && notify
                 elif [ -n "$1" ]; then
-                  wl-copy "$PWD/$1" && notify
+                  ${copyCommand} "$PWD/$1" && notify
                 fi
               '';
             })
