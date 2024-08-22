@@ -246,6 +246,7 @@
             F = "fuzzy-files-open";
             d = "fuzzy-directories-cd"; # directories
             z = "unzipper";
+            l = "create-symlinks";
           };
           scripts = let copyCommand = if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"; in [
             (pkgs.writeShellApplication {
@@ -284,6 +285,79 @@
                 fi
               '';
             })
+
+            (pkgs.writeShellApplication {
+              name = "create-symlinks";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.wl-clipboard pkgs.libnotify ];
+              text = ''
+                # Create relative or absolute symlinks from selection
+
+                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+                clear_sel() {
+                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
+                      printf "-" > "$NNN_PIPE"
+                  fi
+                }
+
+                fail_prompt() {
+                  if [ "$1" ]; then
+                    read -rp "$1..."
+                  else
+                    read -rp "Aborting operation..."
+                  fi
+                  exit 1
+                }
+
+                if [ -s "$selection" ]; then
+
+                  printf "\n=========================================================================\n"
+                  printf "CREATING SYMLINKS\n\nSELECTIONS:\n"
+                  abort=0
+                  while IFS= read -rd $'\0' item || [ "$item" ] ; do
+                    warning=""
+                    if ! [ -e "$item" ]; then
+                      warning="\033[0;33mWARNING: SOURCE DOES NOT EXIST\033[0m"
+                      abort=1
+                    elif [ -e "./$(basename "$item")" ]; then
+                      warning="\033[0;33mWARNING: PATH ALREADY EXISTS IN DEST\033[0m"
+                      abort=1
+                    fi
+                    printf "%s %b\n" "$item" "$warning"
+                  done < "$selection"
+                  printf "\nDESTINATION:\n%s\n\n" "$PWD"
+                  if [ "$abort" = 1 ]; then
+                    fail_prompt
+                  fi
+                  flags="-s"
+                  read -rp 'Relative or absolute? (r/a) '
+                  if [ "$REPLY" = "r" ]; then
+                    flags="-sr"
+                  elif [ "$REPLY" = "a" ]; then
+                    flags="-s"
+                  else
+                    fail_prompt
+                  fi
+                  printf "\nCommand: ln %s\n\n" "$flags"
+                  read -rp 'Are you sure? (y/n) '
+                  if [ "$REPLY" = "y" ]; then
+                    if xargs --null -I {} ln "$flags" {} "$PWD" < "$selection"; then
+                      clear_sel
+                      read -rp "Links created successfully!"
+                    else
+                      fail_prompt "Command failed"
+                    fi
+                  else
+                    fail_prompt
+                  fi
+                else
+                  fail_prompt "A selection is required"
+                fi
+                echo
+              '';
+            })
+
+
             (pkgs.writeShellApplication {
               name = "copy-absolute-filenames";
               runtimeInputs = [ pkgs.coreutils-full pkgs.wl-clipboard pkgs.libnotify ];
