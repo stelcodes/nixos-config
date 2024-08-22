@@ -6,6 +6,7 @@ in
 {
   programs.neovim = {
     enable = true;
+    package = pkgs.unstable.neovim-unwrapped;
     defaultEditor = true;
     withPython3 = false;
     withNodeJs = false;
@@ -69,6 +70,15 @@ in
 
       in
       [
+
+        {
+          plugin = plugins.yazi-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            require('yazi').setup()
+          '';
+        }
+
         # Theme plugin should go first because it sets local vars like lualine_theme
         theme.neovimPlugin
 

@@ -1,4 +1,4 @@
-format="${custom.ssh}${custom.nnn}$all"
+format="${custom.ssh}${custom.yazi}${custom.nnn}$all"
 
 [username]
 show_always = true
@@ -30,6 +30,12 @@ format = "[ssh](purple bold) "
 [custom.nnn]
 when = "test $NNNLVL"
 format = "[nnn](purple bold) "
+
+[custom.yazi]
+description = "Indicate the shell was launched by `yazi`"
+symbol = " "
+# symbol = "yazi(purple bold) "
+when = """ test -n "$YAZI_LEVEL" """
 
 [gcloud]
 disabled = true
