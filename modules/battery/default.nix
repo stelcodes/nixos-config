@@ -7,8 +7,11 @@
     };
 
     systemd = {
-      # Hibernate after 45 minutes of sleep instead of waiting til battery runs out
-      sleep.extraConfig = "HibernateDelaySec=45m";
+      # Hibernate after 1 hour of sleep instead of waiting til battery runs out
+      sleep.extraConfig = ''
+        HibernateDelaySec=1h
+        SuspendEstimationSec=1h
+      '';
 
       services.hibernate-critical-battery = {
         description = "hibernates system when battery gets critically low";
