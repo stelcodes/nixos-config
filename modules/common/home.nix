@@ -67,7 +67,7 @@
           color_theme = "${config.theme.set.btop}"
           vim_keys = True
         '';
-      } // (if config.theme.set ? configFile then config.theme.set.configFile else { });
+      };
     };
 
     home = {

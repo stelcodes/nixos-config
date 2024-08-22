@@ -248,7 +248,7 @@ in
           skin-tone = neutral
         '';
 
-      };
+      } // (if config.theme.set ? configFile then config.theme.set.configFile else { });
 
       mimeApps = {
         # https://www.iana.org/assignments/media-types/media-types.xhtml
