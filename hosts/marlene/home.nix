@@ -18,7 +18,7 @@
     enable = true;
     theme = "Catppuccin-Macchiato";
     font = {
-      size = 18;
+      size = 16;
       name = "FiraMono Nerd Font Mono";
       package = (pkgs.nerdfonts.override { fonts = [ "FiraMono" ]; });
     };
@@ -32,9 +32,12 @@
       enable_audio_bell no
       confirm_os_window_close 1
       macos_titlebar_color background
+      macos_option_as_alt left
+      macos_quit_when_last_window_closed yes
       # Fixes flashing big text when using multiple monitors in sway with different scales
       resize_draw_strategy scale
 
+      kitty_mod ctrl+alt
       clear_all_shortcuts yes
       map ctrl+Shift+c send_text all \x03
       map ctrl+c copy_to_clipboard
@@ -42,9 +45,9 @@
       # Standard copy/paste keymaps for MacOS
       map super+c copy_to_clipboard
       map super+v paste_from_clipboard
-      map kitty_mod+equal     change_font_size all 13.0
-      map kitty_mod+plus     change_font_size all +1.0
-      map kitty_mod+minus     change_font_size all -1.0
+      map kitty_mod+equal change_font_size all 0
+      map kitty_mod+plus change_font_size all +1.0
+      map kitty_mod+minus change_font_size all -1.0
     '';
   };
 }
