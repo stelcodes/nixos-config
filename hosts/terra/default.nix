@@ -37,7 +37,7 @@
 
   sound.realtime = {
     enable = false;
-    soundcardPciId = "31:00.4"; # Mobo soundcard
+    # soundcardPciId = "31:00.4"; # Mobo soundcard
     specialisation = false;
   };
 
@@ -101,6 +101,53 @@
       };
     };
     udev.packages = [ pkgs.android-udev-rules ];
+
+    # nfs.server = {
+    #   # Don't forget to open firewall
+    #   # allowedTCPPorts = [ 2049 ];
+    #   # allowedUDPPorts = [ 2049 ];
+    #   enable = true;
+    #   # https://www.man7.org/linux/man-pages/man5/exports.5.html
+    #   exports = ''
+    #     /run/media/archive/tmp 192.168.1.101(ro,nohide,insecure,no_subtree_check)
+    #   '';
+    # };
+
+
+    samba = {
+      # https://nixos.wiki/wiki/Samba
+      # smbpasswd -a my_user
+      enable = true;
+      securityType = "user";
+      openFirewall = true;
+      extraConfig = /* ini */ ''
+        # Guests are disabled by default
+        server string = smbnix
+        netbios name = smbnix
+        # Speed increase?
+        use sendfile = yes
+        hosts allow = 192.168.0. 192.168.1. 127.0.0.1 localhost
+        hosts deny = 0.0.0.0/0
+      '';
+      shares = {
+        private = {
+          # path = "/var/lib/samba/private";
+          path = "/run/media/archive";
+          browseable = "yes"; # default
+          "read only" = "no";
+          "guest ok" = "no"; # default
+          "create mask" = "0644";
+          "directory mask" = "0755"; # default
+          "force user" = "stel";
+          "force group" = "users";
+        };
+      };
+    };
+
+    samba-wsdd = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   # systemd.tmpfiles.rules = [

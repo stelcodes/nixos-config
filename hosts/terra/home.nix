@@ -43,6 +43,16 @@
       pkgs.picard # Music tagging (mp3, flac, everything)
       pkgs.chromium
       pkgs.git-fiddle
+      (pkgs.firejailWrapper {
+        executable = "${pkgs.vscode}/bin/code";
+        extraArgs = [ "--noprofile" "--whitelist=\"$HOME/code\"" "--whitelist=\"$HOME/.config\"" "--whitelist=\"$HOME/.local\"" ];
+      })
+      pkgs.yazi
+      pkgs.nix-tree
+      # Build time dependencies of a flake on the current directory
+      # nix-tree --derivation '.#'
+      # Same thing works for any flake reference
+      # nix-tree --derivation 'nixpkgs#asciiquarium'
     ];
   };
   wayland.windowManager.sway = {
@@ -61,3 +71,6 @@
     wallpaper = pkgs.wallpaper.rei-moon;
   };
 }
+
+# ~/.vital/Vital.config
+# {"synth_version":"1.5.5","work_offline":true,"data_directory":"/run/media/archive/music/presets/vital"}
