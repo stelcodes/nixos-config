@@ -45,6 +45,12 @@
         DefaultTimeoutStopSec=10
         DefaultTimeoutAbortSec=10
       '';
+      user.services.collect-user-garbage = {
+        restartIfChanged = false;
+        startAt = "wednesday";
+        wantedBy = [ "default.target" ];
+        script = "${pkgs.nix}/bin/nix-collect-garbage --delete-older-than 30d";
+      };
       services = {
         nixos-rebuild = {
           restartIfChanged = false;
