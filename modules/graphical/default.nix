@@ -70,7 +70,6 @@
               "browser.urlbar.suggest.calculator" = locked true;
               "browser.urlbar.suggest.engines" = locked false;
               "browser.urlbar.suggest.searches" = locked false;
-              "dom.security.https_only_mode" = locked true;
               # It looks like firefox doesn't allow font settings to be overridden
               "font.name.monospace.x-western" = locked "FiraMono Nerd Font";
               "font.size.monospace.x-western" = locked 16;
@@ -131,6 +130,7 @@
             Locked = false;
             StartPage = "none";
           };
+          # HttpsOnlyMode = "enabled";
           ManagedBookmarks = [
             { toplevel_name = "NixOS"; }
             { name = "Printing"; url = "https://localhost:631"; }
@@ -206,7 +206,7 @@
           EnterpriseRealTimeUrlCheckMode = 0;
           HardwareAccelerationModeEnabled = true;
           HighEfficiencyModeEnabled = true;
-          HttpsOnlyMode = "force_enabled";
+          # HttpsOnlyMode = "force_enabled";
           HomepageIsNewTabPage = true;
           MediaRecommendationsEnabled = false;
           MetricsReportingEnabled = false;
