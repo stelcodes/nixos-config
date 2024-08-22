@@ -73,6 +73,19 @@
       };
     };
 
+    homeConfigurations = {
+      marlene = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = import inputs.nixpkgs { system = "aarch64-darwin"; };
+        modules = [
+          ./hosts/marlene/home.nix
+          ./modules/common/home.nix
+        ];
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+      };
+    };
+
     nixosConfigurations =
       let
         nixosMachine = { system, hostName }:

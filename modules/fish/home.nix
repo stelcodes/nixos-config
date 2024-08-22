@@ -95,7 +95,7 @@
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
       loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
       network-test = "ping -c 1 -W 5 8.8.8.8";
-      rebuild = "sudo nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
+      rebuild = lib.mkDefault "sudo nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       rebuild_ = "systemctl start --user nixos-rebuild.service";
       swaytree = "swaymsg -t get_tree | nvim -R";
       swayinputs = "swaymsg -t get_inputs | nvim -R";
