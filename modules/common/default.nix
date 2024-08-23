@@ -153,11 +153,7 @@
           isNormalUser = true;
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list
           extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "multimedia" "libvirtd" ];
-          openssh.authorizedKeys.keys = [
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl1QCu19AUDFaaZZAt4YtnxxdX+JDvDz5rdnBEfH/Bb stel@azul"
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGl9G7SYvJy8+u2AF+Mlez6bwhrNfKclWo9mK6mwtNgJ stel@stel.codes"
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJkPXakQYSkH4hp9Zmm1ewMYusc8RlUaQQnQsx2wHPpn stel@stel.codes" # terra admin key
-          ];
+          openssh.authorizedKeys.keys = (import ../../secrets/keys.nix).allAdminKeys;
           shell = pkgs.fish;
         };
       };
@@ -238,6 +234,8 @@
       settings = {
         auto-optimise-store = true;
         experimental-features = [ "nix-command" "flakes" ];
+        # For cross compilation, not sure if necessary
+        # extra-platforms = config.boot.binfmt.emulatedSystems;
       };
       package = pkgs.nixFlakes; # Enable nixFlakes on system
       extraOptions = ''
