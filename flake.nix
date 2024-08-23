@@ -119,7 +119,9 @@
           system = "x86_64-linux";
         };
         # raspberry pi 3B+
-        # nix build .#nixosConfigurations.boko.config.formats.sd-aarch64
+        # nix build .#nixosConfigurations.boko.config.formats.sd-aarch64 (build is failing atm)
+        # https://hydra.nixos.org/job/nixos/trunk-combined/nixos.sd_image.aarch64-linux
+        # https://nix.dev/tutorials/nixos/installing-nixos-on-a-raspberry-pi.html
         boko = nixosMachine {
           hostName = "boko";
           system = "aarch64-linux";
