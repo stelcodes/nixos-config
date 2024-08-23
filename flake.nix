@@ -119,6 +119,7 @@
           system = "x86_64-linux";
         };
         # raspberry pi 3B+
+        # nix build .#nixosConfigurations.boko.config.formats.sd-aarch64
         boko = nixosMachine {
           hostName = "boko";
           system = "aarch64-linux";
