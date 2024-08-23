@@ -65,7 +65,7 @@
       la = "ls -A";
       rm = "rm -i";
       mv = "mv -n";
-      r = "rsync -rltxhv";
+      r = "rsync -rltxhv"; # use --delete-delay when necessary
       gs = "git status";
       gl = "git log";
       glo = "git log --oneline";
@@ -93,7 +93,7 @@
       dl-audio-yt = "${dl-base} --format 'bestaudio[acodec=opus]' --extract-audio";
       dl-yarn = "${dl-base} --extract-audio --output \"$HOME/music/samples/yarn/$(read).%(ext)s\"";
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
-      loggy = "${noansi} | tee ~/tmp/$(date +%F-%T)-log.txt";
+      loggy = { position = "anywhere"; expansion = " 2>&1 | tee ~/tmp/$(${date-sortable}).log"; };
       network-test = "ping -c 1 -W 5 8.8.8.8";
       rebuild = lib.mkDefault "sudo nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
       rebuild_ = "systemctl start --user nixos-rebuild.service";
