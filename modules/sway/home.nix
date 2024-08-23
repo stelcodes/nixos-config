@@ -131,7 +131,6 @@ in
       pkgs.swaylock
       pkgs.swayidle
       pkgs.brightnessctl
-      pkgs.playerctl
       pkgs.libinput
       pkgs.wev
       pkgs.font-manager
@@ -141,7 +140,6 @@ in
       pkgs.wlsunset
       pkgs.grim
       pkgs.slurp
-      pkgs.pamixer
       pkgs.rofimoji # Great associated word hints with extensive symbol lists to choose from
       pkgs.wtype
       pkgs.libnotify
@@ -149,9 +147,12 @@ in
       pkgs.wdisplays
       pkgs.foot
       pkgs.swappy
-      pkgs.wl-screenrec # https://github.com/russelltg/wl-screenrec
-      pkgs.wlogout
-    ];
+      # pkgs.wl-screenrec # https://github.com/russelltg/wl-screenrec
+      # pkgs.wlogout
+    ] ++ (lib.lists.optionals config.profile.audio [
+      pkgs.pamixer
+      pkgs.playerctl
+    ]);
 
     wayland.windowManager.sway = {
       enable = true;
@@ -360,7 +361,7 @@ in
         };
         output = {
           "*" = {
-            background = if (cfg.wallpaper != null) then "${cfg.wallpaper} fill ${theme.bg}" else "~/.wallpaper fill ${theme.bg}";
+            background = if (cfg.wallpaper != null) then "${cfg.wallpaper} fill ${theme.bg}" else "${theme.bg} solid_color";
           };
           # Framework screen
           "BOE 0x095F Unknown" = {
@@ -485,7 +486,7 @@ in
         };
       };
 
-      syncthing-tray = {
+      syncthing-tray = lib.mkIf systemConfig.services.syncthing.enable {
         Unit = {
           Description = "Simple tray for syncthing file sync service";
         };
@@ -511,7 +512,7 @@ in
         };
       };
 
-      record-playback = {
+      record-playback = lib.mkIf config.profile.audio {
         Unit = {
           Description = "playback recording from default pulseaudio monitor";
         };
@@ -550,9 +551,8 @@ in
           Restart = "no";
         };
       };
-    } // (if config.profile.bluetooth then {
 
-      blueman-applet = {
+      blueman-applet = lib.mkIf config.profile.bluetooth {
         Unit = {
           Description = "Blueman applet";
         };
@@ -564,7 +564,7 @@ in
         };
       };
 
-    } else { });
+    };
 
     services = {
       swayidle = {
@@ -667,7 +667,7 @@ in
       };
 
       wayland-pipewire-idle-inhibit = {
-        enable = true;
+        enable = config.profile.audio;
         package = pkgs.wayland-pipewire-idle-inhibit;
         systemdTarget = "sway-session.target";
         settings = {

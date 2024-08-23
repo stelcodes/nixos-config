@@ -44,6 +44,9 @@
     soundcardPciId = "00:1f.3";
   };
 
+  # Needed to create Rasp Pi SD images
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

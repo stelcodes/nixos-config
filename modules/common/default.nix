@@ -18,12 +18,13 @@
 
     boot = {
       tmp.cleanOnBoot = true;
-      kernelPackages = lib.mkDefault pkgs.linuxPackages_6_6;
+      # nixos-hardware tends to use lib.mkDefault for kernelPackages (RaspPi 3 for example)
+      kernelPackages = lib.mkOverride 999 pkgs.linuxPackages_6_6;
 
       # These boot loader settings are the only thing in new configuration.nix files
       loader = lib.mkIf (!config.profile.virtual) {
-        systemd-boot.enable = true;
-        efi.canTouchEfiVariables = true;
+        systemd-boot.enable = lib.mkDefault true;
+        efi.canTouchEfiVariables = lib.mkDefault true;
       };
     };
 
