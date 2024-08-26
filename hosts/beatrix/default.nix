@@ -33,8 +33,9 @@
 
   fileSystems = {
     "/run/media/archive" = {
-      device = "/dev/disk/by-uuid/3101471b-eff2-44d5-97ba-90f74552948f";
-      fsType = "ext4";
+      device = "/dev/disk/by-uuid/fabb5a38-c104-4e34-8652-04864df28799";
+      fsType = "btrfs";
+      options = [ "nofail" ];
     };
   };
 
