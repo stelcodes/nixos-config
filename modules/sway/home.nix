@@ -729,8 +729,10 @@ in
           "cpu"
           "backlight"
           "battery"
+        ] ++ (lib.lists.optionals config.profile.audio [
           "custom/recordplayback"
           "wireplumber"
+        ]) ++ [
           "clock"
         ];
         "custom/pomo" = {
