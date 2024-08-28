@@ -50,6 +50,10 @@
       if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish;
         source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
       end
+      # Add homebrew to PATH when necessary (MacOS)
+      if test -e /opt/homebrew;
+        fish_add_path --append /opt/homebrew/bin /opt/homebrew/sbin
+      end
       set -g fish_greeting (printf (_ '🐟 don\'t be afraid to ask for %shelp%s 💞') (set_color green) (set_color normal))
       fish_vi_key_bindings
       # By default the vi mode insert cursor is a beam which I don't really like
