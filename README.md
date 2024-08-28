@@ -16,6 +16,8 @@ https://github.com/LongerHV/nixos-configuration
 
 https://github.com/TLATER/dotfiles
 
+https://git.eisfunke.com/config/nixos
+
 ## Essential Resources
 
 ### Nix
@@ -342,6 +344,10 @@ Sometimes I forget how to fold in Vim. Here's the easiest way for me to remember
 - Fold: z prefix (the "z" looks like a folded piece of paper, if you look at it from the side)
 - Fold MORE: zm, zM to fold everything
 - Fold REDUCE: zr, zR to fold nothing
+
+## Samba
+
+Need to add user with `smbpasswd -a my_user` manually
 
 ## Other Links
 
