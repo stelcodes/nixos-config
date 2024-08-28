@@ -77,7 +77,7 @@
         pkgs.btop
         pkgs.trash-cli
         pkgs.fd
-        pkgs.neofetch
+        pkgs.fastfetch
         pkgs.wget
         pkgs.ripgrep
         pkgs.tealdeer

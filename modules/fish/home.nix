@@ -58,7 +58,7 @@
       # Maybe add direnv sourcing here later
     '';
     loginShellInit = lib.mkDefault ''
-      ${pkgs.neofetch}/bin/neofetch
+      ${pkgs.fastfetch}/bin/fastfetch
     '';
     shellAbbrs = rec {
       ll = "ls -l";
