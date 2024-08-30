@@ -166,6 +166,12 @@
         settings = builtins.fromTOML (builtins.readFile ../../misc/starship.toml);
       };
       nix-ld.enable = config.activities.coding;
+      git = {
+        enable = true;
+        config = {
+           safe.directory = "/home/stel/nixos-config/.git";
+        };
+      };
     };
 
     environment = {
