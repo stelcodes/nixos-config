@@ -9,6 +9,7 @@ rec {
     terra = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHnPEH3EdHpXZxp4yfD2/psm1m8dbHSGnQ95NLPf6S5g";
     yuffie = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPv1nZsr+fdrSgtCOrYfsR0c+a3iOdaPJQHEWpZ44xXJ";
     aerith = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHq8GNrmE18CJia7L0vZdTFEBEk2+XSzGp44wQYvH/TG";
+    beatrix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAd1Y+/qoZkxGvK+2qcXHzyFqOhkSFyc5cuZi8OUNqVk";
   };
   allAdminKeys = builtins.attrValues adminKeys;
   allSystemKeys = builtins.attrValues systemKeys;
