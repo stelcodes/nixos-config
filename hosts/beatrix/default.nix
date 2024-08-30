@@ -78,8 +78,8 @@
       mountdPort = 4002;
       statdPort = 4000;
       exports = ''
-        /nfs 192.168.1.101(rw,fsid=root,no_subtree_check)
-        /nfs/archive 192.168.1.101(ro,nohide,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+        /nfs 192.168.1.101(rw,fsid=root,no_subtree_check) 192.168.1.102(rw,fsid=root,no_subtree_check)
+        /nfs/archive 192.168.1.101(ro,nohide,no_subtree_check,all_squash,anonuid=1000,anongid=1000) 192.168.1.102(ro,nohide,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
       '';
     };
   };
