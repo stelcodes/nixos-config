@@ -40,16 +40,16 @@ in
           set -g @thumbs-position right
         '';
       }
-      {
-        plugin = pkgs.tmuxPlugins.resurrect;
-        extraConfig = ''
-          set -g @resurrect-capture-pane-contents 'on'
-          # Doesn't work because nvim process invokation gets ran without proper quoting
-          # set -g @resurrect-processes '~nvim->nvim ~man->man'
-        '';
-      }
+      # {
+      #   plugin = pkgs.tmuxPlugins.resurrect;
+      #   extraConfig = ''
+      #     set -g @resurrect-capture-pane-contents 'on'
+      #     # Doesn't work because nvim process invokation gets ran without proper quoting
+      #     # set -g @resurrect-processes '~nvim->nvim ~man->man'
+      #   '';
+      # }
     ];
-    extraConfig = /* bash */ ''
+    extraConfig = ''
       #########################################################################
       # KEYBINDINGS
 
