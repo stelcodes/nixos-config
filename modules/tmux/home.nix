@@ -29,7 +29,8 @@ in
         plugin = pkgs.tmuxPlugins.tmux-thumbs;
         extraConfig = ''
           # Try to copy to every clipboard just to keep the command string simple
-          set -g @thumbs-command 'tmux set-buffer -- {}; echo -n {} | wl-copy'
+          set -g @thumbs-command 'tmux set-buffer -- {}; echo -n {} | ${if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"}'
+          set -g @thumbs-upcase-command '${if pkgs.stdenv.isDarwin then "open" else "xdg-open"} {}'
           set -g @thumbs-fg-color '${theme.bg2}'
           set -g @thumbs-bg-color '${theme.yellow}'
           set -g @thumbs-select-fg-color '${theme.bg2}'
