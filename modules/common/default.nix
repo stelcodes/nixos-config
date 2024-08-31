@@ -179,7 +179,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
       git = {
         enable = true;
         config = {
-          safe.directory = "/home/stel/nixos-config/.git";
+          safe.directory = "/home/${config.admin.username}/nixos-config/.git";
         };
       };
     };
