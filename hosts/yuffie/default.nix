@@ -23,14 +23,7 @@
   };
 
   age.secrets = {
-    root-password.file = ../../secrets/root-password.age;
-    admin-password.file = ../../secrets/admin-password.age;
     pvpn-fast-wg-quick-config.file = ../../secrets/framework-pvpn-fast-wg-quick-config.age;
-  };
-
-  users.users = {
-    root.hashedPasswordFile = config.age.secrets.root-password.path;
-    ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
   };
 
   services = {

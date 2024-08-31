@@ -1,5 +1,8 @@
-{ pkgs, lib, config, inputs, ... }: {
+{ pkgs, lib, config, inputs, ... }:
 
+let sshPublicKeys = (import ../../secrets/keys.nix); in
+
+{
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.agenix.nixosModules.default
@@ -139,21 +142,28 @@
     # security.acme.email = "stel@stel.codes";
     # security.acme.acceptTerms = true;
 
+    # If the host's system public key is in the key registry file, assume the core age secrets are available
+    age.secrets = lib.mkIf (sshPublicKeys.systemKeys ? config.networking.hostname) {
+      admin-password.file = ../../secrets/admin-password.age;
+    };
+
     users = {
       groups = {
         multimedia = { };
       };
       mutableUsers = false;
       users = {
-        root = {
-          password = lib.mkIf (config.users.users.root.hashedPasswordFile == null) "password"; # Override with hashedPasswordFile (use mkpasswd)
-        };
+        root.hashedPassword = "!"; # Disable root login
         ${config.admin.username} = {
-          password = lib.mkIf (config.users.users.${config.admin.username}.hashedPasswordFile == null) "password"; # Override with hashedPasswordFile (use mkpasswd)
+          # Default password is "password" unless system ssh key is in the public key registry file
+          # In that case the encrypted age password should be available, use that instead
+          # Override with hashedPasswordFile (use mkpasswd)
+          hashedPasswordFile = lib.mkIf (config.age.secrets ? admin-password) config.age.secrets.admin-password.path;
+          password = lib.mkIf (!config.age.secrets ? admin-password) "password";
           isNormalUser = true;
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list
           extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "multimedia" "libvirtd" ];
-          openssh.authorizedKeys.keys = (import ../../secrets/keys.nix).allAdminKeys;
+          openssh.authorizedKeys.keys = sshPublicKeys.allAdminKeys;
           shell = pkgs.fish;
         };
       };
@@ -169,7 +179,7 @@
       git = {
         enable = true;
         config = {
-           safe.directory = "/home/stel/nixos-config/.git";
+          safe.directory = "/home/stel/nixos-config/.git";
         };
       };
     };

@@ -20,16 +20,6 @@
     djing = true;
   };
 
-  age.secrets = {
-    root-password.file = ../../secrets/root-password.age;
-    admin-password.file = ../../secrets/admin-password.age;
-  };
-
-  users.users = {
-    root.hashedPasswordFile = config.age.secrets.root-password.path;
-    ${config.admin.username}.hashedPasswordFile = config.age.secrets.admin-password.path;
-  };
-
   programs = {
     firejail.enable = true;
   };
