@@ -10,7 +10,7 @@ in
     keyMode = "vi";
     prefix = "M-a";
     terminal = "tmux-256color";
-    secureSocket = false; # Careful, this will mess with tmux-resurrect
+    secureSocket = true; # Careful, this will mess with tmux-resurrect
     plugins = [
       pkgs.tmuxPlugins.yank
       # Got this kinda working but honestly tmux-thumbs is fine, it just has this annoying issue: https://github.com/fcsonline/tmux-thumbs/issues/129
