@@ -9,45 +9,10 @@ in
     baseIndex = 1;
     keyMode = "vi";
     prefix = "M-a";
-    terminal = "tmux-256color";
     secureSocket = true; # Careful, this will mess with tmux-resurrect
     plugins = [
       pkgs.tmuxPlugins.yank
-      # Got this kinda working but honestly tmux-thumbs is fine, it just has this annoying issue: https://github.com/fcsonline/tmux-thumbs/issues/129
-      # {
-      #   plugin = pkgs.tmuxPlugins.fingers.overrideAttrs (prev: {
-      #     postInstall = prev.postInstall + ''
-      #       sed -i 's/mkdir -p $THIS_CURRENT_DIR\/.cache//g' $target/tmux-fingers.tmux
-      #     '';
-      #   });
-      #   extraConfig = ''
-      #     set -g @fingers-main-action 'tmux set-buffer -- {} && test -n "$SWAYSOCK" && echo -n {} | ${pkgs.wl-clipboard}/bin/wl-copy'
-      #     set -g @fingers-hint-format "#[fg=${theme.yellow},bold]%s"
-      #   '';
-      # }
-      {
-        plugin = pkgs.tmuxPlugins.tmux-thumbs;
-        extraConfig = ''
-          # Try to copy to every clipboard just to keep the command string simple
-          set -g @thumbs-command 'tmux set-buffer -- {}; echo -n {} | ${if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"}'
-          set -g @thumbs-upcase-command '${if pkgs.stdenv.isDarwin then "open" else "xdg-open"} {}'
-          set -g @thumbs-fg-color '${theme.bg2}'
-          set -g @thumbs-bg-color '${theme.yellow}'
-          set -g @thumbs-select-fg-color '${theme.bg2}'
-          set -g @thumbs-select-bg-color '${theme.red}'
-          set -g @thumbs-hint-fg-color '${theme.blue}'
-          set -g @thumbs-hint-bg-color '${theme.bg2}'
-          set -g @thumbs-position right
-        '';
-      }
-      # {
-      #   plugin = pkgs.tmuxPlugins.resurrect;
-      #   extraConfig = ''
-      #     set -g @resurrect-capture-pane-contents 'on'
-      #     # Doesn't work because nvim process invokation gets ran without proper quoting
-      #     # set -g @resurrect-processes '~nvim->nvim ~man->man'
-      #   '';
-      # }
+      pkgs.tmuxPlugins.fingers
     ];
     extraConfig = ''
       #########################################################################
@@ -67,7 +32,6 @@ in
       bind -n M-S command-prompt 'new-session -s %% -c ~'
       bind -n M-S-tab switch-client -l
       bind -n M-tab select-window -l
-      bind -n M-f thumbs-pick
       bind -n M-t new-window -a -c "#{pane_current_path}"
       bind -n M-r command-prompt 'rename-window %%'
       bind -n M-R command-prompt 'rename-session %%'
@@ -109,6 +73,8 @@ in
       set -g detach-on-destroy off # Switch to another session when last shell is closed
       set -sa terminal-features ',foot:RGB,xterm-256color:RGB,tmux-256color:RGB'
       setenv -g COLORTERM truecolor
+      # If I'm using kitty, the term needs to be xterm-kitty in order for fingers to work right
+      if '[ "$TERM" = "xterm-kitty" ]' { set -g default-terminal "xterm-kitty" } { set -g default-terminal "tmux-256color" }
 
       #########################################################################
       # APPEARANCE
