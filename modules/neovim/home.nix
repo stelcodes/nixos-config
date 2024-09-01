@@ -193,6 +193,7 @@ in
           plugin = plugins.auto-session;
           type = "lua";
           config = /* lua */ ''
+            vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
             require('auto-session').setup {
               auto_save_enabled = true,
               auto_restore_enabled = true
