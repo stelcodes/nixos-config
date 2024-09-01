@@ -45,7 +45,7 @@
   };
   programs.fish = {
     enable = true;
-    interactiveShellInit = ''
+    interactiveShellInit = /* fish */ ''
       # Make sure the Nix environment is sourced when fish isn't the login shell (MacOS)
       if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish;
         source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
@@ -53,6 +53,10 @@
       # Add homebrew to PATH when necessary (MacOS)
       if test -e /opt/homebrew;
         fish_add_path --append /opt/homebrew/bin /opt/homebrew/sbin
+      end
+      # If ssh'ing from kitty, use kitten to automatically install kitty terminfo on remote host
+      if test "$TERM" = "xterm-kitty";
+        abbr ssh "kitty +kitten ssh"
       end
       set -g fish_greeting (printf (_ '🐟 don\'t be afraid to ask for %shelp%s 💞') (set_color green) (set_color normal))
       fish_vi_key_bindings

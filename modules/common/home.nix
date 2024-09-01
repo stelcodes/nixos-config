@@ -89,6 +89,7 @@
         pkgs.exiftool
         # pkgs.unrar
         pkgs.p7zip
+        pkgs.yazi
       ] ++ (lib.lists.optionals pkgs.stdenv.isLinux [
         pkgs.desktop-entries
         pkgs.toggle-service
