@@ -119,15 +119,13 @@
       nix-dependency = "nix-store --query --referrers /nix/store/";
       nix-bigstuff = "nix path-info -rS /run/current-system | sort -nk2";
       nix-why = "nix why-depends /run/current-system /nix/store/";
-    };
-    shellAliases = {
       n = "nnn";
       y = "yazi";
     };
     functions = {
       yazi = /* fish */ ''
         set tmp (mktemp -t "yazi-cwd.XXXXXX")
-        yazi $argv --cwd-file="$tmp"
+        command yazi $argv --cwd-file="$tmp"
         if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
           cd -- "$cwd"
         end
