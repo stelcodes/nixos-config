@@ -12,8 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager = {
-      # User Package Management
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -33,6 +32,18 @@
     };
     nnn-plugins = {
       url = "github:jarun/nnn";
+      flake = false;
+    };
+    yazi-plugins = {
+      url = "github:yazi-rs/plugins";
+      flake = false;
+    };
+    starship-yazi = {
+      url = "github:Rolv-Apneseth/starship.yazi";
+      flake = false;
+    };
+    yazi-flavors = {
+      url = "github:yazi-rs/flavors";
       flake = false;
     };
     nixos-generators = {

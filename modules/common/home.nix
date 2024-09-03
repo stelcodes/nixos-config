@@ -89,7 +89,7 @@
         pkgs.exiftool
         # pkgs.unrar
         pkgs.p7zip
-        pkgs.yazi
+        pkgs.mediainfo # for yazi
       ] ++ (lib.lists.optionals pkgs.stdenv.isLinux [
         pkgs.desktop-entries
         pkgs.toggle-service
@@ -190,6 +190,57 @@
           { mime = "inode/directory"; command = "eza -la --color always %pistol-filename%"; }
           { mime = "application/epub+zip"; command = "bk --meta %pistol-filename%"; }
         ];
+      };
+
+      yazi = {
+        enable = true;
+        package = pkgs.unstable.yazi;
+        enableFishIntegration = true;
+        shellWrapperName = "y";
+
+        # Defaults: https://github.com/sxyazi/yazi/tree/main/yazi-config/preset
+
+        settings = {
+          plugin.prepend_fetchers = [
+            # https://github.com/yazi-rs/plugins/tree/main/git.yazi#setup
+            { id = "git"; name = "*"; run = "git"; }
+            { id = "git"; name = "*/"; run = "git"; }
+          ];
+        };
+
+        flavors = let f = inputs.yazi-flavors; in {
+          catppuccin-frappe = "${f}/catppuccin-frappe.yazi";
+        };
+
+        theme.flavor.use = "catppuccin-frappe";
+
+        plugins = let p = inputs.yazi-plugins; in {
+          chmod = "${p}/chmod.yazi";
+          full-border = "${p}/full-border.yazi";
+          max-preview = "${p}/max-preview.yazi";
+          git = "${p}/git.yazi";
+          starship = "${inputs.starship-yazi}";
+        };
+
+        initLua = /* lua */ ''
+          require("starship"):setup()
+          require("git"):setup()
+        '';
+
+        keymap = {
+          manager.prepend_keymap = [
+            {
+              on = "T";
+              run = "plugin --sync max-preview";
+              desc = "Maximize or restore the preview pane";
+            }
+            {
+              on = [ "c" "m" ];
+              run = "plugin chmod";
+              desc = "Chmod on selected files";
+            }
+          ];
+        };
       };
 
       nnn = {

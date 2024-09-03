@@ -166,16 +166,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1720042825,
-        "narHash": "sha256-A0vrUB6x82/jvf17qPCpxaM+ulJnD8YZwH9Ci0BsAzE=",
+        "lastModified": 1725180166,
+        "narHash": "sha256-fzssXuGR/mCeGbzM1ExaTqDz7QDGta3WA4jJsZyRruo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e1391fb22e18a36f57e6999c7a9f966dc80ac073",
+        "rev": "471e3eb0a114265bcd62d11d58ba8d3421ee68eb",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-24.05",
+        "ref": "master",
         "repo": "home-manager",
         "type": "github"
       }
@@ -429,7 +429,26 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nnn-plugins": "nnn-plugins",
-        "wayland-pipewire-idle-inhibit": "wayland-pipewire-idle-inhibit"
+        "starship-yazi": "starship-yazi",
+        "wayland-pipewire-idle-inhibit": "wayland-pipewire-idle-inhibit",
+        "yazi-flavors": "yazi-flavors",
+        "yazi-plugins": "yazi-plugins"
+      }
+    },
+    "starship-yazi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1724165300,
+        "narHash": "sha256-0nritWu53CJAuqQxx6uOXMg4WiHTVm/i78nNRgGrlgg=",
+        "owner": "Rolv-Apneseth",
+        "repo": "starship.yazi",
+        "rev": "20d5a4d4544124bade559b31d51ad41561dad92b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Rolv-Apneseth",
+        "repo": "starship.yazi",
+        "type": "github"
       }
     },
     "systems": {
@@ -517,6 +536,38 @@
       "original": {
         "owner": "rafaelrc7",
         "repo": "wayland-pipewire-idle-inhibit",
+        "type": "github"
+      }
+    },
+    "yazi-flavors": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725036354,
+        "narHash": "sha256-W56r4LMepQj0vW1tayx0qA43ZhZEQ09ukZ8IlQMFMe0=",
+        "owner": "yazi-rs",
+        "repo": "flavors",
+        "rev": "d479f67a5bde91ccd3cddc927144b442c6e885e5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yazi-rs",
+        "repo": "flavors",
+        "type": "github"
+      }
+    },
+    "yazi-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725242308,
+        "narHash": "sha256-lbT8IkLoyK1OQK6srAIG5OBeHa2o06ywkv305hUs3AE=",
+        "owner": "yazi-rs",
+        "repo": "plugins",
+        "rev": "d9bfa0b987714fd794f5a18b1cdf149dc86403dc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yazi-rs",
+        "repo": "plugins",
         "type": "github"
       }
     }

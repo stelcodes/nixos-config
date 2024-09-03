@@ -120,17 +120,8 @@
       nix-bigstuff = "nix path-info -rS /run/current-system | sort -nk2";
       nix-why = "nix why-depends /run/current-system /nix/store/";
       n = "nnn";
-      y = "yazi";
     };
     functions = {
-      yazi = /* fish */ ''
-        set tmp (mktemp -t "yazi-cwd.XXXXXX")
-        command yazi $argv --cwd-file="$tmp"
-        if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-          cd -- "$cwd"
-        end
-        rm -f -- "$tmp"
-      '';
       nnn = /* fish */ ''
         if set --query NNNLVL
             echo "nnn is already running"
