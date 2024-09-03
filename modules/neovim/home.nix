@@ -75,7 +75,9 @@ in
           plugin = plugins.yazi-nvim;
           type = "lua";
           config = /* lua */ ''
-            require('yazi').setup()
+            local y = require('yazi')
+            y.setup()
+            vim.keymap.set('n', '<leader>y', y.yazi)
           '';
         }
 
