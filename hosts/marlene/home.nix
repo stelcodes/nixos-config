@@ -28,12 +28,11 @@
         osd-bar = "no";
         border = "no";
       };
-      scripts = let p = pkgs.unstable.mpvScripts; in [
+      scripts = let p = pkgs.mpvScripts; in [
         p.uosc
         p.thumbfast
         p.mpv-cheatsheet
         p.videoclip
-        p.mpv-notify-send
       ] ++ lib.lists.optionals pkgs.stdenv.isLinux [
         p.mpris
       ];
