@@ -47,7 +47,7 @@
       theme = "Catppuccin-Macchiato";
       font = {
         size = 16;
-        name = "FiraMono Nerd Font Mono";
+        name = "FiraMono Nerd Font";
         package = (pkgs.nerdfonts.override { fonts = [ "FiraMono" ]; });
       };
       extraConfig = ''
