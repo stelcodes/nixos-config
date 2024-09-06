@@ -54,6 +54,10 @@
       if test -e /opt/homebrew;
         fish_add_path --append /opt/homebrew/bin /opt/homebrew/sbin
       end
+      # Set fish as the psuedo-default shell on MacOS
+      if test "$SHELL" = "/bin/zsh";
+        set -x SHELL ${pkgs.fish}/bin/fish
+      end
       # If ssh'ing from kitty, use kitten to automatically install kitty terminfo on remote host
       if test "$TERM" = "xterm-kitty";
         abbr ssh "kitty +kitten ssh"
