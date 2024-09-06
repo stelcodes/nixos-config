@@ -192,6 +192,8 @@
         ];
       };
 
+      zoxide.enable = true;
+
       yazi = {
         enable = true;
         package = pkgs.unstable.yazi;
@@ -238,6 +240,11 @@
               on = [ "c" "m" ];
               run = "plugin chmod";
               desc = "Chmod on selected files";
+            }
+            {
+              on = "!";
+              run = "shell ${pkgs.fish}/bin/fish --block --confirm";
+              desc = "Open shell here";
             }
           ];
         };
