@@ -75,22 +75,6 @@ in
           categories = [ "Utility" "TextEditor" ];
           mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
         };
-        nnn = {
-          name = "nnn";
-          genericName = "Text Editor";
-          exec =
-            let
-              app = pkgs.writeShellScript "nnn-terminal" ''
-                # Killing foot from sway results in non-zero exit code which triggers
-                # xdg-mime to use next valid entry, so we must always exit successfully
-                foot --app-id nnn -- fish -c "nnn '$1'" || true
-              '';
-            in
-            "${app} %U";
-          terminal = false;
-          categories = [ "Utility" ];
-          mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
-        };
       };
 
       configFile = {
@@ -393,7 +377,6 @@ in
           "application/pdf" = [ "org.pwmt.zathura.desktop" ];
           "application/oxps" = [ "org.pwmt.zathura.desktop" ];
           "application/x-fictionbook" = [ "org.pwmt.zathura.desktop" ];
-          "inode/directory" = [ "nnn.desktop" ];
           "x-scheme-handler/obsidian" = [ "obsidian.desktop" ];
         };
       };
@@ -470,105 +453,6 @@ in
           default-bg = theme.bg;
           statusbar-bg = theme.bg1;
           statusbar-fg = theme.fg;
-        };
-      };
-      nnn = {
-        extraPackages = [
-          pkgs.xdragon
-        ];
-        plugins = {
-          mappings = {
-            D = "dragdrop-simple";
-            a = "queue-audio";
-            A = "copy-current-song";
-            i = "-!&eog ."; # image viewer
-            m = "-!&picard .";
-          };
-          scripts = [
-            (pkgs.writeShellApplication {
-              name = "queue-audio";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious ];
-              text = ''
-                # Enqueues the selection or the hovered file if nothing is selected and ensures playback
-                # Try to start audacious service to create totally independent process
-                systemctl --user start audacious.service || true
-                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
-
-                queue_audio() {
-                  audio="$1"
-                  if test -f "$audio" && xdg-mime query filetype "$1" | grep -q "audio/"; then
-                    if audtool --current-playlist-name | grep -q 'Now Playing' && audtool --playback-status | grep -q "playing"; then
-                      flag="--enqueue"
-                    else
-                      flag="--enqueue-to-temp"
-                    fi
-                    audacious "$flag" "$audio"
-                  fi
-                }
-
-                if [ -s "$selection" ]; then
-                  paths=""
-                  IFS= readarray -d "" paths < <(cat "$selection")
-                  for path in "''${paths[@]}"; do
-                    queue_audio "$path"
-                  done &
-                  # Clear selection
-                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
-                    printf "-" > "$NNN_PIPE"
-                  fi
-                elif [ -f "$1" ]; then
-                  queue_audio "$1" &
-                fi
-              '';
-            })
-            (pkgs.writeShellApplication {
-              name = "queue-audio-reset";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious ];
-              text = ''
-                # Enqueues the selection or the hovered file if nothing is selected and ensures playback
-                # Try to start audacious service to create totally independent process
-                systemctl --user start audacious.service || true
-
-                if audtool --current-playlist-name 2>&1 | grep -q 'Now Playing'; then
-                  audtool --playlist-clear
-                fi
-              '';
-            })
-            (pkgs.writeShellApplication {
-              name = "copy-current-song";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.audacious ];
-              text = ''
-                song="$(audtool --current-song-filename)"
-                if [ -f "$song" ] && cp -n "$song" "$PWD"; then
-                  notify-send --urgency=low "Song copied successfully"
-                else
-                  notify-send --urgency=critical "Failed to copy song"
-                fi
-              '';
-            })
-            (pkgs.writeShellApplication {
-              name = "dragdrop-simple";
-              runtimeInputs = [ pkgs.coreutils-full pkgs.gnused pkgs.xdragon ];
-              text = ''
-                selection=''${NNN_SEL:-''${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
-
-                if [ -s "$selection" ]; then
-                  TMPFILE="$(mktemp)"
-                  cat "$selection" > "$TMPFILE"
-                  xargs -0 dragon < "$TMPFILE" &
-                  rm "$TMPFILE"
-                  # Clear selection
-                  if [ -s "$selection" ] && [ -p "$NNN_PIPE" ]; then
-                    printf "-" > "$NNN_PIPE"
-                  fi
-                else
-                  if [ -n "$1" ] && [ -e "$1" ]; then
-                    dragon "$1" &
-                  fi
-                fi
-              '';
-            })
-          ];
         };
       };
     };

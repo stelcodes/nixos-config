@@ -30,10 +30,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    nnn-plugins = {
-      url = "github:jarun/nnn";
-      flake = false;
-    };
     yazi-plugins = {
       url = "github:yazi-rs/plugins";
       flake = false;

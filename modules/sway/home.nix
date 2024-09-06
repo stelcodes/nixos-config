@@ -285,8 +285,7 @@ in
           "${mod}+grave" = "exec rofimoji";
           "${mod}+c" = "exec ${lib.getExe toggle-sway-window} --id nixos_rebuild_log --width 80 --height 80 -- ${viewRebuildLogCmd}";
           "${mod}+shift+c" = "exec systemctl --user start nixos-rebuild";
-          "${mod}+n" = "exec ${lib.getExe toggle-sway-window} --id nnn --width 80 --height 80 -- foot --app-id=nnn fish -c nnn ~";
-          "${mod}+shift+n" = "exec ${toggle-notifications}";
+          "${mod}+n" = "exec ${toggle-notifications}";
           "${mod}+p" = "exec ${lib.getExe toggle-sway-window} --id pavucontrol --width 80 --height 80 -- pavucontrol";
           "${mod}+shift+p" = "exec ${lib.getExe pkgs.cycle-pulse-sink}";
           "${mod}+a" = "exec ${lib.getExe toggle-sway-window} --id audacious --width 80 --height 80 -- audacious";
@@ -407,7 +406,6 @@ in
         for_window [app_id=pavucontrol] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.keepassxc.KeePassXC] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=org.rncbc.qpwgraph] floating enable, resize set width 80 ppt height 80 ppt, move position center
-        for_window [app_id=nnn] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=gnome-disks] floating enable, resize set width 80 ppt height 80 ppt, move position center
         for_window [app_id=obsidian] move container to workspace 3
         for_window [app_id=org.libretro.RetroArch] move container to workspace 4

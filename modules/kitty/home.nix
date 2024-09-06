@@ -28,8 +28,7 @@
       inactive_tab_foreground = "#68809a";
       inactive_tab_background = "#373e4d";
       kitty_mod = "alt";
-      # For nnn previews
-      allow_remote_control = "yes";
+      allow_remote_control = "no";
       listen_on = "unix:/tmp/kitty";
       enabled_layouts = "splits";
     };
