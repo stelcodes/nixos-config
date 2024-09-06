@@ -12,7 +12,12 @@ in
     secureSocket = true; # Careful, this will mess with tmux-resurrect
     plugins = [
       pkgs.tmuxPlugins.yank
-      pkgs.tmuxPlugins.fingers
+      {
+        plugin = pkgs.tmuxPlugins.fingers;
+        extraConfig = ''
+          bind -n M-f run-shell -b "${pkgs.tmuxPlugins.fingers}/share/tmux-plugins/tmux-fingers/bin/tmux-fingers start #{pane_id} self"
+        '';
+      }
     ];
     extraConfig = ''
       #########################################################################
