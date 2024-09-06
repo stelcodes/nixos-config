@@ -365,6 +365,11 @@
       size = "standard";
       tweaks = [ ]; # You can also specify multiple tweaks here
     };
+    gtkConfigFiles = {
+      "gtk-4.0/assets".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/assets";
+      "gtk-4.0/gtk.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk.css";
+      "gtk-4.0/gtk-dark.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk-dark.css";
+    };
 
     iconThemeName = "Catppuccin-Macchiato";
     iconThemePackage = pkgs.callPackage ../packages/catppuccin-gtk-theme.nix { };
@@ -384,21 +389,6 @@
       '';
     };
 
-    configFile =
-      let
-        btopTheme = pkgs.fetchFromGitHub {
-          owner = "catppuccin";
-          repo = "btop";
-          rev = "c6469190f2ecf25f017d6120bf4e050e6b1d17af";
-          hash = "sha256-jodJl4f2T9ViNqsY9fk8IV62CrpC5hy7WK3aRpu70Cs=";
-        };
-      in
-      {
-        "btop/themes/catppuccin_macchiato.theme".source = "${btopTheme}/themes/catppuccin_macchiato.theme";
-        "gtk-4.0/assets".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/assets";
-        "gtk-4.0/gtk.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk.css";
-        "gtk-4.0/gtk-dark.css".source = "${gtkThemePackage}/share/themes/${gtkThemeName}/gtk-4.0/gtk-dark.css";
-      };
   };
 
   rose-pine = rec {

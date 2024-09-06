@@ -54,6 +54,10 @@
       url = "github:rafaelrc7/wayland-pipewire-idle-inhibit";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    catppuccin-btop = {
+      url = "github:catppuccin/btop";
+      flake = false;
+    };
   };
 
   outputs = inputs: {

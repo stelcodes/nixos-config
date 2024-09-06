@@ -68,6 +68,22 @@
         "type": "github"
       }
     },
+    "catppuccin-btop": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1715687124,
+        "narHash": "sha256-UXeTypc15MhjgGUiCrDUZ40m32yH2o1N+rcrEgY6sME=",
+        "owner": "catppuccin",
+        "repo": "btop",
+        "rev": "21b8d5956a8b07fa52519e3267fb3a2d2e693d17",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "btop",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -405,6 +421,7 @@
         "agenix": "agenix",
         "arcsearch": "arcsearch",
         "audio-nix": "audio-nix",
+        "catppuccin-btop": "catppuccin-btop",
         "home-manager": "home-manager",
         "nix-alien": "nix-alien",
         "nix-index-database": "nix-index-database",

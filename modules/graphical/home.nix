@@ -232,7 +232,7 @@ in
           skin-tone = neutral
         '';
 
-      } // (if config.theme.set ? configFile then config.theme.set.configFile else { });
+      } // (if config.theme.set ? gtkConfigFiles then config.theme.set.gtkConfigFiles else { });
 
       mimeApps = {
         # https://www.iana.org/assignments/media-types/media-types.xhtml

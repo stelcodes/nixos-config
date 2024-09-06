@@ -59,6 +59,7 @@
           color_theme = "${config.theme.set.btop}"
           vim_keys = True
         '';
+        "btop/themes/catppuccin_macchiato.theme".source = "${inputs.catppuccin-btop}/themes/catppuccin_macchiato.theme";
       };
     };
 
