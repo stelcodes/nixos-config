@@ -196,6 +196,9 @@
             { id = "git"; name = "*"; run = "git"; }
             { id = "git"; name = "*/"; run = "git"; }
           ];
+          opener.play = [
+            { run = "umpv \"$@\""; orphan = true; for = "unix"; }
+          ];
         };
 
         flavors = let f = inputs.yazi-flavors; in {

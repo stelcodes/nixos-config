@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   profile = {
     graphical = false;
     battery = false;
@@ -14,12 +14,34 @@
     homeDirectory = "/Users/stel";
     stateVersion = "24.05"; # Please read the comment before changing.
     packages = [
-      pkgs.mpv
+      pkgs.material-icons # for mpv uosc
+      pkgs.audacity
     ];
   };
   programs = {
     home-manager.enable = true;
     fish.shellAbbrs.rebuild = "home-manager switch --flake \"$HOME/nixos-config#marlene\"";
+    mpv = {
+      enable = true;
+      config = {
+        # turn off default interface, use uosc instead
+        osd-bar = "no";
+        border = "no";
+      };
+      scripts = let p = pkgs.unstable.mpvScripts; in [
+        p.uosc
+        p.thumbfast
+        p.mpv-cheatsheet
+        p.videoclip
+        p.mpv-notify-send
+      ] ++ lib.lists.optionals pkgs.stdenv.isLinux [
+        p.mpris
+      ];
+      # scriptOpts = {
+      #   videoclip = {
+      #   };
+      # };
+    };
     kitty = {
       enable = true;
       theme = "Catppuccin-Macchiato";
