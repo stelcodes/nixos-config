@@ -28,6 +28,9 @@
         # turn off default interface, use uosc instead
         osd-bar = "no";
         border = "no";
+        sub-auto= "all";
+        demuxer-max-bytes = "2048MiB";
+        gapless-audio = "no";
       };
       scripts = let p = pkgs.mpvScripts; in [
         p.uosc
