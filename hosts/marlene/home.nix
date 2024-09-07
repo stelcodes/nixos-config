@@ -16,6 +16,7 @@
     packages = [
       pkgs.material-icons # for mpv uosc
       pkgs.audacity
+      pkgs.keepassxc
     ];
   };
   programs = {
