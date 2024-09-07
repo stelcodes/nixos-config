@@ -23,6 +23,9 @@
   };
 
   services = {
+
+    syncthing.enable = true;
+
     samba = {
       # https://nixos.wiki/wiki/Samba
       # smbpasswd -a my_user
@@ -76,7 +79,6 @@
 
   networking = {
     firewall = {
-      enable = true;
       allowedTCPPorts = [ 111 2049 4000 4001 4002 ];
       allowedUDPPorts = [ 111 2049 4000 4001 4002 ];
     };
@@ -98,8 +100,4 @@
     };
   };
 
-  services = {
-    # getty.autologinUser = "${config.admin.username}";
-    syncthing.enable = true;
-  };
 }

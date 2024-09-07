@@ -238,6 +238,11 @@
               run = "shell ${pkgs.fish}/bin/fish --block --confirm";
               desc = "Open shell here";
             }
+            {
+              on = "q";
+              run = "close";
+              desc = "Close the current tab, or quit if it is last tab";
+            }
           ];
         };
       };

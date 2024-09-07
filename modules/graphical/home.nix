@@ -71,8 +71,6 @@ in
           macos_titlebar_color background
           macos_option_as_alt left
           macos_quit_when_last_window_closed yes
-          # Fixes flashing big text when using multiple monitors in sway with different scales
-          resize_draw_strategy scale
 
           kitty_mod ctrl+alt
           clear_all_shortcuts yes
