@@ -1,11 +1,11 @@
 { pkgs, ... }: {
   profile = {
     graphical = true;
-    battery = false;
+    battery = true;
     virtual = false;
     virtualHost = false;
-    audio = false;
-    bluetooth = false;
+    audio = true;
+    bluetooth = true;
   };
   activities.coding = true;
   theme.name = "catppuccin-macchiato";
