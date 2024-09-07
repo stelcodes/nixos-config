@@ -125,34 +125,55 @@ in
     };
   };
 
-  config = lib.mkIf config.profile.graphical {
+  config = lib.mkIf (config.profile.graphical && pkgs.stdenv.isLinux) {
 
-    home.packages = [
-      pkgs.swaylock
-      pkgs.swayidle
-      pkgs.brightnessctl
-      pkgs.libinput
-      pkgs.wev
-      pkgs.font-manager
-      pkgs.wl-clipboard
-      pkgs.wofi
-      pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
-      pkgs.wlsunset
-      pkgs.grim
-      pkgs.slurp
-      pkgs.rofimoji # Great associated word hints with extensive symbol lists to choose from
-      pkgs.wtype
-      pkgs.libnotify
-      pkgs.pomo
-      pkgs.wdisplays
-      pkgs.foot
-      pkgs.swappy
-      # pkgs.wl-screenrec # https://github.com/russelltg/wl-screenrec
-      # pkgs.wlogout
-    ] ++ (lib.lists.optionals config.profile.audio [
-      pkgs.pamixer
-      pkgs.playerctl
-    ]);
+    home = {
+      packages = [
+        pkgs.swaylock
+        pkgs.swayidle
+        pkgs.brightnessctl
+        pkgs.libinput
+        pkgs.wev
+        pkgs.font-manager
+        pkgs.wl-clipboard
+        pkgs.wofi
+        pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
+        pkgs.wlsunset
+        pkgs.grim
+        pkgs.slurp
+        pkgs.rofimoji # Great associated word hints with extensive symbol lists to choose from
+        pkgs.wtype
+        pkgs.libnotify
+        pkgs.pomo
+        pkgs.wdisplays
+        pkgs.foot
+        pkgs.swappy
+        # pkgs.wl-screenrec # https://github.com/russelltg/wl-screenrec
+        # pkgs.wlogout
+
+        # System tooling
+        pkgs.gnome.gnome-disk-utility
+        # Media tooling
+        pkgs.gnome.eog
+        pkgs.qalculate-gtk
+        pkgs.gnome.gnome-weather
+      ] ++ (lib.lists.optionals config.profile.audio [
+        pkgs.pamixer
+        pkgs.playerctl
+        pkgs.helvum # better looking than qpwgraph
+        pkgs.pavucontrol
+        pkgs.audacious
+      ]);
+      sessionVariables = {
+        GTK_THEME = theme.gtkThemeName; # For gnome calculator and nautilus on sway
+      };
+      pointerCursor = {
+        package = theme.cursorThemePackage;
+        name = theme.cursorThemeName;
+        size = 32;
+        gtk.enable = true;
+      };
+    };
 
     wayland.windowManager.sway = {
       enable = true;
@@ -446,6 +467,65 @@ in
 
     systemd.user.services = {
 
+      audacious = {
+        Unit = {
+          Description = "audacious music player";
+        };
+        Service = {
+          ExecStart = lib.getExe pkgs.audacious;
+          ExecStartPost = "-${pkgs.sway}/bin/swaymsg for_window [app_id=audacious] move scratchpad";
+          Restart = "on-failure";
+        };
+      };
+
+      pomo-notify = {
+        Unit = {
+          Description = "pomo.sh notify daemon";
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.pomo}/bin/pomo notify";
+          Restart = "always";
+        };
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
+      };
+
+      nixos-rebuild = {
+        Service = {
+          Type = "exec";
+          ExecStart = lib.getExe (pkgs.writeShellApplication {
+            name = "nixos-rebuild-exec-start";
+            runtimeInputs = [ pkgs.coreutils-full pkgs.nixos-rebuild pkgs.systemd pkgs.mpv ];
+            text = ''
+              notify_success() {
+                notify-send "NixOS rebuild successful"
+                { mpv ${pkgs.success-alert} || true; } &
+                sleep 5 && kill -9 "$!"
+              }
+              notify_failure() {
+                notify-send --urgency=critical "NixOS rebuild failed"
+                { mpv ${pkgs.failure-alert} || true; } &
+                sleep 5 && kill -9 "$!"
+              }
+              if systemctl start nixos-rebuild.service; then
+                while systemctl -q is-active nixos-rebuild.service; do
+                  sleep 1
+                done
+                if systemctl -q is-failed nixos-rebuild.service; then
+                  notify_failure
+                else
+                  notify_success
+                fi
+              else
+                notify_failure
+              fi
+            '';
+          });
+        };
+      };
+
       btop = {
         Unit = {
           Description = "Btop system resource dashboard";
@@ -681,191 +761,568 @@ in
       };
     };
 
-    programs.swaylock = {
-      enable = true;
-      settings = {
-        color = theme.bgx;
-        image = lib.mkIf (cfg.wallpaper != null) "${cfg.wallpaper}";
-        font-size = 24;
-        indicator-idle-visible = false;
-        indicator-radius = 100;
-        show-failed-attempts = true;
+    programs = {
+      swaylock = {
+        enable = true;
+        settings = {
+          color = theme.bgx;
+          image = lib.mkIf (cfg.wallpaper != null) "${cfg.wallpaper}";
+          font-size = 24;
+          indicator-idle-visible = false;
+          indicator-radius = 100;
+          show-failed-attempts = true;
+        };
+      };
+
+      waybar = {
+        enable = true;
+        style = ''
+          @define-color bg ${theme.bg};
+          @define-color bgOne ${theme.bg1};
+          @define-color bgTwo ${theme.bg2};
+          @define-color bgThree ${theme.bg3};
+          @define-color red ${theme.red};
+          ${builtins.readFile ./waybar.css}
+        '';
+        # Stopped working when switching between Cinnamon and Sway
+        # [error] Bar need to run under Wayland
+        # GTK4 get_default_display was saying it was still X11
+        systemd = {
+          enable = true;
+          target = "sway-session.target";
+        };
+        settings = [{
+          layer = "top";
+          position = "bottom";
+          height = 20;
+          modules-left = [
+            "sway/workspaces"
+            "tray"
+            "custom/pomo"
+            "custom/wlsunset"
+            "custom/idlesleep"
+          ];
+          modules-center = [ "sway/mode" ];
+          modules-right = [
+            "custom/rebuild"
+            "cpu"
+            "backlight"
+            "battery"
+          ] ++ (lib.lists.optionals config.profile.audio [
+            "custom/recordplayback"
+            "wireplumber"
+          ]) ++ [
+            "clock"
+          ];
+          "custom/pomo" = {
+            format = "{} 󱎫";
+            exec = "${pkgs.pomo}/bin/pomo clock";
+            interval = 1;
+            on-click = "${pkgs.pomo}/bin/pomo pause";
+            on-click-right = "${pkgs.pomo}/bin/pomo stop";
+          };
+          "custom/rebuild" = {
+            format = "{}";
+            max-length = 12;
+            interval = 2;
+            exec = lib.getExe (pkgs.writeShellApplication {
+              name = "waybar-rebuild-exec";
+              runtimeInputs = [ pkgs.coreutils-full pkgs.systemd pkgs.gnugrep ];
+              text = ''
+                status="$(systemctl is-active nixos-rebuild.service || true)"
+                if grep -q "inactive" <<< "$status"; then
+                  printf "rebuild: "
+                elif grep -q "active" <<< "$status"; then
+                  printf "rebuild: "
+                elif grep -q "failed" <<< "$status"; then
+                  printf "rebuild: "
+                fi
+              '';
+            });
+            on-click = viewRebuildLogCmd;
+          };
+          "custom/recordplayback" = {
+            format = "{}";
+            max-length = 3;
+            interval = 2;
+            exec = lib.getExe (pkgs.writeShellApplication {
+              name = "waybar-record-playback";
+              text = ''
+                if systemctl --user is-active --quiet record-playback.service; then
+                  echo "🔴";
+                fi
+              '';
+            });
+          };
+          "custom/idlesleep" = {
+            format = "{}";
+            max-length = 2;
+            interval = 2;
+            exec = ''if test -f "$HOME/.local/share/idle-sleep-block"; then echo '🐝'; else echo '🕸️'; fi'';
+            on-click = lib.getExe (pkgs.writeShellApplication {
+              name = "toggle-idle-sleep-block";
+              runtimeInputs = [ pkgs.coreutils ];
+              text = ''
+                BLOCKFILE="$HOME/.local/share/idle-sleep-block"
+                if test -f "$BLOCKFILE"; then
+                  rm "$BLOCKFILE"
+                else
+                  touch "$BLOCKFILE"
+                fi
+              '';
+            });
+          };
+          "custom/wlsunset" = {
+            exec = "if systemctl --user --quiet is-active wlsunset.service; then echo ''; else echo ''; fi";
+            interval = 2;
+            on-click = "${lib.getExe pkgs.toggle-service} wlsunset";
+            # This doesn't actually work because the only way to have dynamic tooltips is to use json mode
+            # tooltip-format = "${pkgs.writers.writeFish "wlsunset-temp" ''
+            #   journalctl --user -ex --unit wlsunset.service | tail | string match --regex "\d{4} K" | tail -1
+            # ''}";
+          };
+          "sway/workspaces" = {
+            disable-scroll = true;
+            all-outputs = true;
+            format = "{icon}";
+            format-icons = {
+              "1" = "term";
+              "2" = "www";
+              "3" = "notes";
+              "4" = "arts";
+              "5" = "media";
+            };
+            persistent-workspaces = {
+              "1" = [ ];
+              "2" = [ ];
+              "3" = [ ];
+              "4" = [ ];
+              "5" = [ ];
+            };
+          };
+          cpu = {
+            interval = 10;
+            format = "{usage} ";
+            on-click = "foot --app-id=system_monitor btop";
+          };
+          memory = {
+            interval = 30;
+            format = "{} ";
+          };
+          disk = {
+            interval = 30;
+            format = "{percentage_used} ";
+          };
+          wireplumber = {
+            format = "{node_name} {volume} {icon}";
+            format-muted = "{volume} ";
+            format-icons = { default = [ "" "" ]; };
+            on-click = "pavucontrol";
+            on-click-right = "cycle-pulse-sink";
+            on-click-middle = "helvum";
+            max-volume = 100;
+            scroll-step = 5;
+          };
+          clock = {
+            format = "{:%I:%M %p %b %d} 󱛡";
+            format-alt = "{:%A} 󱛡";
+            tooltip-format = "<tt><small>{calendar}</small></tt>";
+          };
+          battery = {
+            format = "{capacity} {icon}";
+            format-charging = "{capacity} ";
+            format-icons = [ "" "" "" "" "" ];
+            max-length = 40;
+          };
+          idle_inhibitor = {
+            format = "{icon}";
+            format-icons = {
+              activated = "";
+              deactivated = "";
+            };
+          };
+          backlight = {
+            interval = 5;
+            format = "{percent} {icon}";
+            format-icons = [ "" "" "" ];
+          };
+        }];
+      };
+
+      zathura = {
+        enable = true;
+        options = {
+          default-fg = theme.fg;
+          default-bg = theme.bg;
+          statusbar-bg = theme.bg1;
+          statusbar-fg = theme.fg;
+        };
       };
     };
 
-    programs.waybar = {
-      enable = true;
-      style = ''
-        @define-color bg ${theme.bg};
-        @define-color bgOne ${theme.bg1};
-        @define-color bgTwo ${theme.bg2};
-        @define-color bgThree ${theme.bg3};
-        @define-color red ${theme.red};
-        ${builtins.readFile ./waybar.css}
-      '';
-      # Stopped working when switching between Cinnamon and Sway
-      # [error] Bar need to run under Wayland
-      # GTK4 get_default_display was saying it was still X11
-      systemd = {
-        enable = true;
-        target = "sway-session.target";
+
+    xdg = {
+      desktopEntries = {
+        neovim = {
+          name = "Neovim";
+          genericName = "Text Editor";
+          exec =
+            let
+              app = pkgs.writeShellScript "neovim-terminal" ''
+                # Killing foot from sway results in non-zero exit code which triggers
+                # xdg-mime to use next valid entry, so we must always exit successfully
+                if [ "$SWAYSOCK" ]; then
+                  foot -- nvim "$1" || true
+                else
+                  gnome-terminal -- nvim "$1" || true
+                fi
+              '';
+            in
+            "${app} %U";
+          terminal = false;
+          categories = [ "Utility" "TextEditor" ];
+          mimeType = [ "text/markdown" "text/plain" "text/javascript" ];
+        };
       };
-      settings = [{
-        layer = "top";
-        position = "bottom";
-        height = 20;
-        modules-left = [
-          "sway/workspaces"
-          "tray"
-          "custom/pomo"
-          "custom/wlsunset"
-          "custom/idlesleep"
-        ];
-        modules-center = [ "sway/mode" ];
-        modules-right = [
-          "custom/rebuild"
-          "cpu"
-          "backlight"
-          "battery"
-        ] ++ (lib.lists.optionals config.profile.audio [
-          "custom/recordplayback"
-          "wireplumber"
-        ]) ++ [
-          "clock"
-        ];
-        "custom/pomo" = {
-          format = "{} 󱎫";
-          exec = "${pkgs.pomo}/bin/pomo clock";
-          interval = 1;
-          on-click = "${pkgs.pomo}/bin/pomo pause";
-          on-click-right = "${pkgs.pomo}/bin/pomo stop";
-        };
-        "custom/rebuild" = {
-          format = "{}";
-          max-length = 12;
-          interval = 2;
-          exec = lib.getExe (pkgs.writeShellApplication {
-            name = "waybar-rebuild-exec";
-            runtimeInputs = [ pkgs.coreutils-full pkgs.systemd pkgs.gnugrep ];
-            text = ''
-              status="$(systemctl is-active nixos-rebuild.service || true)"
-              if grep -q "inactive" <<< "$status"; then
-                printf "rebuild: "
-              elif grep -q "active" <<< "$status"; then
-                printf "rebuild: "
-              elif grep -q "failed" <<< "$status"; then
-                printf "rebuild: "
+
+      configFile = {
+        "foot/foot.ini".text = ''
+          [main]
+          font=FiraMono Nerd Font:size=12
+          shell=${pkgs.fish}/bin/fish
+          dpi-aware=no
+
+          [environment]
+          COLORTERM=truecolor
+
+          [mouse]
+          hide-when-typing=yes
+
+          [key-bindings]
+          scrollback-up-page=none
+          scrollback-down-page=none
+          clipboard-copy=Control+c
+          clipboard-paste=Control+v
+          primary-paste=none
+          search-start=none
+          font-increase=Control+plus
+          font-decrease=Control+minus
+          font-reset=Control+equal
+          spawn-terminal=none
+          show-urls-launch=Control+slash
+          prompt-prev=none
+          prompt-next=none
+
+          [text-bindings]
+          \x03 = Control+Shift+c
+          \x16 = Control+Shift+v
+
+          [cursor]
+          color = ${theme.bgx} ${theme.bg4x}
+
+          [colors]
+          foreground = ${theme.fgx}
+          background = ${theme.bgx}
+          selection-foreground = ${theme.bg4x}
+          selection-background = ${theme.bg2x}
+          regular0 = ${theme.bg3x}
+          regular1 = ${theme.redx}
+          regular2 = ${theme.greenx}
+          regular3 = ${theme.yellowx}
+          regular4 = ${theme.bluex}
+          regular5 = ${theme.magentax}
+          regular6 = ${theme.cyanx}
+          regular7 = ${theme.fgx}
+          bright0 = ${theme.bg3x}
+          bright1 = ${theme.redx}
+          bright2 = ${theme.greenx}
+          bright3 = ${theme.yellowx}
+          bright4 = ${theme.bluex}
+          bright5 = ${theme.magentax}
+          bright6 = ${theme.cyanx}
+          bright7 = ${theme.fgx}
+          dim0 = ${theme.bg3x}
+          dim1 = ${theme.redx}
+          dim2 = ${theme.greenx}
+          dim3 = ${theme.yellowx}
+          dim4 = ${theme.bluex}
+          dim5 = ${theme.magentax}
+          dim6 = ${theme.cyanx}
+          dim7 = ${theme.fgx}
+        '';
+        "wofi/config".text = "allow_images=true";
+        "wofi/style.css".source = ../../misc/wofi.css;
+        "pomo.cfg" = {
+          onChange = ''
+            ${pkgs.systemd}/bin/systemctl --user restart pomo-notify.service
+          '';
+          source = pkgs.writeShellScript "pomo-cfg" ''
+            # This file gets sourced by pomo.sh at startup
+            # I'm only caring about linux atm
+            function lock_screen {
+              if ${pkgs.procps}/bin/pgrep sway 2>&1 > /dev/null; then
+                echo "Sway detected"
+                # Only lock if pomo is still running
+                test -f "$HOME/.local/share/pomo" && ${pkgs.swaylock}/bin/swaylock
+                # Only restart pomo if pomo is still running
+                test -f "$HOME/.local/share/pomo" && ${pkgs.pomo}/bin/pomo start
               fi
-            '';
-          });
-          on-click = viewRebuildLogCmd;
+            }
+
+            function custom_notify {
+                # send_msg is defined in the pomo.sh source
+                block_type=$1
+                if [[ $block_type -eq 0 ]]; then
+                    echo "End of work period"
+                    send_msg 'End of a work period. Locking Screen!'
+                    ${pkgs.playerctl}/bin/playerctl --all-players pause
+                    ${pkgs.mpv}/bin/mpv ${pkgs.pomo-alert} || sleep 10
+                    lock_screen &
+                elif [[ $block_type -eq 1 ]]; then
+                    echo "End of break period"
+                    send_msg 'End of a break period. Time for work!'
+                    ${pkgs.mpv}/bin/mpv ${pkgs.pomo-alert}
+                else
+                    echo "Unknown block type"
+                    exit 1
+                fi
+            }
+            POMO_MSG_CALLBACK="custom_notify"
+            POMO_WORK_TIME=30
+            POMO_BREAK_TIME=5
+          '';
         };
-        "custom/recordplayback" = {
-          format = "{}";
-          max-length = 3;
-          interval = 2;
-          exec = lib.getExe (pkgs.writeShellApplication {
-            name = "waybar-record-playback";
-            text = ''
-              if systemctl --user is-active --quiet record-playback.service; then
-                echo "🔴";
-              fi
-            '';
-          });
+        "gajim/theme/nord.css".text = ''
+          .gajim-outgoing-nickname {
+              color: ${theme.magenta};
+          }
+          .gajim-incoming-nickname {
+              color: ${theme.yellow};
+          }
+          .gajim-url {
+              color: ${theme.blue};
+          }
+          .gajim-status-online {
+              color: ${theme.green};
+          }
+          .gajim-status-away {
+              color: ${theme.red};
+          }
+        '';
+        "swappy/config".text = ''
+          [Default]
+          save_dir=$XDG_PICTURES_DIR/screenshots
+          save_filename_format=swappy-%FT%X.png
+          show_panel=false
+          line_size=5
+          text_size=20
+          text_font=sans-serif
+          paint_mode=brush
+          early_exit=true
+          fill_shape=false
+        '';
+        "rofimoji.rc".text = ''
+          action = copy
+          selector = wofi
+          files = [emojis]
+          skin-tone = neutral
+        '';
+
+      } // (if config.theme.set ? gtkConfigFiles then config.theme.set.gtkConfigFiles else { });
+
+      mimeApps = {
+        # https://www.iana.org/assignments/media-types/media-types.xhtml
+        # Check /run/current-system/sw/share/applications for .desktop entries
+        # Take MimeType value from desktop entries and turn into nix code with this substitution:
+        # s/\v([^;]+);/"\1" = [ "org.gnome.eog.desktop" ];\r/g
+        enable = true;
+        defaultApplications = {
+          "application/http" = [ "firefox.desktop" ];
+          "text/html" = [ "firefox.desktop" ];
+          "x-scheme-handler/http" = [ "firefox.desktop" ];
+          "x-scheme-handler/https" = [ "firefox.desktop" ];
+          "application/bzip2" = [ "org.gnome.FileRoller.desktop" ];
+          "application/gzip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/vnd.android.package-archive" = [ "org.gnome.FileRoller.desktop" ];
+          "application/vnd.ms-cab-compressed" = [ "org.gnome.FileRoller.desktop" ];
+          "application/vnd.debian.binary-package" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-7z-compressed" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-7z-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-ace" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-alz" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-apple-diskimage" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-ar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-archive" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-arj" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-brotli" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-bzip-brotli-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-bzip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-bzip-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-bzip1" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-bzip1-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-cabinet" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-cd-image" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-compress" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-cpio" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-chrome-extension" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-deb" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-ear" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-ms-dos-executable" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-gtar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-gzip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-gzpostscript" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-java-archive" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lha" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lhz" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lrzip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lrzip-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lz4" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lzip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lzip-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lzma" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lzma-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lzop" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-lz4-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-ms-wim" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-rar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-rar-compressed" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-rpm" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-source-rpm" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-rzip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-rzip-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-tarz" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-tzo" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-stuffit" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-war" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-xar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-xz" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-xz-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-zip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-zip-compressed" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-zstd-compressed-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-zoo" = [ "org.gnome.FileRoller.desktop" ];
+          "application/zip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/zstd" = [ "org.gnome.FileRoller.desktop" ];
+          "image/bmp" = [ "org.gnome.eog.desktop" ];
+          "image/gif" = [ "org.gnome.eog.desktop" ];
+          "image/jpeg" = [ "org.gnome.eog.desktop" ];
+          "image/jpg" = [ "org.gnome.eog.desktop" ];
+          "image/pjpeg" = [ "org.gnome.eog.desktop" ];
+          "image/png" = [ "org.gnome.eog.desktop" ];
+          "image/tiff" = [ "org.gnome.eog.desktop" ];
+          "image/webp" = [ "org.gnome.eog.desktop" ];
+          "image/x-bmp" = [ "org.gnome.eog.desktop" ];
+          "image/x-gray" = [ "org.gnome.eog.desktop" ];
+          "image/x-icb" = [ "org.gnome.eog.desktop" ];
+          "image/x-ico" = [ "org.gnome.eog.desktop" ];
+          "image/x-png" = [ "org.gnome.eog.desktop" ];
+          "image/x-portable-anymap" = [ "org.gnome.eog.desktop" ];
+          "image/x-portable-bitmap" = [ "org.gnome.eog.desktop" ];
+          "image/x-portable-graymap" = [ "org.gnome.eog.desktop" ];
+          "image/x-portable-pixmap" = [ "org.gnome.eog.desktop" ];
+          "image/x-xbitmap" = [ "org.gnome.eog.desktop" ];
+          "image/x-xpixmap" = [ "org.gnome.eog.desktop" ];
+          "image/x-pcx" = [ "org.gnome.eog.desktop" ];
+          "image/svg+xml" = [ "org.gnome.eog.desktop" ];
+          "image/svg+xml-compressed" = [ "org.gnome.eog.desktop" ];
+          "image/vnd.wap.wbmp" = [ "org.gnome.eog.desktop" ];
+          "image/x-icns" = [ "org.gnome.eog.desktop" ];
+          "application/ogg" = [ "audacious.desktop" ];
+          "application/x-cue" = [ "audacious.desktop" ];
+          "application/x-ogg" = [ "audacious.desktop" ];
+          "application/xspf+xml" = [ "audacious.desktop" ];
+          "audio/aac" = [ "audacious.desktop" ];
+          "audio/flac" = [ "audacious.desktop" ];
+          "audio/midi" = [ "audacious.desktop" ];
+          "audio/mp3" = [ "audacious.desktop" ];
+          "audio/mp4" = [ "audacious.desktop" ];
+          "audio/mpeg" = [ "audacious.desktop" ];
+          "audio/mpegurl" = [ "audacious.desktop" ];
+          "audio/ogg" = [ "audacious.desktop" ];
+          "audio/prs.sid" = [ "audacious.desktop" ];
+          "audio/wav" = [ "audacious.desktop" ];
+          "audio/x-flac" = [ "audacious.desktop" ];
+          "audio/x-it" = [ "audacious.desktop" ];
+          "audio/x-mod" = [ "audacious.desktop" ];
+          "audio/x-mp3" = [ "audacious.desktop" ];
+          "audio/x-mpeg" = [ "audacious.desktop" ];
+          "audio/x-mpegurl" = [ "audacious.desktop" ];
+          "audio/x-ms-asx" = [ "audacious.desktop" ];
+          "audio/x-ms-wma" = [ "audacious.desktop" ];
+          "audio/x-musepack" = [ "audacious.desktop" ];
+          "audio/x-s3m" = [ "audacious.desktop" ];
+          "audio/x-scpls" = [ "audacious.desktop" ];
+          "audio/x-stm" = [ "audacious.desktop" ];
+          "audio/x-vorbis+ogg" = [ "audacious.desktop" ];
+          "audio/x-wav" = [ "audacious.desktop" ];
+          "audio/vnd.wave" = [ "audacious.desktop" ];
+          "audio/x-wavpack" = [ "audacious.desktop" ];
+          "audio/x-xm" = [ "audacious.desktop" ];
+          "audio/x-opus+ogg" = [ "audacious.desktop" ];
+          "audio/x-aiff" = [ "audacious.desktop" ];
+          "x-content/audio-cdda" = [ "audacious.desktop" ];
+          "text/markdown" = [ "neovim.desktop" ];
+          "text/plain" = [ "neovim.desktop" ];
+          "application/x-zerosize" = [ "neovim.desktop" ]; # empty files
+          "video/vnd.avi" = [ "mpv.desktop" ];
+          "video/mkv" = [ "mpv.desktop" ];
+          # "application/x-mobipocket-ebook" = [ "org.pwmt.zathura.desktop" ];
+          "application/epub+zip" = [ "org.pwmt.zathura.desktop" ];
+          "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+          "application/oxps" = [ "org.pwmt.zathura.desktop" ];
+          "application/x-fictionbook" = [ "org.pwmt.zathura.desktop" ];
+          "x-scheme-handler/obsidian" = [ "obsidian.desktop" ];
         };
-        "custom/idlesleep" = {
-          format = "{}";
-          max-length = 2;
-          interval = 2;
-          exec = ''if test -f "$HOME/.local/share/idle-sleep-block"; then echo '🐝'; else echo '🕸️'; fi'';
-          on-click = lib.getExe (pkgs.writeShellApplication {
-            name = "toggle-idle-sleep-block";
-            runtimeInputs = [ pkgs.coreutils ];
-            text = ''
-              BLOCKFILE="$HOME/.local/share/idle-sleep-block"
-              if test -f "$BLOCKFILE"; then
-                rm "$BLOCKFILE"
-              else
-                touch "$BLOCKFILE"
-              fi
-            '';
-          });
-        };
-        "custom/wlsunset" = {
-          exec = "if systemctl --user --quiet is-active wlsunset.service; then echo ''; else echo ''; fi";
-          interval = 2;
-          on-click = "${lib.getExe pkgs.toggle-service} wlsunset";
-          # This doesn't actually work because the only way to have dynamic tooltips is to use json mode
-          # tooltip-format = "${pkgs.writers.writeFish "wlsunset-temp" ''
-          #   journalctl --user -ex --unit wlsunset.service | tail | string match --regex "\d{4} K" | tail -1
-          # ''}";
-        };
-        "sway/workspaces" = {
-          disable-scroll = true;
-          all-outputs = true;
-          format = "{icon}";
-          format-icons = {
-            "1" = "term";
-            "2" = "www";
-            "3" = "notes";
-            "4" = "arts";
-            "5" = "media";
-          };
-          persistent-workspaces = {
-            "1" = [ ];
-            "2" = [ ];
-            "3" = [ ];
-            "4" = [ ];
-            "5" = [ ];
-          };
-        };
-        cpu = {
-          interval = 10;
-          format = "{usage} ";
-          on-click = "foot --app-id=system_monitor btop";
-        };
-        memory = {
-          interval = 30;
-          format = "{} ";
-        };
-        disk = {
-          interval = 30;
-          format = "{percentage_used} ";
-        };
-        wireplumber = {
-          format = "{node_name} {volume} {icon}";
-          format-muted = "{volume} ";
-          format-icons = { default = [ "" "" ]; };
-          on-click = "pavucontrol";
-          on-click-right = "cycle-pulse-sink";
-          on-click-middle = "helvum";
-          max-volume = 100;
-          scroll-step = 5;
-        };
-        clock = {
-          format = "{:%I:%M %p %b %d} 󱛡";
-          format-alt = "{:%A} 󱛡";
-          tooltip-format = "<tt><small>{calendar}</small></tt>";
-        };
-        battery = {
-          format = "{capacity} {icon}";
-          format-charging = "{capacity} ";
-          format-icons = [ "" "" "" "" "" ];
-          max-length = 40;
-        };
-        idle_inhibitor = {
-          format = "{icon}";
-          format-icons = {
-            activated = "";
-            deactivated = "";
-          };
-        };
-        backlight = {
-          interval = 5;
-          format = "{percent} {icon}";
-          format-icons = [ "" "" "" ];
-        };
-      }];
+      };
+
+      dataFile = {
+        "audacious/internet-radio-stations.audpl".source = ../../misc/internet-radio-stations.audpl;
+      };
     };
+
+    qt = {
+      # Necessary for keepassxc, qpwgrapgh, etc to theme correctly
+      enable = true;
+      platformTheme.name = "gtk";
+      style.name = "gtk2";
+    };
+
+    gtk = {
+      enable = true;
+      font = {
+        name = "FiraMono Nerd Font";
+        size = 10;
+      };
+      theme = {
+        name = theme.gtkThemeName;
+        package = theme.gtkThemePackage;
+      };
+      iconTheme = {
+        name = theme.iconThemeName;
+        package = theme.iconThemePackage;
+      };
+      gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+    };
+
+    dconf.settings =
+      with lib.hm.gvariant;
+      let bind = x: mkArray type.string [ x ];
+      in
+      # dconf dump /org/cinnamon/ | dconf2nix | nvim -R
+      {
+        "org/virt-manager/virt-manager/connections" = {
+          autoconnect = [ "qemu:///system" ];
+          uris = [ "qemu:///system" ];
+        };
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+        };
+        "org/gnome/desktop/wm/preferences" = {
+          button-layout = "appmenu:close"; # Only show close button
+        };
+      };
+
   };
 }
