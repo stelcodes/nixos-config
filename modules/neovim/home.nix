@@ -111,8 +111,6 @@ in
           config = builtins.readFile ./telescope-nvim-config.lua;
         }
 
-        plugins.vim-nix
-
         {
           plugin = plugins.vim-auto-save;
           config = /* vim */ "let g:auto_save = 1";
@@ -344,17 +342,11 @@ in
                 enable = true,
               }
             }
-            vim.opt.foldenable = false -- toggle with zi
+            vim.opt.foldenable = true -- toggle with zi
+            vim.opt.foldlevel = 99999
             vim.opt.foldmethod = 'expr'
-            vim.cmd 'set foldexpr=nvim_treesitter#foldexpr()'
-            -- This will work in future Neovim versions
-            -- https://www.reddit.com/r/neovim/comments/16xz3q9/treesitter_highlighted_folds_are_now_in_neovim
-            -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-            -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
-
-            -- Also Nix code will soon have support for embedded language injections with comments
-            -- https://github.com/nvim-treesitter/nvim-treesitter/pull/4658
-            -- Need version 2023-10-01 or later
+            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
           '';
         }
 
