@@ -1,5 +1,5 @@
-{lib, pkgs, config, ...}: {
-options = {
+{ lib, pkgs, config, ... }: {
+  options = {
     profile = {
       graphical = lib.mkOption {
         type = lib.types.bool;
@@ -48,7 +48,7 @@ options = {
     };
     theme.name = lib.mkOption {
       type = lib.types.str;
-      default = "catppuccin-frappe";
+      default = "catppuccin-macchiato";
     };
     theme.set = lib.mkOption {
       type = lib.types.attrs;
