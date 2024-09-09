@@ -75,6 +75,11 @@
         /nfs/archive 192.168.1.101(ro,nohide,no_subtree_check,all_squash,anonuid=1000,anongid=1000) 192.168.1.102(ro,nohide,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
       '';
     };
+
+    jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   networking = {
@@ -86,9 +91,14 @@
 
   systemd.tmpfiles.rules = [
     "d /nfs 0755 root root -"
+    "d /jellyfin 0755 jellyfin jellyfin -"
   ];
 
   fileSystems = {
+    "/jellyfin" = {
+      device = "/run/media/archive/videos";
+      options = [ "ro" "bind" "nofail" "noatime" ];
+    };
     "/nfs/archive" = {
       device = "/run/media/archive";
       options = [ "bind" "nofail" "noatime" ];
