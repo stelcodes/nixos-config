@@ -48,7 +48,7 @@ options = {
     };
     theme.name = lib.mkOption {
       type = lib.types.str;
-      default = "everforest";
+      default = "catppuccin-frappe";
     };
     theme.set = lib.mkOption {
       type = lib.types.attrs;
