@@ -41,6 +41,10 @@ let
       autoAcceptFolders = true;
       id = "2N6LGUP-2YKWX3Z-J2YPY5N-GUS34IL-HKDNOGM-CHWD6EG-6ODSB5F-2GV4GQ7";
     };
+    marlene = {
+      autoAcceptFolders = true;
+      id = "5PLUKOY-HRDBENY-LSS2MYZ-36CCNA6-SBTAWXS-RAY2Q4X-5NAGEBI-X6QRJA6";
+    };
   };
   folders = {
     default = {
@@ -57,16 +61,6 @@ let
       versioning = staggeredMonth;
       path = "${dataDir}/notes";
       devices = [ "terra" "celes" "yuffie" "aerith" ];
-    };
-    secrets = {
-      versioning = staggeredMonth;
-      path = "${dataDir}/secrets";
-      devices = [ "terra" "celes" "yuffie" ];
-    };
-    tunes = {
-      versioning = trashcanBasic;
-      path = "${dataDir}/tunes";
-      devices = [ "terra" "aerith" "celes" ];
     };
   };
 in
