@@ -143,7 +143,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
     # security.acme.acceptTerms = true;
 
     # If the host's system public key is in the key registry file, assume the core age secrets are available
-    age.secrets = lib.mkIf (sshPublicKeys.systemKeys ? "${config.networking.hostname}") {
+    age.secrets = lib.mkIf (sshPublicKeys.systemKeys ? "${config.networking.hostName}") {
       admin-password.file = ../../secrets/admin-password.age;
     };
 
