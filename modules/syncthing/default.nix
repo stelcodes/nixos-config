@@ -29,10 +29,6 @@ let
       autoAcceptFolders = true;
       id = "JUABVAR-HLJXGIQ-4OZHN2G-P3WJ64R-D77NR74-SOIIEEC-IL53S4S-BO6R7QE";
     };
-    terra = {
-      autoAcceptFolders = true;
-      id = "HXMLVPE-DYRLXGQ-ZYBP7UK-G5AWL4U-B27PDUB-7EQHQY4-SZLROKY-4P54XQV";
-    };
     beatrix = {
       autoAcceptFolders = true;
       id = "ZZTXMYW-7FC4BBY-4QHAB6R-2RCMQDT-SRTS3F7-ZZSL4WE-27P4Y46-5YC4CAZ";
@@ -55,12 +51,12 @@ let
     games = {
       versioning = staggeredMonth;
       path = "${dataDir}/games";
-      devices = [ "terra" "beatrix" ];
+      devices = [ "beatrix" ];
     };
     notes = {
       versioning = staggeredMonth;
       path = "${dataDir}/notes";
-      devices = [ "terra" "celes" "yuffie" "aerith" ];
+      devices = [ "celes" "yuffie" "aerith" "marlene" ];
     };
   };
 in
