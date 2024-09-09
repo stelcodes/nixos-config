@@ -56,7 +56,7 @@ let
     notes = {
       versioning = staggeredMonth;
       path = "${dataDir}/notes";
-      devices = [ "celes" "yuffie" "aerith" "marlene" ];
+      devices = [ "beatrix" "celes" "yuffie" "aerith" "marlene" ];
     };
   };
 in
