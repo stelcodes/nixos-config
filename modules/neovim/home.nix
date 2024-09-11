@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, inputs, ... }:
 let
   theme = config.theme.set;
   plugins = pkgs.unstable.vimPlugins;
@@ -57,8 +57,22 @@ in
           };
         };
 
+        nvim-origami = pkgs.vimUtils.buildVimPlugin {
+          pname = "nvim-origami";
+          version = "unstable";
+          src = inputs.nvim-origami;
+        };
+
       in
       [
+
+        {
+          plugin = nvim-origami;
+          type = "lua";
+          config = /* lua */ ''
+            require("origami").setup({})
+          '';
+        }
 
         {
           plugin = plugins.yazi-nvim;

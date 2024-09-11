@@ -416,6 +416,22 @@
         "type": "github"
       }
     },
+    "nvim-origami": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725872643,
+        "narHash": "sha256-uo+glv55SqeVJHEqmT8QnqYCsWEu1EoeFoFhkXZ7pnc=",
+        "owner": "chrisgrieser",
+        "repo": "nvim-origami",
+        "rev": "c1f8c7f191ef3f605acd2de5550b55a0884d0875",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chrisgrieser",
+        "repo": "nvim-origami",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -429,6 +445,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nvim-origami": "nvim-origami",
         "starship-yazi": "starship-yazi",
         "wayland-pipewire-idle-inhibit": "wayland-pipewire-idle-inhibit",
         "yazi-flavors": "yazi-flavors",

@@ -58,6 +58,10 @@
       url = "github:catppuccin/btop";
       flake = false;
     };
+    nvim-origami = {
+      url = "github:chrisgrieser/nvim-origami";
+      flake = false;
+    };
   };
 
   outputs = inputs: {
