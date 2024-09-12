@@ -53,7 +53,7 @@ in
       };
       kitty = {
         enable = true;
-        theme = "Catppuccin-Macchiato";
+        theme = theme.kittyTheme;
         font = {
           size = 16;
           name = "FiraMono Nerd Font";

@@ -13,8 +13,6 @@
     battery = true;
   };
 
-  theme.name = "catppuccin-macchiato";
-
   activities = {
     coding = true;
     djing = true;

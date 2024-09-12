@@ -150,6 +150,7 @@
           "/result"
           "/target"
           "/dist"
+          "/out"
         ];
         extraConfig = {
           core.editor = "nvim";
@@ -206,7 +207,7 @@
           catppuccin-frappe = "${f}/catppuccin-frappe.yazi";
         };
 
-        theme.flavor.use = "catppuccin-frappe";
+        # theme.flavor.use = "catppuccin-frappe";
 
         plugins = let p = inputs.yazi-plugins; in {
           chmod = "${p}/chmod.yazi";

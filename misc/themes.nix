@@ -172,7 +172,7 @@
       plugin = pkgs.vimPlugins.everforest;
       type = "lua";
       config = ''
-        vim.g["everforest_background"] = "hard"
+        vim.g["everforest_background"] = "soft"
         vim.g["everforest_better_performance"] = 0
         vim.cmd 'colorscheme everforest'
         local lualine_theme = require('lualine.themes.everforest')
@@ -188,6 +188,8 @@
       url = "https://i.ibb.co/fDjcr2G/00016.jpg";
       hash = "sha256-ZWVIhfwoHlLdge/ECmdWfcZjbqWfc/aPfr+dBsx8/eE=";
     });
+
+    kittyTheme = "Everforest Dark Soft";
   };
 
   catppuccin-frappe = rec {
@@ -389,6 +391,7 @@
       '';
     };
 
+    kittyTheme = "Catppuccin-Macchiato";
   };
 
   rose-pine = rec {

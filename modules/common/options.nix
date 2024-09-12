@@ -48,7 +48,7 @@
     };
     theme.name = lib.mkOption {
       type = lib.types.str;
-      default = "catppuccin-macchiato";
+      default = "everforest";
     };
     theme.set = lib.mkOption {
       type = lib.types.attrs;

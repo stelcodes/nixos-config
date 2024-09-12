@@ -18,8 +18,6 @@
     virtual = false;
   };
 
-  theme.name = "catppuccin-macchiato";
-
   activities = {
     coding = true;
     gaming = true;

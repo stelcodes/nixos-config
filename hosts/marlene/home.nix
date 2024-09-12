@@ -8,17 +8,19 @@
     bluetooth = true;
   };
   activities.coding = true;
-  theme.name = "catppuccin-macchiato";
   home = {
     username = "stel";
     homeDirectory = "/Users/stel";
     stateVersion = "24.05"; # Please read the comment before changing.
     packages = [
       pkgs.audacity
+      # pkgs.jellyfin-media-player not currently available for M1 :( have to get it from brew
     ];
   };
   programs = {
     fish.shellAbbrs.rebuild = "home-manager switch --flake \"$HOME/nixos-config#marlene\"";
   };
+
+  # brew install --cask obsidian kitty syncthing calibre discord firefox gimp musescore protonvpn signal spotify zoom visual-studio-code
 }
 
