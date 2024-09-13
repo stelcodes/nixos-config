@@ -8,7 +8,7 @@ end
 
 tele.setup {
   defaults = {
-    file_ignore_patterns = { '%.pdf$', '%.db$', '%.opus$', '%.mp3$', '%.wav$', '%.git/', '%.clj%-kondo/%.cache/', '%.lsp/', '%.cpcache/', '%target/' },
+    file_ignore_patterns = { '%.lock$', '%.pdf$', '%.db$', '%.opus$', '%.mp3$', '%.wav$', '%.git/', '%.clj%-kondo/%.cache/', '%.lsp/', '%.cpcache/', '%target/' },
     show_untracked = false, -- For git_files command
     layout_strategy = 'flex',
     layout_config = {

@@ -35,8 +35,9 @@ in
       bind -n M-w choose-window -w
       bind -n M-e next-layout
       bind -n M-S command-prompt 'new-session -s %% -c ~'
-      bind -n M-S-tab switch-client -l
-      bind -n M-tab select-window -l
+      # Doesn't work on MacOS/kitty
+      # bind -n M-S-tab
+      bind -n M-tab switch-client -l
       bind -n M-t new-window -a -c "#{pane_current_path}"
       bind -n M-r command-prompt 'rename-window %%'
       bind -n M-R command-prompt 'rename-session %%'

@@ -357,6 +357,7 @@ in
                 enable = true,
               }
             }
+            vim.opt.foldlevel = 99
             vim.opt.foldenable = false -- toggle with zi
             vim.opt.foldmethod = 'expr'
             vim.cmd 'set foldexpr=nvim_treesitter#foldexpr()'
