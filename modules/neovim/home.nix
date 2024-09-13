@@ -21,6 +21,7 @@ in
       pkgs.rust-analyzer
       pkgs.java-language-server
       pkgs.lua-language-server
+      pkgs.vscode-langservers-extracted
     ];
     plugins =
       let

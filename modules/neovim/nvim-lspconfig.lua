@@ -1,6 +1,26 @@
 -- https://github.com/neovim/nvim-lspconfig
 local lspconfig = require('lspconfig')
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+lspconfig.html.setup {
+  capabilities = capabilities,
+}
+lspconfig.cssls.setup {
+  capabilities = capabilities,
+}
+lspconfig.eslint.setup {
+  -- on_attach = function(_, bufnr)
+  --   vim.api.nvim_create_autocmd("BufWritePre", {
+  --     buffer = bufnr,
+  --     command = "EslintFixAll",
+  --   })
+  -- end,
+}
+lspconfig.jsonls.setup {
+  capabilities = capabilities,
+}
 lspconfig.clojure_lsp.setup {}
 lspconfig.pyright.setup {}
 lspconfig.gopls.setup {}
