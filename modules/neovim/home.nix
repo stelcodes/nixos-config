@@ -71,7 +71,9 @@ in
           plugin = nvim-origami;
           type = "lua";
           config = /* lua */ ''
-            require("origami").setup({})
+            require("origami").setup({
+              hOnlyOpensOnFirstColumn = true
+            })
           '';
         }
 
