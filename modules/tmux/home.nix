@@ -13,9 +13,22 @@ in
     plugins = [
       pkgs.tmuxPlugins.yank
       {
-        plugin = pkgs.tmuxPlugins.fingers;
+        plugin = pkgs.tmuxPlugins.tmux-thumbs;
         extraConfig = ''
-          bind -n M-f run-shell -b "${pkgs.tmuxPlugins.fingers}/share/tmux-plugins/tmux-fingers/bin/tmux-fingers start #{pane_id} self"
+          bind -n M-f thumbs-pick
+          set -g @thumbs-key f
+          # Try to copy to every clipboard just to keep the command string simple
+          set -g @thumbs-command 'tmux set-buffer -- {}; echo -n {} | ${if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"}'
+          set -g @thumbs-upcase-command '${if pkgs.stdenv.isDarwin then "open" else "xdg-open"} {}'
+          set -g @thumbs-unique enabled
+          set -g @thumbs-contrast 1
+          set -g @thumbs-fg-color '${theme.blue}'
+          set -g @thumbs-bg-color '${theme.bg2}'
+          set -g @thumbs-select-fg-color '${theme.green}'
+          set -g @thumbs-select-bg-color '${theme.bg2}'
+          set -g @thumbs-hint-fg-color '${theme.bg2}'
+          set -g @thumbs-hint-bg-color '${theme.yellow}'
+          set -g @thumbs-position off_left
         '';
       }
     ];
