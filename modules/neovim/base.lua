@@ -42,6 +42,13 @@ ToggleNumbers = function()
   end
 end
 
+local Reset = function()
+  vim.cmd('tabonly')
+  vim.cmd('only')
+  vim.cmd('%bdelete')
+end
+vim.api.nvim_create_user_command('Reset', Reset, {})
+
 ----------------------------------------------------------------------------------
 -- OPTIONS
 
