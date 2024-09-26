@@ -42,12 +42,18 @@ ToggleNumbers = function()
   end
 end
 
-local Reset = function()
-  vim.cmd('tabonly')
-  vim.cmd('only')
-  vim.cmd('%bdelete')
-end
-vim.api.nvim_create_user_command('Reset', Reset, {})
+-- See *lua-guide-commands-create*
+vim.api.nvim_create_user_command('ResetWorkspace',
+  function(_)
+    vim.cmd('silent! tabonly')
+    vim.cmd('silent! only')
+    vim.cmd('silent! %bdelete')
+  end,
+  {
+    desc = "Reset all tabs, windows, and buffers",
+    force = false,
+  }
+)
 
 ----------------------------------------------------------------------------------
 -- OPTIONS
