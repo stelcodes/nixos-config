@@ -48,6 +48,11 @@ vim.api.nvim_create_user_command('ResetWorkspace',
     vim.cmd('silent! tabonly')
     vim.cmd('silent! only')
     vim.cmd('silent! %bdelete')
+    local buf = vim.api.nvim_get_current_buf()            -- should always be 0
+    vim.api.nvim_buf_set_option(buf, "bufhidden", "delete") -- what to do when the buffer is hidden
+    vim.api.nvim_buf_set_option(buf, "buflisted", true)   -- include the buffer in the :bnext list
+    vim.api.nvim_buf_set_option(buf, "buftype", "nofile") -- nofile means the buffer isn't backed by a file and we control its name
+    vim.api.nvim_buf_set_option(buf, "swapfile", false)   -- never swapfiles
   end,
   {
     desc = "Reset all tabs, windows, and buffers",
