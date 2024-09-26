@@ -15,7 +15,6 @@ in
       {
         plugin = pkgs.tmuxPlugins.tmux-thumbs;
         extraConfig = ''
-          bind -n M-f thumbs-pick
           set -g @thumbs-key f
           # Try to copy to every clipboard just to keep the command string simple
           set -g @thumbs-command 'tmux set-buffer -- {}; echo -n {} | ${if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"}'
@@ -74,6 +73,7 @@ in
       bind -n M-up resize-pane -U 1
       bind -n M-down resize-pane -D 1
       bind -n M-n next-layout
+      bind -n M-f thumbs-pick
 
       #########################################################################
       # BEHAVIOR
