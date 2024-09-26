@@ -59,7 +59,7 @@ vim.api.nvim_create_user_command('ResetWorkspace',
 -- OPTIONS
 
 vim.cmd 'filetype plugin indent on'
-vim.cmd 'syntax enable' -- Enables syntax highlighing
+vim.cmd 'syntax enable'      -- Enables syntax highlighing
 vim.opt.inccommand = 'split' -- Preview pane for substitution
 vim.opt.autoindent = true
 vim.opt.backspace = 'indent,eol,start'
@@ -76,46 +76,58 @@ vim.opt.formatoptions = 'qlj' -- Stop newline continution of comments
 vim.opt.history = 1000
 vim.opt.tabpagemax = 50
 vim.opt.undofile = true -- save undo history
-vim.opt.iskeyword = { '@', '48-57', '_', '192-255', '-', '#' } -- treat dash separated words as a word text object
-vim.opt.hidden = true -- Required to keep multiple buffers open
-vim.opt.encoding = 'utf-8' -- The encoding displayed
-vim.opt.fileencoding = 'utf-8' -- The encoding written to file
-vim.opt.mouse = '' -- Disable the mouse
+vim.opt.iskeyword = {
+  '@',
+  '48-57',
+  '_',
+  '192-255',
+  '-',
+  '#'
+}                                 -- treat dash separated words as a word text object
+vim.opt.hidden = true             -- Required to keep multiple buffers open
+vim.opt.encoding = 'utf-8'        -- The encoding displayed
+vim.opt.fileencoding = 'utf-8'    -- The encoding written to file
+vim.opt.mouse = ''                -- Disable the mouse
 vim.opt.smarttab = true
-vim.opt.tabstop = 2 -- Insert 2 spaces for a tab
-vim.opt.shiftwidth = 2 -- Change the number of space characters inserted for indentation
-vim.opt.expandtab = true -- Converts tabs to spaces, if false then nvim-lsp formatting will always use tabs :/
-vim.opt.smartindent = true -- Makes indenting smart
-vim.opt.updatetime = 300 -- Faster completion
-vim.opt.timeout = false -- Wait forever for mappings
+vim.opt.tabstop = 2               -- Insert 2 spaces for a tab
+vim.opt.shiftwidth = 2            -- Change the number of space characters inserted for indentation
+vim.opt.expandtab = true          -- Converts tabs to spaces, if false then nvim-lsp formatting will always use tabs :/
+vim.opt.smartindent = true        -- Makes indenting smart
+vim.opt.updatetime = 300          -- Faster completion
+vim.opt.timeout = false           -- Wait forever for mappings
 vim.opt.clipboard = 'unnamedplus' -- Copy paste between vim and everything else
-vim.opt.wrap = false -- Display long lines as just one line
-vim.opt.pumheight = 10 -- Makes popup menu smaller
-vim.opt.ruler = true -- Show the cursor position all the time
-vim.opt.cmdheight = 2 -- More space for displaying messages
-vim.opt.number = false -- Line numbers
+vim.opt.wrap = false              -- Display long lines as just one line
+vim.opt.pumheight = 10            -- Makes popup menu smaller
+vim.opt.ruler = true              -- Show the cursor position all the time
+vim.opt.cmdheight = 2             -- More space for displaying messages
+vim.opt.number = false            -- Line numbers
 vim.opt.relativenumber = false
-vim.opt.cursorline = false -- Enable highlighting of the current line
-vim.opt.showtabline = 2 -- Always show tabs
-vim.opt.showmode = false -- We don't need to see things like -- INSERT -- anymore
-vim.opt.signcolumn = 'yes' -- Always show the signcolumn in the number column
-vim.opt.lazyredraw = true -- Setting this fixed my tmux rendering issues :)
-vim.opt.splitbelow = true -- Horizontal splits will automatically be below
-vim.opt.splitright = true -- Vertical splits will automatically be to the right
-vim.opt.linebreak = true -- Break lines at word boundaries for readability
-vim.opt.bg = 'dark' -- Have dark background by default
-vim.opt.whichwrap = 'h,l' -- Allow left/right scrolling to jump lines
-vim.opt.scrolloff = 10 -- keep cursor centered vertically while scrolling
-vim.opt.numberwidth = 1 -- make minimum width for number column smallest value so it doesn't take up much room
-vim.opt.autowrite = true -- write to file often
-vim.opt.termguicolors = true -- enable full color support
-vim.opt.ignorecase = true -- ignore case when searching
-vim.opt.smartcase = true -- don't ignore case when searching with capital letters
-vim.opt.swapfile = false -- turn swapfiles off
-vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" } -- Completion
+vim.opt.cursorline = false        -- Enable highlighting of the current line
+vim.opt.showtabline = 2           -- Always show tabs
+vim.opt.showmode = false          -- We don't need to see things like -- INSERT -- anymore
+vim.opt.signcolumn = 'yes'        -- Always show the signcolumn in the number column
+vim.opt.lazyredraw = true         -- Setting this fixed my tmux rendering issues :)
+vim.opt.splitbelow = true         -- Horizontal splits will automatically be below
+vim.opt.splitright = true         -- Vertical splits will automatically be to the right
+vim.opt.linebreak = true          -- Break lines at word boundaries for readability
+vim.opt.bg = 'dark'               -- Have dark background by default
+vim.opt.whichwrap = 'h,l'         -- Allow left/right scrolling to jump lines
+vim.opt.scrolloff = 10            -- keep cursor centered vertically while scrolling
+vim.opt.numberwidth = 1           -- make minimum width for number column smallest value so it doesn't take up much room
+vim.opt.autowrite = true          -- write to file often
+vim.opt.termguicolors = true      -- enable full color support
+vim.opt.ignorecase = true         -- ignore case when searching
+vim.opt.smartcase = true          -- don't ignore case when searching with capital letters
+vim.opt.swapfile = false          -- turn swapfiles off
+vim.opt.completeopt = {
+  "menu",
+  "menuone",
+  "noselect",
+  "preview",
+}                           -- Completion
 -- vim.opt.shortmess:append "c"
 vim.g.netrw_fastbrowse = 0; -- don't keep netrw buffers around indefinitely
-vim.opt.conceallevel = 0; -- let chars be concealed and replaced with single char
+vim.opt.conceallevel = 0;   -- let chars be concealed and replaced with single char
 
 ----------------------------------------------------------------------------------------
 -- GLOBALS
