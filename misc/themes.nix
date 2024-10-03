@@ -182,14 +182,14 @@
     tmuxPrimary = green;
     tmuxSecondary = red;
 
-    btop = "everforest-dark-hard";
+    btop = "everforest-dark-medium";
 
     wallpaper = builtins.toString (pkgs.fetchurl {
       url = "https://i.ibb.co/fDjcr2G/00016.jpg";
       hash = "sha256-ZWVIhfwoHlLdge/ECmdWfcZjbqWfc/aPfr+dBsx8/eE=";
     });
 
-    kittyTheme = "Everforest Dark Soft";
+    kittyThemeFile = "everforest_dark_soft";
   };
 
   catppuccin-frappe = rec {
@@ -391,7 +391,7 @@
       '';
     };
 
-    kittyTheme = "Catppuccin-Macchiato";
+    kittyThemeFile = "Catppuccin-Macchiato";
   };
 
   rose-pine = rec {

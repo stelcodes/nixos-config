@@ -53,7 +53,8 @@ in
       };
       kitty = {
         enable = true;
-        theme = theme.kittyTheme;
+        # https://github.com/kovidgoyal/kitty-themes/tree/master/themes without .conf
+        themeFile = theme.kittyThemeFile;
         font = {
           size = 16;
           name = "FiraMono Nerd Font";
