@@ -85,7 +85,9 @@ in
           type = "lua";
           config = /* lua */ ''
             local y = require('yazi')
-            y.setup()
+            y.setup({
+              open_for_directories = true,
+            })
             vim.keymap.set('n', '<leader>y', y.yazi)
           '';
         }
