@@ -24,6 +24,7 @@ in
       pkgs.unstable.vscode-langservers-extracted
       pkgs.unstable.astro-language-server
       pkgs.unstable.gopls
+      pkgs.unstable.svelte-language-server
     ];
     plugins =
       let

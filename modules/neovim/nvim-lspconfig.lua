@@ -25,6 +25,7 @@ lspconfig.clojure_lsp.setup {}
 lspconfig.pyright.setup {}
 lspconfig.gopls.setup {}
 lspconfig.ts_ls.setup {}
+lspconfig.svelte.setup {}
 lspconfig.denols.setup {
   autostart = false
 }
