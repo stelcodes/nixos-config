@@ -201,6 +201,10 @@
           opener.play = [
             { run = "umpv \"$@\""; orphan = true; for = "unix"; }
           ];
+          # file -bL --mime-type <file>
+          # open.prepend_rules = [
+          #   { mime = "inode/directory"; use = "open"; }
+          # ];
         };
 
         flavors = let f = inputs.yazi-flavors; in {
@@ -209,13 +213,29 @@
 
         # theme.flavor.use = "catppuccin-frappe";
 
-        plugins = let p = inputs.yazi-plugins; in {
-          chmod = "${p}/chmod.yazi";
-          full-border = "${p}/full-border.yazi";
-          max-preview = "${p}/max-preview.yazi";
-          git = "${p}/git.yazi";
-          starship = "${inputs.starship-yazi}";
-        };
+        plugins =
+          let
+            p = inputs.yazi-plugins;
+            mkYaziPlugin = (initLua:
+              "${(pkgs.writeTextDir "plugin/init.lua" initLua)}/plugin"
+            );
+          in
+          {
+            chmod = "${p}/chmod.yazi";
+            full-border = "${p}/full-border.yazi";
+            max-preview = "${p}/max-preview.yazi";
+            git = "${p}/git.yazi";
+            starship = "${inputs.starship-yazi}";
+            smart-enter = (mkYaziPlugin
+              /* lua */ ''
+              return {
+                entry = function()
+                  local h = cx.active.current.hovered
+                  ya.manager_emit(h and h.cha.is_dir and "enter" or "open", { hovered = true })
+                end,
+              }
+            '');
+          };
 
         initLua = /* lua */ ''
           require("starship"):setup()
@@ -243,6 +263,11 @@
               on = "q";
               run = "close";
               desc = "Close the current tab, or quit if it is last tab";
+            }
+            {
+              on = "<Enter>";
+              run = "plugin --sync smart-enter";
+              desc = "Enter the directory instead of editing";
             }
           ];
         };
