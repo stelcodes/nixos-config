@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, inputs, ... }: {
   home.packages = [ pkgs.starship ];
   xdg.configFile."fish/themes/base16.theme" = {
     onChange = "${pkgs.fish}/bin/fish -c 'echo y | fish_config theme save base16'";
@@ -57,6 +57,10 @@
       # Set fish as the psuedo-default shell on MacOS
       if test "$SHELL" = "/bin/zsh";
         set -x SHELL ${pkgs.fish}/bin/fish
+      end
+      # Fix comma falling back to 'nixpkgs' channel when NIX_PATH not set (MacOS)
+      if ! set --query NIX_PATH;
+        set --export NIX_PATH 'nixpkgs=flake:${inputs.nixpkgs}'
       end
       # If ssh'ing from kitty, use kitten to automatically install kitty terminfo on remote host
       if test "$TERM" = "xterm-kitty";
