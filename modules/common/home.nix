@@ -131,7 +131,7 @@
 
       git = {
         enable = true;
-        userName = "Stel Abrego";
+        userName = "Stel Clementine";
         userEmail = "stel@stel.codes";
         ignores = [
           "*Session.vim"
