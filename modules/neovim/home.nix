@@ -128,6 +128,14 @@ in
           '';
         }
 
+        {
+          # Required for telescope config
+          plugin = plugins.trouble-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            require('trouble').setup()
+          '';
+        }
         plugins.plenary-nvim
         plugins.telescope-file-browser-nvim
         plugins.telescope-ui-select-nvim
