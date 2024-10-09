@@ -249,20 +249,6 @@ in
         plugins.vim-suda
 
         {
-          plugin = plugins.vim-eunuch;
-          type = "lua";
-          config = /* lua */ ''
-            local delete_eunuch_cmds = function()
-              vim.cmd 'delcommand SudoEdit'
-              vim.cmd 'delcommand SudoWrite'
-            end
-            vim.api.nvim_create_autocmd({'VimEnter'}, {
-              callback = delete_eunuch_cmds
-            })
-          '';
-        }
-
-        {
           plugin = plugins.nvim-colorizer-lua;
           type = "lua";
           config = /* lua */ ''
