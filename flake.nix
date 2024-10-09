@@ -62,6 +62,10 @@
       url = "github:chrisgrieser/nvim-origami";
       flake = false;
     };
+    workspace-diagnostics-nvim = {
+      url = "github:artemave/workspace-diagnostics.nvim";
+      flake = false;
+    };
   };
 
   outputs = inputs: {

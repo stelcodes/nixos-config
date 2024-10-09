@@ -1,8 +1,13 @@
 -- https://github.com/neovim/nvim-lspconfig
 local lspconfig = require('lspconfig')
+local wd = require("workspace-diagnostics")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+local on_attach = function(client, bufnr)
+  wd.populate_workspace_diagnostics(client, bufnr)
+end
 
 lspconfig.html.setup {
   capabilities = capabilities,
@@ -11,12 +16,13 @@ lspconfig.cssls.setup {
   capabilities = capabilities,
 }
 lspconfig.eslint.setup {
-  -- on_attach = function(_, bufnr)
-  --   vim.api.nvim_create_autocmd("BufWritePre", {
-  --     buffer = bufnr,
-  --     command = "EslintFixAll",
-  --   })
-  -- end,
+  on_attach = function(client, bufnr)
+    wd.populate_workspace_diagnostics(client, bufnr)
+    -- vim.api.nvim_create_autocmd("BufWritePre", {
+    --   buffer = bufnr,
+    --   command = "EslintFixAll",
+    -- })
+  end,
 }
 lspconfig.jsonls.setup {
   capabilities = capabilities,
@@ -24,7 +30,11 @@ lspconfig.jsonls.setup {
 lspconfig.clojure_lsp.setup {}
 lspconfig.pyright.setup {}
 lspconfig.gopls.setup {}
-lspconfig.ts_ls.setup {}
+lspconfig.ts_ls.setup {
+  on_attach = function(client, bufnr)
+    wd.populate_workspace_diagnostics(client, bufnr)
+  end
+}
 lspconfig.svelte.setup {}
 lspconfig.denols.setup {
   autostart = false

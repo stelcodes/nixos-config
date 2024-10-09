@@ -67,6 +67,12 @@ in
           src = inputs.nvim-origami;
         };
 
+        workspace-diagnostics-nvim = pkgs.unstable.vimUtils.buildVimPlugin {
+          pname = "workspace-diagnostics-nvim";
+          version = "unstable";
+          src = inputs.workspace-diagnostics-nvim;
+        };
+
       in
       [
 
@@ -349,6 +355,8 @@ in
         }
 
       ] ++ (lib.lists.optionals config.activities.coding [
+
+        workspace-diagnostics-nvim
 
         plugins.nvim-ts-context-commentstring # For accurate comments
         {

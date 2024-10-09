@@ -448,6 +448,7 @@
         "nvim-origami": "nvim-origami",
         "starship-yazi": "starship-yazi",
         "wayland-pipewire-idle-inhibit": "wayland-pipewire-idle-inhibit",
+        "workspace-diagnostics-nvim": "workspace-diagnostics-nvim",
         "yazi-flavors": "yazi-flavors",
         "yazi-plugins": "yazi-plugins"
       }
@@ -553,6 +554,22 @@
       "original": {
         "owner": "rafaelrc7",
         "repo": "wayland-pipewire-idle-inhibit",
+        "type": "github"
+      }
+    },
+    "workspace-diagnostics-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723294887,
+        "narHash": "sha256-lBj4KUPmmhtpffYky/HpaTwY++d/Q9socp/Ys+4VeX0=",
+        "owner": "artemave",
+        "repo": "workspace-diagnostics.nvim",
+        "rev": "573ff93c47898967efdfbc6587a1a39e3c2d365e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "artemave",
+        "repo": "workspace-diagnostics.nvim",
         "type": "github"
       }
     },
