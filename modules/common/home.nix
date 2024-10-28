@@ -97,6 +97,7 @@
         pkgs.croc
         pkgs.restic
         pkgs.gh
+        pkgs.git-backdate
       ]);
 
       sessionVariables = {
