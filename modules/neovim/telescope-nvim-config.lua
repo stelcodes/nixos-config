@@ -4,10 +4,6 @@ local builtin = require('telescope.builtin')
 local open_with_trouble = require("trouble.sources.telescope").open
 -- local add_to_trouble = require("trouble.sources.telescope").add
 
-local git_status = function()
-  builtin.git_status({ default_text = vim.fn.expand('%:t'), initial_mode = "normal" })
-end
-
 tele.setup {
   defaults = {
     file_ignore_patterns = { '%.lock$', '%.pdf$', '%.db$', '%.opus$', '%.mp3$', '%.wav$', '%.git/', '%.clj%-kondo/%.cache/', '%.lsp/', '%.cpcache/', '%target/' },
@@ -67,9 +63,4 @@ vim.keymap.set('n', '<leader>C', function() builtin.colorscheme { enable_preview
 vim.keymap.set('n', '<leader>h', builtin.help_tags)
 vim.keymap.set('n', '<leader>k', builtin.keymaps)
 vim.keymap.set('n', '<leader>t', builtin.builtin)
-vim.keymap.set('n', '<leader>gc', builtin.git_bcommits)
-vim.keymap.set('n', '<leader>gC', builtin.git_commits)
-vim.keymap.set('n', '<leader>gf', builtin.git_files)
-vim.keymap.set('n', '<leader>gd', builtin.git_status)
-vim.keymap.set('n', '<leader>gd', git_status)
 vim.keymap.set('n', '<leader>lr', builtin.lsp_references)

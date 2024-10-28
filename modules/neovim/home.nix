@@ -77,6 +77,95 @@ in
       [
 
         {
+          plugin = plugins.gitsigns-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            local gs = require('gitsigns')
+            gs.setup()
+            -- git reset
+            vim.keymap.set('n', '<leader>gr', gs.reset_hunk)
+            vim.keymap.set('v', '<leader>gr', function() gs.reset_hunk {vim.fn.line("."), vim.fn.line("v")} end)
+            vim.keymap.set('n', '<leader>gR', gs.reset_buffer)
+            -- git blame
+            vim.keymap.set('n', '<leader>gb', function() gs.blame_line{full=true} end)
+            vim.keymap.set('n', '<leader>gB', gs.toggle_current_line_blame)
+            -- navigating and viewing hunks
+            vim.keymap.set('n', '<leader>gn', gs.next_hunk)
+            vim.keymap.set('n', '<leader>gp', gs.prev_hunk)
+            vim.keymap.set('n', '<leader>gh', gs.preview_hunk)
+          '';
+        }
+
+        {
+          plugin = plugins.diffview-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            -- https://github.com/sindrets/diffview.nvim/tree/main?tab=readme-ov-file#configuration
+            local diff = require("diffview")
+            local common_keymaps = {
+              {"n", "<c-q>", '<cmd>DiffviewClose<cr>', { desc = "Close diffview" }}
+            }
+            diff.setup({
+              enhanced_diff_hl = true,
+              file_panel = {
+                listing_style = "list",
+                win_config = {
+                  position = "bottom",
+                  height = 10,
+                },
+              },
+              file_history_panel = {
+                win_config = {
+                  position = "bottom",
+                  height = 10,
+                },
+              },
+              keymaps = {
+                disable_defaults = false,
+                -- When only diff is visible (:DiffviewOpen or :DiffviewFileHistory)
+                view = common_keymaps,
+                -- When file panel is visible (:DiffviewOpen)
+                file_panel = common_keymaps,
+                -- When git log is open (:DiffviewFileHistory)
+                file_history_panel = common_keymaps,
+              },
+            })
+            -- git diff
+            vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen<cr>')
+            -- git log
+            vim.keymap.set('n', '<leader>gl', '<cmd>DiffviewFileHistory %<cr>')
+            vim.keymap.set('n', '<leader>gL', '<cmd>DiffviewFileHistory<cr>')
+          '';
+        }
+
+        {
+          plugin = plugins.neogit;
+          type = "lua";
+          config = /* lua */ ''
+            local neogit = require('neogit')
+            neogit.setup({
+              mappings = {
+                status = {
+                  ["K"] = false; -- Don't override my normal K mapping
+                },
+              },
+            })
+
+            local toggle_neogit = function()
+              if vim.bo.filetype == "NeogitStatus" then
+                vim.cmd "bd"
+              else
+                neogit.open()
+              end
+            end
+            vim.keymap.set('n', '<c-g>', toggle_neogit)
+          '';
+        }
+
+        # TODO: Remove this eventually, just keeping in case I miss fugitive
+        plugins.vim-fugitive
+
+        {
           plugin = nvim-origami;
           type = "lua";
           config = /* lua */ ''
@@ -100,24 +189,6 @@ in
 
         # Theme plugin should go first because it sets local vars like lualine_theme
         theme.neovimPlugin
-
-        {
-          plugin = plugins.vim-fugitive;
-          type = "lua";
-          config = /* lua */ ''
-            local toggle_fugitive = function()
-              if vim.bo.filetype == "fugitive" then
-                vim.cmd "wincmd q"
-              else
-                vim.cmd "Git"
-                vim.cmd "wincmd H"
-                vim.cmd "vertical resize 70"
-              end
-            end
-            vim.keymap.set('n', '<c-g>', toggle_fugitive)
-            vim.keymap.set('n', '<leader>gD', '<cmd>Git difftool<cr>')
-          '';
-        }
 
         {
           plugin = stel-paredit;
@@ -150,12 +221,6 @@ in
         {
           plugin = plugins.vim-auto-save;
           config = /* vim */ "let g:auto_save = 1";
-        }
-
-        {
-          plugin = plugins.gitsigns-nvim;
-          type = "lua";
-          config = builtins.readFile ./gitsigns-config.lua;
         }
 
         {
