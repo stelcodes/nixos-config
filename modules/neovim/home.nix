@@ -144,7 +144,7 @@ in
           config = /* lua */ ''
             local neogit = require('neogit')
             neogit.setup({
-              graph_style = "kitty",
+              -- graph_style = "kitty",
               mappings = {
                 status = {
                   ["K"] = false; -- Don't override my normal K mapping
@@ -165,16 +165,6 @@ in
 
         # TODO: Remove this eventually, just keeping in case I miss fugitive
         plugins.vim-fugitive
-
-        {
-          plugin = nvim-origami;
-          type = "lua";
-          config = /* lua */ ''
-            require("origami").setup({
-              hOnlyOpensOnFirstColumn = true
-            })
-          '';
-        }
 
         {
           plugin = plugins.yazi-nvim;
