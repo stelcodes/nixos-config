@@ -144,6 +144,7 @@ in
           config = /* lua */ ''
             local neogit = require('neogit')
             neogit.setup({
+              graph_style = "kitty",
               mappings = {
                 status = {
                   ["K"] = false; -- Don't override my normal K mapping
