@@ -46,17 +46,23 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = /* fish */ ''
-      # Make sure the Nix environment is sourced when fish isn't the login shell (MacOS)
-      if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish;
-        source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
-      end
-      # Add homebrew to PATH when necessary (MacOS)
-      if test -e /opt/homebrew;
-        fish_add_path --append /opt/homebrew/bin /opt/homebrew/sbin
-      end
-      # Set fish as the psuedo-default shell on MacOS
-      if test "$SHELL" = "/bin/zsh";
-        set -x SHELL ${pkgs.fish}/bin/fish
+      if test "$(uname)" = "Darwin"; # If on MacOS...
+        # Make sure the Nix environment is sourced when fish isn't the login shell
+        if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish;
+          source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+        end
+        # Set fish as the psuedo-default shell
+        if test "$SHELL" = "/bin/zsh";
+          set -x SHELL ${pkgs.fish}/bin/fish
+        end
+        # Add homebrew to PATH when necessary
+        if test -e /opt/homebrew;
+          fish_add_path --append /opt/homebrew/bin /opt/homebrew/sbin
+        end
+        # Add local/bin to PATH if it exists
+        if test -e "$HOME/.local/bin";
+          fish_add_path --append "$HOME/.local/bin"
+        end
       end
       # Fix comma falling back to 'nixpkgs' channel when NIX_PATH not set (MacOS)
       if ! set --query NIX_PATH;
@@ -71,7 +77,6 @@
       # By default the vi mode insert cursor is a beam which I don't really like
       set fish_cursor_insert block
       ${pkgs.starship}/bin/starship init fish | source
-      # Maybe add direnv sourcing here later
     '';
     loginShellInit = lib.mkDefault ''
       ${pkgs.fastfetch}/bin/fastfetch
