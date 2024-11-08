@@ -139,7 +139,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
     };
 
     # security.sudo.enable = false;
-    # security.acme.email = "stel@stel.codes";
+    # security.acme.email = "sysadmin@stelclementine.com";
     # security.acme.acceptTerms = true;
 
     # If the host's system public key is in the key registry file, assume the core age secrets are available

@@ -44,7 +44,7 @@
     };
     admin.email = lib.mkOption {
       type = lib.types.str;
-      default = "stel@stel.codes";
+      default = "sysadmin@stelclementine.com";
     };
     theme.name = lib.mkOption {
       type = lib.types.str;

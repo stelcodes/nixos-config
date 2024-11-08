@@ -98,7 +98,7 @@
       jcu = "journalctl --user -exf --unit";
       config = "cd ~/nixos-config; nvim";
       d = "dua --stay-on-filesystem interactive";
-      new-ssh-key = "ssh-keygen -t ed25519 -C 'stel@stel.codes'";
+      new-ssh-key = "ssh-keygen -t ed25519";
       date-sortable = "date +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with local timezone
       date-sortable-utc = "date -u +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with UTC timezone
       beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
