@@ -132,6 +132,8 @@
       nix-dependency = "nix-store --query --referrers /nix/store/";
       nix-bigstuff = "nix path-info -rS /run/current-system | sort -nk2";
       nix-why = "nix why-depends /run/current-system /nix/store/";
+      caddy-server = "echo 'http://localhost:3030' && caddy file-server --listen :3030 --root";
+      gists = "gh gist view";
     };
     functions = {
       wallpaper = /* fish */ ''
