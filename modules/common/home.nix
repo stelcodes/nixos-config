@@ -48,7 +48,6 @@
         videos = "$HOME/videos";
       };
       configFile = {
-        "starship.toml".source = ../../misc/starship.toml;
         "systemd/user.conf".text = ''
           [Manager]
           DefaultTimeoutStopSec=10
@@ -276,8 +275,10 @@
         };
       };
 
-      # I prefer having starship enabled via NixOS options because all users get the prompt, including root
-      starship.enable = false;
+      starship = {
+        enable = true;
+        settings = builtins.fromTOML (builtins.readFile ../../misc/starship.toml);
+      };
 
       bash.enable = true;
 
