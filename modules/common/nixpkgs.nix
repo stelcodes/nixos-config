@@ -18,6 +18,7 @@
             "facetimehd-calibration"
             "libretro-snes9x"
             "vscode"
+            "zsh-abbr"
           ];
         };
       in

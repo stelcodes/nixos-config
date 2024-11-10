@@ -171,6 +171,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
 
     programs = {
       fish.enable = true;
+      zsh.enable = true;
       starship = {
         enable = true;
         settings = builtins.fromTOML (builtins.readFile ../../misc/starship.toml);
@@ -204,6 +205,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
         # Useful for seeing exactly what source flake generated this NixOS system generation
         "nixos-generation-source".source = ../..;
       };
+      pathsToLink = [ "/share/zsh" ];
     };
 
     services = {
