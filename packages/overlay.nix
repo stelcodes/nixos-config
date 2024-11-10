@@ -53,6 +53,19 @@ self: super: {
       fi
     '';
   };
+  tmux-startup = super.writeShellApplication {
+    name = "tmux-startup";
+    text = ''
+      if tmux run 2>/dev/null; then
+        tmux new-window -t sandbox:
+        tmux new-session -As sandbox
+      else
+        tmux new-session -ds config -c "$HOME/nixos-config"
+        tmux new-session -ds media
+        tmux new-session -As sandbox
+      fi
+    '';
+  };
   truecolor-test = super.writeShellApplication {
     name = "truecolor-test";
     runtimeInputs = [ super.coreutils super.gawk ];

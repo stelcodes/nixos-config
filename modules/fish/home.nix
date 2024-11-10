@@ -134,20 +134,11 @@
       nix-why = "nix why-depends /run/current-system /nix/store/";
       caddy-server = "echo 'http://localhost:3030' && caddy file-server --listen :3030 --root";
       gists = "gh gist view";
+      t = "tmux-startup";
     };
     functions = {
       wallpaper = /* fish */ ''
         cp -i "$argv[1]" "$HOME/.wallpaper"
-      '';
-      t = /* fish */ ''
-        if tmux run 2>/dev/null;
-          tmux new-window -t sandbox:
-          tmux new-session -As sandbox
-        else
-          tmux new-session -ds config -c "$HOME/nixos-config"
-          tmux new-session -ds media
-          tmux new-session -As sandbox
-        end
       '';
     };
   };

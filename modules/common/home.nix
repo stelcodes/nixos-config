@@ -81,6 +81,7 @@
         pkgs.mmv-go
         pkgs.jq
         pkgs.exiftool
+        pkgs.tmux-startup
         # pkgs.unrar
         pkgs.p7zip
         pkgs.mediainfo # for yazi
