@@ -99,6 +99,7 @@
         pkgs.restic
         pkgs.gh
         pkgs.git-backdate
+        pkgs.devflake
       ]);
 
       sessionVariables = {
