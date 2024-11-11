@@ -302,16 +302,81 @@
         historySubstringSearch.enable = true;
         # Interactive shells
         initExtra = /* bash */ ''
+          #####################################################################
+          ## FUNCTIONS
+          #####################################################################
+          function exists {
+            whence -w "$1" >/dev/null
+          }
+          #####################################################################
+          ## ENVIRONMENT
+          #####################################################################
+          export SHELL="${pkgs.zsh}/bin/zsh"
+          # Force PATH to contain unique values, existing duplicates get removed upon insert
+          typeset -U path PATH
+          # Make sure the Nix environment is sourced, this script is idempotent
+          NIX_SETUP_SCRIPT="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+          if [ -e "$NIX_SETUP_SCRIPT" ]; then
+            source "$NIX_SETUP_SCRIPT"
+          fi
+          # If terminal is kitty, use kitten to automatically install kitty terminfo on remote host when ssh'ing
+          if [ "$TERM" = "xterm-kitty" ]; then
+            alias ssh="kitty +kitten ssh"
+          fi
+          if [ "$(uname)" = "Darwin" ]; then # If on MacOS...
+            # Append homebrew to PATH when necessary
+            if [ -e /opt/homebrew ]; then
+              path+=(/opt/homebrew/bin /opt/homebrew/sbin)
+            fi
+            # Append local/bin to PATH if it exists
+            if [ -e "$HOME/.local/bin" ]; then
+              path+=("$HOME/.local/bin")
+            fi
+            # Fix comma falling back to 'nixpkgs' channel when NIX_PATH not set (MacOS)
+            if [ ! -v NIX_PATH ]; then
+              export NIX_PATH='nixpkgs=flake:${inputs.nixpkgs}'
+            fi
+          fi
         '';
-        # { name, file, source }
-        plugins = [ ];
+        plugins = [
+          {
+            # Interactive git commands
+            name = "forgit";
+            src = pkgs.zsh-forgit;
+            file = "share/zsh/zsh-forgit/forgit.plugin.zsh";
+          }
+          {
+            # Makes nix-shell automatically use zsh
+            name = "zsh-nix-shell";
+            src = pkgs.zsh-nix-shell;
+            file = "share/zsh-nix-shell/nix-shell.plugin.zsh";
+          }
+          {
+            # System integration with vi mode yank/paste
+            name = "zsh-system-clipboard";
+            src = pkgs.zsh-system-clipboard;
+            file = "share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh";
+          }
+          {
+            name = "zsh-fzf-tab";
+            src = pkgs.zsh-fzf-tab;
+            file = "share/fzf-tab/fzf-tab.plugin.zsh";
+          }
+          {
+            name = "zsh-fzf-history-search";
+            src = pkgs.zsh-fzf-history-search;
+            file = "share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh";
+          }
+        ];
         sessionVariables = {
           CLICOLOR = 1; # For GNU ls to have colored output
+          ZVM_LINE_INIT_MODE = "i"; # For vi-mode, start new prompts in insert mode
         };
         shellAliases = {
           t = "tmux-startup";
         };
         syntaxHighlighting.enable = true;
+        zprof.enable = false; # Enable to debug startup time
         zsh-abbr = {
           enable = true;
           abbreviations = rec {
@@ -322,11 +387,10 @@
             r = "rsync -rltxhv"; # use --delete-delay when necessary
             gs = "git status";
             gl = "git log";
-            glo = "git log --oneline";
-            gf = "git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
+            glf = "git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
             sc = "systemctl";
             scu = "systemctl --user";
-            # Using --unit for better fish completion
+            # Using --unit for better completion
             jc = "journalctl -exf --unit";
             jcu = "journalctl --user -exf --unit";
             config = "cd ~/nixos-config; nvim";

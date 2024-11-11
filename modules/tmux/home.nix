@@ -80,7 +80,7 @@ in
 
       # Use default-command instead of default-shell to avoid unwanted login shell behavior
       # Also don't prefix command with exec because it causes tmux-resurrect restore.sh to crash
-      set -g default-command ${pkgs.fish}/bin/fish
+      set -g default-command ${pkgs.zsh}/bin/zsh
       # Fixes tmux/neovim escape input lag: https://github.com/neovim/neovim/wiki/FAQ#esc-in-tmux-or-gnu-screen-is-delayed
       set -sg escape-time 10
       set -g focus-events on

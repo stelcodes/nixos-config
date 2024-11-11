@@ -62,7 +62,7 @@ in
         };
         extraConfig = ''
           disable_ligatures never
-          shell ${pkgs.fish}/bin/fish
+          shell ${pkgs.zsh}/bin/zsh
           shell_integration disabled no-cursor
           wheel_scroll_multiplier 5.0
           touch_scroll_multiplier 1.0
