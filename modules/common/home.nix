@@ -191,30 +191,27 @@
         package = pkgs.unstable.yazi;
         enableFishIntegration = true;
         shellWrapperName = "y";
-
         # Defaults: https://github.com/sxyazi/yazi/tree/main/yazi-config/preset
-
         settings = {
           plugin.prepend_fetchers = [
             # https://github.com/yazi-rs/plugins/tree/main/git.yazi#setup
             { id = "git"; name = "*"; run = "git"; }
             { id = "git"; name = "*/"; run = "git"; }
           ];
-          opener.play = [
-            { run = "umpv \"$@\""; orphan = true; for = "unix"; }
-          ];
+          opener = {
+            play = [
+              { run = "umpv \"$@\""; orphan = true; for = "unix"; }
+            ];
+          };
           # file -bL --mime-type <file>
-          # open.prepend_rules = [
-          #   { mime = "inode/directory"; use = "open"; }
-          # ];
+          open.prepend_rules = [
+            { mime = "inode/directory"; use = "open"; }
+          ];
         };
-
         flavors = let f = inputs.yazi-flavors; in {
           catppuccin-frappe = "${f}/catppuccin-frappe.yazi";
         };
-
         # theme.flavor.use = "catppuccin-frappe";
-
         plugins =
           let
             p = inputs.yazi-plugins;
@@ -238,12 +235,10 @@
               }
             '');
           };
-
         initLua = /* lua */ ''
           require("starship"):setup()
           require("git"):setup()
         '';
-
         keymap = {
           manager.prepend_keymap = [
             {
