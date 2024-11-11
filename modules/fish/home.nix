@@ -76,7 +76,6 @@
       fish_vi_key_bindings
       # By default the vi mode insert cursor is a beam which I don't really like
       set fish_cursor_insert block
-      ${pkgs.starship}/bin/starship init fish | source
     '';
     loginShellInit = lib.mkDefault ''
       ${pkgs.fastfetch}/bin/fastfetch
