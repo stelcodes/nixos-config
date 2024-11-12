@@ -7,7 +7,10 @@
     audio = true;
     bluetooth = true;
   };
-  activities.coding = true;
+  activities = {
+    coding = true;
+    djing = true;
+  };
   home = {
     username = "stel";
     homeDirectory = "/Users/stel";
