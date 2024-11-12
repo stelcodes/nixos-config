@@ -1,19 +1,26 @@
+function pause() { read -r; }
 function blank() { printf "\n"; }
+function log() { printf "%s\n" "$1"; }
 function bold() { printf "\033[1m%s\033[0m\n" "$1"; }
-function error() { printf "\e[0;31mERROR: %s\e[0m\n" "$1"; read -r; exit 1; }
-function success() { printf "\e[0;32m%s\e[0m\n" "$1"; read -r; }
+function error() { printf "\e[0;31mERROR: %s\e[0m\n" "$1"; pause; exit 1; }
+function success() { printf "\e[0;32m%s\e[0m\n" "$1"; }
 function warn() { printf "\e[0;33m%s\e[0m\n" "$1"; }
 function divider() {  printf "%0.s-" {1..80}; blank; }
-bold "Starting rekordbox-add!"; blank;
+
+bold "Starting rekordbox-add!"
 library="$HOME/Music/dj-tools/rekordbox"
 if [ ! -d "$library" ]; then
   error "Rekordbox library not found"
-else
-  bold "Using library: $library"; blank;
 fi
+bold "Using library: $library"; blank;
+bold "Adding tracks:"
+for input; do
+  log "$input"
+done
+pause
 for input; do
   divider
-  bold "Processing: $input"
+  log "Processing: $input"
   input_ext="${input##*.}"
   final_input="$input"
   if [ ! -f "$input" ]; then
