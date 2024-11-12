@@ -164,13 +164,12 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
           # https://wiki.archlinux.org/title/Users_and_groups#Group_list
           extraGroups = [ "networkmanager" "wheel" "tty" "dialout" "audio" "video" "cdrom" "multimedia" "libvirtd" ];
           openssh.authorizedKeys.keys = sshPublicKeys.allAdminKeys;
-          shell = pkgs.fish;
+          shell = pkgs.zsh;
         };
       };
     };
 
     programs = {
-      fish.enable = true;
       zsh.enable = true;
       starship = {
         enable = true;

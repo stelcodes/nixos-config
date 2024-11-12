@@ -44,7 +44,7 @@
     '';
   };
   programs.fish = {
-    enable = true;
+    # enable = true;
     interactiveShellInit = /* fish */ ''
       if test "$(uname)" = "Darwin"; # If on MacOS...
         # Make sure the Nix environment is sourced when fish isn't the login shell
