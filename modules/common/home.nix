@@ -200,12 +200,111 @@
           ];
           opener = {
             play = [
+              # umpv script from mpv package prevents simultaneous playback
+              # https://github.com/mpv-player/mpv/blob/master/TOOLS/umpv
               { run = "umpv \"$@\""; orphan = true; for = "unix"; }
             ];
+            dj =
+              let
+                convert-audio = pkgs.writeShellApplication {
+                  name = "convert-audio";
+                  runtimeInputs = [ pkgs.ffmpeg pkgs.coreutils pkgs.fzf ];
+                  text = ''
+                    function error() { printf "\e[0;31mERROR: %s\e[0m\n" "$1"; read -r; exit 1; }
+                    function success() { printf "\e[0;32m%s\e[0m\n" "$1"; read -r; exit 0; }
+                    function warn() { printf "\e[0;33m%s\e[0m\n" "$1"; }
+                    input="$1"
+                    input_ext="''${input##*.}"
+                    printf "Starting audio conversion!\n\nInput file: %s\nSelect output format:\n" "$input"
+                    output_ext="$(printf 'flac\nmp3' | fzf --height 5 || error "Unrecognized output format")"
+                    if [ "$input_ext" = "$output_ext" ]; then
+                      error "File is already $output_ext"
+                    fi
+                    output="''${input%.*}.$output_ext"
+                    if [ -e "$output" ]; then
+                      error "File already exists: $output"
+                    fi
+                    cmd="ffmpeg -i '$input'"
+                    if [ "$output_ext" = "mp3" ]; then
+                      cmd="$cmd -b:a 320k"
+                    fi
+                    cmd="$cmd '$output'"
+                    warn "$cmd"
+                    read -rp "Convert? [y/N]: " response
+                    if [ "$response" != "y" ]; then
+                      error "User aborted conversion"
+                    fi
+                    if eval "$cmd"; then
+                      success "Conversion succeeded"
+                    else
+                      error "Conversion failed"
+                    fi
+                  '';
+                };
+                rekordbox-add = pkgs.writeShellApplication {
+                  name = "rekordbox-add";
+                  runtimeInputs = [ pkgs.ffmpeg pkgs.trash-cli pkgs.coreutils ];
+                  text = ''
+                    function blank() { printf "\n"; }
+                    function bold() { printf "\033[1m%s\033[0m\n" "$1"; }
+                    function error() { printf "\e[0;31mERROR: %s\e[0m\n" "$1"; read -r; exit 1; }
+                    function success() { printf "\e[0;32m%s\e[0m\n" "$1"; read -r; }
+                    function warn() { printf "\e[0;33m%s\e[0m\n" "$1"; }
+                    function divider() {  printf "%0.s-" {1..80}; blank; }
+                    bold "Starting rekordbox-add!"; blank;
+                    library="$HOME/Music/dj-tools/rekordbox"
+                    if [ ! -d "$library" ]; then
+                      error "Rekordbox library not found"
+                    else
+                      bold "Using library: $library"; blank;
+                    fi
+                    for input; do
+                      divider
+                      bold "Processing: $input"
+                      input_ext="''${input##*.}"
+                      final_input="$input"
+                      if [ ! -f "$input" ]; then
+                        warning "File does not exist, skipping..."
+                        continue
+                      elif [ "$input_ext" = "wav" ] || [ "$input_ext" = "aif" ] || [ "$input_ext" = "aiff" ]; then
+                        warn "Converting track to flac format..."
+                        final_input="''${input%.*}.flac"
+                        if [ -e "$final_input" ]; then
+                          warn "A flac version already exists, skipping..."
+                          continue
+                        elif ffmpeg -i "$input" "$final_input"; then
+                          success "Track converted to flac"
+                        else
+                          warning "Conversion failed, skipping..."
+                          continue
+                        fi
+                      fi
+                      final_input_ext="''${final_input##*.}"
+                      if [ "$final_input_ext" != "flac" ] && [ "$final_input_ext" != "mp3" ]; then
+                        warn "File isn't flac or mp3 and can't be converted, skipping..."
+                        continue
+                      elif [ -f "$final_input" ] && mv -n "$final_input" "$library"; then
+                        success "Track moved to library"
+                      else
+                        warn "Move failed, skipping..."
+                        continue
+                      fi
+                      if [ -f "$input" ] && trash-put "$input"; then
+                         success "Trashed original file"
+                      fi
+                    done
+                  '';
+                };
+              in
+              [
+                { desc = "Rekordbox"; run = "${rekordbox-add}/bin/rekordbox-add \"$@\""; block = true; for = "unix"; }
+                { desc = "Convert audio"; run = "${convert-audio}/bin/convert-audio \"$1\""; block = true; for = "unix"; }
+              ];
           };
           # file -bL --mime-type <file>
           open.prepend_rules = [
             { mime = "inode/directory"; use = "open"; }
+            { mime = "audio/*"; use = [ "play" "reveal" "dj" ]; }
           ];
         };
         flavors = let f = inputs.yazi-flavors; in {
