@@ -357,4 +357,6 @@ self: super: {
     '';
   };
   git-fiddle = super.callPackage ./git-fiddle.nix { };
+  convert-audio = super.callPackage ./convert-audio { };
+  rekordbox-add = super.callPackage ./rekordbox-add { };
 }

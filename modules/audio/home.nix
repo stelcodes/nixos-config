@@ -25,6 +25,8 @@
         pkgs.dragonfly-reverb
       ]) ++ (lib.lists.optionals config.activities.djing [
         pkgs.ffmpeg
+        pkgs.convert-audio
+        pkgs.rekordbox-add
       ]);
   };
 }
