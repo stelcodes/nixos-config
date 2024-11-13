@@ -1,5 +1,5 @@
 # REKEY ALL SECRETS AFTER ADDING OR REMOVING KEYS!
-# cd ~/nixos-config/secrets && agenix --rekey
+# cd ~/.config/nix/secrets && agenix --rekey
 rec {
   adminKeys = {
     yuffie = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGl9G7SYvJy8+u2AF+Mlez6bwhrNfKclWo9mK6mwtNgJ";

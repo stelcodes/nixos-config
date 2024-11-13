@@ -22,8 +22,8 @@
     ];
   };
   programs = {
-    fish.shellAbbrs.rebuild = "home-manager switch --flake \"$HOME/nixos-config#marlene\"";
-    zsh.zsh-abbr.abbreviations.rebuild = "home-manager switch --flake \"$HOME/nixos-config#marlene\"";
+    fish.shellAbbrs.rebuild = "home-manager switch --flake \"$HOME/.config/nix#marlene\"";
+    zsh.zsh-abbr.abbreviations.rebuild = "home-manager switch --flake \"$HOME/.config/nix#marlene\"";
   };
 
   # brew install --cask obsidian kitty syncthing calibre discord firefox gimp musescore protonvpn signal spotify zoom visual-studio-code

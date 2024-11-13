@@ -64,7 +64,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
               name = "nixos-rebuild";
               runtimeInputs = [ pkgs.coreutils pkgs.iputils pkgs.nixos-rebuild pkgs.git ];
               text = ''
-                flake_dir="/home/${config.admin.username}/nixos-config"
+                flake_dir="/home/${config.admin.username}/.config/nix"
                 flags=("--option" "eval-cache" "false")
                 stderr() { printf "%s\n" "$*" >&2; }
                 printf "╔════════════════════════════════════════════════════╗\n"
@@ -179,7 +179,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
       git = {
         enable = true;
         config = {
-          safe.directory = "/home/${config.admin.username}/nixos-config/.git";
+          safe.directory = "/home/${config.admin.username}/.config/nix/.git";
         };
       };
     };
