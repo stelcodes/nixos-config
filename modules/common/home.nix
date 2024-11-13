@@ -17,8 +17,10 @@
     news.display = "silent";
 
     systemd.user = lib.mkIf pkgs.stdenv.isLinux {
-      settings.Manager.DefaultEnvironment = {
-        PATH = "/run/current-system/sw/bin:/etc/profiles/per-user/${config.home.username}/bin";
+      settings.Manager = {
+        DefaultEnvironment.PATH = "/run/current-system/sw/bin:/etc/profiles/per-user/${config.home.username}/bin";
+        DefaultTimeoutStopSec = 10;
+        DefaultTimeoutAbortSec = 10;
       };
       startServices = true;
       services = {
@@ -34,32 +36,17 @@
       };
     };
 
-    xdg = {
-      userDirs = lib.mkIf pkgs.stdenv.isLinux {
-        enable = true;
-        createDirectories = true;
-        desktop = "$HOME/desktop";
-        documents = "$HOME/documents";
-        download = "$HOME/downloads";
-        music = "$HOME/music";
-        pictures = "$HOME/pictures";
-        publicShare = "$HOME/public";
-        templates = "$HOME/template";
-        videos = "$HOME/videos";
-      };
-      configFile = {
-        "systemd/user.conf".text = ''
-          [Manager]
-          DefaultTimeoutStopSec=10
-          DefaultTimeoutAbortSec=10
-        '';
-        # https://github.com/aristocratos/btop#configurability
-        "btop/btop.conf".text = ''
-          color_theme = "${config.theme.set.btop}"
-          vim_keys = True
-        '';
-        "btop/themes/catppuccin_macchiato.theme".source = "${inputs.catppuccin-btop}/themes/catppuccin_macchiato.theme";
-      };
+    xdg.userDirs = lib.mkIf pkgs.stdenv.isLinux {
+      enable = true;
+      createDirectories = true;
+      desktop = "$HOME/desktop";
+      documents = "$HOME/documents";
+      download = "$HOME/downloads";
+      music = "$HOME/music";
+      pictures = "$HOME/pictures";
+      publicShare = "$HOME/public";
+      templates = "$HOME/template";
+      videos = "$HOME/videos";
     };
 
     home = {
@@ -67,7 +54,6 @@
       homeDirectory = lib.mkDefault "/home/${config.admin.username}";
 
       packages = [
-        pkgs.btop
         pkgs.trash-cli
         pkgs.fd
         pkgs.fastfetch
@@ -128,6 +114,14 @@
           theme = "base16";
           paging = "always";
           style = "plain";
+        };
+      };
+
+      btop = {
+        enable = true;
+        settings = {
+          color_theme = config.theme.set.btop;
+          vim_keys = true;
         };
       };
 
