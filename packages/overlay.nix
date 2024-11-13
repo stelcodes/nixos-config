@@ -39,31 +39,8 @@ self: super: {
     text = builtins.readFile ../misc/cycle-pulse-sink.clj;
     runtimeInputs = [ super.pulseaudio ];
   };
-  tmux-snapshot = super.writeShellApplication {
-    name = "tmux-snapshot";
-    runtimeInputs = [ super.coreutils-full super.procps super.hostname super.gnused super.tmux super.gnugrep super.gnutar super.gzip super.findutils ];
-    text = ''
-      if tmux has-session; then
-        echo "tmux is running, saving snapshot..."
-        ${super.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh quiet
-      else
-        echo "tmux is not running"
-      fi
-    '';
-  };
-  tmux-startup = super.writeShellApplication {
-    name = "tmux-startup";
-    text = ''
-      if tmux run 2>/dev/null; then
-        tmux new-window -t sandbox:
-        tmux new-session -As sandbox
-      else
-        tmux new-session -ds config -c "$HOME/.config/nix"
-        tmux new-session -ds media
-        tmux new-session -As sandbox
-      fi
-    '';
-  };
+  tmux-snapshot = super.callPackage ./tmux-snapshot { };
+  tmux-startup = super.callPackage ./tmux-startup { };
   devflake = super.callPackage ./devflake { };
   truecolor-test = super.writeShellApplication {
     name = "truecolor-test";
