@@ -232,8 +232,8 @@
             max-preview = "${p}/max-preview.yazi";
             git = "${p}/git.yazi";
             starship = "${inputs.starship-yazi}";
-            smart-enter = (mkYaziPlugin
-              /* lua */ ''
+            yamb = "${inputs.yamb-yazi}";
+            smart-enter = (mkYaziPlugin /* lua */ ''
               return {
                 entry = function()
                   local h = cx.active.current.hovered
@@ -245,6 +245,21 @@
         initLua = /* lua */ ''
           require("starship"):setup()
           require("git"):setup()
+          local home = os.getenv("HOME")
+          require("yamb"):setup({
+            bookmarks = {
+              { tag = "nix-store", path = "/nix/store/", key = "n" },
+              { tag = "nix-config", path = home.."/nixos-config/", key = "c" },
+              { tag = "config", path = home.."/.config/", key = "C" },
+              { tag = "local", path = home.."/.local/", key = "l" },
+              { tag = "tmp-home", path = home.."/tmp/", key = "t" },
+              { tag = "tmp", path = "/tmp/", key = "T" },
+              { tag = "downloads", path = home.."/downloads/", key = "d" },
+              { tag = "music", path = home.."/music/", key = "m" },
+              { tag = "rekordbox", path = home.."/music/dj-tools/rekordbox/", key = "r" },
+            },
+            jump_notify = true,
+          })
         '';
         keymap = {
           manager.prepend_keymap = [
@@ -260,7 +275,7 @@
             }
             {
               on = "!";
-              run = "shell ${pkgs.fish}/bin/fish --block --confirm";
+              run = "shell \"$SHELL\" --block --confirm";
               desc = "Open shell here";
             }
             {
@@ -272,6 +287,16 @@
               on = "<Enter>";
               run = "plugin --sync smart-enter";
               desc = "Enter the directory instead of editing";
+            }
+            {
+              on = "'";
+              run = "plugin yamb --args=jump_by_key";
+              desc = "Jump to bookmark by key";
+            }
+            {
+              on = "\"";
+              run = "plugin yamb --args=jump_by_fzf";
+              desc = "Jump to bookmark by fzf";
             }
           ];
         };
@@ -365,11 +390,13 @@
             file = "share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh";
           }
           {
+            # Awesome fzf tab completion
             name = "zsh-fzf-tab";
             src = pkgs.zsh-fzf-tab;
             file = "share/fzf-tab/fzf-tab.plugin.zsh";
           }
           {
+            # Fuzzy history search
             name = "zsh-fzf-history-search";
             src = pkgs.zsh-fzf-history-search;
             file = "share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh";
