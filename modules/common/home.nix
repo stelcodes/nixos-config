@@ -189,10 +189,15 @@
       yazi = {
         enable = true;
         package = pkgs.unstable.yazi;
-        enableFishIntegration = true;
         shellWrapperName = "y";
         # Defaults: https://github.com/sxyazi/yazi/tree/main/yazi-config/preset
         settings = {
+          manager = {
+            show_hidden = false;
+            sort_by = "modified";
+            sort_dir_first = true;
+            sort_reverse = true;
+          };
           plugin.prepend_fetchers = [
             # https://github.com/yazi-rs/plugins/tree/main/git.yazi#setup
             { id = "git"; name = "*"; run = "git"; }
@@ -247,16 +252,17 @@
           require("git"):setup()
           local home = os.getenv("HOME")
           require("bunny"):setup({
-            bookmarks = {
-              { tag = "nix-store", path = "/nix/store/", key = "n" },
-              { tag = "nix-config", path = home.."/nixos-config/", key = "c" },
-              { tag = "config", path = home.."/.config/", key = "C" },
-              { tag = "local", path = home.."/.local/", key = "l" },
-              { tag = "tmp-home", path = home.."/tmp/", key = "t" },
-              { tag = "tmp", path = "/tmp/", key = "T" },
-              { tag = "downloads", path = home.."/downloads/", key = "d" },
-              { tag = "music", path = home.."/music/", key = "m" },
-              { tag = "rekordbox", path = home.."/music/dj-tools/rekordbox/", key = "r" },
+            hops = {
+              { tag = "home", path = home, key = "h" },
+              { tag = "nix-store", path = "/nix/store", key = "n" },
+              { tag = "nix-config", path = home.."/nixos-config", key = "c" },
+              { tag = "config", path = home.."/.config", key = "C" },
+              { tag = "local", path = home.."/.local", key = "l" },
+              { tag = "tmp-home", path = home.."/tmp", key = "t" },
+              { tag = "tmp", path = "/tmp", key = "T" },
+              { tag = "downloads", path = home.."/downloads", key = "d" },
+              { tag = "music", path = home.."/music", key = "m" },
+              { tag = "rekordbox", path = home.."/music/dj-tools/rekordbox", key = "r" },
             },
             notify = true,
           })
