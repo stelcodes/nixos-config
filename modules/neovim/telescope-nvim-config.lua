@@ -1,17 +1,11 @@
 -- https://github.com/nvim-telescope/telescope.nvim#previewers
 local tele = require('telescope')
 local builtin = require('telescope.builtin')
-local open_with_trouble = require("trouble.sources.telescope").open
--- local add_to_trouble = require("trouble.sources.telescope").add
 
 tele.setup {
   defaults = {
     file_ignore_patterns = { '%.lock$', '%.pdf$', '%.db$', '%.opus$', '%.mp3$', '%.wav$', '%.git/', '%.clj%-kondo/%.cache/', '%.lsp/', '%.cpcache/', '%target/' },
     show_untracked = false, -- For git_files command
-    mappings = {
-      i = { ["<c-t>"] = open_with_trouble },
-      n = { ["<c-t>"] = open_with_trouble },
-    },
     layout_strategy = 'flex',
     layout_config = {
       height = 0.99,
