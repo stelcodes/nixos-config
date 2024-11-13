@@ -414,17 +414,11 @@
             gs = "git status";
             gl = "git log";
             glf = "git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
-            sc = "systemctl";
-            scu = "systemctl --user";
-            # Using --unit for better completion
-            jc = "journalctl -exf --unit";
-            jcu = "journalctl --user -exf --unit";
             config = "cd ~/nixos-config; nvim";
             d = "dua --stay-on-filesystem interactive";
-            new-ssh-key = "ssh-keygen -t ed25519";
+            ssh-new-key = "ssh-keygen -t ed25519";
             date-sortable = "date +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with local timezone
             date-sortable-utc = "date -u +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with UTC timezone
-            beep = "timeout -s KILL 0.15 speaker-test --frequency 400 --test sin";
             dl-base = "yt-dlp --embed-metadata --embed-thumbnail --progress --download-archive ./yt-dlp-archive.txt --user-agent 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0'";
             dl-video = "${dl-base} --embed-subs --sub-langs 'en' --embed-chapters --sponsorblock-mark 'default' --sponsorblock-remove 'sponsor' --remux-video 'mkv'";
             dl-video-yt = "${dl-video} --no-playlist --output '%(uploader_id,uploader)s/%(upload_date)s - %(uploader_id,uploader)s - %(title)s [%(id)s].%(ext)s'";
@@ -440,16 +434,8 @@
             loggy = " |& tee /tmp/loggy-$(${date-sortable}).log";
             network-test = "ping -c 1 -W 5 8.8.8.8";
             rebuild = lib.mkDefault "sudo nixos-rebuild switch --flake \"$HOME/nixos-config#\"";
-            rebuild_ = "systemctl start --user nixos-rebuild.service";
-            swaytree = "swaymsg -t get_tree | nvim -R";
-            swayinputs = "swaymsg -t get_inputs | nvim -R";
-            swayoutputs = "swaymsg -t get_outputs | nvim -R";
             nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/nixos-config)).nixosConfigurations.$hostname\"";
             nix-pkg-size = "nix path-info --closure-size --human-readable --recursive";
-            play = "audacious --enqueue-to-temp";
-            strip-exec-permissions = "if test \"$(read -P 'Are you sure: ')\" = 'y'; fd -0 --type x | xargs -0 chmod -vc a-x; else; echo 'Aborting'; end";
-            sway = "exec systemd-cat --identifier=sway sway";
-            u = "udisksctl";
             nix-shell-nixpkgs = "nix shell --file .";
             nix-shell-default = "nix shell --impure --include nixpkgs=flake:nixpkgs --expr 'with import <nixpkgs> {}; { default = callPackage ./default.nix {}; }' default";
             nix-dependency = "nix-store --query --referrers /nix/store/";
@@ -457,6 +443,18 @@
             nix-why = "nix why-depends /run/current-system /nix/store/";
             caddy-server = "echo 'http://localhost:3030' && caddy file-server --listen :3030 --root";
             gists = "gh gist view";
+          } // lib.optionalAttrs pkgs.stdenv.isLinux {
+            sc = "systemctl";
+            scu = "systemctl --user";
+            jc = "journalctl -exf --unit"; # Using --unit for better completion
+            jcu = "journalctl --user -exf --unit"; # Using --unit for better completion
+            u = "udisksctl";
+            rebuild_ = "systemctl start --user nixos-rebuild.service";
+            sway = "exec systemd-cat --identifier=sway sway";
+            swaytree = "swaymsg -t get_tree | nvim -R";
+            swayinputs = "swaymsg -t get_inputs | nvim -R";
+            swayoutputs = "swaymsg -t get_outputs | nvim -R";
+            play = "audacious --enqueue-to-temp";
           };
         };
       };
