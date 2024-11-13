@@ -232,7 +232,7 @@
             max-preview = "${p}/max-preview.yazi";
             git = "${p}/git.yazi";
             starship = "${inputs.starship-yazi}";
-            yamb = "${inputs.yamb-yazi}";
+            bunny = mkYaziPlugin (builtins.readFile ./bunny.lua);
             smart-enter = (mkYaziPlugin /* lua */ ''
               return {
                 entry = function()
@@ -246,7 +246,7 @@
           require("starship"):setup()
           require("git"):setup()
           local home = os.getenv("HOME")
-          require("yamb"):setup({
+          require("bunny"):setup({
             bookmarks = {
               { tag = "nix-store", path = "/nix/store/", key = "n" },
               { tag = "nix-config", path = home.."/nixos-config/", key = "c" },
@@ -258,7 +258,7 @@
               { tag = "music", path = home.."/music/", key = "m" },
               { tag = "rekordbox", path = home.."/music/dj-tools/rekordbox/", key = "r" },
             },
-            jump_notify = true,
+            notify = true,
           })
         '';
         keymap = {
@@ -290,13 +290,13 @@
             }
             {
               on = "'";
-              run = "plugin yamb --args=jump_by_key";
-              desc = "Jump to bookmark by key";
+              run = "plugin bunny --args=select_key";
+              desc = "Jump to bookmark via key";
             }
             {
               on = "\"";
-              run = "plugin yamb --args=jump_by_fzf";
-              desc = "Jump to bookmark by fzf";
+              run = "plugin bunny --args=select_fuzzy";
+              desc = "Jump to bookmark via fuzzy search";
             }
           ];
         };
