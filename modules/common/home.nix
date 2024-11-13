@@ -59,11 +59,9 @@
         pkgs.fastfetch
         pkgs.wget
         pkgs.ripgrep
-        pkgs.tealdeer
         pkgs.unzip
         pkgs.truecolor-test
         pkgs.dua
-        pkgs.mmv-go
         pkgs.jq
         pkgs.exiftool
         pkgs.tmux-startup
@@ -176,6 +174,11 @@
           { mime = "inode/directory"; command = "eza -la --color always %pistol-filename%"; }
           { mime = "application/epub+zip"; command = "bk --meta %pistol-filename%"; }
         ];
+      };
+
+      tealdeer = {
+        enable = true;
+        settings.updates.auto_update = true; # Uses cache for 30 days
       };
 
       zoxide.enable = true;
