@@ -33,8 +33,6 @@ self: super: {
     };
   };
   pomo = super.callPackage ./pomo.nix { };
-  wezterm-nightly = super.callPackage ./wezterm-nightly { };
-  gnome-feeds-nightly = super.callPackage ./gnome-feeds-nightly { };
   writeBabashkaScript = super.callPackage ./write-babashka-script.nix { };
   cycle-pulse-sink = self.writeBabashkaScript {
     name = "cycle-pulse-sink";
@@ -104,7 +102,6 @@ self: super: {
       fi
     '';
   };
-  graillon-free = super.callPackage ./graillon.nix { };
   check-newline = super.writeShellApplication {
     name = "check-newline";
     runtimeInputs = [ super.coreutils ];
@@ -198,13 +195,6 @@ self: super: {
   });
   audacious = super.audacious.overrideAttrs (final: prev: {
     meta.mainProgram = "audacious";
-  });
-  mako = super.mako.overrideAttrs (final: prev: {
-    preFixup = ''
-      gappsWrapperArgs+=(
-        --prefix PATH : "${super.lib.makeBinPath [ super.systemd /* for busctl */ super.jq super.bash ]}"
-      )
-    '';
   });
   firejailWrapper = { executable, desktop ? null, profile ? null, extraArgs ? [ ] }: super.runCommand "firejail-wrap"
     {
