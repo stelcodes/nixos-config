@@ -323,11 +323,6 @@
         autosuggestion.enable = true;
         cdpath = [ ];
         defaultKeymap = "viins";
-        dirHashes = {
-          docs = "$HOME/documents";
-          vids = "$HOME/videos";
-          dl = "$HOME/downloads";
-        };
         dotDir = ".config/zsh";
         history = {
           append = false;
@@ -339,16 +334,7 @@
         };
         historySubstringSearch.enable = true;
         # Interactive shells
-        initExtra = /* bash */ ''
-          #####################################################################
-          ## FUNCTIONS
-          #####################################################################
-          function exists {
-            whence -w "$1" >/dev/null
-          }
-          #####################################################################
-          ## ENVIRONMENT
-          #####################################################################
+        initExtra = /* sh */ ''
           export SHELL="${pkgs.zsh}/bin/zsh"
           # Force PATH to contain unique values, existing duplicates get removed upon insert
           typeset -U path PATH
