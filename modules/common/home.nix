@@ -293,12 +293,12 @@
             }
             {
               on = "'";
-              run = "plugin bunny --args=select_key";
+              run = "plugin bunny --args=key";
               desc = "Jump to bookmark via key";
             }
             {
               on = "\"";
-              run = "plugin bunny --args=select_fuzzy";
+              run = "plugin bunny --args=fuzzy";
               desc = "Jump to bookmark via fuzzy search";
             }
           ];
