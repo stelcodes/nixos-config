@@ -358,6 +358,8 @@
               export NIX_PATH='nixpkgs=flake:${inputs.nixpkgs}'
             fi
           fi
+
+          ${lib.optionalString pkgs.stdenv.isDarwin (builtins.readFile ./zvm-clipboard-macos.sh)}
         '';
         plugins = [
           {
@@ -373,10 +375,10 @@
             file = "share/zsh-nix-shell/nix-shell.plugin.zsh";
           }
           {
-            # System integration with vi mode yank/paste
-            name = "zsh-system-clipboard";
-            src = pkgs.zsh-system-clipboard;
-            file = "share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh";
+            # Better vi mode, default one is buggy
+            name = "zsh-vi-mode";
+            src = pkgs.zsh-vi-mode;
+            file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
           }
           {
             # Awesome fzf tab completion
