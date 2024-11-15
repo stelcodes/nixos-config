@@ -16,7 +16,7 @@ in
       pkgs.unstable.clojure-lsp
       pkgs.unstable.nil
       pkgs.unstable.nixpkgs-fmt
-      pkgs.unstable.pyright
+      pkgs.unstable.ruff
       pkgs.unstable.typescript-language-server
       pkgs.unstable.rust-analyzer
       pkgs.unstable.java-language-server
