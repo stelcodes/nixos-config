@@ -8,6 +8,7 @@ function warn() { printf "\e[0;33m%s\e[0m\n" "$1"; }
 function divider() { printf "%0.s-" {1..80}; blank; }
 function abort() { divider; bold "Aborting program..."; pause; exit 1; }
 
+divider
 bold "Starting rekordbox-add!"
 library="$HOME/Music/dj-tools/rekordbox"
 if [ ! -d "$library" ]; then
