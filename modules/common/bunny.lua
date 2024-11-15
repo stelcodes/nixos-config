@@ -81,7 +81,7 @@ local select_key = function(hops)
     table.insert(cands, { desc = item.tag, on = item.key, path = item.path })
   end
   if #cands == 0 then
-    info("Empty hops table")
+    fail("Empty hops table")
     return nil
   end
   local idx = ya.which { cands = cands }
@@ -132,10 +132,10 @@ return {
       return
     end
     local fuzzy_cmd, hops, notify = get_state_attr("fuzzy_cmd"), get_state_attr("hops"), get_state_attr("notify")
-    local action = args[1] or "select_key"
-    if action == "select_key" then
+    local select_by = args[1] or "key"
+    if select_by == "key" then
       hop(select_key(hops), notify)
-    elseif action == "select_fuzzy" then
+    elseif select_by == "fuzzy" then
       hop(select_fuzzy(hops, fuzzy_cmd), notify)
     end
   end,
