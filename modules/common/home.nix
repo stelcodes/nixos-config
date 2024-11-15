@@ -201,11 +201,11 @@
             { id = "git"; name = "*/"; run = "git"; }
           ];
           opener = {
-            play = lib.mkIf config.activities.graphical [
+            play = lib.mkIf config.profile.graphical [
               # mpv-unify script from mpv package prevents simultaneous playback
               { run = "${pkgs.mpv-unify}/bin/mpv-unify \"$@\""; orphan = true; for = "unix"; }
             ];
-            dj = lib.mkIf (config.activities.graphical && config.activities.djing) [
+            dj = lib.mkIf (config.profile.graphical && config.activities.djing) [
               { desc = "Queue"; run = "${pkgs.mpv-unify}/bin/mpv-unify --queue \"$@\""; orphan = true; for = "unix"; }
               { desc = "Rekordbox"; run = "${pkgs.rekordbox-add}/bin/rekordbox-add \"$@\""; block = true; for = "unix"; }
               { desc = "Convert audio"; run = "${pkgs.convert-audio}/bin/convert-audio \"$1\""; block = true; for = "unix"; }
