@@ -178,6 +178,16 @@ in
           '';
         }
 
+        {
+          plugin = plugins.grug-far-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            local grug = require('grug-far')
+            grug.setup({})
+            vim.keymap.set('n', '<leader>r', grug.open)
+          '';
+        }
+
         # Theme plugin should go first because it sets local vars like lualine_theme
         theme.neovimPlugin
 

@@ -50,7 +50,7 @@ vim.keymap.set('n', '<leader>b',
   function() builtin.live_grep { search_dirs = { vim.fn.expand("%:p") } } end) -- Regex search current file
 vim.keymap.set('n', '<leader>B', builtin.current_buffer_fuzzy_find)
 vim.keymap.set('n', '<leader>dd', builtin.diagnostics)
-vim.keymap.set('n', '<leader>r', builtin.registers)
+vim.keymap.set('n', '<leader>R', builtin.registers)
 vim.keymap.set('n', '<leader>m', builtin.marks)
 vim.keymap.set('n', '<leader>c', builtin.commands)
 vim.keymap.set('n', '<leader>C', function() builtin.colorscheme { enable_preview = true } end)
