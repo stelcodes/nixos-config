@@ -38,14 +38,6 @@
       url = "github:Rolv-Apneseth/starship.yazi";
       flake = false;
     };
-    yamb-yazi = {
-      url = "github:h-hg/yamb.yazi";
-      flake = false;
-    };
-    yazi-flavors = {
-      url = "github:yazi-rs/flavors";
-      flake = false;
-    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";

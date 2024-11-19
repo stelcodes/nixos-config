@@ -203,7 +203,7 @@
           opener = {
             play = lib.mkIf config.profile.graphical [
               # mpv-unify script from mpv package prevents simultaneous playback
-              { run = "${pkgs.mpv-unify}/bin/mpv-unify \"$@\""; orphan = true; for = "unix"; }
+              { desc = "Play"; run = "${pkgs.mpv-unify}/bin/mpv-unify \"$@\""; orphan = true; for = "unix"; }
             ];
             dj = lib.mkIf (config.profile.graphical && config.activities.djing) [
               { desc = "Queue"; run = "${pkgs.mpv-unify}/bin/mpv-unify --queue \"$@\""; orphan = true; for = "unix"; }
@@ -217,10 +217,6 @@
             { mime = "audio/*"; use = [ "play" "reveal" ] ++ (lib.optionals config.activities.djing [ "dj" ]); }
           ];
         };
-        flavors = let f = inputs.yazi-flavors; in {
-          catppuccin-frappe = "${f}/catppuccin-frappe.yazi";
-        };
-        # theme.flavor.use = "catppuccin-frappe";
         plugins =
           let
             p = inputs.yazi-plugins;
@@ -234,7 +230,6 @@
             max-preview = "${p}/max-preview.yazi";
             git = "${p}/git.yazi";
             starship = "${inputs.starship-yazi}";
-            bunny = mkYaziPlugin (builtins.readFile ./bunny.lua);
             smart-enter = (mkYaziPlugin /* lua */ ''
               return {
                 entry = function()
@@ -247,22 +242,6 @@
         initLua = /* lua */ ''
           require("starship"):setup()
           require("git"):setup()
-          local home = os.getenv("HOME")
-          require("bunny"):setup({
-            hops = {
-              { tag = "home", path = home, key = "h" },
-              { tag = "nix-store", path = "/nix/store", key = "n" },
-              { tag = "nix-config", path = home.."/.config/nix", key = "c" },
-              { tag = "config", path = home.."/.config", key = "C" },
-              { tag = "local", path = home.."/.local", key = "l" },
-              { tag = "tmp-home", path = home.."/tmp", key = "t" },
-              { tag = "tmp", path = "/tmp", key = "T" },
-              { tag = "downloads", path = home.."/downloads", key = "d" },
-              { tag = "music", path = home.."/music", key = "m" },
-              { tag = "rekordbox", path = home.."/music/dj-tools/rekordbox", key = "r" },
-            },
-            notify = true,
-          })
         '';
         keymap = {
           manager.prepend_keymap = [
@@ -291,16 +270,18 @@
               run = "plugin --sync smart-enter";
               desc = "Enter the directory instead of editing";
             }
-            {
-              on = "'";
-              run = "plugin bunny --args=key";
-              desc = "Jump to bookmark via key";
-            }
-            {
-              on = "\"";
-              run = "plugin bunny --args=fuzzy";
-              desc = "Jump to bookmark via fuzzy search";
-            }
+            # Bookmarks
+            { on = [ "'" "h" ]; run = "cd ~"; desc = "home"; }
+            { on = [ "'" "n" ]; run = "cd /nix/store"; desc = "nix-store"; }
+            { on = [ "'" "c" ]; run = "cd ~/.config/nix"; desc = "nix-config"; }
+            { on = [ "'" "C" ]; run = "cd ~/.config"; desc = "config"; }
+            { on = [ "'" "l" ]; run = "cd ~/.local"; desc = "local"; }
+            { on = [ "'" "t" ]; run = "cd ~/tmp"; desc = "tmp-home"; }
+            { on = [ "'" "T" ]; run = "cd /tmp"; desc = "tmp"; }
+            { on = [ "'" "d" ]; run = "cd ~/downloads"; desc = "downloads"; }
+            { on = [ "'" "m" ]; run = "cd ~/music"; desc = "music"; }
+            { on = [ "'" "r" ]; run = "cd ~/music/dj-tools/rekordbox"; desc = "rekordbox"; }
+            { on = [ "'" "v" ]; run = "cd /Volume"; desc = "volumes"; }
           ];
         };
       };
