@@ -281,6 +281,7 @@
             { on = [ "'" "d" ]; run = "cd ~/downloads"; desc = "downloads"; }
             { on = [ "'" "m" ]; run = "cd ~/music"; desc = "music"; }
             { on = [ "'" "r" ]; run = "cd ~/music/dj-tools/rekordbox"; desc = "rekordbox"; }
+          ] ++ lib.optionals pkgs.stdenv.isDarwin [
             { on = [ "'" "v" ]; run = "cd /Volumes"; desc = "volumes"; }
             { on = [ "'" "i" ]; run = "cd '~/Library/Mobile Documents/com~apple~CloudDocs'"; desc = "icloud"; }
           ];
@@ -341,7 +342,9 @@
             fi
           fi
 
-          ${lib.optionalString pkgs.stdenv.isDarwin (builtins.readFile ./zvm-clipboard-macos.sh)}
+          function copy() { ${if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"} }
+          function paste() { ${if pkgs.stdenv.isDarwin then "pbpaste" else "wl-paste"} }
+          ${builtins.readFile ./zvm-clipboard.sh}
         '';
         plugins = [
           {

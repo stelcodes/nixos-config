@@ -1,49 +1,49 @@
 my_zvm_vi_yank() {
     zvm_vi_yank
-    echo -en "${CUTBUFFER}" | pbcopy
+    echo -en "${CUTBUFFER}" | copy
 }
 
 my_zvm_vi_delete() {
     zvm_vi_delete
-    echo -en "${CUTBUFFER}" | pbcopy
+    echo -en "${CUTBUFFER}" | copy
 }
 
 my_zvm_vi_change() {
     zvm_vi_change
-    echo -en "${CUTBUFFER}" | pbcopy
+    echo -en "${CUTBUFFER}" | copy
 }
 
 my_zvm_vi_change_eol() {
     zvm_vi_change_eol
-    echo -en "${CUTBUFFER}" | pbcopy
+    echo -en "${CUTBUFFER}" | copy
 }
 
 my_zvm_vi_substitute() {
     zvm_vi_substitute
-    echo -en "${CUTBUFFER}" | pbcopy
+    echo -en "${CUTBUFFER}" | copy
 }
 
 my_zvm_vi_substitute_whole_line() {
     zvm_vi_substitute_whole_line
-    echo -en "${CUTBUFFER}" | pbcopy
+    echo -en "${CUTBUFFER}" | copy
 }
 
 my_zvm_vi_put_after() {
-    CUTBUFFER=$(pbpaste)
+    CUTBUFFER=$(paste)
     zvm_vi_put_after
     zvm_highlight clear # zvm_vi_put_after introduces weird highlighting
 }
 
 my_zvm_vi_put_before() {
-    CUTBUFFER=$(pbpaste)
+    CUTBUFFER=$(paste)
     zvm_vi_put_before
     zvm_highlight clear # zvm_vi_put_before introduces weird highlighting
 }
 
 my_zvm_vi_replace_selection() {
-    CUTBUFFER=$(pbpaste)
+    CUTBUFFER=$(paste)
     zvm_vi_replace_selection
-    echo -en "${CUTBUFFER}" | pbcopy
+    echo -en "${CUTBUFFER}" | copy
 }
 
 zvm_after_lazy_keybindings() {
