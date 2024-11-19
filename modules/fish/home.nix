@@ -95,7 +95,7 @@
       # Using --unit for better fish completion
       jc = "journalctl -exf --unit";
       jcu = "journalctl --user -exf --unit";
-      config = "cd ~/.config/nix; nvim";
+      config = "cd ~/.config/nixflake; nvim";
       d = "dua --stay-on-filesystem interactive";
       new-ssh-key = "ssh-keygen -t ed25519";
       date-sortable = "date +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with local timezone
@@ -115,12 +115,12 @@
       noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
       loggy = { position = "anywhere"; expansion = " &| tee /tmp/loggy-$(${date-sortable}).log"; };
       network-test = "ping -c 1 -W 5 8.8.8.8";
-      rebuild = lib.mkDefault "sudo nixos-rebuild switch --flake \"$HOME/.config/nix#\"";
+      rebuild = lib.mkDefault "sudo nixos-rebuild switch --flake \"$HOME/.config/nixflake#\"";
       rebuild_ = "systemctl start --user nixos-rebuild.service";
       swaytree = "swaymsg -t get_tree | nvim -R";
       swayinputs = "swaymsg -t get_inputs | nvim -R";
       swayoutputs = "swaymsg -t get_outputs | nvim -R";
-      nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/.config/nix)).nixosConfigurations.$hostname\"";
+      nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/.config/nixflake)).nixosConfigurations.$hostname\"";
       nix-pkg-size = "nix path-info --closure-size --human-readable --recursive";
       play = "audacious --enqueue-to-temp";
       strip-exec-permissions = "if test \"$(read -P 'Are you sure: ')\" = 'y'; fd -0 --type x | xargs -0 chmod -vc a-x; else; echo 'Aborting'; end";

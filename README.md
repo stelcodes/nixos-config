@@ -74,12 +74,12 @@ Always enable "Allow Unfree" so installing proprietary drivers doesn't crash the
 Afterwards mount the new root partition and clone your nixos configuration repo:
 ```
 cd /run/media/<somepath>/home/stel
-mkdir -p ~/.config/nix
-git clone https://github.com/stelcodes/nixos-config ~/.config/nix
+mkdir -p ~/.config/nixflake
+git clone https://github.com/stelcodes/nixos-config ~/.config/nixflake
 cd nixos-config
 nixos-generate-config --show-hardware-config > hosts/<hostname>/hardware-configuration.nix
 git add .
-sudo nixos-rebuild switch --flake "$HOME/.config/nix#<hostname>"
+sudo nixos-rebuild switch --flake "$HOME/.config/nixflake#<hostname>"
 ```
 
 Or you could croc the hardware configuration back to another computer:

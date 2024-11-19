@@ -273,7 +273,7 @@
             # Bookmarks
             { on = [ "'" "h" ]; run = "cd ~"; desc = "home"; }
             { on = [ "'" "n" ]; run = "cd /nix/store"; desc = "nix-store"; }
-            { on = [ "'" "c" ]; run = "cd ~/.config/nix"; desc = "nix-config"; }
+            { on = [ "'" "c" ]; run = "cd ~/.config/nixflake"; desc = "nix-config"; }
             { on = [ "'" "C" ]; run = "cd ~/.config"; desc = "config"; }
             { on = [ "'" "l" ]; run = "cd ~/.local"; desc = "local"; }
             { on = [ "'" "t" ]; run = "cd ~/tmp"; desc = "tmp-home"; }
@@ -281,7 +281,8 @@
             { on = [ "'" "d" ]; run = "cd ~/downloads"; desc = "downloads"; }
             { on = [ "'" "m" ]; run = "cd ~/music"; desc = "music"; }
             { on = [ "'" "r" ]; run = "cd ~/music/dj-tools/rekordbox"; desc = "rekordbox"; }
-            { on = [ "'" "v" ]; run = "cd /Volume"; desc = "volumes"; }
+            { on = [ "'" "v" ]; run = "cd /Volumes"; desc = "volumes"; }
+            { on = [ "'" "i" ]; run = "cd '~/Library/Mobile Documents/com~apple~CloudDocs'"; desc = "icloud"; }
           ];
         };
       };
@@ -394,7 +395,7 @@
             gs = "git status";
             gl = "git log";
             glf = "git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph";
-            config = "cd ~/.config/nix; nvim";
+            config = "cd ~/.config/nixflake; nvim";
             d = "dua --stay-on-filesystem interactive";
             ssh-new-key = "ssh-keygen -t ed25519";
             date-sortable = "date +%Y-%m-%dT%H:%M:%S%Z"; # ISO 8601 date format with local timezone
@@ -413,8 +414,8 @@
             noansi = "sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\"";
             loggy = " |& tee /tmp/loggy-$(${date-sortable}).log";
             network-test = "ping -c 1 -W 5 8.8.8.8";
-            rebuild = lib.mkDefault "sudo nixos-rebuild switch --flake \"$HOME/.config/nix#\"";
-            nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/.config/nix)).nixosConfigurations.$hostname\"";
+            rebuild = lib.mkDefault "sudo nixos-rebuild switch --flake \"$HOME/.config/nixflake#\"";
+            nix-repl-flake = "nix repl --expr \"(builtins.getFlake (toString $HOME/.config/nixflake)).nixosConfigurations.$hostname\"";
             nix-pkg-size = "nix path-info --closure-size --human-readable --recursive";
             nix-shell-nixpkgs = "nix shell --file .";
             nix-shell-default = "nix shell --impure --include nixpkgs=flake:nixpkgs --expr 'with import <nixpkgs> {}; { default = callPackage ./default.nix {}; }' default";

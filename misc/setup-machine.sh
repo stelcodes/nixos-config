@@ -57,7 +57,7 @@ if [ -z "$REPLY" ] || [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
   else
     echo "Secondary installation succeeded"
     echo "Cloning nixos-config to new machine"
-    if ! git clone https://github.com/stelcodes/nixos-config "$ROOT/home/stel/.config/nix"; then
+    if ! git clone https://github.com/stelcodes/nixos-config "$ROOT/home/stel/.config/nixflake"; then
       echo "Could not clone config to new machine"
     fi
   fi
