@@ -14,6 +14,7 @@
       '';
 
       services.hibernate-critical-battery = {
+        enable = false;
         description = "hibernates system when battery gets critically low";
         startAt = "*-*-* *:0/2:00";
         wantedBy = [ "multi-user.target" ];
