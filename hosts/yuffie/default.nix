@@ -31,10 +31,31 @@
       enable = true;
     };
     getty.autologinUser = config.admin.username;
+
+    jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   sound.realtime = {
     soundcardPciId = "00:1f.3";
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /jellyfin 0755 jellyfin jellyfin -"
+  ];
+
+  fileSystems = {
+    "/jellyfin" = {
+      device = "/archive/videos";
+      options = [ "ro" "bind" "nofail" "noatime" ];
+    };
+    "/archive" = {
+      device = "/dev/disk/by-uuid/fabb5a38-c104-4e34-8652-04864df28799";
+      fsType = "btrfs";
+      options = [ "nofail" "noatime" ];
+    };
   };
 
   # Needed to create Rasp Pi SD images

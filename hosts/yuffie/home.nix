@@ -13,6 +13,9 @@
       pkgs.retroarch-loaded
       pkgs.sshfs
       pkgs.gimp-with-plugins
+      pkgs.nfs-utils
+      # pkgs.kodi-loaded
+      pkgs.jellyfin-media-player
     ];
   };
   wayland.windowManager.sway = {
