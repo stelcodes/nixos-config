@@ -2,7 +2,6 @@
 
   imports = [
     ./options.nix
-    ../fish/home.nix
     ../neovim/home.nix
     ../tmux/home.nix
     ../graphical/home.nix

@@ -7,7 +7,7 @@
     };
     theme = "Nord";
     settings = {
-      shell = "${pkgs.fish}/bin/fish";
+      shell = "${pkgs.zsh}/bin/zsh";
       shell_integration = "no-cursor";
       disable_ligatures = "never";
       cursor_shape = "block";
