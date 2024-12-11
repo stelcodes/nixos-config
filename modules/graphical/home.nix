@@ -59,7 +59,8 @@ in
         # https://github.com/kovidgoyal/kitty-themes/tree/master/themes without .conf
         themeFile = theme.kittyThemeFile;
         font = {
-          size = 16;
+          # Needs to be 12 on sway, at least on Framework laptop
+          size = if pkgs.stdenv.isLinux then 12 else 16;
           name = "FiraMono Nerd Font";
           package = (pkgs.nerdfonts.override { fonts = [ "FiraMono" ]; });
         };

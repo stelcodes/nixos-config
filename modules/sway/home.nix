@@ -2,7 +2,7 @@
 let
   cfg = config.wayland.windowManager.sway;
   theme = config.theme.set;
-  viewRebuildLogCmd = "foot --app-id=nixos_rebuild_log -- journalctl -efo cat -u nixos-rebuild.service";
+  viewRebuildLogCmd = "kitty --app-id=nixos_rebuild_log -- journalctl -efo cat -u nixos-rebuild.service";
   mod = "Mod4";
   # Sway does not support input or output identifier pattern matching so in order to apply settings for every
   # Apple keyboard, I have to create a new rule for each Apple keyboard I use.
@@ -146,7 +146,6 @@ in
         pkgs.libnotify
         pkgs.pomo
         pkgs.wdisplays
-        pkgs.foot
         pkgs.swappy
         # pkgs.wl-screenrec # https://github.com/russelltg/wl-screenrec
         # pkgs.wlogout
@@ -195,7 +194,7 @@ in
         # Forgot what graphical program is being run from systemd user service
         # Could use systemd.user.extraConfig = '''DefaultEnvironment="GDK_DPI_SCALE=-1"'''
         # systemctl --user import-environment GDK_DPI_SCALE
-        export TERMINAL=foot
+        export TERMINAL=kitty
         export BROWSER=firefox;
       '';
       config = {
@@ -297,10 +296,10 @@ in
           "--locked ${mod}+shift+o" = "output ${cfg.mainDisplay} toggle";
 
           # Custom external program keymaps
-          "${mod}+return" = "exec foot ${launch-tmux}";
-          "${mod}+shift+return" = "exec foot";
-          "${mod}+d" = "exec wofi --show run --width 800 --height 400 --term foot";
-          "${mod}+shift+d" = "exec wofi --show drun --width 800 --height 400 --term foot";
+          "${mod}+return" = "exec kitty ${launch-tmux}";
+          "${mod}+shift+return" = "exec kitty";
+          "${mod}+d" = "exec wofi --show run --width 800 --height 400 --term kitty";
+          "${mod}+shift+d" = "exec wofi --show drun --width 800 --height 400 --term kitty";
           "${mod}+backspace" = "exec firefox";
           "${mod}+shift+backspace" = "exec firefox --private-window";
           "${mod}+grave" = "exec rofimoji";
@@ -316,7 +315,7 @@ in
           "${mod}+shift+v" = "exec ${wg-quick-wofi}";
           "${mod}+q" = "exec ${lib.getExe toggle-sway-window} --id qalculate-gtk -- qalculate-gtk";
           "${mod}+b" = "exec ${lib.getExe toggle-sway-window} --id .blueman-manager-wrapped --width 80 --height 80 -- blueman-manager";
-          "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop --width 90 --height 90 -- foot --app-id=btop btop";
+          "${mod}+t" = "exec ${lib.getExe toggle-sway-window} --id btop --width 90 --height 90 -- kitty --app-id=btop btop";
           "${mod}+i" = "exec ${lib.getExe toggle-sway-window} --id signal --width 80 --height 80 -- signal-desktop";
           "${mod}+backslash" = "exec ${lib.getExe cycle-sway-scale}";
           "${mod}+bar" = "exec ${lib.getExe pkgs.toggle-service} wlsunset";
@@ -531,7 +530,7 @@ in
           Description = "Btop system resource dashboard";
         };
         Service = {
-          ExecStart = "${lib.getExe pkgs.foot} --app-id=btop ${lib.getExe pkgs.btop}";
+          ExecStart = "${lib.getExe pkgs.kitty} --app-id=btop ${lib.getExe pkgs.btop}";
           ExecStartPost = "-${pkgs.sway}/bin/swaymsg for_window [app_id=btop] move scratchpad";
           Restart = "always";
         };
@@ -903,7 +902,7 @@ in
           cpu = {
             interval = 10;
             format = "{usage} ";
-            on-click = "foot --app-id=system_monitor btop";
+            on-click = "kitty --app-id=system_monitor btop";
           };
           memory = {
             interval = 30;
@@ -969,13 +968,9 @@ in
           exec =
             let
               app = pkgs.writeShellScript "neovim-terminal" ''
-                # Killing foot from sway results in non-zero exit code which triggers
+                # Killing kitty from sway results in non-zero exit code which triggers
                 # xdg-mime to use next valid entry, so we must always exit successfully
-                if [ "$SWAYSOCK" ]; then
-                  foot -- nvim "$1" || true
-                else
-                  gnome-terminal -- nvim "$1" || true
-                fi
+                kitty -- nvim "$1" || true
               '';
             in
             "${app} %U";
@@ -986,70 +981,6 @@ in
       };
 
       configFile = {
-        "foot/foot.ini".text = ''
-          [main]
-          font=FiraMono Nerd Font:size=12
-          shell=${pkgs.fish}/bin/fish
-          dpi-aware=no
-
-          [environment]
-          COLORTERM=truecolor
-
-          [mouse]
-          hide-when-typing=yes
-
-          [key-bindings]
-          scrollback-up-page=none
-          scrollback-down-page=none
-          clipboard-copy=Control+c
-          clipboard-paste=Control+v
-          primary-paste=none
-          search-start=none
-          font-increase=Control+plus
-          font-decrease=Control+minus
-          font-reset=Control+equal
-          spawn-terminal=none
-          show-urls-launch=Control+slash
-          prompt-prev=none
-          prompt-next=none
-
-          [text-bindings]
-          \x03 = Control+Shift+c
-          \x16 = Control+Shift+v
-
-          [cursor]
-          color = ${theme.bgx} ${theme.bg4x}
-
-          [colors]
-          foreground = ${theme.fgx}
-          background = ${theme.bgx}
-          selection-foreground = ${theme.bg4x}
-          selection-background = ${theme.bg2x}
-          regular0 = ${theme.bg3x}
-          regular1 = ${theme.redx}
-          regular2 = ${theme.greenx}
-          regular3 = ${theme.yellowx}
-          regular4 = ${theme.bluex}
-          regular5 = ${theme.magentax}
-          regular6 = ${theme.cyanx}
-          regular7 = ${theme.fgx}
-          bright0 = ${theme.bg3x}
-          bright1 = ${theme.redx}
-          bright2 = ${theme.greenx}
-          bright3 = ${theme.yellowx}
-          bright4 = ${theme.bluex}
-          bright5 = ${theme.magentax}
-          bright6 = ${theme.cyanx}
-          bright7 = ${theme.fgx}
-          dim0 = ${theme.bg3x}
-          dim1 = ${theme.redx}
-          dim2 = ${theme.greenx}
-          dim3 = ${theme.yellowx}
-          dim4 = ${theme.bluex}
-          dim5 = ${theme.magentax}
-          dim6 = ${theme.cyanx}
-          dim7 = ${theme.fgx}
-        '';
         "wofi/config".text = "allow_images=true";
         "wofi/style.css".source = ../../misc/wofi.css;
         "pomo.cfg" = {
