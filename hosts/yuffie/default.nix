@@ -22,38 +22,6 @@
     jamming = false;
   };
 
-  age.secrets = {
-    pvpn-fast-wg-quick-config.file = ../../secrets/framework-pvpn-fast-wg-quick-config.age;
-  };
-
-  services = {
-    syncthing = {
-      enable = true;
-    };
-    getty.autologinUser = config.admin.username;
-
-    jellyfin = {
-      enable = true;
-      openFirewall = true;
-    };
-  };
-
-  systemd.tmpfiles.rules = [
-    "d /jellyfin 0755 jellyfin jellyfin -"
-  ];
-
-  fileSystems = {
-    "/jellyfin" = {
-      device = "/archive/videos";
-      options = [ "ro" "bind" "nofail" "noatime" ];
-    };
-    "/archive" = {
-      device = "/dev/disk/by-uuid/fabb5a38-c104-4e34-8652-04864df28799";
-      fsType = "btrfs";
-      options = [ "nofail" "noatime" ];
-    };
-  };
-
   # Needed to create Rasp Pi SD images
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
@@ -72,12 +40,6 @@
     firewall = {
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
-    };
-    wg-quick.interfaces = {
-      pvpn-fast = {
-        configFile = config.age.secrets.pvpn-fast-wg-quick-config.path;
-        autostart = false;
-      };
     };
   };
 
