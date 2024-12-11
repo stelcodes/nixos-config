@@ -22,12 +22,6 @@
     firejail.enable = true;
   };
 
-  sound.realtime = {
-    enable = true;
-    soundcardPciId = "00:03.0"; # Mobo soundcard
-    specialisation = false;
-  };
-
   services = {
     xserver.xkb.options = "caps:escape_shifted_capslock";
     syncthing.enable = true;

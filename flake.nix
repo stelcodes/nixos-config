@@ -11,10 +11,6 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    audio-nix = {
-      url = "github:polygon/audio.nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nix-index-database = {
       url = "github:Mic92/nix-index-database";

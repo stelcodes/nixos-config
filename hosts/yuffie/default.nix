@@ -17,9 +17,9 @@
 
   activities = {
     coding = true;
-    gaming = true;
-    djing = true;
-    jamming = true;
+    gaming = false;
+    djing = false;
+    jamming = false;
   };
 
   age.secrets = {
@@ -36,10 +36,6 @@
       enable = true;
       openFirewall = true;
     };
-  };
-
-  sound.realtime = {
-    soundcardPciId = "00:1f.3";
   };
 
   systemd.tmpfiles.rules = [
