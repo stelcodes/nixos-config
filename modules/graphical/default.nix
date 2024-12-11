@@ -5,13 +5,12 @@
     # Supposedly not needed for xpadneo with newer kernels but on 6.6.7 this immediately fixed all issues so :shrug:
     boot.extraModprobeConfig = lib.mkIf config.activities.gaming "options bluetooth disable_ertm=1";
 
-    hardware = {
-      opengl.enable = true;
-      opengl.extraPackages = [
+    hardware.graphics = {
+      enable = true;
+      extraPackages = [
         pkgs.vaapiVdpau
         pkgs.libvdpau-va-gl
       ];
-      xpadneo.enable = lib.mkIf config.activities.gaming true;
     };
 
     security.polkit = {

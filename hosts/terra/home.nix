@@ -16,7 +16,7 @@
       pkgs.flac
       pkgs.pdfcpu # Convert a pdf to booklet for printing!
       pkgs.smartmontools # Tools for monitoring the health of hard drives
-      pkgs.gnome3.cheese # for testing webcams
+      pkgs.cheese # for testing webcams
       pkgs.amdgpu_top
       # pkgs.lact # amdgpu controller daemon + gui https://github.com/ilya-zlobintsev/LACT
       pkgs.blender-hip # Includes HIP libraries needed for AMD GPU
@@ -39,7 +39,7 @@
       pkgs.ffmpeg
       pkgs.discord-firefox
       pkgs.spotify-firefox
-      pkgs.gnome.dconf-editor
+      pkgs.dconf-editor
       pkgs.picard # Music tagging (mp3, flac, everything)
       pkgs.chromium
       pkgs.git-fiddle

@@ -137,7 +137,7 @@ in
         pkgs.font-manager
         pkgs.wl-clipboard
         pkgs.wofi
-        pkgs.gnome3.adwaita-icon-theme # for the two icons in the default wofi setup
+        pkgs.adwaita-icon-theme # for the two icons in the default wofi setup
         pkgs.wlsunset
         pkgs.grim
         pkgs.slurp
@@ -152,11 +152,11 @@ in
         # pkgs.wlogout
 
         # System tooling
-        pkgs.gnome.gnome-disk-utility
+        pkgs.gnome-disk-utility
         # Media tooling
-        pkgs.gnome.eog
+        pkgs.eog
         pkgs.qalculate-gtk
-        pkgs.gnome.gnome-weather
+        pkgs.gnome-weather
       ] ++ (lib.lists.optionals config.profile.audio [
         pkgs.pamixer
         pkgs.playerctl

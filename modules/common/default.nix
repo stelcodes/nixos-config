@@ -254,7 +254,6 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
         # For cross compilation, not sure if necessary
         # extra-platforms = config.boot.binfmt.emulatedSystems;
       };
-      package = pkgs.nixFlakes; # Enable nixFlakes on system
       extraOptions = ''
         warn-dirty = false
       '';
