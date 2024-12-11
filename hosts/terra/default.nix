@@ -54,7 +54,6 @@
   };
 
   services = {
-    syncthing.enable = true;
     # getty.autologinUser = config.admin.username;
     snapper = {
       # Must create btrfs snapshots subvolume manually

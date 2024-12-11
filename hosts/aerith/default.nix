@@ -24,7 +24,6 @@
 
   services = {
     xserver.xkb.options = "caps:escape_shifted_capslock";
-    syncthing.enable = true;
   };
 
   # Bootloader.

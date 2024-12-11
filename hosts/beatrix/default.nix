@@ -24,8 +24,6 @@
 
   services = {
 
-    syncthing.enable = true;
-
     samba = {
       # https://nixos.wiki/wiki/Samba
       # smbpasswd -a my_user
