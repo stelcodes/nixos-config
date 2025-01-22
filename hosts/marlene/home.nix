@@ -16,8 +16,8 @@
     homeDirectory = "/Users/stel";
     stateVersion = "24.05"; # Please read the comment before changing.
     packages = [
-      pkgs.coreutils-prefixed # coreutils for MacOS prefixed with 'g'
-      pkgs.audacity
+      # pkgs.coreutils-prefixed # coreutils for MacOS prefixed with 'g'
+      # pkgs.audacity
       # pkgs.jellyfin-media-player not currently available for M1 :( have to get it from brew
     ];
   };

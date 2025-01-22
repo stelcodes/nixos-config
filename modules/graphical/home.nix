@@ -7,9 +7,9 @@ in
 
     home = {
       packages = [
-        pkgs.material-icons # for mpv uosc
-        pkgs.keepassxc
-        pkgs.mpv-unify # custom mpv python wrapper
+        # pkgs.material-icons # for mpv uosc
+        # pkgs.keepassxc
+        # pkgs.mpv-unify # custom mpv python wrapper
       ];
 
       # Need to create aliases because Launchbar doesn't look through symlinks.
@@ -31,7 +31,7 @@ in
     programs = {
 
       mpv = {
-        enable = true;
+        enable = false;
         config = {
           # turn off default interface, use uosc instead
           osd-bar = "no";
