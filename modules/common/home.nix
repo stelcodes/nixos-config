@@ -190,7 +190,7 @@
         settings = {
           manager = {
             show_hidden = false;
-            sort_by = "modified";
+            sort_by = "mtime";
             sort_dir_first = true;
             sort_reverse = true;
           };
@@ -211,6 +211,7 @@
             ];
           };
           # file -bL --mime-type <file>
+          # Can check mimetype with yazi spot window (tab)
           open.prepend_rules = [
             { mime = "inode/directory"; use = [ "open" "reveal" ]; }
             { mime = "video/*"; use = [ "open" "reveal" ]; }
@@ -230,14 +231,7 @@
             max-preview = "${p}/max-preview.yazi";
             git = "${p}/git.yazi";
             starship = "${inputs.starship-yazi}";
-            smart-enter = (mkYaziPlugin /* lua */ ''
-              return {
-                entry = function()
-                  local h = cx.active.current.hovered
-                  ya.manager_emit(h and h.cha.is_dir and "enter" or "open", { hovered = true })
-                end,
-              }
-            '');
+            smart-enter = "${p}/smart-enter.yazi";
           };
         initLua = /* lua */ ''
           require("starship"):setup()
@@ -247,7 +241,7 @@
           manager.prepend_keymap = [
             {
               on = "T";
-              run = "plugin --sync max-preview";
+              run = "plugin max-preview";
               desc = "Maximize or restore the preview pane";
             }
             {
@@ -257,7 +251,7 @@
             }
             {
               on = "!";
-              run = "shell \"$SHELL\" --block --confirm";
+              run = "shell \"$SHELL\" --block";
               desc = "Open shell here";
             }
             {
@@ -267,23 +261,20 @@
             }
             {
               on = "<Enter>";
-              run = "plugin --sync smart-enter";
-              desc = "Enter the directory instead of editing";
+              run = "plugin smart-enter";
+              desc = "Enter the child directory, or open the file";
             }
-            # Bookmarks
-            { on = [ "'" "h" ]; run = "cd ~"; desc = "home"; }
-            { on = [ "'" "n" ]; run = "cd /nix/store"; desc = "nix-store"; }
-            { on = [ "'" "c" ]; run = "cd ~/.config/nixflake"; desc = "nix-config"; }
-            { on = [ "'" "C" ]; run = "cd ~/.config"; desc = "config"; }
-            { on = [ "'" "l" ]; run = "cd ~/.local"; desc = "local"; }
-            { on = [ "'" "t" ]; run = "cd ~/tmp"; desc = "tmp-home"; }
-            { on = [ "'" "T" ]; run = "cd /tmp"; desc = "tmp"; }
-            { on = [ "'" "d" ]; run = "cd ~/downloads"; desc = "downloads"; }
-            { on = [ "'" "m" ]; run = "cd ~/music"; desc = "music"; }
-            { on = [ "'" "r" ]; run = "cd ~/music/dj-tools/rekordbox"; desc = "rekordbox"; }
+            # Bookmarks (g, h, c, d, <space> are preserved from default keymap)
+            { on = [ "g" "n" ]; run = "cd /nix/store"; desc = "Goto /nix/store"; }
+            { on = [ "g" "C" ]; run = "cd ~/.config/nixflake"; desc = "Goto nixflake"; }
+            { on = [ "g" "l" ]; run = "cd ~/.local"; desc = "Goto ~/.local"; }
+            { on = [ "g" "t" ]; run = "cd ~/tmp"; desc = "Goto ~/tmp"; }
+            { on = [ "g" "T" ]; run = "cd /tmp"; desc = "Goto /tmp"; }
+            { on = [ "g" "m" ]; run = "cd ~/music"; desc = "Goto ~/Music"; }
+            { on = [ "g" "r" ]; run = "cd ~/music/dj-tools/rekordbox"; desc = "Goto rekordbox"; }
           ] ++ lib.optionals pkgs.stdenv.isDarwin [
-            { on = [ "'" "v" ]; run = "cd /Volumes"; desc = "volumes"; }
-            { on = [ "'" "i" ]; run = "cd '~/Library/Mobile Documents/com~apple~CloudDocs'"; desc = "icloud"; }
+            { on = [ "g" "v" ]; run = "cd /Volumes"; desc = "Goto /Volumes"; }
+            { on = [ "g" "i" ]; run = "cd '~/Library/Mobile Documents/com~apple~CloudDocs'"; desc = "Goto iCloud"; }
           ];
         };
       };
