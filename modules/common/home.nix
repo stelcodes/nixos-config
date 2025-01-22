@@ -202,18 +202,19 @@
           opener = {
             play = lib.mkIf config.profile.graphical [
               # mpv-unify script from mpv package prevents simultaneous playback
-              { desc = "Play"; run = "${pkgs.mpv-unify}/bin/mpv-unify \"$@\""; orphan = true; for = "unix"; }
+              # { desc = "Play"; run = "${pkgs.mpv-unify.override { mpv = config.programs.mpv.finalPackage; }}/bin/mpv-unify \"$@\""; orphan = true; for = "unix"; }
             ];
             dj = lib.mkIf (config.profile.graphical && config.activities.djing) [
-              { desc = "Queue"; run = "${pkgs.mpv-unify}/bin/mpv-unify --queue \"$@\""; orphan = true; for = "unix"; }
+              # { desc = "Queue"; run = "${pkgs.mpv-unify.override { mpv = config.programs.mpv.finalPackage; }}/bin/mpv-unify --queue \"$@\""; orphan = true; for = "unix"; }
               { desc = "Rekordbox"; run = "${pkgs.rekordbox-add}/bin/rekordbox-add \"$@\""; block = true; for = "unix"; }
               { desc = "Convert audio"; run = "${pkgs.convert-audio}/bin/convert-audio \"$1\""; block = true; for = "unix"; }
             ];
           };
           # file -bL --mime-type <file>
           open.prepend_rules = [
-            { mime = "inode/directory"; use = "open"; }
-            { mime = "audio/*"; use = [ "play" "reveal" ] ++ (lib.optionals config.activities.djing [ "dj" ]); }
+            { mime = "inode/directory"; use = [ "open" "reveal" ]; }
+            { mime = "video/*"; use = [ "open" "reveal" ]; }
+            { mime = "audio/*"; use = [ "open" "reveal" ] ++ (lib.optionals config.activities.djing [ "dj" ]); }
           ];
         };
         plugins =
@@ -294,101 +295,10 @@
 
       bash.enable = true;
 
-      zsh = {
-        enable = true;
-        enableCompletion = true;
-        enableVteIntegration = true;
-        autocd = true;
-        autosuggestion.enable = true;
-        cdpath = [ ];
-        defaultKeymap = "viins";
-        dotDir = ".config/zsh";
-        history = {
-          append = false;
-          extended = true;
-          ignorePatterns = [ "rm *" "pkill *" ];
-          path = "${config.xdg.dataHome}/zsh/zsh_history";
-          save = 10000;
-          share = true;
-        };
-        historySubstringSearch.enable = true;
-        # Interactive shells
-        initExtra = /* sh */ ''
-          export SHELL="${pkgs.zsh}/bin/zsh"
-          # Force PATH to contain unique values, existing duplicates get removed upon insert
-          typeset -U path PATH
-          # Make sure the Nix environment is sourced, this script is idempotent
-          NIX_SETUP_SCRIPT="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-          if [ -e "$NIX_SETUP_SCRIPT" ]; then
-            source "$NIX_SETUP_SCRIPT"
-          fi
-          # If terminal is kitty, use kitten to automatically install kitty terminfo on remote host when ssh'ing
-          if [ "$TERM" = "xterm-kitty" ]; then
-            alias ssh="kitty +kitten ssh"
-          fi
-          if [ "$(uname)" = "Darwin" ]; then # If on MacOS...
-            # Append homebrew to PATH when necessary
-            if [ -e /opt/homebrew ]; then
-              path+=(/opt/homebrew/bin /opt/homebrew/sbin)
-            fi
-            # Append local/bin to PATH if it exists
-            if [ -e "$HOME/.local/bin" ]; then
-              path+=("$HOME/.local/bin")
-            fi
-            # Fix comma falling back to 'nixpkgs' channel when NIX_PATH not set (MacOS)
-            if [ ! -v NIX_PATH ]; then
-              export NIX_PATH='nixpkgs=flake:${inputs.nixpkgs}'
-            fi
-          fi
-
-          function copy() { ${if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"} }
-          function paste() { ${if pkgs.stdenv.isDarwin then "pbpaste" else "wl-paste"} }
-          ${builtins.readFile ./zvm-clipboard.sh}
-        '';
-        plugins = [
-          {
-            # Interactive git commands
-            name = "forgit";
-            src = pkgs.zsh-forgit;
-            file = "share/zsh/zsh-forgit/forgit.plugin.zsh";
-          }
-          {
-            # Makes nix-shell automatically use zsh
-            name = "zsh-nix-shell";
-            src = pkgs.zsh-nix-shell;
-            file = "share/zsh-nix-shell/nix-shell.plugin.zsh";
-          }
-          {
-            # Better vi mode, default one is buggy
-            name = "zsh-vi-mode";
-            src = pkgs.zsh-vi-mode;
-            file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-          }
-          {
-            # Awesome fzf tab completion
-            name = "zsh-fzf-tab";
-            src = pkgs.zsh-fzf-tab;
-            file = "share/fzf-tab/fzf-tab.plugin.zsh";
-          }
-          {
-            # Fuzzy history search
-            name = "zsh-fzf-history-search";
-            src = pkgs.zsh-fzf-history-search;
-            file = "share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh";
-          }
-        ];
-        sessionVariables = {
-          CLICOLOR = 1; # For GNU ls to have colored output
-          ZVM_LINE_INIT_MODE = "i"; # For vi-mode, start new prompts in insert mode
-        };
-        shellAliases = {
-          t = "tmux-startup";
-        };
-        syntaxHighlighting.enable = true;
-        zprof.enable = false; # Enable to debug startup time
-        zsh-abbr = {
-          enable = true;
-          abbreviations = rec {
+      zsh =
+        let
+          aliases = rec {
+            t = "tmux-startup";
             ll = "ls -l";
             la = "ls -A";
             rm = "rm -i";
@@ -439,8 +349,100 @@
             swayoutputs = "swaymsg -t get_outputs | nvim -R";
             play = "audacious --enqueue-to-temp";
           };
+        in
+        {
+          enable = true;
+          enableCompletion = true;
+          enableVteIntegration = true;
+          autocd = true;
+          autosuggestion.enable = true;
+          cdpath = [ ];
+          defaultKeymap = "viins";
+          dotDir = ".config/zsh";
+          history = {
+            append = false;
+            extended = true;
+            ignorePatterns = [ "rm *" "pkill *" ];
+            path = "${config.xdg.dataHome}/zsh/zsh_history";
+            save = 10000;
+            share = true;
+          };
+          historySubstringSearch.enable = true;
+          # Interactive shells
+          initExtra = /* sh */ ''
+            # export SHELL="${pkgs.zsh}/bin/zsh"
+            # Make sure the Nix environment is sourced, this script is idempotent
+            NIX_SETUP_SCRIPT="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+            if [ -e "$NIX_SETUP_SCRIPT" ]; then
+              source "$NIX_SETUP_SCRIPT"
+            fi
+            # If terminal is kitty, use kitten to automatically install kitty terminfo on remote host when ssh'ing
+            if [ "$TERM" = "xterm-kitty" ]; then
+              alias ssh="kitty +kitten ssh"
+            fi
+            if [ "$(uname)" = "Darwin" ]; then # If on MacOS...
+              # Append homebrew to PATH when necessary
+              if [ -e /opt/homebrew ]; then
+                path+=(/opt/homebrew/bin /opt/homebrew/sbin)
+              fi
+              # Append local/bin to PATH if it exists
+              if [ -e "$HOME/.local/bin" ]; then
+                path+=("$HOME/.local/bin")
+              fi
+              # Fix comma falling back to 'nixpkgs' channel when NIX_PATH not set (MacOS)
+              if [ ! -v NIX_PATH ]; then
+                export NIX_PATH='nixpkgs=flake:${inputs.nixpkgs}'
+              fi
+            fi
+
+            function copy() { ${if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy"}; }
+            function paste() { ${if pkgs.stdenv.isDarwin then "pbpaste" else "wl-paste"}; }
+            ${builtins.readFile ./zvm-clipboard.sh}
+          '';
+          plugins = [
+            {
+              # Interactive git commands
+              name = "forgit";
+              src = pkgs.zsh-forgit;
+              file = "share/zsh/zsh-forgit/forgit.plugin.zsh";
+            }
+            {
+              # Makes nix-shell automatically use zsh
+              name = "zsh-nix-shell";
+              src = pkgs.zsh-nix-shell;
+              file = "share/zsh-nix-shell/nix-shell.plugin.zsh";
+            }
+            {
+              # Better vi mode, default one is buggy
+              name = "zsh-vi-mode";
+              src = pkgs.zsh-vi-mode;
+              file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+            }
+            {
+              # Awesome fzf tab completion
+              name = "zsh-fzf-tab";
+              src = pkgs.zsh-fzf-tab;
+              file = "share/fzf-tab/fzf-tab.plugin.zsh";
+            }
+            {
+              # Fuzzy history search
+              name = "zsh-fzf-history-search";
+              src = pkgs.zsh-fzf-history-search;
+              file = "share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh";
+            }
+          ];
+          sessionVariables = {
+            CLICOLOR = 1; # For GNU ls to have colored output
+            ZVM_LINE_INIT_MODE = "i"; # For vi-mode, start new prompts in insert mode
+          };
+          shellAliases = aliases;
+          syntaxHighlighting.enable = true;
+          zprof.enable = false; # Enable to debug startup time
+          zsh-abbr = {
+            enable = true;
+            abbreviations = aliases;
+          };
         };
-      };
 
     };
   };
