@@ -288,6 +288,8 @@
 
       zsh =
         let
+          gitName = config.programs.git.userName;
+          gitEmail = config.programs.git.userEmail;
           aliases = rec {
             t = "tmux-startup";
             ll = "ls -l";
@@ -327,6 +329,7 @@
             nix-why = "nix why-depends /run/current-system /nix/store/";
             caddy-server = "echo 'http://localhost:3030' && caddy file-server --listen :3030 --root";
             gists = "gh gist view";
+            git-reauthor-all-commits = ''git filter-branch -f --env-filter "GIT_AUTHOR_NAME='${gitName}'; GIT_AUTHOR_EMAIL='${gitEmail}'; GIT_COMMITTER_NAME='${gitName}'; GIT_COMMITTER_EMAIL='${gitEmail}';" HEAD'';
           } // lib.optionalAttrs pkgs.stdenv.isLinux {
             sc = "systemctl";
             scu = "systemctl --user";
