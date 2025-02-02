@@ -1,5 +1,24 @@
 { lib, inputs, ... }: {
   config = {
+    nix = {
+      gc = {
+        automatic = true;
+        dates = "tuesday";
+        options = "--delete-older-than 30d";
+      };
+      settings = {
+        auto-optimise-store = true;
+        experimental-features = [ "nix-command" "flakes" ];
+        # For cross compilation, not sure if necessary
+        # extra-platforms = config.boot.binfmt.emulatedSystems;
+        flake-registry = "${inputs.flake-registry}/flake-registry.json";
+      };
+      extraOptions = ''
+        warn-dirty = false
+      '';
+      registry.nixpkgs.flake = inputs.nixpkgs; # For flake commands
+      nixPath = [ "nixpkgs=${inputs.nixpkgs}" ]; # For legacy commands
+    };
     nixpkgs =
       let
         config = {

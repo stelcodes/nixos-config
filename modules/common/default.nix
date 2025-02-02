@@ -242,23 +242,6 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
 
     };
 
-    nix = {
-      gc = {
-        automatic = true;
-        dates = "tuesday";
-        options = "--delete-older-than 30d";
-      };
-      settings = {
-        auto-optimise-store = true;
-        experimental-features = [ "nix-command" "flakes" ];
-        # For cross compilation, not sure if necessary
-        # extra-platforms = config.boot.binfmt.emulatedSystems;
-      };
-      extraOptions = ''
-        warn-dirty = false
-      '';
-    };
-
     hardware = {
       enableRedistributableFirmware = (!config.profile.virtual);
       cpu.intel.updateMicrocode = (!config.profile.virtual && pkgs.system == "x86_64-linux");

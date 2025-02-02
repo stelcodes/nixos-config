@@ -58,6 +58,10 @@
       url = "github:artemave/workspace-diagnostics.nvim";
       flake = false;
     };
+    flake-registry = {
+      url = "github:nixos/flake-registry";
+      flake = false;
+    };
   };
 
   outputs = inputs: {
