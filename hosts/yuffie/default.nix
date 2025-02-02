@@ -12,7 +12,7 @@
     graphical = true;
     battery = true;
     virtual = false;
-    virtualHost = true;
+    virtualHost = false;
   };
 
   activities = {

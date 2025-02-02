@@ -7,15 +7,15 @@
     stateVersion = "23.11";
     packages = [
       # pkgs.davinci-resolve not working
-      pkgs.obsidian
-      pkgs.discord-firefox
-      pkgs.signal-desktop
-      pkgs.retroarch-loaded
-      pkgs.sshfs
-      pkgs.gimp-with-plugins
-      pkgs.nfs-utils
+      # pkgs.obsidian
+      # pkgs.discord-firefox
+      # pkgs.signal-desktop
+      # pkgs.retroarch-loaded
+      # pkgs.sshfs
+      # pkgs.gimp-with-plugins
+      # pkgs.nfs-utils
       # pkgs.kodi-loaded
-      pkgs.jellyfin-media-player
+      # pkgs.jellyfin-media-player
     ];
   };
   wayland.windowManager.sway = {
