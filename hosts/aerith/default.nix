@@ -15,11 +15,6 @@
 
   activities = {
     coding = true;
-    djing = true;
-  };
-
-  programs = {
-    firejail.enable = true;
   };
 
   services = {

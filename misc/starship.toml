@@ -45,4 +45,4 @@ disabled = false
 style = "blue"
 
 [nix_shell]
-heuristic = true
+heuristic = false
