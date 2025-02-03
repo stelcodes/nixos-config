@@ -1,9 +1,9 @@
-{ lib, inputs, ... }: {
+{ lib, inputs, pkgs, ... }: {
   config = {
     nix = {
+      package = pkgs.nix;
       gc = {
         automatic = true;
-        dates = "tuesday";
         options = "--delete-older-than 30d";
       };
       settings = {
