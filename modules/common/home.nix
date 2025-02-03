@@ -190,9 +190,10 @@
         settings = {
           manager = {
             show_hidden = false;
-            sort_by = "mtime";
-            sort_dir_first = true;
-            sort_reverse = true;
+            sort_by = "natural";
+            sort_translit = true;
+            sort_dir_first = false;
+            sort_reverse = false;
           };
           plugin.prepend_fetchers = [
             # https://github.com/yazi-rs/plugins/tree/main/git.yazi#setup
