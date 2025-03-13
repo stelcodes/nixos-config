@@ -62,7 +62,7 @@ in
           # Needs to be 12 on sway, at least on Framework laptop
           size = if pkgs.stdenv.isLinux then 12 else 16;
           name = "FiraMono Nerd Font";
-          package = (pkgs.nerdfonts.override { fonts = [ "FiraMono" ]; });
+          package = pkgs.nerd-fonts.fira-mono;
         };
         keybindings = {
           "ctrl+c" = "copy_to_clipboard";

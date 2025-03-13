@@ -13,18 +13,18 @@ in
     withRuby = false;
     extraLuaConfig = builtins.readFile ./base.lua;
     extraPackages = lib.lists.optionals config.activities.coding [
-      pkgs.unstable.clojure-lsp
-      pkgs.unstable.nil
-      pkgs.unstable.nixpkgs-fmt
-      pkgs.unstable.ruff
-      pkgs.unstable.typescript-language-server
-      pkgs.unstable.rust-analyzer
-      pkgs.unstable.java-language-server
-      pkgs.unstable.lua-language-server
-      pkgs.unstable.vscode-langservers-extracted
-      pkgs.unstable.astro-language-server
-      pkgs.unstable.gopls
-      pkgs.unstable.svelte-language-server
+      pkgs.clojure-lsp
+      pkgs.nil
+      pkgs.nixpkgs-fmt
+      pkgs.ruff
+      pkgs.typescript-language-server
+      pkgs.rust-analyzer
+      pkgs.java-language-server
+      pkgs.lua-language-server
+      pkgs.vscode-langservers-extracted
+      pkgs.astro-language-server
+      pkgs.gopls
+      pkgs.svelte-language-server
     ];
     plugins =
       let

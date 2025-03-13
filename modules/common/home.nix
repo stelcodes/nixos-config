@@ -184,7 +184,6 @@
 
       yazi = {
         enable = true;
-        package = pkgs.unstable.yazi;
         shellWrapperName = "y";
         # Defaults: https://github.com/sxyazi/yazi/tree/main/yazi-config/preset
         settings = {

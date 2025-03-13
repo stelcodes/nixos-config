@@ -260,7 +260,7 @@
       enableDefaultPackages = true;
       packages = [
         # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/data/fonts/nerdfonts/shas.nix
-        (pkgs.nerdfonts.override { fonts = [ "FiraMono" ]; })
+        pkgs.nerd-fonts.fira-mono
       ];
     };
 
