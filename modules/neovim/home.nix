@@ -303,7 +303,19 @@ in
               options = {
                 mode = 'buffers',
                 separator_style = 'thin',
-                sort_by = 'directory'
+                sort_by = 'directory',
+                show_buffer_close_icons = false,
+                show_close_icon = false,
+                custom_filter = function(buf, buf_nums)
+                  -- true if displayed, false if hidden
+                  local banned_fts = { "help", "grug-far" }
+                  for _, val in pairs(banned_fts) do
+                    if vim.bo[buf].filetype == val then
+                      return false
+                    end
+                  end
+                  return true
+                end
               }
             }
             vim.api.nvim_set_hl(0, "BufferlineFill", { link = "BufferlineBackground" })
