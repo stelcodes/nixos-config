@@ -88,7 +88,7 @@
         EDITOR = "nvim";
         PAGER = "less --chop-long-lines --RAW-CONTROL-CHARS";
         MANPAGER = "nvim +Man!";
-        BAT_THEME = "base16";
+        BAT_THEME = "ansi";
       };
 
       file = {
@@ -108,9 +108,9 @@
       bat = {
         enable = true;
         config = {
-          theme = "base16";
+          theme = "ansi";
           paging = "always";
-          style = "plain";
+          style = "header,grid,snip";
         };
       };
 
