@@ -229,6 +229,7 @@
             chmod = "${p}/chmod.yazi";
             full-border = "${p}/full-border.yazi";
             max-preview = "${p}/max-preview.yazi";
+            mount = "${p}/mount.yazi";
             git = "${p}/git.yazi";
             starship = "${inputs.starship-yazi}";
             smart-enter = "${p}/smart-enter.yazi";
@@ -239,6 +240,11 @@
         '';
         keymap = {
           manager.prepend_keymap = [
+            {
+              on = "M";
+              run = "plugin mount";
+              desc = "Manage disks and volumes";
+            }
             {
               on = "T";
               run = "plugin max-preview";
