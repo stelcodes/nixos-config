@@ -144,12 +144,22 @@ in
           config = /* lua */ ''
             local neogit = require('neogit')
             neogit.setup({
-              -- graph_style = "kitty",
+              -- disable_insert_on_commit = true,
+              graph_style = "kitty",
               mappings = {
                 status = {
                   ["K"] = false; -- Don't override my normal K mapping
                 },
               },
+            })
+
+            -- https://github.com/NeogitOrg/neogit/issues/1682
+            vim.api.nvim_create_autocmd({ "BufEnter" }, {
+              pattern = "NeogitStatus",
+              callback = function()
+                neogit.dispatch_refresh()
+              end,
+              group = neogit.autocmd_group,
             })
 
             local toggle_neogit = function()
@@ -160,6 +170,14 @@ in
               end
             end
             vim.keymap.set('n', '<c-g>', toggle_neogit)
+          '';
+        }
+
+        {
+          plugin = plugins.indent-blankline-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            require("ibl").setup()
           '';
         }
 
@@ -192,11 +210,47 @@ in
         theme.neovimPlugin
 
         {
-          plugin = stel-paredit;
+          plugin = plugins.nvim-paredit;
           type = "lua";
           config = /* lua */ ''
-            vim.g['paredit_smartjump'] = 1
-            vim.g['paredit_matchlines'] = 500
+            local paredit = require("nvim-paredit")
+            paredit.setup()
+          '';
+        }
+
+        {
+          plugin = plugins.nvim-autopairs;
+          type = "lua";
+          config = /* lua */ ''
+            require("nvim-autopairs").setup {}
+          '';
+        }
+
+        {
+          plugin = plugins.nvim-ts-autotag;
+          type = "lua";
+          config = /* lua */ ''
+            require("nvim-ts-autotag").setup {}
+          '';
+        }
+
+        {
+          plugin = plugins.flash-nvim;
+          type = "lua";
+          config = /* lua */ ''
+            local flash = require("flash")
+            flash.setup({
+              modes = {
+                search = {
+                  enabled = true
+                }
+              }
+            })
+            vim.keymap.set({ "n", "x", "o" }, "s", flash.jump)
+            vim.keymap.set({ "n", "x", "o" }, "S", flash.treesitter)
+            vim.keymap.set("o", "r", flash.remote)
+            vim.keymap.set({ "o", "x" }, "R", flash.treesitter_search)
+            vim.keymap.set({ "c" }, "<c-s>", flash.toggle)
           '';
         }
 
