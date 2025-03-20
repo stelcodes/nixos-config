@@ -1,7 +1,7 @@
 { lib, inputs, pkgs, ... }: {
   config = {
     nix = {
-      package = pkgs.nix;
+      package = pkgs.nixVersions.latest;
       gc = {
         automatic = true;
         options = "--delete-older-than 30d";
