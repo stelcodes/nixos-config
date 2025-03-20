@@ -125,7 +125,7 @@ in
     };
   };
 
-  config = lib.mkIf (config.profile.graphical && pkgs.stdenv.isLinux) {
+  config = lib.mkIf (config.profile.graphical && config.wayland.windowManager.sway.enable && pkgs.stdenv.isLinux) {
 
     home = {
       packages = [
@@ -175,7 +175,6 @@ in
     };
 
     wayland.windowManager.sway = {
-      enable = true;
       wrapperFeatures.gtk = true;
       extraSessionCommands = ''
         export SDL_VIDEODRIVER=wayland
