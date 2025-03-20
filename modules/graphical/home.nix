@@ -26,6 +26,12 @@ in
           ${pkgs.mkalias}/bin/mkalias "$real_app" "$target_app"
         done
       '');
+      file = {
+        # https://librewolf.net/docs/settings/
+        ".librewolf/librewolf.overrides.cfg".text = /* js */ ''
+          pref("browser.tabs.insertAfterCurrent", true);
+        '';
+      };
     };
 
     programs = {
