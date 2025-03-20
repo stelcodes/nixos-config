@@ -23,7 +23,7 @@
   };
 
   # Needed to create Rasp Pi SD images
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -33,15 +33,37 @@
   # Enable swap on luks
   boot.initrd.luks.devices."luks-b9dd46eb-7a5b-47c6-85da-7ee933c9909a".device = "/dev/disk/by-uuid/b9dd46eb-7a5b-47c6-85da-7ee933c9909a";
 
-  # Fix brightness keys not working
-  boot.kernelParams = [ "module_blacklist=hid_sensor_hub" ];
-
   networking = {
     firewall = {
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
   };
+
+  services.xserver = {
+    enable = true;
+    autorun = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
+
+  environment.gnome.excludePackages = (with pkgs; [
+    atomix # puzzle game
+    cheese # webcam tool
+    epiphany # web browser
+    evince # document viewer
+    geary # email reader
+    gedit # text editor
+    gnome-characters
+    gnome-music
+    gnome-photos
+    gnome-terminal
+    gnome-tour
+    hitori # sudoku game
+    iagno # go game
+    tali # poker game
+    totem # video player
+  ]);
 
   system.stateVersion = "23.11";
 
