@@ -31,6 +31,7 @@ in
         ".librewolf/librewolf.overrides.cfg".text = /* js */ ''
           pref("browser.tabs.insertAfterCurrent", true);
           pref("browser.uidensity", 1);
+          pref("browser.toolbars.bookmarks.visibility", "never")
         '';
       };
     };
