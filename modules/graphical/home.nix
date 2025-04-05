@@ -30,6 +30,7 @@ in
         # https://librewolf.net/docs/settings/
         ".librewolf/librewolf.overrides.cfg".text = /* js */ ''
           pref("browser.tabs.insertAfterCurrent", true);
+          pref("browser.uidensity", 1);
         '';
       };
     };
