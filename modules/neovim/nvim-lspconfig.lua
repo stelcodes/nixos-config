@@ -9,6 +9,8 @@ local on_attach = function(client, bufnr)
   wd.populate_workspace_diagnostics(client, bufnr)
 end
 
+lspconfig.tailwindcss.setup{}
+lspconfig.astro.setup {}
 lspconfig.html.setup {
   capabilities = capabilities,
 }
@@ -72,12 +74,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set({ 'n', 'v' }, '<leader>lf', function()
       vim.lsp.buf.format({ async = true })
     end, opts)
-    vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', '<leader>lD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, opts)
+    -- vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, opts)
+    -- vim.keymap.set('n', '<leader>lD', vim.lsp.buf.declaration, opts)
+    -- vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation, opts)
+    -- vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, opts)
     -- Getting references via telescope is bound to <leader>lr
-    vim.keymap.set('n', '<leader>lR', vim.lsp.buf.references, opts)
+    -- vim.keymap.set('n', '<leader>lR', vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<leader>wl', function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, opts)

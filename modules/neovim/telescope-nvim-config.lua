@@ -1,6 +1,7 @@
 -- https://github.com/nvim-telescope/telescope.nvim#previewers
 local tele = require('telescope')
 local builtin = require('telescope.builtin')
+local actions = require('telescope.actions')
 
 tele.setup {
   defaults = {
@@ -28,7 +29,12 @@ tele.setup {
     -- Add hidden flag for grep to search hidden flag.
     vimgrep_arguments = {
       'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '--hidden'
-    }
+    },
+    winblend = function()
+      -- Hack to clear search highlights when telescope is opened
+      vim.fn.setreg("/", "")
+      return vim.o.winblend
+    end
   },
   extensions = {
     fzf = {
@@ -41,13 +47,15 @@ tele.setup {
 }
 tele.load_extension('ui-select')
 tele.load_extension('fzf')
-vim.keymap.set('n', '<leader><leader>', builtin.resume)
-vim.keymap.set('n', '<leader>f', builtin.find_files)                                 -- files directory
-vim.keymap.set('n', '<leader>s', function() builtin.live_grep { hidden = true } end) -- search directory
-vim.keymap.set('n', '<leader>S',                                                     -- search directory with max 1 match per file
-  function() builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } } end)
-vim.keymap.set('n', '<leader>b',
-  function() builtin.live_grep { search_dirs = { vim.fn.expand("%:p") } } end) -- Regex search current file
+vim.keymap.set('n', '<leader><leader>', function() builtin.resume { initial_mode = 'normal' } end)
+vim.keymap.set('n', '<leader>f', builtin.find_files)
+vim.keymap.set('n', '<leader>s', function() builtin.live_grep { hidden = true } end)
+vim.keymap.set('n', '<leader>S', function()
+  builtin.live_grep { hidden = true, additional_args = { "--max-count", "1" } }
+end)
+vim.keymap.set('n', '<leader>b', function()
+  builtin.live_grep { search_dirs = { vim.fn.expand("%:p") } }
+end)
 vim.keymap.set('n', '<leader>B', builtin.current_buffer_fuzzy_find)
 vim.keymap.set('n', '<leader>dd', builtin.diagnostics)
 vim.keymap.set('n', '<leader>R', builtin.registers)
@@ -57,4 +65,10 @@ vim.keymap.set('n', '<leader>C', function() builtin.colorscheme { enable_preview
 vim.keymap.set('n', '<leader>h', builtin.help_tags)
 vim.keymap.set('n', '<leader>k', builtin.keymaps)
 vim.keymap.set('n', '<leader>t', builtin.builtin)
-vim.keymap.set('n', '<leader>lr', builtin.lsp_references)
+vim.keymap.set('n', '<leader>p', builtin.spell_suggest)
+vim.keymap.set('n', '<leader>q', function() builtin.quickfix { initial_mode = 'normal' } end)
+vim.keymap.set('n', '<leader>e', function() builtin.symbols { sources = { 'emoji' } } end)
+vim.keymap.set('n', '<leader>lr', function() builtin.lsp_references { jump_type = 'never' } end)
+vim.keymap.set('n', '<leader>ld', function() builtin.lsp_definitions { jump_type = 'never' } end)
+vim.keymap.set('n', '<leader>lD', function() builtin.lsp_type_definitions { jump_type = 'never' } end)
+vim.keymap.set('n', '<leader>li', function() builtin.lsp_implementations { jump_type = 'never' } end)

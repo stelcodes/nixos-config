@@ -4,6 +4,10 @@ let
   plugins = pkgs.unstable.vimPlugins;
 in
 {
+  xdg.configFile."nvim/data/telescope-sources" = {
+    source = "${plugins.telescope-symbols-nvim}/data/telescope-sources";
+    recursive = true;
+  };
   programs.neovim = {
     enable = true;
     package = pkgs.unstable.neovim-unwrapped;
@@ -25,20 +29,10 @@ in
       pkgs.astro-language-server
       pkgs.gopls
       pkgs.svelte-language-server
+      pkgs.tailwindcss-language-server
     ];
     plugins =
       let
-        hydropump-nvim = pkgs.vimUtils.buildVimPlugin {
-          pname = "hydropump-nvim";
-          version = "1.0";
-          src = pkgs.fetchFromGitHub {
-            owner = "stelcodes";
-            repo = "hydropump.nvim";
-            rev = "77c400821f387a4d36dd60c68d7a6aeac990eafc";
-            sha256 = "XK/RAe1LFf0I892COxJXGfjBBzpwBVxECEokYqBNwag=";
-          };
-        };
-
         stel-paredit = pkgs.vimUtils.buildVimPlugin {
           pname = "stel-paredit";
           version = "1.0";
@@ -49,7 +43,6 @@ in
             sha256 = "1bj5m1b4n2nnzvwbz0dhzg1alha2chbbdhfhl6rcngiprbdv0xi6";
           };
         };
-
         resize-nvim = pkgs.vimUtils.buildVimPlugin {
           pname = "resize-nvim";
           version = "unstable-2024-01-16";
@@ -60,13 +53,6 @@ in
             sha256 = "jGEVE9gfK4EirGDOFzSNXn60X+IldKASVoTD4/p7MBM=";
           };
         };
-
-        nvim-origami = pkgs.vimUtils.buildVimPlugin {
-          pname = "nvim-origami";
-          version = "unstable";
-          src = inputs.nvim-origami;
-        };
-
         workspace-diagnostics-nvim = pkgs.unstable.vimUtils.buildVimPlugin {
           pname = "workspace-diagnostics-nvim";
           version = "unstable";
@@ -192,7 +178,10 @@ in
             y.setup({
               open_for_directories = true,
             })
-            vim.keymap.set('n', '<leader>y', y.yazi)
+            vim.keymap.set('n', '<leader>y', function()
+              vim.fn.setreg("/", "") -- clear search highlights
+              y.yazi()
+            end)
           '';
         }
 
@@ -202,7 +191,8 @@ in
           config = /* lua */ ''
             local grug = require('grug-far')
             grug.setup({})
-            vim.keymap.set('n', '<leader>r', grug.open)
+            -- vim.keymap.set('n', '<leader>r', grug.open)
+            vim.api.nvim_create_user_command('SearchReplace', 'GrugFar', {})
           '';
         }
 
@@ -210,11 +200,11 @@ in
         theme.neovimPlugin
 
         {
-          plugin = plugins.nvim-paredit;
+          plugin = stel-paredit;
           type = "lua";
           config = /* lua */ ''
-            local paredit = require("nvim-paredit")
-            paredit.setup()
+            vim.g['paredit_smartjump'] = 1
+            vim.g['paredit_matchlines'] = 500
           '';
         }
 
@@ -259,7 +249,10 @@ in
           plugin = plugins.trouble-nvim;
           type = "lua";
           config = /* lua */ ''
-            require('trouble').setup()
+            require('trouble').setup({
+              focus = true,
+            })
+            vim.keymap.set('n', 'q', '<cmd>Trouble qflist<cr>')
           '';
         }
         plugins.plenary-nvim
@@ -412,23 +405,7 @@ in
           config = /* lua */ ''
             vim.g["better_whitespace_guicolor"] = "${theme.red}"
             vim.g["better_whitespace_filetypes_blacklist"] = {
-              "", "diff", "git", "gitcommit", "unite", "qf", "help", "fugitive"
-            }
-          '';
-        }
-
-
-        {
-          plugin = plugins.nvim-bqf;
-          type = "lua";
-          config = /* lua */ ''
-            require('bqf').setup {
-              auto_enable = true,
-              auto_resize_height = true,
-              preview = {
-                win_height = 20,
-                winblend = 0,
-              },
+              "diff", "git", "gitcommit", "unite", "qf", "help", "fugitive"
             }
           '';
         }
@@ -440,10 +417,10 @@ in
           type = "lua";
           config = /* lua */ ''
             local r = require('resize')
-            vim.keymap.set('n', '<c-left>', function() r.ResizeLeft(1) end)
-            vim.keymap.set('n', '<c-right>', function() r.ResizeRight(1) end)
-            vim.keymap.set('n', '<c-up>', function() r.ResizeUp(1) end)
-            vim.keymap.set('n', '<c-down>', function() r.ResizeDown(1) end)
+            vim.keymap.set('n', '<s-left>', function() r.ResizeLeft(1) end)
+            vim.keymap.set('n', '<s-right>', function() r.ResizeRight(1) end)
+            vim.keymap.set('n', '<s-up>', function() r.ResizeUp(1) end)
+            vim.keymap.set('n', '<s-down>', function() r.ResizeDown(1) end)
           '';
         }
 

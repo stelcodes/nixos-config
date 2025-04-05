@@ -216,10 +216,6 @@ vim.keymap.set('x', '<c-j>', ':move \'>+1<CR>gv-gv')
 vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
 
--- QUICKFIX
-vim.keymap.set('n', '<leader>q', '<cmd>copen<cr>')
--- vim.keymap.set('n', 'M', '<cmd>normal! q') -- start macro
-
 -- MARKS
 vim.keymap.set('n', '<c-m>', '<cmd>delmarks A-Z0-9<cr>') -- delete all marks
 
