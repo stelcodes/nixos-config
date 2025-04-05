@@ -7,7 +7,7 @@
         options = "--delete-older-than 30d";
       };
       settings = {
-        auto-optimise-store = true;
+        # auto-optimise-store = true;
         experimental-features = [ "nix-command" "flakes" ];
         # For cross compilation, not sure if necessary
         # extra-platforms = config.boot.binfmt.emulatedSystems;
