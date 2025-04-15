@@ -9,6 +9,7 @@
     ../audio/home.nix
     inputs.nix-index-database.hmModules.nix-index
     inputs.wayland-pipewire-idle-inhibit.homeModules.default
+    inputs.agenix.homeManagerModules.default
   ];
 
   config = {
@@ -67,6 +68,7 @@
         # pkgs.unrar
         pkgs.p7zip
         pkgs.mediainfo # for yazi
+        inputs.agenix.packages.${pkgs.system}.default
       ] ++ (lib.lists.optionals pkgs.stdenv.isLinux [
         pkgs.desktop-entries
         pkgs.toggle-service
@@ -104,6 +106,18 @@
       # Use "," command to run programs not currently installed with prebuilt nixpkgs index
       nix-index.enable = true;
       nix-index-database.comma.enable = true;
+
+      ssh = {
+        # Let's avoid broken pipes over unreliable connections
+        # https://unix.stackexchange.com/a/3027
+        # The client will wait idle for 60 seconds then send a "no-op null
+        # packet" to the server and expect a response. If no response comes,
+        # then it will keep trying the above process 10 iterations (600
+        # seconds). If the server still doesn't respond, then the client
+        # disconnects the ssh connection.
+        serverAliveInterval = 60;
+        serverAliveCountMax = 10;
+      };
 
       bat = {
         enable = true;

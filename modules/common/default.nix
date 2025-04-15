@@ -7,6 +7,7 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
     inputs.home-manager.nixosModules.home-manager
     inputs.agenix.nixosModules.default
     inputs.nixos-generators.nixosModules.all-formats
+    inputs.disko.nixosModules.disko
     ./nixpkgs.nix
     ./options.nix
     ../syncthing
@@ -22,7 +23,9 @@ let sshPublicKeys = (import ../../secrets/keys.nix); in
     boot = {
       tmp.cleanOnBoot = true;
       # nixos-hardware tends to use lib.mkDefault for kernelPackages (RaspPi 3 for example)
-      kernelPackages = lib.mkOverride 999 pkgs.linuxPackages_6_6;
+      # By default, NixOS uses latest LTS kernel, see https://www.kernel.org/category/releases.html
+      # kernelPackages = lib.mkOverride 999 pkgs.linuxPackages_6_6;
+
 
       # These boot loader settings are the only thing in new configuration.nix files
       loader = lib.mkIf (!config.profile.virtual) {
