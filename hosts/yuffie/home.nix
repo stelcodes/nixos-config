@@ -4,7 +4,7 @@
     sessionVariables = {
       STEAM_FORCE_DESKTOPUI_SCALING = 2;
     };
-    stateVersion = "23.11";
+    stateVersion = "24.11";
     packages = [
       # pkgs.davinci-resolve not working
       # pkgs.obsidian
@@ -19,6 +19,7 @@
     ];
   };
   wayland.windowManager.sway = {
+    enable = true;
     mainDisplay = "eDP-1";
     sleep = {
       preferredType = "suspend-then-hibernate";

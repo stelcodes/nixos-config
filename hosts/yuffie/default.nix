@@ -4,6 +4,7 @@
     # See https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
     inputs.nixos-hardware.nixosModules.framework-12th-gen-intel
     ./hardware-configuration.nix
+    ./disk-config.nix
   ];
 
   profile = {
