@@ -29,10 +29,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-
-  # Enable swap on luks
-  boot.initrd.luks.devices."luks-b9dd46eb-7a5b-47c6-85da-7ee933c9909a".device = "/dev/disk/by-uuid/b9dd46eb-7a5b-47c6-85da-7ee933c9909a";
+  boot.initrd.systemd.enable = true;
 
   networking = {
     firewall = {
@@ -40,31 +37,6 @@
       allowedUDPPorts = [ ];
     };
   };
-
-  services.xserver = {
-    enable = true;
-    autorun = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
-
-  environment.gnome.excludePackages = (with pkgs; [
-    atomix # puzzle game
-    cheese # webcam tool
-    epiphany # web browser
-    evince # document viewer
-    geary # email reader
-    gedit # text editor
-    gnome-characters
-    gnome-music
-    gnome-photos
-    gnome-terminal
-    gnome-tour
-    hitori # sudoku game
-    iagno # go game
-    tali # poker game
-    totem # video player
-  ]);
 
   system.stateVersion = "23.11";
 
